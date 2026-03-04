@@ -1,6 +1,7 @@
 'use client';
 
 import { Check } from 'lucide-react';
+import { T } from 'gt-next';
 import { useLocale, useSetLocale } from 'gt-next/client';
 import { useEffect, useState } from 'react';
 
@@ -35,8 +36,10 @@ export function LanguageSection(): React.ReactElement {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Language</CardTitle>
-          <CardDescription>Select your preferred language for the dashboard.</CardDescription>
+          <CardTitle><T>Language</T></CardTitle>
+          <CardDescription>
+            <T>Select your preferred language for the dashboard.</T>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -61,8 +64,10 @@ export function LanguageSection(): React.ReactElement {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Language</CardTitle>
-        <CardDescription>Select your preferred language for the dashboard.</CardDescription>
+        <CardTitle><T>Language</T></CardTitle>
+        <CardDescription>
+          <T>Select your preferred language for the dashboard.</T>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-2">

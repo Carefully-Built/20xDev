@@ -2,5 +2,9 @@
   "$schema": "https://assets.gtx.dev/config-schema.json",
   "projectId": "prj_w5sqtudsdsqp4e64955k2aab",
   "defaultLocale": "en",
-  "locales": ["en", "it"]
+  "locales": [
+    "en",
+    "it"
+  ],
+  "_versionId": "6c5484ae1a86a34abc72f6f7eb0098aa0bf830903354e4d576161fbe7e2b8952"
 }
