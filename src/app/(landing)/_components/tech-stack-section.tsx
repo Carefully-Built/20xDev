@@ -88,7 +88,7 @@ const techStack: readonly TechItem[] = [
     category: 'Animations',
     description: 'Smooth animations',
     why: 'Production-ready animations that delight users.',
-    logo: '/images/stack/animate-ui.png',
+    logo: '/images/stack/animate-ui.ico',
     href: 'https://animate-ui.com',
   },
   // Payments & Email
@@ -114,7 +114,7 @@ const techStack: readonly TechItem[] = [
     category: 'Forms',
     description: 'Contact form backend',
     why: 'Simple forms, no server code needed.',
-    logo: '/images/stack/web3forms.png',
+    logo: '/images/stack/web3forms.svg',
     href: 'https://web3forms.com',
   },
   // State
@@ -149,7 +149,7 @@ const techStack: readonly TechItem[] = [
     category: 'i18n',
     description: 'AI-powered translations',
     why: 'Translate your app with AI. No JSON files to maintain.',
-    logo: '/images/stack/gt.png',
+    logo: '/images/stack/gt.ico',
     href: 'https://generaltranslation.com',
   },
   // Content
@@ -184,7 +184,7 @@ const techStack: readonly TechItem[] = [
     category: 'Feedback',
     description: 'Feature requests & docs',
     why: 'Let users vote on features. Build what customers want.',
-    logo: '/images/stack/featurebase.png',
+    logo: '/images/stack/featurebase.ico',
     href: 'https://featurebase.app',
   },
   // Code Quality
@@ -201,7 +201,7 @@ const techStack: readonly TechItem[] = [
     category: 'Cleanup',
     description: 'Find unused code',
     why: 'Detect unused files and dependencies automatically.',
-    logo: '/images/stack/knip.png',
+    logo: '/images/stack/knip.svg',
     href: 'https://knip.dev',
   },
   {
@@ -209,7 +209,7 @@ const techStack: readonly TechItem[] = [
     category: 'Review',
     description: 'AI code review',
     why: 'Instant AI-powered reviews on every PR.',
-    logo: '/images/stack/coderabbit.png',
+    logo: '/images/stack/coderabbit.ico',
     href: 'https://coderabbit.ai',
   },
   {
@@ -217,7 +217,7 @@ const techStack: readonly TechItem[] = [
     category: 'Quality',
     description: 'Code analysis',
     why: 'Continuous code quality and security analysis.',
-    logo: '/images/stack/sonarcloud.png',
+    logo: '/images/stack/sonarcloud.ico',
     href: 'https://sonarcloud.io',
   },
 ];
