@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
+import { SafeImage } from '@/components/ui/safe-image';
 
 interface TechItem {
   readonly name: string;
@@ -193,7 +193,7 @@ const techStack: readonly TechItem[] = [
     category: 'Review',
     description: 'AI code review',
     why: 'Instant AI-powered reviews on every PR.',
-    logo: '/images/stack/coderabbit.jpg',
+    logo: '/images/stack/coderabbit.png',
     href: 'https://coderabbit.ai',
   },
   {
@@ -233,12 +233,12 @@ export function TechStackSection(): React.ReactElement {
             >
               <div className="flex items-center justify-between">
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-lg overflow-hidden bg-muted/50">
-                  <Image
+                  <SafeImage
                     src={tech.logo}
                     alt={tech.name}
                     width={32}
                     height={32}
-                    className={`size-8 object-contain ${tech.className ?? ''}`}
+                    className={`size-8 ${tech.className ?? ''}`}
                   />
                 </div>
                 <Badge variant="secondary" className="text-xs">
