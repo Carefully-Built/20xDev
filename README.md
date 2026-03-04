@@ -74,18 +74,17 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 ### Analytics
 | Tool | Purpose |
 |------|---------|
-| [Plausible](https://plausible.io) | Privacy-friendly analytics |
+| [DataFast](https://datafa.st) | Simple, privacy-friendly analytics |
 
 ### Error Tracking & Logging
 | Tool | Purpose |
 |------|---------|
 | [Sentry](https://sentry.io) | Error tracking & performance monitoring |
 
-### Customer Support
+### Feedback & Support
 | Tool | Purpose |
 |------|---------|
-| [Intercom](https://intercom.com) | Live chat & customer support |
-| [Featurebase](https://featurebase.app) | Feature requests & documentation |
+| [Featurebase](https://featurebase.app) | Feature requests, changelog & documentation |
 
 ### Code Quality
 | Tool | Purpose |
