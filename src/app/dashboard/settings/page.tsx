@@ -1,8 +1,9 @@
-import { Building2, Palette, User } from 'lucide-react';
+import { Building2, Globe, Palette, User } from 'lucide-react';
 import { redirect } from 'next/navigation';
 
 import { AccountSection } from './_components/account-section';
 import { AppearanceSection } from './_components/appearance-section';
+import { LanguageSection } from './_components/language-section';
 import { OrganizationSection } from './_components/organization-section';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,7 +26,6 @@ async function getOrganization(userId: string, sessionOrgId?: string): Promise<O
       return null;
     }
 
-    // Use session org if it exists and user has access to it
     const targetMembership = sessionOrgId
       ? memberships.data.find((m) => m.organizationId === sessionOrgId)
       : memberships.data[0];
@@ -62,8 +62,6 @@ async function getWidgetToken(userId: string, organizationId: string): Promise<s
   }
 }
 
-// Token fetching is now handled client-side via /api/auth/token
-
 export default async function SettingsPage(): Promise<React.ReactElement> {
   const session = await getSession();
 
@@ -73,7 +71,6 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
 
   const organization = await getOrganization(session.user.id, session.organizationId);
   
-  // Get widget token for team management
   let teamAuthToken: string | null = null;
   if (organization) {
     teamAuthToken = await getWidgetToken(session.user.id, organization.id);
@@ -99,6 +96,10 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
             <Palette className="size-3.5" />
             Appearance
           </TabsTrigger>
+          <TabsTrigger value="language" className="gap-1.5">
+            <Globe className="size-3.5" />
+            Language
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="account" className="mt-6">
@@ -116,6 +117,10 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
 
         <TabsContent value="appearance" className="mt-6">
           <AppearanceSection />
+        </TabsContent>
+
+        <TabsContent value="language" className="mt-6">
+          <LanguageSection />
         </TabsContent>
       </Tabs>
     </div>
