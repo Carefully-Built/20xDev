@@ -1,3 +1,5 @@
+import { withGTConfig } from 'gt-next/config';
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -18,4 +20,8 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withGTConfig(nextConfig, {
+  projectId: process.env.GT_PROJECT_ID,
+  locales: ['en', 'it'],
+  defaultLocale: 'en',
+});

@@ -1,8 +1,10 @@
-import { Building2, Palette, User } from 'lucide-react';
+import { Building2, Globe, Palette, User } from 'lucide-react';
+import { T } from 'gt-next';
 import { redirect } from 'next/navigation';
 
 import { AccountSection } from './_components/account-section';
 import { AppearanceSection } from './_components/appearance-section';
+import { LanguageSection } from './_components/language-section';
 import { OrganizationSection } from './_components/organization-section';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -81,23 +83,27 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
+      <h1 className="text-xl font-semibold tracking-tight"><T>Settings</T></h1>
 
       <Tabs defaultValue="account" className="w-full">
         <TabsList>
           <TabsTrigger value="account" className="gap-1.5">
             <User className="size-3.5" />
-            Account
+            <T>Account</T>
           </TabsTrigger>
           {organization && (
             <TabsTrigger value="organization" className="gap-1.5">
               <Building2 className="size-3.5" />
-              Organization
+              <T>Organization</T>
             </TabsTrigger>
           )}
           <TabsTrigger value="appearance" className="gap-1.5">
             <Palette className="size-3.5" />
-            Appearance
+            <T>Appearance</T>
+          </TabsTrigger>
+          <TabsTrigger value="language" className="gap-1.5">
+            <Globe className="size-3.5" />
+            <T>Language</T>
           </TabsTrigger>
         </TabsList>
 
@@ -116,6 +122,10 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
 
         <TabsContent value="appearance" className="mt-6">
           <AppearanceSection />
+        </TabsContent>
+
+        <TabsContent value="language" className="mt-6">
+          <LanguageSection />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Moon, Sun, Monitor, Check } from 'lucide-react';
+import { T } from 'gt-next';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
@@ -41,8 +42,8 @@ export function AppearanceSection(): React.ReactElement {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Theme</CardTitle>
-          <CardDescription>Select your preferred theme for the dashboard.</CardDescription>
+          <CardTitle><T>Theme</T></CardTitle>
+          <CardDescription><T>Select your preferred theme for the dashboard.</T></CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -53,8 +54,8 @@ export function AppearanceSection(): React.ReactElement {
               >
                 <t.icon className="size-8 text-muted-foreground" />
                 <div className="text-center">
-                  <p className="font-medium">{t.name}</p>
-                  <p className="text-xs text-muted-foreground">{t.description}</p>
+                  <p className="font-medium"><T>{t.name}</T></p>
+                  <p className="text-xs text-muted-foreground"><T>{t.description}</T></p>
                 </div>
               </div>
             ))}
@@ -67,8 +68,8 @@ export function AppearanceSection(): React.ReactElement {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Theme</CardTitle>
-        <CardDescription>Select your preferred theme for the dashboard.</CardDescription>
+        <CardTitle><T>Theme</T></CardTitle>
+        <CardDescription><T>Select your preferred theme for the dashboard.</T></CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -89,8 +90,8 @@ export function AppearanceSection(): React.ReactElement {
               )}
               <t.icon className={cn('size-8', theme === t.id ? 'text-primary' : 'text-muted-foreground')} />
               <div className="text-center">
-                <p className="font-medium">{t.name}</p>
-                <p className="text-xs text-muted-foreground">{t.description}</p>
+                <p className="font-medium"><T>{t.name}</T></p>
+                <p className="text-xs text-muted-foreground"><T>{t.description}</T></p>
               </div>
             </button>
           ))}

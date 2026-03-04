@@ -5,6 +5,7 @@ import {
   UserSecurity,
   WorkOsWidgets,
 } from '@workos-inc/widgets';
+import { T } from 'gt-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useCallback } from 'react';
 
@@ -41,9 +42,9 @@ export function AccountSection(): React.ReactElement {
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Profile</CardTitle>
+            <CardTitle><T>Profile</T></CardTitle>
             <CardDescription>
-              Manage your personal information and preferences.
+              <T>Manage your personal information and preferences.</T>
             </CardDescription>
           </CardHeader>
           <CardContent className="workos-widget-container">
@@ -53,9 +54,9 @@ export function AccountSection(): React.ReactElement {
 
         <Card>
           <CardHeader>
-            <CardTitle>Security</CardTitle>
+            <CardTitle><T>Security</T></CardTitle>
             <CardDescription>
-              Manage your password and two-factor authentication.
+              <T>Manage your password and two-factor authentication.</T>
             </CardDescription>
           </CardHeader>
           <CardContent className="workos-widget-container">
