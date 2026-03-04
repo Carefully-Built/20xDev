@@ -109,14 +109,6 @@ const techStack: readonly TechItem[] = [
     href: 'https://resend.com',
     className: 'dark:invert',
   },
-  {
-    name: 'Web3Forms',
-    category: 'Forms',
-    description: 'Contact form backend',
-    why: 'Simple forms, no server code needed.',
-    logo: '/images/stack/web3forms.svg',
-    href: 'https://web3forms.com',
-  },
   // State
   {
     name: 'TanStack Query',
@@ -171,12 +163,12 @@ const techStack: readonly TechItem[] = [
     href: 'https://datafa.st',
   },
   {
-    name: 'Sentry',
+    name: 'PostHog',
     category: 'Monitoring',
-    description: 'Error tracking',
-    why: 'Catch errors before users report them.',
-    logo: '/images/stack/sentry.png',
-    href: 'https://sentry.io',
+    description: 'Product analytics & logging',
+    why: 'Error tracking, session replay, and product analytics in one.',
+    logo: '/images/stack/posthog.png',
+    href: 'https://posthog.com',
   },
   // Support
   {
@@ -188,14 +180,6 @@ const techStack: readonly TechItem[] = [
     href: 'https://featurebase.app',
   },
   // Code Quality
-  {
-    name: 'Prettier',
-    category: 'Formatting',
-    description: 'Code formatting',
-    why: 'Consistent code style. Format on save.',
-    logo: '/images/stack/prettier.png',
-    href: 'https://prettier.io',
-  },
   {
     name: 'Knip',
     category: 'Cleanup',
@@ -209,7 +193,7 @@ const techStack: readonly TechItem[] = [
     category: 'Review',
     description: 'AI code review',
     why: 'Instant AI-powered reviews on every PR.',
-    logo: '/images/stack/coderabbit.ico',
+    logo: '/images/stack/coderabbit.jpg',
     href: 'https://coderabbit.ai',
   },
   {

@@ -48,7 +48,6 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 |------|---------|
 | [Stripe](https://stripe.com) | Payments & billing (connected to Convex) |
 | [Resend](https://resend.com) | Transactional emails |
-| [Web3Forms](https://web3forms.com) | Contact form backend |
 
 ### State & Data Fetching
 | Tool | Purpose |
@@ -76,10 +75,10 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 |------|---------|
 | [DataFast](https://datafa.st) | Simple, privacy-friendly analytics |
 
-### Error Tracking & Logging
+### Product Analytics & Logging
 | Tool | Purpose |
 |------|---------|
-| [Sentry](https://sentry.io) | Error tracking & performance monitoring |
+| [PostHog](https://posthog.com) | Product analytics, error tracking & session replay |
 
 ### Feedback & Support
 | Tool | Purpose |
@@ -89,7 +88,6 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 ### Code Quality
 | Tool | Purpose |
 |------|---------|
-| [Prettier](https://prettier.io) | Code formatting |
 | [ESLint](https://eslint.org) | Code linting (Airbnb config) |
 | [Knip](https://knip.dev) | Find unused files & dependencies |
 | [CodeRabbit](https://coderabbit.ai) | AI-powered code review |
