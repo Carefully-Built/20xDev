@@ -6,6 +6,15 @@ import { urlForImage } from '@/sanity/lib/image';
 
 import { CodeBlock } from './code-block';
 
+const ALLOWED_HREF_PROTOCOLS = /^(https?:\/\/|mailto:|tel:|\/|#)/i;
+
+function sanitizeHref(href: string | undefined): string | undefined {
+  if (!href) return undefined;
+  const trimmed = href.trim();
+  if (ALLOWED_HREF_PROTOCOLS.test(trimmed)) return trimmed;
+  return undefined;
+}
+
 const components: PortableTextComponents = {
   types: {
     image: ({ value }: { value: { asset: { _ref: string }; alt?: string; caption?: string } }) => {
@@ -33,16 +42,20 @@ const components: PortableTextComponents = {
     ),
   },
   marks: {
-    link: ({ children, value }: { children: React.ReactNode; value?: { href: string } }) => (
-      <a
-        href={value?.href}
-        className="text-primary underline underline-offset-4 hover:text-primary/80"
-        target={value?.href?.startsWith('http') ? '_blank' : undefined}
-        rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-      >
-        {children}
-      </a>
-    ),
+    link: ({ children, value }: { children: React.ReactNode; value?: { href: string } }) => {
+      const safeHref = sanitizeHref(value?.href);
+      if (!safeHref) return <>{children}</>;
+      return (
+        <a
+          href={safeHref}
+          className="text-primary underline underline-offset-4 hover:text-primary/80"
+          target={safeHref.startsWith('http') ? '_blank' : undefined}
+          rel={safeHref.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
+          {children}
+        </a>
+      );
+    },
     code: ({ children }: { children: React.ReactNode }) => (
       <code className="rounded bg-muted px-1.5 py-0.5 text-sm">{children}</code>
     ),

@@ -20,7 +20,7 @@ export function CategoryFilter({
 }: CategoryFilterProps): React.ReactElement {
   const pathname = usePathname();
 
-  const isAll = pathname === '/blog';
+  const isAll = pathname === '/blog' || pathname.endsWith('/blog');
 
   return (
     <nav

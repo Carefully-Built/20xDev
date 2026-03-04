@@ -25,10 +25,12 @@ export function JsonLd({ post, url }: JsonLdProps): React.ReactElement {
     url,
   };
 
+  const safeJson = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: safeJson }}
     />
   );
 }

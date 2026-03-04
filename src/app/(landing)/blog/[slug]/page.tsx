@@ -65,8 +65,8 @@ export default async function PostPage({
 
   if (!post) notFound();
 
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-  const postUrl = `${siteUrl}/blog/${slug}`;
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const postUrl = siteUrl ? `${siteUrl}/blog/${slug}` : `/blog/${slug}`;
 
   return (
     <section className="py-16 md:py-24">

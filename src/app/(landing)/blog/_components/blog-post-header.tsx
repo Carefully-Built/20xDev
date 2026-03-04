@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { T } from 'gt-next';
+
 import type { Post } from '@/types/blog';
 import { urlForImage } from '@/sanity/lib/image';
 
@@ -38,7 +40,10 @@ export function BlogPostHeader({
           publishedAt={post.publishedAt}
         />
         <span aria-hidden="true">·</span>
-        <span>{readingTime} min read</span>
+        <span>
+          {readingTime}{' '}
+          <T id="blog.minRead">min read</T>
+        </span>
       </div>
       {post.mainImage ? (
         <div className="relative aspect-video overflow-hidden rounded-lg">

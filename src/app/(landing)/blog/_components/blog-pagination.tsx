@@ -29,7 +29,9 @@ export function BlogPagination({
             <T id="blog.previousPage">Previous</T>
           </Link>
         </Button>
-      ) : null}
+      ) : (
+        <div className="min-h-[44px] min-w-[100px]" aria-hidden="true" />
+      )}
       <span className="text-sm text-muted-foreground">
         {currentPage} / {totalPages}
       </span>
@@ -40,7 +42,9 @@ export function BlogPagination({
             <ChevronRight className="ml-1 size-4" />
           </Link>
         </Button>
-      ) : null}
+      ) : (
+        <div className="min-h-[44px] min-w-[100px]" aria-hidden="true" />
+      )}
     </nav>
   );
 }

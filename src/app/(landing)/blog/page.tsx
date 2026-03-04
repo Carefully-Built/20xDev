@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { FileText } from 'lucide-react';
 import { T } from 'gt-next';
 
@@ -31,7 +32,9 @@ export default async function BlogPage({
   searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {
   const params = await searchParams;
-  const currentPage = Math.max(1, Number(params.page) || 1);
+  const parsedPage = Number(params.page);
+  const currentPage =
+    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const offset = (currentPage - 1) * POSTS_PER_PAGE;
 
   let posts: PostListItem[] = [];
@@ -50,6 +53,10 @@ export default async function BlogPage({
   }
 
   const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE);
+
+  if (totalCount > 0 && posts.length === 0 && currentPage > 1) {
+    redirect(`/blog?page=${totalPages}`);
+  }
 
   return (
     <section className="py-16 md:py-24">
