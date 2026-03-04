@@ -166,7 +166,7 @@ Blueprint enforces strict code quality:
 - [ ] Animations (Animate UI)
 
 ### 📋 Planned
-- [ ] Blog & CMS (Sanity)
+- [x] Blog & CMS (Sanity)
 - [ ] Analytics (Plausible)
 - [ ] Error tracking (Sentry)
 - [ ] Customer support (Intercom)
