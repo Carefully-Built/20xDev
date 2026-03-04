@@ -1,5 +1,6 @@
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
+import { GTProvider } from 'gt-next';
 import { Toaster } from 'sonner';
 
 import type { Metadata, Viewport } from 'next';
@@ -8,7 +9,6 @@ import type { ReactNode } from 'react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { siteConfig } from '@/config/site';
 import { Providers } from '@/providers';
-
 
 import './globals.css';
 
@@ -41,10 +41,12 @@ const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
     suppressHydrationWarning
   >
     <body className="min-h-screen bg-background font-sans antialiased">
-      <Providers>
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster position="bottom-right" richColors />
-      </Providers>
+      <GTProvider>
+        <Providers>
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster position="bottom-right" richColors />
+        </Providers>
+      </GTProvider>
     </body>
   </html>
 );
