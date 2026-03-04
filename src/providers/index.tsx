@@ -1,6 +1,5 @@
 'use client';
 
-import { GTProvider } from 'gt-next';
 import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { WorkOsWidgets } from '@workos-inc/widgets';
@@ -19,15 +18,13 @@ interface ProvidersProps {
 }
 
 export const Providers = ({ children }: ProvidersProps): React.ReactElement => (
-  <GTProvider>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <NuqsAdapter>
-        <QueryProvider>
-          <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
-            <ConvexClientProvider>{children}</ConvexClientProvider>
-          </WorkOsWidgets>
-        </QueryProvider>
-      </NuqsAdapter>
-    </ThemeProvider>
-  </GTProvider>
+  <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <NuqsAdapter>
+      <QueryProvider>
+        <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </WorkOsWidgets>
+      </QueryProvider>
+    </NuqsAdapter>
+  </ThemeProvider>
 );
