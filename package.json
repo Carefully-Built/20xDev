@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun next dev --turbo",
-    "build": "npx convex deploy && bunx --bun next build",
+    "build": "node scripts/build.mjs",
+    "build:next": "bunx --bun next build",
     "start": "bunx --bun next start",
     "lint": "bunx --bun eslint . --max-warnings 0",
     "lint:fix": "bunx --bun eslint . --fix",
