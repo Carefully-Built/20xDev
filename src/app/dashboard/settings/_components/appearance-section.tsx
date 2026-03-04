@@ -1,7 +1,7 @@
 'use client';
 
 import { Moon, Sun, Monitor, Check } from 'lucide-react';
-import { T } from 'gt-next';
+import { T, useGT } from 'gt-next';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
@@ -11,26 +11,27 @@ import { cn } from '@/lib/utils';
 const themes = [
   {
     id: 'light',
-    name: 'Light',
-    description: 'A clean, bright interface',
+    nameKey: 'Light',
+    descriptionKey: 'A clean, bright interface',
     icon: Sun,
   },
   {
     id: 'dark',
-    name: 'Dark',
-    description: 'Easy on the eyes',
+    nameKey: 'Dark',
+    descriptionKey: 'Easy on the eyes',
     icon: Moon,
   },
   {
     id: 'system',
-    name: 'System',
-    description: 'Match your device settings',
+    nameKey: 'System',
+    descriptionKey: 'Match your device settings',
     icon: Monitor,
   },
 ] as const;
 
 export function AppearanceSection(): React.ReactElement {
   const { theme, setTheme } = useTheme();
+  const t = useGT();
   const [mounted, setMounted] = useState(false);
 
   // Avoid hydration mismatch
@@ -47,15 +48,15 @@ export function AppearanceSection(): React.ReactElement {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-3">
-            {themes.map((t) => (
+            {themes.map((themeOption) => (
               <div
-                key={t.id}
+                key={themeOption.id}
                 className="relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-muted p-6 transition-colors"
               >
-                <t.icon className="size-8 text-muted-foreground" />
+                <themeOption.icon className="size-8 text-muted-foreground" />
                 <div className="text-center">
-                  <p className="font-medium"><T>{t.name}</T></p>
-                  <p className="text-xs text-muted-foreground"><T>{t.description}</T></p>
+                  <p className="font-medium">{t(themeOption.nameKey)}</p>
+                  <p className="text-xs text-muted-foreground">{t(themeOption.descriptionKey)}</p>
                 </div>
               </div>
             ))}
@@ -73,25 +74,25 @@ export function AppearanceSection(): React.ReactElement {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-3">
-          {themes.map((t) => (
+          {themes.map((themeOption) => (
             <button
-              key={t.id}
+              key={themeOption.id}
               type="button"
-              onClick={() => setTheme(t.id)}
+              onClick={() => setTheme(themeOption.id)}
               className={cn(
                 'relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 p-6 transition-colors hover:border-primary/50',
-                theme === t.id ? 'border-primary bg-primary/5' : 'border-muted'
+                theme === themeOption.id ? 'border-primary bg-primary/5' : 'border-muted'
               )}
             >
-              {theme === t.id && (
+              {theme === themeOption.id && (
                 <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
                   <Check className="size-3" />
                 </div>
               )}
-              <t.icon className={cn('size-8', theme === t.id ? 'text-primary' : 'text-muted-foreground')} />
+              <themeOption.icon className={cn('size-8', theme === themeOption.id ? 'text-primary' : 'text-muted-foreground')} />
               <div className="text-center">
-                <p className="font-medium"><T>{t.name}</T></p>
-                <p className="text-xs text-muted-foreground"><T>{t.description}</T></p>
+                <p className="font-medium">{t(themeOption.nameKey)}</p>
+                <p className="text-xs text-muted-foreground">{t(themeOption.descriptionKey)}</p>
               </div>
             </button>
           ))}
