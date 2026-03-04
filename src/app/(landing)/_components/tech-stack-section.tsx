@@ -106,7 +106,7 @@ const techCategories: readonly TechCategory[] = [
       {
         name: 'Stripe',
         description: 'Payments & billing',
-        why: 'The gold standard for payments. Subscriptions, invoicing, and billing portal built-in.',
+        why: 'Connected directly to Convex for real-time subscription status. Webhooks sync instantly with your database.',
         logo: '/images/stack/sripe.png',
         href: 'https://stripe.com',
       },
@@ -117,6 +117,13 @@ const techCategories: readonly TechCategory[] = [
         logo: '/images/stack/resend.webp',
         href: 'https://resend.com',
         className: 'dark:invert',
+      },
+      {
+        name: 'Web3Forms',
+        description: 'Contact form backend',
+        why: 'Simple, no-backend contact forms. Just HTML, no server code needed. Free tier included.',
+        logo: '/images/stack/web3forms.png',
+        href: 'https://web3forms.com',
       },
     ],
   },

@@ -46,8 +46,9 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 ### Payments & Email
 | Tool | Purpose |
 |------|---------|
-| [Stripe](https://stripe.com) | Payments, subscriptions & billing |
+| [Stripe](https://stripe.com) | Payments & billing (connected to Convex) |
 | [Resend](https://resend.com) | Transactional emails |
+| [Web3Forms](https://web3forms.com) | Contact form backend |
 
 ### State & Data Fetching
 | Tool | Purpose |
