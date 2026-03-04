@@ -1,77 +1,147 @@
 # Blueprint
 
-Production-ready Next.js dashboard template with strict TypeScript, modern tooling, and beautiful UI.
+> The AI-optimized starting point for building beautiful B2B SaaS products.
 
-## Stack
+Blueprint is a production-ready template designed to help AI (and humans) build scalable B2B SaaS applications with clean, elegant code. It combines the best modern tools into a cohesive foundation that prioritizes code quality, developer experience, and enterprise-readiness.
 
-- **Framework**: Next.js 15 (App Router, Turbopack)
-- **Runtime**: Bun
-- **Styling**: Tailwind CSS 4 + shadcn/ui (Nova theme)
-- **Database**: Convex (real-time)
-- **Auth**: WorkOS + Clerk (multi-tenant)
-- **Payments**: Stripe
-- **Validation**: Zod
-- **Icons**: Hugeicons
+## Why Blueprint?
+
+Building a SaaS from scratch means making hundreds of decisions about tooling, architecture, and patterns. Blueprint makes those decisions for you, providing:
+
+- **Clean, AI-friendly code** — Structured for AI assistants to understand and extend
+- **Enterprise-ready auth** — Multi-tenant authentication out of the box
+- **Real-time by default** — Live updates without complexity
+- **Type-safe everything** — From database to UI, fully typed
+- **Production patterns** — Battle-tested approaches to common problems
+
+## Tech Stack
+
+### Core
+| Tool | Purpose |
+|------|---------|
+| [Next.js 16](https://nextjs.org) | React framework with App Router & Turbopack |
+| [TypeScript](https://typescriptlang.org) | Type-safe JavaScript |
+| [Bun](https://bun.sh) | Fast JavaScript runtime & package manager |
+
+### Backend & Data
+| Tool | Purpose |
+|------|---------|
+| [Convex](https://convex.dev) | Real-time database & backend functions |
+| [Zod](https://zod.dev) | Schema validation & type inference |
+
+### Authentication & Enterprise
+| Tool | Purpose |
+|------|---------|
+| [WorkOS](https://workos.com) | Enterprise SSO, SCIM, directory sync |
+| [AuthKit](https://workos.com/authkit) | Beautiful, secure authentication UI |
+
+### UI & Styling
+| Tool | Purpose |
+|------|---------|
+| [shadcn/ui](https://ui.shadcn.com) | Beautiful, accessible components |
+| [Tailwind CSS](https://tailwindcss.com) | Utility-first styling |
+| [Lucide](https://lucide.dev) | Clean, consistent icons |
+
+### Payments & Email
+| Tool | Purpose |
+|------|---------|
+| [Stripe](https://stripe.com) | Payments, subscriptions & billing |
+| [Resend](https://resend.com) | Transactional emails |
+
+### State & Data Fetching
+| Tool | Purpose |
+|------|---------|
+| [TanStack Query](https://tanstack.com/query) | Server state management |
+| [nuqs](https://nuqs.47ng.com) | Type-safe URL search params |
+
+### AI & Intelligence
+| Tool | Purpose |
+|------|---------|
+| [OpenAI](https://openai.com) | LLM integration for AI features |
+
+### Internationalization
+| Tool | Purpose |
+|------|---------|
+| [General Translation](https://generaltranslation.com) | AI-powered i18n (coming soon) |
 
 ## Getting Started
 
 ```bash
+# Install dependencies
 bun install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Start development server
 bun dev
 ```
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `bun dev` | Start dev server with Turbopack |
-| `bun build` | Production build |
-| `bun lint` | ESLint (strict, zero warnings) |
-| `bun typecheck` | TypeScript check |
-| `bun check` | Run typecheck + lint |
-| `bun format` | Format with Prettier |
 
 ## Project Structure
 
 ```
-├── app
-│   ├── (landing)/       # Public pages
-│   ├── (dashboard)/     # Authenticated dashboard
-│   ├── (auth)/          # Auth pages
-│   └── api/             # API routes
-├── components
-│   ├── ui/              # shadcn components
-│   ├── layout/          # Layout components
-│   ├── forms/           # Form system
-│   └── shared/          # Shared components
-├── convex
-│   └── schema/          # Modular schema files
-├── lib/                 # Utilities
-├── hooks/               # Custom hooks
-├── types/               # TypeScript types
-└── config/              # App configuration
+src/
+├── app/
+│   ├── (landing)/        # Public marketing pages
+│   ├── (auth)/           # Authentication flows
+│   ├── dashboard/        # Authenticated app
+│   └── api/              # API routes
+├── components/
+│   └── ui/               # shadcn/ui components
+├── lib/                  # Utilities & helpers
+├── providers/            # React context providers
+└── config/               # App configuration
+
+convex/
+├── schema.ts             # Database schema
+└── *.ts                  # Backend functions
+```
+
+## Scripts
+
+```bash
+bun dev          # Start dev server with Turbopack
+bun build        # Production build
+bun lint         # ESLint (strict, zero warnings)
+bun typecheck    # TypeScript check
+bun check        # Run typecheck + lint
+bun format       # Format with Prettier
 ```
 
 ## Code Standards
 
-- **Zero `any`**: Strict TypeScript, no exceptions
-- **Airbnb ESLint**: Enforced with additional strict rules
-- **Max 120 lines**: Keep components focused
-- **Type imports**: Always use `import type` for types
+Blueprint enforces strict code quality:
 
-## Environment Variables
+- **Zero `any` types** — Strict TypeScript with no exceptions
+- **Airbnb ESLint** — Industry-standard linting rules
+- **Prettier formatting** — Consistent code style
+- **Type imports** — Always use `import type` for types
+- **Small components** — Max 120 lines per file
 
-```env
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_CONVEX_URL=
-WORKOS_API_KEY=
-WORKOS_CLIENT_ID=
-CLERK_SECRET_KEY=
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-```
+## Roadmap
+
+- [x] Authentication (WorkOS + AuthKit)
+- [x] Real-time database (Convex)
+- [x] Payments & billing (Stripe)
+- [x] Email (Resend)
+- [x] Dashboard with settings
+- [ ] Internationalization (General Translation)
+- [ ] Animations & micro-interactions
+- [ ] About page
+- [ ] Contact form
+- [ ] Feature sections
+- [ ] Pricing page
+
+## Philosophy
+
+Blueprint is built on a simple idea: **AI can build software faster when it starts with clean, well-structured code.**
+
+Every decision in Blueprint — from folder structure to naming conventions — is made with AI assistance in mind. The result is a codebase that's easy for both humans and AI to understand, modify, and extend.
 
 ## License
 
 MIT
+
+---
+
+Built with ♥ by [Carefully Built](https://github.com/Carefully-Built)
