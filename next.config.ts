@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
 };
 
 export default withGTConfig(nextConfig, {
-  projectId: process.env.GT_PROJECT_ID,
+  projectId: 'prj_w5sqtudsdsqp4e64955k2aab',
   locales: ['en', 'it'],
   defaultLocale: 'en',
 });
