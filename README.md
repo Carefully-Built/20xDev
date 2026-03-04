@@ -16,7 +16,7 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 
 ## Tech Stack
 
-### Core
+### Core Framework
 | Tool | Purpose |
 |------|---------|
 | [Next.js 16](https://nextjs.org) | React framework with App Router & Turbopack |
@@ -41,6 +41,7 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 | [shadcn/ui](https://ui.shadcn.com) | Beautiful, accessible components |
 | [Tailwind CSS](https://tailwindcss.com) | Utility-first styling |
 | [Lucide](https://lucide.dev) | Clean, consistent icons |
+| [Animate UI](https://animate-ui.com) | Smooth animations & micro-interactions |
 
 ### Payments & Email
 | Tool | Purpose |
@@ -62,7 +63,37 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 ### Internationalization
 | Tool | Purpose |
 |------|---------|
-| [General Translation](https://generaltranslation.com) | AI-powered i18n (coming soon) |
+| [General Translation](https://generaltranslation.com) | AI-powered i18n |
+
+### Content & Blog
+| Tool | Purpose |
+|------|---------|
+| [Sanity](https://sanity.io) | Headless CMS for blog & content |
+
+### Analytics
+| Tool | Purpose |
+|------|---------|
+| [Plausible](https://plausible.io) | Privacy-friendly analytics |
+
+### Error Tracking & Logging
+| Tool | Purpose |
+|------|---------|
+| [Sentry](https://sentry.io) | Error tracking & performance monitoring |
+
+### Customer Support
+| Tool | Purpose |
+|------|---------|
+| [Intercom](https://intercom.com) | Live chat & customer support |
+| [Featurebase](https://featurebase.app) | Feature requests & documentation |
+
+### Code Quality
+| Tool | Purpose |
+|------|---------|
+| [Prettier](https://prettier.io) | Code formatting |
+| [ESLint](https://eslint.org) | Code linting (Airbnb config) |
+| [Knip](https://knip.dev) | Find unused files & dependencies |
+| [CodeRabbit](https://coderabbit.ai) | AI-powered code review |
+| [SonarCloud](https://sonarcloud.io) | Code quality & security analysis |
 
 ## Getting Started
 
@@ -120,13 +151,25 @@ Blueprint enforces strict code quality:
 
 ## Roadmap
 
+### ✅ Implemented
 - [x] Authentication (WorkOS + AuthKit)
 - [x] Real-time database (Convex)
 - [x] Payments & billing (Stripe)
-- [x] Email (Resend)
+- [x] Transactional email (Resend)
 - [x] Dashboard with settings
+- [x] Code quality tools (ESLint, Prettier, Knip)
+- [x] CI/CD with code review (CodeRabbit, SonarCloud)
+
+### 🚧 In Progress
 - [ ] Internationalization (General Translation)
-- [ ] Animations & micro-interactions
+- [ ] Animations (Animate UI)
+
+### 📋 Planned
+- [ ] Blog & CMS (Sanity)
+- [ ] Analytics (Plausible)
+- [ ] Error tracking (Sentry)
+- [ ] Customer support (Intercom)
+- [ ] Feature requests (Featurebase)
 - [ ] About page
 - [ ] Contact form
 - [ ] Feature sections
