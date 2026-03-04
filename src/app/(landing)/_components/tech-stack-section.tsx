@@ -141,7 +141,7 @@ const techStack: readonly TechItem[] = [
     category: 'i18n',
     description: 'AI-powered translations',
     why: 'Translate your app with AI. No JSON files to maintain.',
-    logo: '/images/stack/gt.ico',
+    logo: '/images/stack/gt.svg',
     href: 'https://generaltranslation.com',
   },
   // Content
@@ -176,7 +176,7 @@ const techStack: readonly TechItem[] = [
     category: 'Feedback',
     description: 'Feature requests & docs',
     why: 'Let users vote on features. Build what customers want.',
-    logo: '/images/stack/featurebase.ico',
+    logo: '/images/stack/featurebase.png',
     href: 'https://featurebase.app',
   },
   // Code Quality
