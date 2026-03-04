@@ -165,7 +165,7 @@ Blueprint enforces strict code quality:
 ### 📋 Planned
 - [ ] Blog & CMS (Sanity)
 - [ ] Analytics (Plausible)
-- [ ] Error tracking (Sentry)
+- [ ] Product analytics (PostHog)
 - [ ] Customer support (Intercom)
 - [ ] Feature requests (Featurebase)
 - [ ] About page
