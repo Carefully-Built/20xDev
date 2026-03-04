@@ -294,7 +294,7 @@ export function OrganizationCard({ organization }: OrganizationCardProps): React
   );
 
   const saveButton = (
-    <SaveButton loading={loading} disabled={loading || !hasChanges} onClick={handleSave} />
+    <SaveButton loading={loading} disabled={loading || !hasChanges} onClick={() => void handleSave()} />
   );
 
   // Use Drawer on mobile, Sheet on desktop

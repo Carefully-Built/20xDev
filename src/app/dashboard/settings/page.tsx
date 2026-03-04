@@ -1,5 +1,5 @@
-import { Building2, Globe, Palette, User } from 'lucide-react';
 import { T } from 'gt-next';
+import { Building2, Globe, Palette, User } from 'lucide-react';
 import { redirect } from 'next/navigation';
 
 import { AccountSection } from './_components/account-section';

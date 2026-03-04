@@ -74,7 +74,7 @@ export const deleteLogo = mutation({
       .withIndex('by_workos_id', (q) => q.eq('workosId', args.workosId))
       .unique();
 
-    if (!org || !org.logoId) {
+    if (!org?.logoId) {
       return false;
     }
 
