@@ -78,7 +78,7 @@ export default async function PostPage({ params }: PageProps) {
                 {formatDate(post.publishedAt)}
               </time>
             )}
-            {post.categories && post.categories.length > 0 && (
+            {post.categories?.[0] && (
               <>
                 <span>·</span>
                 <span className="text-primary">{post.categories[0].title}</span>

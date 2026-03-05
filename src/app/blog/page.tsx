@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { client, isSanityConfigured } from '@/sanity/lib/client';
-import { getPostsQuery, getPostCountQuery } from '@/sanity/lib/queries';
+import { getPostsQuery } from '@/sanity/lib/queries';
 import { formatDate } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export default async function BlogPage() {
                           {formatDate(post.publishedAt)}
                         </time>
                       )}
-                      {post.categories && post.categories.length > 0 && (
+                      {post.categories?.[0] && (
                         <>
                           <span>·</span>
                           <span>{post.categories[0].title}</span>
