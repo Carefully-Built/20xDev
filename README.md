@@ -155,23 +155,25 @@ Blueprint enforces strict code quality:
 - [x] Authentication (WorkOS + AuthKit)
 - [x] Real-time database (Convex)
 - [x] Payments & billing (Stripe)
-- [x] Transactional email (Resend)
 - [x] Dashboard with settings
-- [x] Code quality tools (ESLint, Prettier, Knip)
+- [x] Code quality tools (ESLint, Prettier)
 - [x] CI/CD with code review (CodeRabbit, SonarCloud)
 - [x] Blog & CMS (Sanity)
+- [x] Internationalization (General Translation)
+- [x] Contact form
+- [x] Product analytics & error tracking (PostHog)
 
 ### 🚧 In Progress
-- [ ] Internationalization (General Translation)
 - [ ] Animations (Animate UI)
+- [ ] Welcome emails (Resend)
 
 ### 📋 Planned
-- [ ] Analytics (DataFast)
-- [ ] Product analytics (PostHog)
-- [ ] Customer support (Intercom)
-- [ ] Feature requests (Featurebase)
+- [ ] Analytics dashboard (DataFast)
+- [ ] Roadmap & feature requests (Featurebase)
+- [ ] AI features (OpenAI)
+- [ ] Affiliate program
+- [ ] Unused code detection (Knip)
 - [ ] About page
-- [ ] Contact form
 - [ ] Feature sections
 - [ ] Pricing page
 
