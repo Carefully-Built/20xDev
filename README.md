@@ -160,13 +160,13 @@ Blueprint enforces strict code quality:
 - [x] Dashboard with settings
 - [x] Code quality tools (ESLint, Prettier, Knip)
 - [x] CI/CD with code review (CodeRabbit, SonarCloud)
+- [x] Blog & CMS (Sanity)
 
 ### 🚧 In Progress
 - [ ] Internationalization (General Translation)
 - [ ] Animations (Animate UI)
 
 ### 📋 Planned
-- [ ] Blog & CMS (Sanity)
 - [ ] Analytics (Plausible)
 - [ ] Error tracking (Sentry)
 - [ ] Customer support (Intercom)

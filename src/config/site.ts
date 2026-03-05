@@ -23,6 +23,7 @@ export const dashboardNav: SidebarConfig = {
 export const landingNav: NavItem[] = [
   { title: 'Features', href: '/#features' },
   { title: 'Pricing', href: '/#pricing' },
+  { title: 'Blog', href: '/blog' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
 ];
