@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };
@@ -8,8 +8,25 @@ interface GlobalErrorProps {
 }
 
 const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => {
+  const [errorId, setErrorId] = useState<string | null>(null);
+
   useEffect(() => {
-    console.error(error);
+    // Import dynamically since this is the global error boundary
+    // and can't rely on providers being available
+    import('@/lib/error-handler').then(({ captureError }) => {
+      const { errorId } = captureError(error, {
+        category: 'unknown',
+        severity: 'critical',
+        context: {
+          metadata: { digest: error.digest, isGlobalError: true },
+        },
+      });
+      setErrorId(errorId);
+    }).catch(() => {
+      // If error handler fails, generate a simple error ID
+      setErrorId(`err_${Date.now()}`);
+      console.error('Global error:', error);
+    });
   }, [error]);
 
   return (
@@ -52,6 +69,11 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
           >
             A critical error occurred. Please try again later.
           </p>
+          {errorId && (
+            <p style={{ fontSize: '0.75rem', color: 'rgba(161, 161, 170, 0.5)', margin: 0 }}>
+              Error ID: {errorId}
+            </p>
+          )}
           <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem' }}>
             <button
               onClick={reset}

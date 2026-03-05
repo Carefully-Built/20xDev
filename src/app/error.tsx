@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { captureError } from '@/lib/error-handler';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -11,8 +12,18 @@ interface ErrorPageProps {
 }
 
 const ErrorPage = ({ error, reset }: ErrorPageProps): React.ReactElement => {
+  const [errorId, setErrorId] = useState<string | null>(null);
+
   useEffect(() => {
-    console.error(error);
+    // Capture error to PostHog (never expose to user)
+    const { errorId } = captureError(error, {
+      category: 'unknown',
+      severity: 'high',
+      context: {
+        metadata: { digest: error.digest },
+      },
+    });
+    setErrorId(errorId);
   }, [error]);
 
   return (
@@ -22,6 +33,11 @@ const ErrorPage = ({ error, reset }: ErrorPageProps): React.ReactElement => {
       <p className="max-w-md text-center text-muted-foreground">
         An unexpected error occurred. Please try again later.
       </p>
+      {errorId && (
+        <p className="text-xs text-muted-foreground/50">
+          Error ID: {errorId}
+        </p>
+      )}
       <div className="mt-4 flex gap-3">
         <Button onClick={reset} variant="outline">
           Try Again

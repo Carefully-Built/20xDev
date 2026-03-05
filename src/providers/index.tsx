@@ -1,9 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { WorkOsWidgets } from '@workos-inc/widgets';
 import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
+import { PostHogProvider } from '@/components/providers/posthog-provider';
 import { ConvexClientProvider } from './convex-provider';
 import { QueryProvider } from './query-provider';
 
@@ -19,12 +21,16 @@ interface ProvidersProps {
 
 export const Providers = ({ children }: ProvidersProps): React.ReactElement => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-    <NuqsAdapter>
-      <QueryProvider>
-        <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
-        </WorkOsWidgets>
-      </QueryProvider>
-    </NuqsAdapter>
+    <Suspense fallback={null}>
+      <PostHogProvider>
+        <NuqsAdapter>
+          <QueryProvider>
+            <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
+              <ConvexClientProvider>{children}</ConvexClientProvider>
+            </WorkOsWidgets>
+          </QueryProvider>
+        </NuqsAdapter>
+      </PostHogProvider>
+    </Suspense>
   </ThemeProvider>
 );
