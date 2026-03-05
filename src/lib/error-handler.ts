@@ -123,15 +123,27 @@ export function captureError(
 
   // Log to PostHog
   if (typeof window !== 'undefined' && posthog) {
+    // Use PostHog's exception capture format
     posthog.capture('$exception', {
       $exception_message: report.message,
       $exception_stack_trace_raw: report.stack,
-      $exception_type: category,
+      $exception_type: normalizedError.name || category,
+      $exception_source: 'custom',
       $exception_fingerprint: fingerprint,
+      $exception_personURL: typeof window !== 'undefined' ? window.location.href : undefined,
+      // Custom properties
       error_id: errorId,
-      severity,
+      error_category: category,
+      error_severity: severity,
       ...report.context,
       ...report.context.metadata,
+    });
+    
+    // Also log to console in session replay
+    console.error(`[${category.toUpperCase()}] Error captured:`, {
+      errorId,
+      message: report.message,
+      severity,
     });
   }
 

@@ -1,7 +1,11 @@
 /**
  * PostHog Configuration
  * 
- * Initialize PostHog for error tracking and analytics.
+ * Full PostHog integration for Next.js App Router:
+ * - Product Analytics
+ * - Session Replay
+ * - Error Tracking
+ * - Console Log Capture
  */
 
 import posthog from 'posthog-js';
@@ -16,48 +20,54 @@ export const isPostHogEnabled = !!POSTHOG_KEY;
  */
 export function initPostHog(): void {
   if (typeof window === 'undefined' || !POSTHOG_KEY) {
-    console.log('[PostHog] Not initializing:', typeof window === 'undefined' ? 'SSR' : 'No API key');
     return;
   }
 
   // Don't initialize twice
   if (posthog.__loaded) {
-    console.log('[PostHog] Already loaded');
     return;
   }
-
-  console.log('[PostHog] Initializing with key:', POSTHOG_KEY.slice(0, 10) + '...');
 
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
     ui_host: 'https://us.posthog.com',
     
-    // Capture errors automatically
-    autocapture: true,
-    capture_pageview: false, // We handle this manually in provider
+    // ===== PAGE VIEWS =====
+    capture_pageview: false, // We capture manually for better SPA support
     capture_pageleave: true,
     
-    // Error tracking
+    // ===== AUTOCAPTURE =====
+    autocapture: true,
+    
+    // ===== SESSION REPLAY =====
+    disable_session_recording: false,
+    session_recording: {
+      // Mask all text inputs by default for privacy
+      maskAllInputs: false,
+      maskInputOptions: {
+        password: true,
+      },
+      // Capture network requests
+      recordCrossOriginIframes: true,
+    },
+    
+    // Record console logs in session replay
     enable_recording_console_log: true,
     
-    // Privacy settings
-    respect_dnt: false, // Disable for testing
+    // ===== ERROR TRACKING =====
+    capture_exceptions: true, // Auto-capture unhandled errors
     
-    // Session recording (for debugging errors)
-    disable_session_recording: false,
+    // ===== PRIVACY =====
+    respect_dnt: false,
+    secure_cookie: true,
     
-    // Persistence
+    // ===== PERSISTENCE =====
     persistence: 'localStorage+cookie',
     
-    // Debug mode in development
-    debug: process.env.NODE_ENV === 'development',
-    
-    // Performance
+    // ===== PERFORMANCE =====
     loaded: (ph) => {
-      console.log('[PostHog] Loaded successfully');
-      // Disable in development unless explicitly enabled
+      // In development, only enable if explicitly set
       if (process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_POSTHOG_DEV) {
-        console.log('[PostHog] Opting out in dev mode');
         ph.opt_out_capturing();
       }
     },
@@ -65,14 +75,29 @@ export function initPostHog(): void {
 }
 
 /**
- * Identify user for error tracking context
+ * Capture page view - call on route change
+ */
+export function capturePageView(url: string): void {
+  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  posthog.capture('$pageview', { $current_url: url });
+}
+
+/**
+ * Capture page leave
+ */
+export function capturePageLeave(): void {
+  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  posthog.capture('$pageleave');
+}
+
+/**
+ * Identify user for tracking context
  */
 export function identifyUser(
   userId: string,
   properties?: Record<string, unknown>
 ): void {
   if (!isPostHogEnabled || typeof window === 'undefined') return;
-  
   posthog.identify(userId, properties);
 }
 
@@ -81,7 +106,6 @@ export function identifyUser(
  */
 export function resetUser(): void {
   if (!isPostHogEnabled || typeof window === 'undefined') return;
-  
   posthog.reset();
 }
 
@@ -93,8 +117,39 @@ export function trackEvent(
   properties?: Record<string, unknown>
 ): void {
   if (!isPostHogEnabled || typeof window === 'undefined') return;
-  
   posthog.capture(eventName, properties);
+}
+
+/**
+ * Get PostHog feature flag value
+ */
+export function getFeatureFlag(flagKey: string): boolean | string | undefined {
+  if (!isPostHogEnabled || typeof window === 'undefined') return undefined;
+  return posthog.getFeatureFlag(flagKey);
+}
+
+/**
+ * Check if feature flag is enabled
+ */
+export function isFeatureEnabled(flagKey: string): boolean {
+  if (!isPostHogEnabled || typeof window === 'undefined') return false;
+  return posthog.isFeatureEnabled(flagKey) ?? false;
+}
+
+/**
+ * Start session recording manually
+ */
+export function startSessionRecording(): void {
+  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  posthog.startSessionRecording();
+}
+
+/**
+ * Stop session recording
+ */
+export function stopSessionRecording(): void {
+  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  posthog.stopSessionRecording();
 }
 
 export { posthog };
