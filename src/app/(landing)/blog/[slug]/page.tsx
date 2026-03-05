@@ -19,8 +19,13 @@ interface PostPageProps {
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   if (!isSanityConfigured) return [];
-  const slugs = await client.fetch<string[]>(getPostSlugsQuery);
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await client.fetch<string[]>(getPostSlugsQuery);
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.error('Failed to fetch post slugs:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({

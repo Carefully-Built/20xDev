@@ -21,8 +21,13 @@ interface CategoryPageProps {
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   if (!isSanityConfigured) return [];
-  const slugs = await client.fetch<string[]>(getCategorySlugsQuery);
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await client.fetch<string[]>(getCategorySlugsQuery);
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.error('Failed to fetch category slugs:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({
