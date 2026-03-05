@@ -13,6 +13,8 @@ const PUBLIC_PATHS = [
   '/update-password',
   '/privacy',
   '/terms',
+  '/blog',
+  '/studio',
   '/api/auth',
   '/api/test-workos',
 ];
