@@ -95,6 +95,8 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 
 ## Getting Started
 
+> ⚠️ **Important:** This project uses [Bun](https://bun.sh) as the package manager and runtime. Make sure you have Bun installed before proceeding.
+
 ```bash
 # Install dependencies
 bun install
@@ -164,7 +166,7 @@ Blueprint enforces strict code quality:
 - [ ] Animations (Animate UI)
 
 ### 📋 Planned
-- [ ] Analytics (Plausible)
+- [ ] Analytics (DataFast)
 - [ ] Product analytics (PostHog)
 - [ ] Customer support (Intercom)
 - [ ] Feature requests (Featurebase)
