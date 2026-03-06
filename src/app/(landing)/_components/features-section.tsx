@@ -1,5 +1,9 @@
+'use client';
+
 import { Rocket, Bot, Building2, Layers } from 'lucide-react';
 
+import { Fade } from '@/components/animate-ui/fade';
+import { Slide } from '@/components/animate-ui/slide';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const features = [
@@ -29,28 +33,32 @@ export function FeaturesSection(): React.ReactElement {
   return (
     <section id="features" className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything you need to ship
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Stop rebuilding the same infrastructure. Start with a foundation that scales.
-          </p>
-        </div>
+        <Fade inView inViewOnce inViewMargin="-50px">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Everything you need to ship
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Stop rebuilding the same infrastructure. Start with a foundation that scales.
+            </p>
+          </div>
+        </Fade>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => (
-            <Card key={feature.title} className="border-0 bg-muted/50 transition-colors hover:bg-muted">
-              <CardHeader>
-                <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                  <feature.icon className="size-5 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
-                <CardDescription className="text-sm leading-relaxed">
-                  {feature.description}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+          {features.map((feature, i) => (
+            <Slide key={feature.title} direction="up" delay={i * 150} inView inViewOnce inViewMargin="-50px">
+              <Card className="border-0 bg-muted/50 transition-colors hover:bg-muted">
+                <CardHeader>
+                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                    <feature.icon className="size-5 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  <CardDescription className="text-sm leading-relaxed">
+                    {feature.description}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Slide>
           ))}
         </div>
       </div>
