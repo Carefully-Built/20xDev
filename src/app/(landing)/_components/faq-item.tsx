@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+
+import type { ReactNode } from 'react';
+
 import { cn } from '@/lib/utils';
 
 export interface FaqItemProps {
-  readonly question: string;
-  readonly answer: string;
+  readonly question: ReactNode;
+  readonly answer: ReactNode;
 }
 
 export function FaqItem({ question, answer }: FaqItemProps): React.ReactElement {
