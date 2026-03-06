@@ -1,7 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { motion, isMotionComponent, type HTMLMotionProps } from 'motion/react';
+import * as React from 'react';
+
 import { cn } from '@/lib/utils';
 
 type AnyProps = Record<string, unknown>;
@@ -28,7 +29,7 @@ function mergeRefs<T>(
       if (typeof ref === 'function') {
         ref(node);
       } else {
-        (ref as React.RefObject<T | null>).current = node;
+        (ref as unknown as React.RefObject<T | null>).current = node;
       }
     });
   };
@@ -43,7 +44,7 @@ function mergeProps<T extends HTMLElement>(
   if (childProps.className || slotProps.className) {
     merged.className = cn(
       childProps.className as string,
-      slotProps.className as string,
+      slotProps.className,
     );
   }
 
@@ -61,12 +62,11 @@ function Slot<T extends HTMLElement = HTMLElement>({
   children,
   ref,
   ...props
-}: SlotProps<T>) {
-  if (!children || !React.isValidElement(children)) return null;
+}: SlotProps<T>): React.ReactElement | null {
+  if (!React.isValidElement(children)) return null;
 
   const isAlreadyMotion =
     typeof children.type === 'object' &&
-    children.type !== null &&
     isMotionComponent(children.type);
 
   const Base = isAlreadyMotion

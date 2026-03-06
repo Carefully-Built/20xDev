@@ -1,7 +1,7 @@
 'use client';
 
-import * as React from 'react';
 import { motion, type HTMLMotionProps } from 'motion/react';
+import * as React from 'react';
 
 import {
   useIsInView,
@@ -34,7 +34,7 @@ function Fade({
   opacity = 1,
   asChild = false,
   ...props
-}: FadeProps) {
+}: FadeProps): React.ReactElement {
   const { ref: localRef, isInView } = useIsInView(
     ref as React.Ref<HTMLElement>,
     {
@@ -55,7 +55,7 @@ function Fade({
     },
     transition: {
       ...transition,
-      delay: (transition?.delay ?? 0) + delay / 1000,
+      delay: (transition.delay ?? 0) + delay / 1000,
     },
     ...props,
   };
@@ -77,7 +77,7 @@ function Fades({
   delay = 0,
   holdDelay = 0,
   ...props
-}: FadeListProps) {
+}: FadeListProps): React.ReactElement {
   const array = React.Children.toArray(children) as React.ReactElement[];
 
   return (

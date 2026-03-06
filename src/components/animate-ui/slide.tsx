@@ -1,7 +1,7 @@
 'use client';
 
-import * as React from 'react';
 import { motion, type HTMLMotionProps, type Variant } from 'motion/react';
+import * as React from 'react';
 
 import {
   useIsInView,
@@ -36,7 +36,7 @@ function Slide({
   offset = 100,
   asChild = false,
   ...props
-}: SlideProps) {
+}: SlideProps): React.ReactElement {
   const { ref: localRef, isInView } = useIsInView(
     ref as React.Ref<HTMLElement>,
     {
@@ -60,7 +60,7 @@ function Slide({
     variants: { hidden, visible },
     transition: {
       ...transition,
-      delay: (transition?.delay ?? 0) + delay / 1000,
+      delay: (transition.delay ?? 0) + delay / 1000,
     },
     ...props,
   };
@@ -82,7 +82,7 @@ function Slides({
   delay = 0,
   holdDelay = 0,
   ...props
-}: SlideListProps) {
+}: SlideListProps): React.ReactElement {
   const array = React.Children.toArray(children) as React.ReactElement[];
 
   return (
