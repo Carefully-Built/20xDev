@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -49,37 +50,37 @@ export default function ContactPage(): React.ReactElement {
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Get in Touch
+            <T id="contact.title">Get in Touch</T>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Have a question or want to work together? We&apos;d love to hear from you.
+            <T id="contact.description">Have a question or want to work together? We&apos;d love to hear from you.</T>
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Send us a message</CardTitle>
+            <CardTitle><T id="contact.formTitle">Send us a message</T></CardTitle>
             <CardDescription>
-              Fill out the form below and we&apos;ll get back to you as soon as possible.
+              <T id="contact.formDescription">Fill out the form below and we&apos;ll get back to you as soon as possible.</T>
             </CardDescription>
           </CardHeader>
           <CardContent>
             {status === 'success' ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <CheckCircle className="size-12 text-green-500 mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Message Sent!</h3>
+                <h3 className="text-lg font-semibold mb-2"><T id="contact.successTitle">Message Sent!</T></h3>
                 <p className="text-muted-foreground mb-6">
-                  Thank you for reaching out. We&apos;ll get back to you soon.
+                  <T id="contact.successDescription">Thank you for reaching out. We&apos;ll get back to you soon.</T>
                 </p>
                 <Button variant="outline" onClick={() => { setStatus('idle'); }}>
-                  Send Another Message
+                  <T id="contact.sendAnother">Send Another Message</T>
                 </Button>
               </div>
             ) : (
               <form onSubmit={(e) => void handleSubmit(e)} className="space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name"><T id="contact.nameLabel">Name</T></Label>
                     <Input
                       id="name"
                       name="name"
@@ -89,7 +90,7 @@ export default function ContactPage(): React.ReactElement {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email"><T id="contact.emailLabel">Email</T></Label>
                     <Input
                       id="email"
                       name="email"
@@ -102,7 +103,7 @@ export default function ContactPage(): React.ReactElement {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message"><T id="contact.messageLabel">Message</T></Label>
                   <Textarea
                     id="message"
                     name="message"
@@ -124,12 +125,12 @@ export default function ContactPage(): React.ReactElement {
                   {status === 'submitting' ? (
                     <>
                       <Loader2 className="mr-2 size-4 animate-spin" />
-                      Sending...
+                      <T id="contact.sending">Sending...</T>
                     </>
                   ) : (
                     <>
                       <Send className="mr-2 size-4" />
-                      Send Message
+                      <T id="contact.sendMessage">Send Message</T>
                     </>
                   )}
                 </Button>
