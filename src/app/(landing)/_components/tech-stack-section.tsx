@@ -1,5 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+
+import { Fade } from '@/components/animate-ui/fade';
+import { Slide } from '@/components/animate-ui/slide';
 
 interface TechItem {
   readonly name: string;
@@ -255,21 +260,24 @@ export function TechStackSection(): React.ReactElement {
   return (
     <section className="border-t bg-muted/30 py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-            Built with the best
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-            The perfect stack for AI-generated B2B SaaS
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Every tool carefully chosen for a reason. Modern, scalable, and designed to work together beautifully.
-          </p>
-        </div>
+        <Fade inView inViewOnce inViewMargin="-50px">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Built with the best
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              The perfect stack for AI-generated B2B SaaS
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Every tool carefully chosen for a reason. Modern, scalable, and designed to work together beautifully.
+            </p>
+          </div>
+        </Fade>
 
         <div className="mt-16 space-y-16">
-          {techCategories.map((category) => (
-            <div key={category.title}>
+          {techCategories.map((category, i) => (
+            <Slide key={category.title} direction="up" delay={i * 50} inView inViewOnce inViewMargin="-80px">
+              <div>
               <h3 className="mb-6 text-lg font-semibold text-muted-foreground">
                 {category.title}
               </h3>
@@ -305,7 +313,8 @@ export function TechStackSection(): React.ReactElement {
                   </Link>
                 ))}
               </div>
-            </div>
+              </div>
+            </Slide>
           ))}
         </div>
       </div>

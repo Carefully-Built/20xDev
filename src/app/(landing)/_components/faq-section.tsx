@@ -1,5 +1,7 @@
 'use client';
 
+import { Fade } from '@/components/animate-ui/fade';
+
 import { GenericFaqSection } from './generic-faq-section';
 import type { FaqItemProps } from './faq-item';
 
@@ -48,10 +50,12 @@ const faqs: readonly FaqItemProps[] = [
 
 export function FaqSection(): React.ReactElement {
   return (
-    <GenericFaqSection
-      title="Frequently asked questions"
-      description="Everything you need to know about Blueprint."
-      items={faqs}
-    />
+    <Fade inView inViewOnce inViewMargin="-50px">
+      <GenericFaqSection
+        title="Frequently asked questions"
+        description="Everything you need to know about Blueprint."
+        items={faqs}
+      />
+    </Fade>
   );
 }
