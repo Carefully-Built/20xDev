@@ -1,12 +1,17 @@
 'use client';
 
+import { T } from 'gt-next';
 import { Rocket, Bot, Building2, Layers } from 'lucide-react';
+
+import type { LucideIcon } from 'lucide-react';
 
 import { Fade } from '@/components/animate-ui/fade';
 import { Slide } from '@/components/animate-ui/slide';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-const features = [
+const featureKeys = ['productionReady', 'aiOptimized', 'b2bReady', 'modernStack'] as const;
+
+const features: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: Rocket,
     title: 'Production-Ready',
@@ -36,10 +41,10 @@ export function FeaturesSection(): React.ReactElement {
         <Fade inView inViewOnce inViewMargin="-50px">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Everything you need to ship
+              <T id="features.title">Everything you need to ship</T>
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Stop rebuilding the same infrastructure. Start with a foundation that scales.
+              <T id="features.description">Stop rebuilding the same infrastructure. Start with a foundation that scales.</T>
             </p>
           </div>
         </Fade>
@@ -52,9 +57,11 @@ export function FeaturesSection(): React.ReactElement {
                   <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
                     <feature.icon className="size-5 text-primary" />
                   </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  <CardTitle className="text-lg">
+                    <T id={`features.${featureKeys[i]}.title`}>{feature.title}</T>
+                  </CardTitle>
                   <CardDescription className="text-sm leading-relaxed">
-                    {feature.description}
+                    <T id={`features.${featureKeys[i]}.desc`}>{feature.description}</T>
                   </CardDescription>
                 </CardHeader>
               </Card>
