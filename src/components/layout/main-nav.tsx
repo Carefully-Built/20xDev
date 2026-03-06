@@ -1,3 +1,4 @@
+import { T } from 'gt-next';
 import Link from 'next/link';
 
 import type { NavItem } from '@/types';
@@ -18,7 +19,7 @@ export function MainNav({ items, className }: MainNavProps): React.ReactElement 
           href={item.href}
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          {item.title}
+          <T id={`nav.${item.title.toLowerCase()}`}>{item.title}</T>
         </Link>
       ))}
     </nav>

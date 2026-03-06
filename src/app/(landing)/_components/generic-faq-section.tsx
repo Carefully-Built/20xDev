@@ -1,10 +1,14 @@
 'use client';
 
+import { T } from 'gt-next';
+
+import type { ReactNode } from 'react';
+
 import { FaqItem, type FaqItemProps } from './faq-item';
 
 interface GenericFaqSectionProps {
-  readonly title: string;
-  readonly description: string;
+  readonly title: ReactNode;
+  readonly description: ReactNode;
   readonly items: readonly FaqItemProps[];
   readonly contactEmail?: string;
 }
@@ -25,16 +29,16 @@ export function GenericFaqSection({
         </div>
 
         <div className="mt-12">
-          {items.map((item) => (
-            <FaqItem key={item.question} question={item.question} answer={item.answer} />
+          {items.map((item, index) => (
+            <FaqItem key={index} question={item.question} answer={item.answer} />
           ))}
         </div>
 
         <div className="mt-12 text-center">
           <p className="text-muted-foreground">
-            Still have questions?{' '}
+            <T id="faq.stillHaveQuestions">Still have questions?</T>{' '}
             <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">
-              Contact us
+              <T id="faq.contactUs">Contact us</T>
             </a>
           </p>
         </div>

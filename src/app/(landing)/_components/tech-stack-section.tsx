@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -263,13 +264,13 @@ export function TechStackSection(): React.ReactElement {
         <Fade inView inViewOnce inViewMargin="-50px">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-              Built with the best
+              <T id="techStack.subtitle">Built with the best</T>
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-              The perfect stack for AI-generated B2B SaaS
+              <T id="techStack.title">The perfect stack for AI-generated B2B SaaS</T>
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Every tool carefully chosen for a reason. Modern, scalable, and designed to work together beautifully.
+              <T id="techStack.description">Every tool carefully chosen for a reason. Modern, scalable, and designed to work together beautifully.</T>
             </p>
           </div>
         </Fade>

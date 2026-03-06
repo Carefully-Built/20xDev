@@ -1,3 +1,4 @@
+import { T } from 'gt-next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter } from 'lucide-react';
@@ -6,14 +7,14 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 const footerLinks = {
   product: [
-    { label: 'Features', href: '/#features' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Documentation', href: '/docs' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Features', href: '/#features', id: 'features' },
+    { label: 'Pricing', href: '/pricing', id: 'pricing' },
+    { label: 'Documentation', href: '/docs', id: 'documentation' },
+    { label: 'Contact', href: '/contact', id: 'contact' },
   ],
   legal: [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy', id: 'privacyPolicy' },
+    { label: 'Terms of Service', href: '/terms', id: 'termsOfService' },
   ],
   social: [
     { label: 'GitHub', href: 'https://github.com', icon: Github },
@@ -39,22 +40,23 @@ export function Footer(): React.ReactElement {
               <span className="text-xl font-semibold">Blueprint</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, 
-              payments, and real-time data.
+              <T id="footer.description">
+                Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.
+              </T>
             </p>
           </div>
 
           {/* Product Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Product</h3>
+            <h3 className="mb-4 text-sm font-semibold"><T id="footer.product">Product</T></h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.href}>
-                  <Link 
-                    href={link.href} 
+                  <Link
+                    href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    {link.label}
+                    <T id={`footer.link.${link.id}`}>{link.label}</T>
                   </Link>
                 </li>
               ))}
@@ -63,15 +65,15 @@ export function Footer(): React.ReactElement {
 
           {/* Legal Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Legal</h3>
+            <h3 className="mb-4 text-sm font-semibold"><T id="footer.legal">Legal</T></h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
-                  <Link 
-                    href={link.href} 
+                  <Link
+                    href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    {link.label}
+                    <T id={`footer.link.${link.id}`}>{link.label}</T>
                   </Link>
                 </li>
               ))}
@@ -82,7 +84,7 @@ export function Footer(): React.ReactElement {
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Blueprint. All rights reserved.
+            &copy; {new Date().getFullYear()} Blueprint. <T id="footer.copyright">All rights reserved.</T>
           </p>
           <div className="flex items-center gap-4">
             <ThemeToggle />

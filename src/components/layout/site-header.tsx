@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { AuthButton } from './auth-button';
+import { LocaleSwitcher } from './locale-switcher';
 import { MainNav } from './main-nav';
 import { MobileNav } from './mobile-nav';
 
@@ -27,10 +28,12 @@ export function SiteHeader(): React.ReactElement {
 
         <div className="hidden items-center gap-4 md:flex">
           <MainNav items={landingNav} />
+          <LocaleSwitcher />
           <AuthButton />
         </div>
 
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center gap-2 md:hidden">
+          <LocaleSwitcher />
           <AuthButton />
         </div>
       </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -27,12 +28,12 @@ export function MobileNav({ items }: MobileNavProps): React.ReactElement {
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle menu</span>
+          <span className="sr-only"><T id="nav.toggleMenu">Toggle menu</T></span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
-          <SheetTitle className="text-left">Blueprint</SheetTitle>
+          <SheetTitle className="text-left"><T id="nav.brand">Blueprint</T></SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-4 px-4">
           {items.map((item) => (
@@ -44,7 +45,7 @@ export function MobileNav({ items }: MobileNavProps): React.ReactElement {
                 setOpen(false);
               }}
             >
-              {item.title}
+              <T id={`nav.${item.title.toLowerCase()}`}>{item.title}</T>
             </Link>
           ))}
           <div className="mt-4 border-t pt-4">
@@ -55,7 +56,7 @@ export function MobileNav({ items }: MobileNavProps): React.ReactElement {
                 setOpen(false);
               }}
             >
-              <Link href="/login">Sign In</Link>
+              <Link href="/login"><T id="nav.signIn">Sign In</T></Link>
             </Button>
           </div>
         </nav>

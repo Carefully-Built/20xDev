@@ -1,3 +1,4 @@
+import { T } from 'gt-next';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ export async function AuthButton(): Promise<React.ReactElement> {
   return (
     <Button asChild>
       <Link href={isLoggedIn ? '/dashboard' : '/login'}>
-        {isLoggedIn ? 'Dashboard' : 'Sign In'}
+        {isLoggedIn ? <T id="nav.dashboard">Dashboard</T> : <T id="nav.signIn">Sign In</T>}
       </Link>
     </Button>
   );
