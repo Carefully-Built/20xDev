@@ -16,7 +16,7 @@
 
 ## Tasks
 
-- [ ] **Task 1: Create feature data config (`src/config/features.ts`)**
+- [x] **Task 1: Create feature data config (`src/config/features.ts`)**
   - File: `src/config/features.ts` (CREATE)
   - Pattern: copy structure from `src/config/pricing.ts` (readonly interfaces, `as const` arrays)
   - Imports:
@@ -148,7 +148,7 @@
     ```
   - Criterion: `bun run typecheck` passes, `grep -c "readonly" src/config/features.ts` returns >= 3
 
-- [ ] **Task 2: Create FeatureGrid component (`src/components/marketing/feature-grid.tsx`)**
+- [x] **Task 2: Create FeatureGrid component (`src/components/marketing/feature-grid.tsx`)**
   - File: `src/components/marketing/feature-grid.tsx` (CREATE)
   - Pattern: follow `src/app/(landing)/_components/features-section.tsx` for section structure, card rendering, and animation pattern
   - Imports:
@@ -179,7 +179,7 @@
   - Use i18n keys: `featureGrid.item0.title`, `featureGrid.item0.desc`, etc. (index-based to match array)
   - Criterion: `bun run typecheck` passes, file exports `FeatureGrid`
 
-- [ ] **Task 3: Create FeatureWithImage component (`src/components/marketing/feature-with-image.tsx`)**
+- [x] **Task 3: Create FeatureWithImage component (`src/components/marketing/feature-with-image.tsx`)**
   - File: `src/components/marketing/feature-with-image.tsx` (CREATE)
   - Pattern: follow `src/app/(landing)/_components/tech-stack-section.tsx` for section structure with `border-t bg-muted/30` background variant
   - Imports:
@@ -214,7 +214,7 @@
   - Use i18n keys: `featureWithImage.item0.title`, `featureWithImage.item0.desc`, etc.
   - Criterion: `bun run typecheck` passes, file exports `FeatureWithImage`
 
-- [ ] **Task 4: Create FeatureList component (`src/components/marketing/feature-list.tsx`)**
+- [x] **Task 4: Create FeatureList component (`src/components/marketing/feature-list.tsx`)**
   - File: `src/components/marketing/feature-list.tsx` (CREATE)
   - Pattern: follow `src/components/marketing/pricing-card.tsx` for list-with-icon pattern (Check icon style)
   - Imports:
@@ -244,7 +244,7 @@
   - Use i18n keys: `featureList.item0.title`, `featureList.item0.desc`, etc.
   - Criterion: `bun run typecheck` passes, file exports `FeatureList`
 
-- [ ] **Task 5: Update landing page to use new feature sections (`src/app/(landing)/page.tsx`)**
+- [x] **Task 5: Update landing page to use new feature sections (`src/app/(landing)/page.tsx`)**
   - File: `src/app/(landing)/page.tsx` (MODIFY)
   - Remove import: `import { FeaturesSection } from './_components/features-section';`
   - Add imports:
@@ -267,7 +267,7 @@
   - Keep ordering: HeroSection -> FeatureGrid -> FeatureWithImage -> FeatureList -> TechStackSection -> FaqSection -> CtaSection
   - Criterion: `bun run build` passes, landing page renders all 3 new sections
 
-- [ ] **Task 6: Remove old FeaturesSection (cleanup)**
+- [x] **Task 6: Remove old FeaturesSection (cleanup)**
   - File: `src/app/(landing)/_components/features-section.tsx` (DELETE)
   - Verify no other files import it:
     ```bash
@@ -276,7 +276,7 @@
     Should return 0 matches after Task 5 changes.
   - Criterion: file deleted, `bun run build` passes, `grep -r "FeaturesSection" src/` returns 0 matches
 
-- [ ] **Task 7: Create placeholder feature images**
+- [x] **Task 7: Create placeholder feature images**
   - Directory: `public/images/features/` (CREATE)
   - Create 3 placeholder SVG images for the FeatureWithImage section:
     - `public/images/features/dashboard.png` — placeholder (can be a simple colored rectangle or screenshot later)
@@ -291,7 +291,7 @@
   - Alternative: use placeholder dimensions div with text "Screenshot coming soon" if images don't exist yet. The component should still render without errors.
   - Criterion: `bun run build` passes, no runtime errors on landing page
 
-- [ ] **Task 8: Verify all acceptance criteria**
+- [x] **Task 8: Verify all acceptance criteria**
   - Run: `bun run build` — must pass
   - Run: `grep -r "feature" src/components/marketing/` — must return `feature-grid.tsx`, `feature-with-image.tsx`, `feature-list.tsx`
   - Run: `bun run typecheck` — must pass
