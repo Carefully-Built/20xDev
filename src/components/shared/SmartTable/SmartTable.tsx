@@ -7,7 +7,7 @@ import type { SmartTableProps } from './types';
 
 import { useIsMobile } from '@/hooks/use-mobile';
 
-export function SmartTable<T>({
+export function SmartTable({
   data,
   columns,
   isLoading,
@@ -29,7 +29,7 @@ export function SmartTable<T>({
   stickyHeader,
   maxHeight,
   fullHeight,
-}: SmartTableProps<T>): React.ReactElement {
+}: SmartTableProps): React.ReactElement {
   const isMobile = useIsMobile();
 
   if (isMobile) {

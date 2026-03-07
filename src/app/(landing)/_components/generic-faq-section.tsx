@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 
 import type { ReactNode } from 'react';
 
@@ -36,9 +35,9 @@ export function GenericFaqSection({
 
         <div className="mt-12 text-center">
           <p className="text-muted-foreground">
-            <T id="faq.stillHaveQuestions">Still have questions?</T>{' '}
+            Still have questions?{' '}
             <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">
-              <T id="faq.contactUs">Contact us</T>
+              Contact us
             </a>
           </p>
         </div>

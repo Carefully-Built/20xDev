@@ -1,4 +1,3 @@
-import { T } from 'gt-next';
 import { Check, X } from 'lucide-react';
 import Link from 'next/link';
 
@@ -26,7 +25,7 @@ export function PricingCard({ tier, isAnnual }: PricingCardProps): React.ReactEl
       {tier.recommended && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge variant="default" className="px-3 py-1">
-            <T id="pricing.recommended">Recommended</T>
+            Recommended
           </Badge>
         </div>
       )}
@@ -40,12 +39,12 @@ export function PricingCard({ tier, isAnnual }: PricingCardProps): React.ReactEl
         <div className="flex items-baseline gap-1">
           <span className="text-4xl font-bold tracking-tight">${price}</span>
           <span className="text-sm text-muted-foreground">
-            /{isAnnual ? <T id="pricing.perMonthAnnual">mo</T> : <T id="pricing.perMonth">mo</T>}
+            /{isAnnual ? mo : mo}
           </span>
         </div>
         {isAnnual && (
           <p className="mt-1 text-xs text-muted-foreground">
-            <T id="pricing.billedAnnually">Billed annually (${price * 12}/yr)</T>
+            Billed annually (${price * 12}/yr)
           </p>
         )}
       </div>

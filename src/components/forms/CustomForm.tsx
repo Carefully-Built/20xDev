@@ -8,10 +8,10 @@ import type { DefaultValues, FieldValues, SubmitHandler, UseFormReturn } from 'r
 import type { z } from 'zod';
 
 interface CustomFormProps<T extends FieldValues> {
-  readonly schema: z.ZodType<T>;
-  readonly defaultValues: DefaultValues<T>;
-  readonly onSubmit: SubmitHandler<T>;
-  readonly children: ReactNode | ((methods: UseFormReturn<T>) => ReactNode);
+  readonly schema: z.ZodType;
+  readonly defaultValues: DefaultValues;
+  readonly onSubmit: SubmitHandler;
+  readonly children: ReactNode | ((methods: UseFormReturn) => ReactNode);
   readonly id?: string;
   readonly className?: string;
 }
@@ -23,8 +23,8 @@ export function CustomForm<T extends FieldValues>({
   children,
   id,
   className,
-}: CustomFormProps<T>): React.ReactElement {
-  const methods = useForm<T>({
+}: CustomFormProps): React.ReactElement {
+  const methods = useForm({
     // Type assertion needed due to Zod 4.x / hookform resolver type mismatch
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     resolver: zodResolver(schema as any) as any,

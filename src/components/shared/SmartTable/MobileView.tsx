@@ -13,13 +13,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
-interface MobileViewProps<T> {
+interface MobileViewProps {
   data: T[];
-  columns: Column<T>[];
+  columns: Column[];
   isLoading: boolean;
   skeletonRows: number;
   actions?: ActionType[];
-  actionHandlers?: ActionHandlers<T>;
+  actionHandlers?: ActionHandlers;
   renderActions?: (item: T) => ReactNode;
   noDataMessage: string;
   getRowKey: (item: T) => string | number;
@@ -35,7 +35,7 @@ const ActionIcons: Record<ActionType, typeof Eye> = {
   delete: Trash2,
 };
 
-export function MobileView<T>({
+export function MobileView({
   data,
   columns,
   isLoading,
@@ -49,11 +49,11 @@ export function MobileView<T>({
   renderMobileCard,
   pagination,
   fullHeight = false,
-}: MobileViewProps<T>): React.ReactElement {
+}: MobileViewProps): React.ReactElement {
   const visibleColumns = columns.filter((col) => !col.hideOnMobile);
   const hasActions = (actions?.length ?? 0) > 0 || renderActions !== undefined;
 
-  const renderValue = (column: Column<T>, item: T): ReactNode => {
+  const renderValue = (column: Column, item: T): ReactNode => {
     const value = column.accessor
       ? typeof column.accessor === 'string' && column.accessor.includes('.')
         ? getNestedValue(item, column.accessor)
@@ -80,7 +80,7 @@ export function MobileView<T>({
       <div className="flex items-center gap-1">
         {actions.map((action) => {
           const Icon = ActionIcons[action];
-          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers<T>];
+          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers];
           
           return (
             <Button

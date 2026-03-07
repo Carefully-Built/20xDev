@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import { T } from 'gt-next';
 
 import type { Post } from '@/types/blog';
 import { urlForImage } from '@/sanity/lib/image';
@@ -42,7 +41,7 @@ export function BlogPostHeader({
         <span aria-hidden="true">·</span>
         <span>
           {readingTime}{' '}
-          <T id="blog.minRead">min read</T>
+          min read
         </span>
       </div>
       {post.mainImage ? (

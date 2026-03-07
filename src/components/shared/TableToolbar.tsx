@@ -23,7 +23,7 @@ import type { FilterOption } from '@/lib/filters';
 interface FilterDropdownProps<T extends string> {
   readonly label: string;
   readonly value: T | 'all';
-  readonly options: readonly FilterOption<T>[];
+  readonly options: readonly FilterOption[];
   readonly onChange: (value: T | 'all') => void;
   readonly className?: string;
 }
@@ -34,7 +34,7 @@ export function FilterDropdown<T extends string>({
   options,
   onChange,
   className,
-}: FilterDropdownProps<T>): React.ReactElement {
+}: FilterDropdownProps): React.ReactElement {
   return (
     <Select value={value} onValueChange={(v) => onChange(v as T | 'all')}>
       <SelectTrigger className={className ?? 'w-full sm:w-[140px]'}>
@@ -99,7 +99,7 @@ export function SearchInput({
 export interface FilterConfig<T extends string = string> {
   readonly key: string;
   readonly label: string;
-  readonly options: readonly FilterOption<T>[];
+  readonly options: readonly FilterOption[];
 }
 
 export interface TableToolbarProps {
@@ -223,13 +223,13 @@ export function TableToolbar({
 // USE TABLE FILTERS HOOK (with nuqs)
 // ============================================================
 
-export interface UseTableFiltersOptions<T> {
+export interface UseTableFiltersOptions {
   readonly data: T[];
   readonly searchFields?: (keyof T)[];
   readonly filterKeys?: (keyof T)[];
 }
 
-export interface UseTableFiltersReturn<T> {
+export interface UseTableFiltersReturn {
   readonly filteredData: T[];
   readonly search: string;
   readonly setSearch: (value: string) => void;
@@ -242,7 +242,7 @@ export function useTableFilters<T extends Record<string, unknown>>({
   data,
   searchFields = [],
   filterKeys = [],
-}: UseTableFiltersOptions<T>): UseTableFiltersReturn<T> {
+}: UseTableFiltersOptions): UseTableFiltersReturn {
   // Use nuqs for URL state
   const [search, setSearchRaw] = useQueryState('q', parseAsString.withDefault(''));
   const [statusFilter, setStatusFilter] = useQueryState('status', parseAsString.withDefault('all'));

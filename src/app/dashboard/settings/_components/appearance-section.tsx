@@ -1,7 +1,6 @@
 'use client';
 
 import { Moon, Sun, Monitor, Check } from 'lucide-react';
-import { T } from 'gt-next';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
@@ -20,9 +19,9 @@ export function AppearanceSection(): React.ReactElement {
     return (
       <Card>
         <CardHeader>
-          <CardTitle><T>Theme</T></CardTitle>
+          <CardTitle>Theme</CardTitle>
           <CardDescription>
-            <T>Select your preferred theme for the dashboard.</T>
+            Select your preferred theme for the dashboard.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -30,22 +29,22 @@ export function AppearanceSection(): React.ReactElement {
             <div className="relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-muted p-6 transition-colors">
               <Sun className="size-8 text-muted-foreground" />
               <div className="text-center">
-                <p className="font-medium"><T>Light</T></p>
-                <p className="text-xs text-muted-foreground"><T>A clean, bright interface</T></p>
+                <p className="font-medium">Light</p>
+                <p className="text-xs text-muted-foreground">A clean, bright interface</p>
               </div>
             </div>
             <div className="relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-muted p-6 transition-colors">
               <Moon className="size-8 text-muted-foreground" />
               <div className="text-center">
-                <p className="font-medium"><T>Dark</T></p>
-                <p className="text-xs text-muted-foreground"><T>Easy on the eyes</T></p>
+                <p className="font-medium">Dark</p>
+                <p className="text-xs text-muted-foreground">Easy on the eyes</p>
               </div>
             </div>
             <div className="relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-muted p-6 transition-colors">
               <Monitor className="size-8 text-muted-foreground" />
               <div className="text-center">
-                <p className="font-medium"><T>System</T></p>
-                <p className="text-xs text-muted-foreground"><T>Match your device settings</T></p>
+                <p className="font-medium">System</p>
+                <p className="text-xs text-muted-foreground">Match your device settings</p>
               </div>
             </div>
           </div>
@@ -57,9 +56,9 @@ export function AppearanceSection(): React.ReactElement {
   return (
     <Card>
       <CardHeader>
-        <CardTitle><T>Theme</T></CardTitle>
+        <CardTitle>Theme</CardTitle>
         <CardDescription>
-          <T>Select your preferred theme for the dashboard.</T>
+          Select your preferred theme for the dashboard.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -79,8 +78,8 @@ export function AppearanceSection(): React.ReactElement {
             )}
             <Sun className={cn('size-8', theme === 'light' ? 'text-primary' : 'text-muted-foreground')} />
             <div className="text-center">
-              <p className="font-medium"><T>Light</T></p>
-              <p className="text-xs text-muted-foreground"><T>A clean, bright interface</T></p>
+              <p className="font-medium">Light</p>
+              <p className="text-xs text-muted-foreground">A clean, bright interface</p>
             </div>
           </button>
 
@@ -99,8 +98,8 @@ export function AppearanceSection(): React.ReactElement {
             )}
             <Moon className={cn('size-8', theme === 'dark' ? 'text-primary' : 'text-muted-foreground')} />
             <div className="text-center">
-              <p className="font-medium"><T>Dark</T></p>
-              <p className="text-xs text-muted-foreground"><T>Easy on the eyes</T></p>
+              <p className="font-medium">Dark</p>
+              <p className="text-xs text-muted-foreground">Easy on the eyes</p>
             </div>
           </button>
 
@@ -119,8 +118,8 @@ export function AppearanceSection(): React.ReactElement {
             )}
             <Monitor className={cn('size-8', theme === 'system' ? 'text-primary' : 'text-muted-foreground')} />
             <div className="text-center">
-              <p className="font-medium"><T>System</T></p>
-              <p className="text-xs text-muted-foreground"><T>Match your device settings</T></p>
+              <p className="font-medium">System</p>
+              <p className="text-xs text-muted-foreground">Match your device settings</p>
             </div>
           </button>
         </div>

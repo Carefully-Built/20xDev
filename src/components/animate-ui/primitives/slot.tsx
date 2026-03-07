@@ -10,7 +10,7 @@ type AnyProps = Record<string, unknown>;
 type DOMMotionProps<T extends HTMLElement = HTMLElement> = Omit<
   HTMLMotionProps<keyof HTMLElementTagNameMap>,
   'ref'
-> & { ref?: React.Ref<T> };
+> & { ref?: React.Ref };
 
 type WithAsChild<Base extends object> =
   | (Base & { asChild: true; children: React.ReactElement })
@@ -18,11 +18,11 @@ type WithAsChild<Base extends object> =
 
 type SlotProps<T extends HTMLElement = HTMLElement> = {
   children?: React.ReactNode;
-} & DOMMotionProps<T>;
+} & DOMMotionProps;
 
-function mergeRefs<T>(
-  ...refs: (React.Ref<T> | undefined)[]
-): React.RefCallback<T> {
+function mergeRefs(
+  ...refs: (React.Ref | undefined)[]
+): React.RefCallback {
   return (node) => {
     refs.forEach((ref) => {
       if (!ref) return;
@@ -37,7 +37,7 @@ function mergeRefs<T>(
 
 function mergeProps<T extends HTMLElement>(
   childProps: AnyProps,
-  slotProps: DOMMotionProps<T>,
+  slotProps: DOMMotionProps,
 ): AnyProps {
   const merged: AnyProps = { ...childProps, ...slotProps };
 
@@ -62,7 +62,7 @@ function Slot<T extends HTMLElement = HTMLElement>({
   children,
   ref,
   ...props
-}: SlotProps<T>): React.ReactElement | null {
+}: SlotProps): React.ReactElement | null {
   if (!React.isValidElement(children)) return null;
 
   const isAlreadyMotion =
@@ -78,7 +78,7 @@ function Slot<T extends HTMLElement = HTMLElement>({
   const mergedProps = mergeProps(childProps, props);
 
   return (
-    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />
+    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref, ref)} />
   );
 }
 

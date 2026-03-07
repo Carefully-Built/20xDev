@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 
 import { cn } from '@/lib/utils';
 
@@ -18,7 +17,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps): React
           !isAnnual ? 'text-foreground' : 'text-muted-foreground'
         )}
       >
-        <T id="pricing.monthly">Monthly</T>
+        Monthly
       </span>
       <button
         type="button"
@@ -44,11 +43,11 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps): React
           isAnnual ? 'text-foreground' : 'text-muted-foreground'
         )}
       >
-        <T id="pricing.annual">Annual</T>
+        Annual
       </span>
       {isAnnual && (
         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-          <T id="pricing.save20">Save 20%</T>
+          Save 20%
         </span>
       )}
     </div>

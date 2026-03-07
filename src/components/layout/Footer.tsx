@@ -1,4 +1,3 @@
-import { T } from 'gt-next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter } from 'lucide-react';
@@ -41,15 +40,15 @@ export function Footer(): React.ReactElement {
               <span className="text-xl font-semibold">Blueprint</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              <T id="footer.description">
+              
                 Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.
-              </T>
+              
             </p>
           </div>
 
           {/* Product Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold"><T id="footer.product">Product</T></h3>
+            <h3 className="mb-4 text-sm font-semibold">Product</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.href}>
@@ -57,7 +56,7 @@ export function Footer(): React.ReactElement {
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <T id={`footer.link.${link.id}`}>{link.label}</T>
+                    <T id={`footer.link.${link.id}`}>{link.label}
                   </Link>
                 </li>
               ))}
@@ -66,7 +65,7 @@ export function Footer(): React.ReactElement {
 
           {/* Legal Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold"><T id="footer.legal">Legal</T></h3>
+            <h3 className="mb-4 text-sm font-semibold">Legal</h3>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
@@ -74,7 +73,7 @@ export function Footer(): React.ReactElement {
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <T id={`footer.link.${link.id}`}>{link.label}</T>
+                    <T id={`footer.link.${link.id}`}>{link.label}
                   </Link>
                 </li>
               ))}
@@ -85,7 +84,7 @@ export function Footer(): React.ReactElement {
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Blueprint. <T id="footer.copyright">All rights reserved.</T>
+            &copy; {new Date().getFullYear()} Blueprint. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <ThemeToggle />

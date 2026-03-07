@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 
 import { Fade } from '@/components/animate-ui/fade';
 import { Slide } from '@/components/animate-ui/slide';
@@ -28,13 +27,13 @@ export function FeatureGrid(): React.ReactElement {
         <Fade inView inViewOnce inViewMargin="-50px">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              <T id="featureGrid.title">Everything you need to ship</T>
+              Everything you need to ship
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              <T id="featureGrid.description">
+              
                 Stop rebuilding the same infrastructure. Start with a foundation
                 that scales.
-              </T>
+              
             </p>
           </div>
         </Fade>
@@ -59,12 +58,12 @@ export function FeatureGrid(): React.ReactElement {
                     <CardTitle className="text-lg">
                       <T id={`featureGrid.${key}.title`}>
                         {feature.title}
-                      </T>
+                      
                     </CardTitle>
                     <CardDescription className="text-sm leading-relaxed">
                       <T id={`featureGrid.${key}.desc`}>
                         {feature.description}
-                      </T>
+                      
                     </CardDescription>
                   </CardHeader>
                 </Card>

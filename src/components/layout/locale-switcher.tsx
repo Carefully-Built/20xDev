@@ -1,7 +1,7 @@
 'use client';
 
 import { Globe } from 'lucide-react';
-import { useLocale, useSetLocale } from 'gt-next/client';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,8 +17,7 @@ const locales = [
 ] as const;
 
 export function LocaleSwitcher(): React.ReactElement {
-  const currentLocale = useLocale();
-  const setLocale = useSetLocale();
+  const [currentLocale, setLocale] = useState('en');
 
   const current = locales.find((l) => l.code === currentLocale) ?? locales[0];
 

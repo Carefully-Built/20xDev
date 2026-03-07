@@ -1,5 +1,4 @@
 import { Building2, Globe, Palette, User } from 'lucide-react';
-import { T } from 'gt-next';
 import { redirect } from 'next/navigation';
 
 import { AccountSection } from './_components/account-section';
@@ -80,28 +79,28 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-semibold tracking-tight">
-        <T>Settings</T>
+        Settings
       </h1>
 
       <Tabs defaultValue="account" className="w-full">
         <TabsList>
           <TabsTrigger value="account" className="gap-1.5">
             <User className="size-3.5" />
-            <T>Account</T>
+            Account
           </TabsTrigger>
           {organization && (
             <TabsTrigger value="organization" className="gap-1.5">
               <Building2 className="size-3.5" />
-              <T>Organization</T>
+              Organization
             </TabsTrigger>
           )}
           <TabsTrigger value="appearance" className="gap-1.5">
             <Palette className="size-3.5" />
-            <T>Appearance</T>
+            Appearance
           </TabsTrigger>
           <TabsTrigger value="language" className="gap-1.5">
             <Globe className="size-3.5" />
-            <T>Language</T>
+            Language
           </TabsTrigger>
         </TabsList>
 

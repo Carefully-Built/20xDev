@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FileText } from 'lucide-react';
-import { T } from 'gt-next';
 
 import { client, isSanityConfigured } from '@/sanity/lib/client';
 import {
@@ -78,12 +77,12 @@ export default async function CategoryPage({
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <FileText className="mb-4 size-12 text-muted-foreground" />
             <h2 className="text-lg font-semibold">
-              <T id="blog.noPosts">No posts yet</T>
+              No posts yet
             </h2>
             <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-              <T id="blog.noPostsDescription">
+              
                 Check back soon for new content.
-              </T>
+              
             </p>
           </div>
         )}

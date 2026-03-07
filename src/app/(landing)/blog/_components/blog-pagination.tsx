@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { T } from 'gt-next';
 
 import { Button } from '@/components/ui/button';
 
@@ -26,7 +25,7 @@ export function BlogPagination({
         <Button variant="outline" asChild className="min-h-[44px]">
           <Link href={`${basePath}?page=${currentPage - 1}`}>
             <ChevronLeft className="mr-1 size-4" />
-            <T id="blog.previousPage">Previous</T>
+            Previous
           </Link>
         </Button>
       ) : (
@@ -38,7 +37,7 @@ export function BlogPagination({
       {currentPage < totalPages ? (
         <Button variant="outline" asChild className="min-h-[44px]">
           <Link href={`${basePath}?page=${currentPage + 1}`}>
-            <T id="blog.nextPage">Next</T>
+            Next
             <ChevronRight className="ml-1 size-4" />
           </Link>
         </Button>

@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 import Image from 'next/image';
 
 import { Fade } from '@/components/animate-ui/fade';
@@ -17,15 +16,15 @@ export function FeatureWithImage(): React.ReactElement {
         <Fade inView inViewOnce inViewMargin="-50px">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-              <T id="featureWithImage.subtitle">See it in action</T>
+              See it in action
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-              <T id="featureWithImage.title">Built for real products</T>
+              Built for real products
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              <T id="featureWithImage.description">
+              
                 Every feature designed, tested, and ready for production use.
-              </T>
+              
             </p>
           </div>
         </Fade>
@@ -56,13 +55,13 @@ export function FeatureWithImage(): React.ReactElement {
                       <h3 className="text-2xl font-semibold">
                         <T id={`featureWithImage.${key}.title`}>
                           {item.title}
-                        </T>
+                        
                       </h3>
                     </div>
                     <p className="text-lg leading-relaxed text-muted-foreground">
                       <T id={`featureWithImage.${key}.desc`}>
                         {item.description}
-                      </T>
+                      
                     </p>
                   </div>
 

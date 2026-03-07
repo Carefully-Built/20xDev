@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { T } from 'gt-next';
 import { Target, Zap, Heart, Code, ArrowRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -62,14 +61,14 @@ export default function AboutPage(): React.ReactElement {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            <T id="about.hero.title">About Blueprint</T>
+            About Blueprint
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            <T id="about.hero.subtitle">
+            
               The production-ready foundation for building B2B SaaS
               applications. We help developers ship faster without sacrificing
               quality.
-            </T>
+            
           </p>
         </div>
       </section>
@@ -80,29 +79,29 @@ export default function AboutPage(): React.ReactElement {
           <div className="grid gap-12 md:grid-cols-2">
             <div>
               <h2 className="text-2xl font-semibold">
-                <T id="about.mission.title">Our Mission</T>
+                Our Mission
               </h2>
               <p className="mt-4 text-muted-foreground">
-                <T id="about.mission.description">
+                
                   To eliminate the repetitive infrastructure work that slows
                   down every new SaaS project. We believe developers should
                   spend their time building features that matter, not
                   reinventing authentication, payments, and data layers from
                   scratch.
-                </T>
+                
               </p>
             </div>
             <div>
               <h2 className="text-2xl font-semibold">
-                <T id="about.vision.title">Our Vision</T>
+                Our Vision
               </h2>
               <p className="mt-4 text-muted-foreground">
-                <T id="about.vision.description">
+                
                   A world where launching a production-grade SaaS takes hours
                   instead of months. Where every developer has access to the
                   same quality infrastructure that powers the best products on
                   the web.
-                </T>
+                
               </p>
             </div>
           </div>
@@ -113,7 +112,7 @@ export default function AboutPage(): React.ReactElement {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-2xl font-semibold">
-            <T id="about.values.title">Our Values</T>
+            Our Values
           </h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value) => (
@@ -125,12 +124,12 @@ export default function AboutPage(): React.ReactElement {
                   <value.icon className="size-5" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">
-                  <T id={`about.values.${value.id}.title`}>{value.title}</T>
+                  <T id={`about.values.${value.id}.title`}>{value.title}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   <T id={`about.values.${value.id}.description`}>
                     {value.description}
-                  </T>
+                  
                 </p>
               </div>
             ))}
@@ -142,23 +141,23 @@ export default function AboutPage(): React.ReactElement {
       <section className="border-t bg-muted/30 py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">
-            <T id="about.story.title">The Story</T>
+            The Story
           </h2>
           <p className="mt-4 text-muted-foreground">
-            <T id="about.story.p1">
+            
               Blueprint was born from a simple frustration: every time we
               started a new SaaS project, we spent weeks building the same
               foundational pieces. Authentication, billing, database setup,
               email systems — the list goes on.
-            </T>
+            
           </p>
           <p className="mt-4 text-muted-foreground">
-            <T id="about.story.p2">
+            
               We decided to build the foundation once, and build it right.
               Blueprint is the result — a production-ready starter that
               includes everything you need to launch a B2B SaaS, built with
               the latest and best tools in the ecosystem.
-            </T>
+            
           </p>
         </div>
       </section>
@@ -167,24 +166,24 @@ export default function AboutPage(): React.ReactElement {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold">
-            <T id="about.cta.title">Ready to get started?</T>
+            Ready to get started?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            <T id="about.cta.description">
+            
               Join developers who are shipping faster with Blueprint. Get up
               and running in minutes.
-            </T>
+            
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" className="min-w-40" asChild>
               <Link href="/login">
-                <T id="about.cta.getStarted">Get Started</T>
+                Get Started
                 <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="min-w-40" asChild>
               <Link href="/contact">
-                <T id="about.cta.contact">Contact Us</T>
+                Contact Us
               </Link>
             </Button>
           </div>

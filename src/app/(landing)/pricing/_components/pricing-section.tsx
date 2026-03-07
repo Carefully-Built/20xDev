@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { T } from 'gt-next';
 
 import { pricingTiers, pricingFaqs } from '@/config/pricing';
 
@@ -22,15 +21,15 @@ export function PricingSection(): React.ReactElement {
             <Slide direction="up" offset={20}>
               <div className="mx-auto max-w-2xl text-center">
                 <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-                  <T id="pricing.label">Pricing</T>
+                  Pricing
                 </p>
                 <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-                  <T id="pricing.title">Simple, transparent pricing</T>
+                  Simple, transparent pricing
                 </h1>
                 <p className="mt-4 text-lg text-muted-foreground">
-                  <T id="pricing.description">
+                  
                     Choose the plan that fits your team. All plans include a 14-day free trial.
-                  </T>
+                  
                 </p>
               </div>
 

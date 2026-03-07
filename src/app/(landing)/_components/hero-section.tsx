@@ -1,4 +1,3 @@
-import { T } from 'gt-next';
 import Link from 'next/link';
 
 import { Fade } from '@/components/animate-ui/fade';
@@ -21,34 +20,34 @@ export function HeroSection(): React.ReactElement {
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
                   <span className="relative inline-flex size-2 rounded-full bg-primary" />
                 </span>
-                <T id="landing.badge">Now in public beta</T>
+                Now in public beta
               </Badge>
 
               <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                <T id="landing.heroTitle">Ship beautiful B2B SaaS</T>
-                <span className="block text-primary"><T id="landing.heroHighlight">in hours, not months</T></span>
+                Ship beautiful B2B SaaS
+                <span className="block text-primary">in hours, not months</span>
               </h1>
 
               <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-                <T id="landing.heroDescription">Production-ready foundation with auth, payments, real-time data, and stunning UI. Stop rebuilding the same infrastructure. Start shipping what matters.</T>
+                Production-ready foundation with auth, payments, real-time data, and stunning UI. Stop rebuilding the same infrastructure. Start shipping what matters.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Button size="lg" className="min-w-40" asChild>
                   <Link href="/login">
-                    <T id="landing.getStarted">Get Started</T>
+                    Get Started
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="min-w-40" asChild>
                   <Link href="#features">
-                    <T id="landing.learnMore">Learn More</T>
+                    Learn More
                   </Link>
                 </Button>
               </div>
 
               {/* Social proof placeholder */}
               <p className="mt-8 text-sm text-muted-foreground">
-                <T id="landing.socialProof">Trusted by developers building the next generation of SaaS</T>
+                Trusted by developers building the next generation of SaaS
               </p>
             </div>
           </Slide>

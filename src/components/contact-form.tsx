@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -80,26 +79,26 @@ export function ContactForm(): React.ReactElement {
     <>
       <div className="mb-12 text-center">
         <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-          <T id="contact.title">Get in Touch</T>
+          Get in Touch
         </h1>
         <p className="text-lg text-muted-foreground">
-          <T id="contact.description">
+          
             Have a question or want to work together? We&apos;d love to hear
             from you.
-          </T>
+          
         </p>
       </div>
 
       <Card data-testid="contact-form">
         <CardHeader>
           <CardTitle>
-            <T id="contact.formTitle">Send us a message</T>
+            Send us a message
           </CardTitle>
           <CardDescription>
-            <T id="contact.formDescription">
+            
               Fill out the form below and we&apos;ll get back to you as soon as
               possible.
-            </T>
+            
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -110,12 +109,12 @@ export function ContactForm(): React.ReactElement {
             >
               <CheckCircle className="mb-4 size-12 text-green-500" />
               <h3 className="mb-2 text-lg font-semibold">
-                <T id="contact.successTitle">Message Sent!</T>
+                Message Sent!
               </h3>
               <p className="mb-6 text-muted-foreground">
-                <T id="contact.successDescription">
+                
                   Thank you for reaching out. We&apos;ll get back to you soon.
-                </T>
+                
               </p>
               <Button
                 variant="outline"
@@ -123,7 +122,7 @@ export function ContactForm(): React.ReactElement {
                   setStatus('idle');
                 }}
               >
-                <T id="contact.sendAnother">Send Another Message</T>
+                Send Another Message
               </Button>
             </div>
           ) : (
@@ -144,7 +143,7 @@ export function ContactForm(): React.ReactElement {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">
-                    <T id="contact.nameLabel">Name</T>
+                    Name
                     <span className="text-destructive">*</span>
                   </Label>
                   <Input
@@ -163,7 +162,7 @@ export function ContactForm(): React.ReactElement {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">
-                    <T id="contact.emailLabel">Email</T>
+                    Email
                     <span className="text-destructive">*</span>
                   </Label>
                   <Input
@@ -185,7 +184,7 @@ export function ContactForm(): React.ReactElement {
 
               <div className="space-y-2">
                 <Label htmlFor="subject">
-                  <T id="contact.subjectLabel">Subject</T>
+                  Subject
                   <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -205,7 +204,7 @@ export function ContactForm(): React.ReactElement {
 
               <div className="space-y-2">
                 <Label htmlFor="message">
-                  <T id="contact.messageLabel">Message</T>
+                  Message
                   <span className="text-destructive">*</span>
                 </Label>
                 <Textarea
@@ -242,12 +241,12 @@ export function ContactForm(): React.ReactElement {
                 {status === 'submitting' ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />
-                    <T id="contact.sending">Sending...</T>
+                    Sending...
                   </>
                 ) : (
                   <>
                     <Send className="mr-2 size-4" />
-                    <T id="contact.sendMessage">Send Message</T>
+                    Send Message
                   </>
                 )}
               </Button>

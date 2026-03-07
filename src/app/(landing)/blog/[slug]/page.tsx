@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { T } from 'gt-next';
 
 import { client, isSanityConfigured } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
@@ -80,7 +79,7 @@ export default async function PostPage({
             className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-primary hover:underline"
           >
             <ArrowLeft className="size-4" />
-            <T id="blog.backToBlog">Back to Blog</T>
+            Back to Blog
           </Link>
         </footer>
       </div>

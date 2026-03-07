@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 
 import type { PricingFaqItem } from '@/config/pricing';
 
@@ -13,17 +12,17 @@ interface PricingFaqProps {
 
 export function PricingFaq({ items }: PricingFaqProps): React.ReactElement {
   const faqItems: readonly FaqItemProps[] = items.map((item, index) => ({
-    question: <T id={`pricing.faq.q${index + 1}`}>{item.question}</T>,
-    answer: <T id={`pricing.faq.a${index + 1}`}>{item.answer}</T>,
+    question: <T id={`pricing.faq.q${index + 1}`}>{item.question},
+    answer: <T id={`pricing.faq.a${index + 1}`}>{item.answer},
   }));
 
   return (
     <GenericFaqSection
-      title={<T id="pricing.faq.title">Pricing FAQ</T>}
+      title={Pricing FAQ}
       description={
-        <T id="pricing.faq.description">
+        
           Common questions about our pricing and billing.
-        </T>
+        
       }
       items={faqItems}
     />

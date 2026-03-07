@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { T } from 'gt-next';
 
 import { Badge } from '@/components/ui/badge';
 
@@ -32,7 +31,7 @@ export function CategoryFilter({
           variant={isAll ? 'default' : 'outline'}
           className="min-h-[44px] px-4 text-sm"
         >
-          <T id="blog.allCategories">All</T>
+          All
         </Badge>
       </Link>
       {categories.map((cat) => {

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { T } from 'gt-next';
 
 import { Card } from '@/components/ui/card';
 import type { PostListItem } from '@/types/blog';
@@ -47,7 +46,7 @@ export function BlogCard({ post }: BlogCardProps): React.ReactElement {
           href={`/blog/${post.slug.current}`}
           className="min-h-[44px] text-sm font-medium text-primary hover:underline inline-flex items-center"
         >
-          <T id="blog.readMore">Read more</T>
+          Read more
         </Link>
       </div>
     </Card>

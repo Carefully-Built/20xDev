@@ -1,6 +1,5 @@
 'use client';
 
-import { T } from 'gt-next';
 
 import { Fade } from '@/components/animate-ui/fade';
 import { Slide } from '@/components/animate-ui/slide';
@@ -22,13 +21,13 @@ export function FeatureList(): React.ReactElement {
         <Fade inView inViewOnce inViewMargin="-50px">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              <T id="featureList.title">Everything included</T>
+              Everything included
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              <T id="featureList.description">
+              
                 No hidden fees, no missing features. Everything you need in one
                 template.
-              </T>
+              
             </p>
           </div>
         </Fade>
@@ -53,12 +52,12 @@ export function FeatureList(): React.ReactElement {
                     <h3 className="font-semibold">
                       <T id={`featureList.${key}.title`}>
                         {item.title}
-                      </T>
+                      
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       <T id={`featureList.${key}.desc`}>
                         {item.description}
-                      </T>
+                      
                     </p>
                   </div>
                 </div>

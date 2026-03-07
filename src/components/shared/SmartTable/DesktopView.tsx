@@ -20,13 +20,13 @@ import {
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-interface DesktopViewProps<T> {
+interface DesktopViewProps {
   data: T[];
-  columns: Column<T>[];
+  columns: Column[];
   isLoading: boolean;
   skeletonRows: number;
   actions?: ActionType[];
-  actionHandlers?: ActionHandlers<T>;
+  actionHandlers?: ActionHandlers;
   renderActions?: (item: T) => ReactNode;
   noDataMessage: string;
   getRowKey: (item: T) => string | number;
@@ -43,7 +43,7 @@ const ActionIcons: Record<ActionType, typeof Eye> = {
   delete: Trash2,
 };
 
-export function DesktopView<T>({
+export function DesktopView({
   data,
   columns,
   isLoading,
@@ -58,10 +58,10 @@ export function DesktopView<T>({
   stickyHeader = false,
   maxHeight = 'calc(100vh - 300px)',
   fullHeight = false,
-}: DesktopViewProps<T>): React.ReactElement {
+}: DesktopViewProps): React.ReactElement {
   const hasActions = (actions?.length ?? 0) > 0 || renderActions !== undefined;
 
-  const renderCellValue = (column: Column<T>, item: T): ReactNode => {
+  const renderCellValue = (column: Column, item: T): ReactNode => {
     const value = column.accessor
       ? typeof column.accessor === 'string' && column.accessor.includes('.')
         ? getNestedValue(item, column.accessor)
@@ -88,7 +88,7 @@ export function DesktopView<T>({
       <div className="flex items-center gap-1">
         {actions.map((action) => {
           const Icon = ActionIcons[action];
-          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers<T>];
+          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers];
           
           return (
             <Button
