@@ -20,7 +20,8 @@ declare global {
 
 /** Returns NEXT_PUBLIC_INTERCOM_APP_ID or undefined if not set */
 export function getIntercomAppId(): string | undefined {
-  return process.env['NEXT_PUBLIC_INTERCOM_APP_ID'] || undefined;
+  // eslint-disable-next-line @typescript-eslint/dot-notation -- env vars require bracket notation
+  return process.env['NEXT_PUBLIC_INTERCOM_APP_ID'] ?? undefined;
 }
 
 /** Injects the Intercom CDN script tag (async, idempotent) */
@@ -35,13 +36,12 @@ export function loadIntercomScript(appId: string): void {
   document.head.appendChild(script);
 
   // Initialize the Intercom command queue if not already present
-  window.Intercom =
-    window.Intercom ??
-    function intercomQueue(...args: unknown[]) {
-      (intercomQueue as unknown as { q: unknown[][] }).q =
-        (intercomQueue as unknown as { q: unknown[][] }).q ?? [];
-      (intercomQueue as unknown as { q: unknown[][] }).q.push(args);
+  if (!window.Intercom) {
+    const queue: unknown[][] = [];
+    window.Intercom = (...args: unknown[]) => {
+      queue.push(args);
     };
+  }
 }
 
 /** Calls Intercom('boot') with app_id and optional settings */
