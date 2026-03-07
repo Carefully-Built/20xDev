@@ -1,8 +1,8 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
+import { useEffect, useCallback } from "react";
 
 import { FEATUREBASE_ORG, ensureFeaturebase } from "@/lib/featurebase";
 

@@ -18,7 +18,7 @@ export interface FeaturebaseIdentifyConfig {
   profilePicture?: string;
 }
 
-export type FeaturebaseFunction = {
+export interface FeaturebaseFunction {
   (
     action: "initialize_feedback_widget",
     config: FeaturebaseWidgetConfig,
@@ -29,7 +29,7 @@ export type FeaturebaseFunction = {
     callback?: (err: unknown) => void,
   ): void;
   q?: unknown[][];
-};
+}
 
 declare global {
   interface Window {
@@ -40,9 +40,8 @@ declare global {
 export function ensureFeaturebase(): void {
   if (typeof window === "undefined") return;
   if (typeof window.Featurebase !== "function") {
-    // eslint-disable-next-line func-names -- Featurebase SDK queue pattern
-    window.Featurebase = function (...args: unknown[]) {
-      (window.Featurebase.q = window.Featurebase.q || []).push(args);
+    window.Featurebase = function featurebaseQueue(...args: unknown[]) {
+      (window.Featurebase.q = window.Featurebase.q ?? []).push(args);
     } as FeaturebaseFunction;
   }
 }
