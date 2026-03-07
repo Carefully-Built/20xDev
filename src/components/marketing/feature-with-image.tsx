@@ -31,53 +31,56 @@ export function FeatureWithImage(): React.ReactElement {
         </Fade>
 
         <div className="mt-16 space-y-24">
-          {featureWithImageItems.map((item, i) => (
-            <Slide
-              key={item.title}
-              direction="up"
-              delay={100}
-              inView
-              inViewOnce
-              inViewMargin="-80px"
-            >
-              <div
-                className={cn(
-                  'flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-16',
-                  i % 2 === 1 && 'lg:flex-row-reverse'
-                )}
+          {featureWithImageItems.map((item, i) => {
+            const key = featureKeys[i] ?? `item${String(i)}`;
+            return (
+              <Slide
+                key={item.title}
+                direction="up"
+                delay={100}
+                inView
+                inViewOnce
+                inViewMargin="-80px"
               >
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                      <item.icon className="size-5 text-primary" />
+                <div
+                  className={cn(
+                    'flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-16',
+                    i % 2 === 1 && 'lg:flex-row-reverse'
+                  )}
+                >
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                        <item.icon className="size-5 text-primary" />
+                      </div>
+                      <h3 className="text-2xl font-semibold">
+                        <T id={`featureWithImage.${key}.title`}>
+                          {item.title}
+                        </T>
+                      </h3>
                     </div>
-                    <h3 className="text-2xl font-semibold">
-                      <T id={`featureWithImage.${featureKeys[i]}.title`}>
-                        {item.title}
+                    <p className="text-lg leading-relaxed text-muted-foreground">
+                      <T id={`featureWithImage.${key}.desc`}>
+                        {item.description}
                       </T>
-                    </h3>
+                    </p>
                   </div>
-                  <p className="text-lg leading-relaxed text-muted-foreground">
-                    <T id={`featureWithImage.${featureKeys[i]}.desc`}>
-                      {item.description}
-                    </T>
-                  </p>
-                </div>
 
-                <div className="flex-1">
-                  <div className="flex aspect-[3/2] items-center justify-center overflow-hidden rounded-xl border bg-muted/50 shadow-sm">
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt}
-                      width={600}
-                      height={400}
-                      className="size-full object-cover"
-                    />
+                  <div className="flex-1">
+                    <div className="flex aspect-[3/2] items-center justify-center overflow-hidden rounded-xl border bg-muted/50 shadow-sm">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        width={600}
+                        height={400}
+                        className="size-full object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Slide>
-          ))}
+              </Slide>
+            );
+          })}
         </div>
       </div>
     </section>

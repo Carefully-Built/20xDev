@@ -40,34 +40,37 @@ export function FeatureGrid(): React.ReactElement {
         </Fade>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featureGridItems.map((feature, i) => (
-            <Slide
-              key={feature.title}
-              direction="up"
-              delay={i * 100}
-              inView
-              inViewOnce
-              inViewMargin="-50px"
-            >
-              <Card className="border-0 bg-muted/50 transition-colors hover:bg-muted">
-                <CardHeader>
-                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                    <feature.icon className="size-5 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">
-                    <T id={`featureGrid.${featureKeys[i]}.title`}>
-                      {feature.title}
-                    </T>
-                  </CardTitle>
-                  <CardDescription className="text-sm leading-relaxed">
-                    <T id={`featureGrid.${featureKeys[i]}.desc`}>
-                      {feature.description}
-                    </T>
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Slide>
-          ))}
+          {featureGridItems.map((feature, i) => {
+            const key = featureKeys[i] ?? `item${String(i)}`;
+            return (
+              <Slide
+                key={feature.title}
+                direction="up"
+                delay={i * 100}
+                inView
+                inViewOnce
+                inViewMargin="-50px"
+              >
+                <Card className="border-0 bg-muted/50 transition-colors hover:bg-muted">
+                  <CardHeader>
+                    <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                      <feature.icon className="size-5 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">
+                      <T id={`featureGrid.${key}.title`}>
+                        {feature.title}
+                      </T>
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed">
+                      <T id={`featureGrid.${key}.desc`}>
+                        {feature.description}
+                      </T>
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Slide>
+            );
+          })}
         </div>
       </div>
     </section>

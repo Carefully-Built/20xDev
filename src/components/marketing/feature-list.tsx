@@ -34,34 +34,37 @@ export function FeatureList(): React.ReactElement {
         </Fade>
 
         <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {featureListItems.map((item, i) => (
-            <Slide
-              key={item.title}
-              direction="up"
-              delay={i * 100}
-              inView
-              inViewOnce
-              inViewMargin="-50px"
-            >
-              <div className="flex gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <item.icon className="size-5 text-primary" />
+          {featureListItems.map((item, i) => {
+            const key = featureKeys[i] ?? `item${String(i)}`;
+            return (
+              <Slide
+                key={item.title}
+                direction="up"
+                delay={i * 100}
+                inView
+                inViewOnce
+                inViewMargin="-50px"
+              >
+                <div className="flex gap-4">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <item.icon className="size-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">
+                      <T id={`featureList.${key}.title`}>
+                        {item.title}
+                      </T>
+                    </h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      <T id={`featureList.${key}.desc`}>
+                        {item.description}
+                      </T>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold">
-                    <T id={`featureList.${featureKeys[i]}.title`}>
-                      {item.title}
-                    </T>
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    <T id={`featureList.${featureKeys[i]}.desc`}>
-                      {item.description}
-                    </T>
-                  </p>
-                </div>
-              </div>
-            </Slide>
-          ))}
+              </Slide>
+            );
+          })}
         </div>
       </div>
     </section>
