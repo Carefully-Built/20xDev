@@ -185,15 +185,8 @@ const techCategories: readonly TechCategory[] = [
     ],
   },
   {
-    title: 'Analytics & Monitoring',
+    title: 'Monitoring',
     items: [
-      {
-        name: 'Plausible',
-        description: 'Privacy-friendly analytics',
-        why: 'Simple, privacy-first analytics. No cookies, GDPR compliant, and lightweight.',
-        logo: '/images/stack/plausible.png',
-        href: 'https://plausible.io',
-      },
       {
         name: 'Sentry',
         description: 'Error tracking',
@@ -206,13 +199,6 @@ const techCategories: readonly TechCategory[] = [
   {
     title: 'Customer Support',
     items: [
-      {
-        name: 'Intercom',
-        description: 'Live chat & support',
-        why: 'Talk to customers in real-time. AI-powered responses and help center built-in.',
-        logo: '/images/stack/intercom.png',
-        href: 'https://intercom.com',
-      },
       {
         name: 'Featurebase',
         description: 'Feature requests & docs',

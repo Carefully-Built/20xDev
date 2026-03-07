@@ -1,15 +1,11 @@
-'use client';
-
 import { T } from 'gt-next';
 import { Check, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePlausible } from 'next-plausible';
 
 import type { PricingTier } from '@/config/pricing';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ANALYTICS_EVENTS } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 interface PricingCardProps {
@@ -18,7 +14,6 @@ interface PricingCardProps {
 }
 
 export function PricingCard({ tier, isAnnual }: PricingCardProps): React.ReactElement {
-  const plausible = usePlausible();
   const price = isAnnual ? tier.annualPrice : tier.monthlyPrice;
 
   return (
@@ -80,11 +75,6 @@ export function PricingCard({ tier, isAnnual }: PricingCardProps): React.ReactEl
         variant={tier.recommended ? 'default' : 'outline'}
         className="w-full"
         asChild
-        onClick={() =>
-          plausible(ANALYTICS_EVENTS.PRICING_CLICK, {
-            props: { tier: tier.name },
-          })
-        }
       >
         <Link href={tier.ctaHref}>{tier.cta}</Link>
       </Button>

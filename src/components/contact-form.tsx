@@ -3,12 +3,9 @@
 import { T } from 'gt-next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { usePlausible } from 'next-plausible';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { ANALYTICS_EVENTS } from '@/lib/analytics';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -40,7 +37,6 @@ type ContactFormData = z.infer<typeof contactSchema>;
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 export function ContactForm(): React.ReactElement {
-  const plausible = usePlausible();
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -65,7 +61,6 @@ export function ContactForm(): React.ReactElement {
 
       if (result.success) {
         setStatus('success');
-        plausible(ANALYTICS_EVENTS.CONTACT_SUBMIT);
         reset();
       } else {
         setStatus('error');

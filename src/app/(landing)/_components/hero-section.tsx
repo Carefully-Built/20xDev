@@ -1,18 +1,12 @@
-'use client';
-
 import { T } from 'gt-next';
 import Link from 'next/link';
-import { usePlausible } from 'next-plausible';
 
 import { Fade } from '@/components/animate-ui/fade';
 import { Slide } from '@/components/animate-ui/slide';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ANALYTICS_EVENTS } from '@/lib/analytics';
 
 export function HeroSection(): React.ReactElement {
-  const plausible = usePlausible();
-
   return (
     <section className="relative overflow-hidden">
       {/* Subtle gradient background */}
@@ -40,31 +34,12 @@ export function HeroSection(): React.ReactElement {
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Button
-                  size="lg"
-                  className="min-w-40"
-                  asChild
-                  onClick={() =>
-                    plausible(ANALYTICS_EVENTS.CTA_CLICK, {
-                      props: { location: 'hero' },
-                    })
-                  }
-                >
+                <Button size="lg" className="min-w-40" asChild>
                   <Link href="/login">
                     <T id="landing.getStarted">Get Started</T>
                   </Link>
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="min-w-40"
-                  asChild
-                  onClick={() =>
-                    plausible(ANALYTICS_EVENTS.LEARN_MORE, {
-                      props: { location: 'hero' },
-                    })
-                  }
-                >
+                <Button size="lg" variant="outline" className="min-w-40" asChild>
                   <Link href="#features">
                     <T id="landing.learnMore">Learn More</T>
                   </Link>
