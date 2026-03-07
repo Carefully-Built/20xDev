@@ -83,9 +83,11 @@ describe('Translation Coverage', () => {
     expect(footer).toContain('footer.copyright');
   });
 
-  it('TEST-008: contact page uses <T> components', () => {
+  it('TEST-008: contact form component uses <T> components', () => {
+    // After #13 refactor, i18n tags live in ContactForm (client component),
+    // not in the Server Component page wrapper.
     const content = fs.readFileSync(
-      path.join(srcDir, 'app/(landing)/contact/page.tsx'),
+      path.join(srcDir, 'components/contact-form.tsx'),
       'utf-8'
     );
     expect(content).toContain("import { T } from 'gt-next'");
