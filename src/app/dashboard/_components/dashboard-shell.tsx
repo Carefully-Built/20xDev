@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { OrganizationProvider, UserProvider } from '@/providers';
 import { AppSidebar, SidebarProvider, useSidebar } from './app-sidebar';
+import { FeaturebaseWidget } from '@/components/featurebase/featurebase-widget';
 import { useSyncUser, type WorkOSUser } from '@/hooks/use-sync-user';
 
 import type { UserData } from '@/providers';
@@ -55,6 +56,12 @@ export function DashboardShell({ children, user }: DashboardShellProps): React.R
           <div className="min-h-screen">
             <AppSidebar />
             <MainContent>{children}</MainContent>
+            <FeaturebaseWidget
+              email={userData.email}
+              name={userData.name}
+              userId={userData.id}
+              profilePicture={userData.imageUrl}
+            />
           </div>
         </SidebarProvider>
       </OrganizationProvider>
