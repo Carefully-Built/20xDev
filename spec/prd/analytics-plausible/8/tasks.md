@@ -6,7 +6,7 @@
 
 ---
 
-- [ ] **Task 1: Install `next-plausible` package**
+- [x] **Task 1: Install `next-plausible` package**
   - File: `package.json` (MODIFY via package manager)
   - Run:
     ```bash
@@ -14,7 +14,7 @@
     ```
   - Criterion: `grep "next-plausible" package.json` returns a match
 
-- [ ] **Task 2: Add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` to `.env.example`**
+- [x] **Task 2: Add `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` to `.env.example`**
   - File: `.env.example` (MODIFY)
   - After the Intercom section (line 33), append:
     ```env
@@ -26,7 +26,7 @@
   - Pattern: follows same format as other env vars in `.env.example` (comment + key)
   - Criterion: `grep "NEXT_PUBLIC_PLAUSIBLE_DOMAIN" .env.example` returns a match
 
-- [ ] **Task 3: Create analytics helper `src/lib/analytics.ts`**
+- [x] **Task 3: Create analytics helper `src/lib/analytics.ts`**
   - File: `src/lib/analytics.ts` (CREATE)
   - Pattern: similar structure to `src/lib/intercom.ts` (utility module with typed exports)
   - Content:
@@ -64,7 +64,7 @@
     ```
   - Criterion: `bun run typecheck` passes; `grep "ANALYTICS_EVENTS" src/lib/analytics.ts` returns match
 
-- [ ] **Task 4: Add `PlausibleProvider` to root layout**
+- [x] **Task 4: Add `PlausibleProvider` to root layout**
   - File: `src/app/layout.tsx` (MODIFY)
   - Add import at top (after existing imports, before `'./globals.css'`):
     ```ts
@@ -91,7 +91,7 @@
   - Pattern: similar wrapping pattern to `IntercomProvider` in `src/app/(landing)/layout.tsx`
   - Criterion: `bun run build` passes; `grep "PlausibleProvider" src/app/layout.tsx` returns match
 
-- [ ] **Task 5: Add event tracking to `cta-section.tsx`**
+- [x] **Task 5: Add event tracking to `cta-section.tsx`**
   - File: `src/app/(landing)/_components/cta-section.tsx` (MODIFY)
   - Already has `'use client'` directive -- no change needed there
   - Add imports:
@@ -122,7 +122,7 @@
   - Note: `onClick` on a `Button` with `asChild` + `<Link>` fires before navigation -- event will be sent.
   - Criterion: `bun run typecheck` passes; `grep "ANALYTICS_EVENTS" src/app/\(landing\)/_components/cta-section.tsx` returns match
 
-- [ ] **Task 6: Add event tracking to `hero-section.tsx`**
+- [x] **Task 6: Add event tracking to `hero-section.tsx`**
   - File: `src/app/(landing)/_components/hero-section.tsx` (MODIFY)
   - Already has `'use client'` directive
   - Add imports:
@@ -171,7 +171,7 @@
     ```
   - Criterion: `bun run typecheck` passes; `grep "ANALYTICS_EVENTS" src/app/\(landing\)/_components/hero-section.tsx` returns match
 
-- [ ] **Task 7: Add event tracking to `pricing-card.tsx`**
+- [x] **Task 7: Add event tracking to `pricing-card.tsx`**
   - File: `src/components/marketing/pricing-card.tsx` (MODIFY)
   - This is currently a **server component** (no `'use client'`). Must convert to client component.
   - Add `'use client';` as the first line
@@ -202,7 +202,7 @@
     ```
   - Criterion: `bun run typecheck` passes; `grep "ANALYTICS_EVENTS" src/components/marketing/pricing-card.tsx` returns match
 
-- [ ] **Task 8: Verify build and integration**
+- [x] **Task 8: Verify build and integration**
   - Run: `bun run typecheck && bun run lint`
   - Run: `grep -r "plausible" src/` — must return at least 4 files (`layout.tsx`, `analytics.ts`, `cta-section.tsx`, `hero-section.tsx`, `pricing-card.tsx`)
   - Run: `grep "NEXT_PUBLIC_PLAUSIBLE_DOMAIN" .env.example` — must return match
