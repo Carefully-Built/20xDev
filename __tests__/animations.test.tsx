@@ -91,19 +91,19 @@ describe('Animate UI Integration — #7', () => {
 
   // TEST-007 | REQ-006 | unit | All scroll animations fire once
   it('TEST-007: All scroll animations use inViewOnce=true (REQ-006)', () => {
-    const componentsWithInView = [
-      'features-section.tsx',
-      'tech-stack-section.tsx',
-      'faq-section.tsx',
-      'cta-section.tsx',
+    const landingComponents = [
+      '../src/app/(landing)/_components/tech-stack-section.tsx',
+      '../src/app/(landing)/_components/faq-section.tsx',
+      '../src/app/(landing)/_components/cta-section.tsx',
     ];
-    const landingDir = path.resolve(
-      __dirname,
-      '../src/app/(landing)/_components',
-    );
-    for (const file of componentsWithInView) {
+    const marketingComponents = [
+      '../src/components/marketing/feature-grid.tsx',
+      '../src/components/marketing/feature-with-image.tsx',
+      '../src/components/marketing/feature-list.tsx',
+    ];
+    for (const file of [...landingComponents, ...marketingComponents]) {
       const content = fs.readFileSync(
-        path.join(landingDir, file),
+        path.resolve(__dirname, file),
         'utf-8',
       );
       if (content.includes('inView')) {
@@ -167,19 +167,17 @@ describe('Accessibility — #7', () => {
   // TEST-012 | REQ-A11Y-003 | unit | No aria-hidden on animation wrappers
   it('TEST-012: No aria-hidden on animation wrappers (REQ-A11Y-003)', () => {
     const animationFiles = [
-      'hero-section.tsx',
-      'features-section.tsx',
-      'tech-stack-section.tsx',
-      'faq-section.tsx',
-      'cta-section.tsx',
+      '../src/app/(landing)/_components/hero-section.tsx',
+      '../src/app/(landing)/_components/tech-stack-section.tsx',
+      '../src/app/(landing)/_components/faq-section.tsx',
+      '../src/app/(landing)/_components/cta-section.tsx',
+      '../src/components/marketing/feature-grid.tsx',
+      '../src/components/marketing/feature-with-image.tsx',
+      '../src/components/marketing/feature-list.tsx',
     ];
-    const landingDir = path.resolve(
-      __dirname,
-      '../src/app/(landing)/_components',
-    );
     for (const file of animationFiles) {
       const content = fs.readFileSync(
-        path.join(landingDir, file),
+        path.resolve(__dirname, file),
         'utf-8',
       );
       // These files should not have aria-hidden on Fade/Slide wrappers
@@ -212,19 +210,17 @@ describe('UX Behavior — #7', () => {
   // TEST-014 | REQ-UX-002 | unit | inViewMargin for early trigger
   it('TEST-014: Scroll sections use inViewMargin for early trigger (REQ-UX-002)', () => {
     const scrollFiles = [
-      'features-section.tsx',
-      'tech-stack-section.tsx',
-      'faq-section.tsx',
-      'cta-section.tsx',
+      '../src/app/(landing)/_components/tech-stack-section.tsx',
+      '../src/app/(landing)/_components/faq-section.tsx',
+      '../src/app/(landing)/_components/cta-section.tsx',
+      '../src/components/marketing/feature-grid.tsx',
+      '../src/components/marketing/feature-with-image.tsx',
+      '../src/components/marketing/feature-list.tsx',
     ];
-    const landingDir = path.resolve(
-      __dirname,
-      '../src/app/(landing)/_components',
-    );
     let filesWithMargin = 0;
     for (const file of scrollFiles) {
       const content = fs.readFileSync(
-        path.join(landingDir, file),
+        path.resolve(__dirname, file),
         'utf-8',
       );
       if (content.includes('inViewMargin')) {
@@ -239,11 +235,11 @@ describe('UX Behavior — #7', () => {
     const features = fs.readFileSync(
       path.resolve(
         __dirname,
-        '../src/app/(landing)/_components/features-section.tsx',
+        '../src/components/marketing/feature-grid.tsx',
       ),
       'utf-8',
     );
-    // Look for delay pattern like delay={i * 150}
+    // Look for delay pattern like delay={i * 100}
     const delayMatch = features.match(/delay=\{i\s*\*\s*(\d+)\}/);
     expect(delayMatch).toBeTruthy();
     const delayMs = parseInt(delayMatch![1]!, 10);
@@ -341,12 +337,12 @@ describe('Component Rendering — #7', () => {
     expect(hero).toContain('direction="up"');
   });
 
-  // TEST-020 | REQ-002 | unit | Features section has staggered animation
-  it('TEST-020: FeaturesSection uses staggered Slide per card (REQ-002)', () => {
+  // TEST-020 | REQ-002 | unit | Feature grid has staggered animation
+  it('TEST-020: FeatureGrid uses staggered Slide per card (REQ-002)', () => {
     const features = fs.readFileSync(
       path.resolve(
         __dirname,
-        '../src/app/(landing)/_components/features-section.tsx',
+        '../src/components/marketing/feature-grid.tsx',
       ),
       'utf-8',
     );

@@ -29,17 +29,26 @@ describe('Translation Coverage', () => {
     expect(cta).toContain('landing.ctaTitle');
   });
 
-  it('TEST-005: features section uses <T> components', () => {
-    const content = fs.readFileSync(
-      path.join(srcDir, 'app/(landing)/_components/features-section.tsx'),
+  it('TEST-005: feature section components use <T> components', () => {
+    const featureGrid = fs.readFileSync(
+      path.join(srcDir, 'components/marketing/feature-grid.tsx'),
       'utf-8'
     );
-    expect(content).toContain("import { T } from 'gt-next'");
-    expect(content).toContain('features.title');
-    expect(content).toContain('features.description');
-    // Feature card titles and descriptions use dynamic ids
-    expect(content).toMatch(/features\.\$\{featureKeys\[i\]\}\.title/);
-    expect(content).toMatch(/features\.\$\{featureKeys\[i\]\}\.desc/);
+    const featureWithImage = fs.readFileSync(
+      path.join(srcDir, 'components/marketing/feature-with-image.tsx'),
+      'utf-8'
+    );
+    const featureList = fs.readFileSync(
+      path.join(srcDir, 'components/marketing/feature-list.tsx'),
+      'utf-8'
+    );
+    for (const content of [featureGrid, featureWithImage, featureList]) {
+      expect(content).toContain("import { T } from 'gt-next'");
+      expect(content).toContain('<T ');
+    }
+    expect(featureGrid).toContain('featureGrid.title');
+    expect(featureWithImage).toContain('featureWithImage.title');
+    expect(featureList).toContain('featureList.title');
   });
 
   it('TEST-006: FAQ section uses <T> components', () => {
