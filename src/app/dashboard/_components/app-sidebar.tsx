@@ -1,6 +1,6 @@
 "use client"
 
-import { LayoutDashboard, ListTodo, Files, Settings, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react"
+import { LayoutDashboard, ListTodo, Files, Settings, ChevronLeft, ChevronRight, LogOut, Menu, X, MessageSquarePlus } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -232,6 +232,30 @@ function SidebarContent({
 
       {/* Bottom Navigation */}
       <div className="px-2 py-2 space-y-0.5">
+        {/* Feedback button - triggers Featurebase widget */}
+        {isCollapsed && !isMobile ? (
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                data-featurebase-feedback
+                className="flex w-full items-center justify-center rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
+              >
+                <MessageSquarePlus className="size-4 shrink-0" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right">Feedback</TooltipContent>
+          </Tooltip>
+        ) : (
+          <button
+            type="button"
+            data-featurebase-feedback
+            className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
+          >
+            <MessageSquarePlus className="size-4 shrink-0" />
+            {(!isCollapsed || isMobile) && <span>Feedback</span>}
+          </button>
+        )}
         {bottomNavItems.map((item) => (
           isMobile ? (
             <MobileNavLink
