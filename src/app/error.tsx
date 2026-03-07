@@ -1,5 +1,6 @@
 'use client';
 
+import * as Sentry from '@sentry/nextjs';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
@@ -12,6 +13,7 @@ interface ErrorPageProps {
 
 const ErrorPage = ({ error, reset }: ErrorPageProps): React.ReactElement => {
   useEffect(() => {
+    Sentry.captureException(error);
     console.error('Application error:', error);
   }, [error]);
 
