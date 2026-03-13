@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { siteConfig } from '@/config/site';
+import { landingNav, siteConfig } from '@/config/site';
 import { Copyright } from '@/components/shared/copyright';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { GithubIcon, TwitterIcon } from '@/components/icons/social-icons';
@@ -12,6 +12,37 @@ const socialLinks = [
   { label: 'GitHub', href: siteConfig.social.github, icon: GithubIcon },
   { label: 'Twitter', href: siteConfig.social.twitter, icon: TwitterIcon },
 ];
+
+const landingFooterColumns = [
+  {
+    title: 'Navigate',
+    links: landingNav.filter((item) => item.href !== '/pricing'),
+  },
+  {
+    title: 'Account',
+    links: [
+      { title: 'Sign In', href: '/login' },
+      { title: 'Dashboard', href: '/dashboard' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { title: 'About', href: '/about' },
+      { title: 'Contact', href: '/contact' },
+      { title: 'GitHub', href: siteConfig.social.github },
+      { title: 'X / Twitter', href: siteConfig.social.twitter },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { title: 'Privacy Policy', href: '/privacy' },
+      { title: 'Terms', href: '/terms' },
+      { title: 'Support', href: `mailto:${siteConfig.email}` },
+    ],
+  },
+] as const;
 
 interface FooterProps {
   variant?: 'default' | 'landing';
@@ -47,8 +78,8 @@ function LandingFooter() {
         <div className="h-px w-full rounded-full bg-white/30" />
 
         <div className="pt-14 sm:pt-20">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 xl:grid-cols-6">
-            {siteConfig.nav.footer.columns.map((column) => (
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
+            {landingFooterColumns.map((column) => (
               <div key={column.title} className="min-w-0">
                 <h3 className="text-[1.24rem] leading-[1.9rem] font-normal tracking-[-0.02em] text-white">
                   {column.title}

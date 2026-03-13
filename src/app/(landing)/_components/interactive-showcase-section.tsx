@@ -1,14 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  BarChart3,
-  LayoutTemplate,
-  MousePointerClick,
-  ShieldCheck,
-} from 'lucide-react';
+import lottie, { type AnimationItem } from 'lottie-web';
+import { ArrowRight, BarChart3, Bot, Smartphone, SquarePen } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -20,75 +15,138 @@ interface ShowcaseItem {
   readonly proof: string;
   readonly kicker: string;
   readonly preview: {
-    readonly imageSrc: string;
-    readonly imageAlt: string;
+    readonly animationSrc: string;
+    readonly animationLabel: string;
+    readonly zoom?: number;
+    readonly edgeToEdge?: boolean;
+    readonly transformOrigin?: string;
+    readonly preserveAspectRatio?: string;
   };
 }
 
 const showcaseItems: ReadonlyArray<ShowcaseItem> = [
   {
-    id: 'offers',
-    icon: LayoutTemplate,
-    title: 'Launch pages that sell the product in 5 seconds',
+    id: 'blog',
+    icon: SquarePen,
+    title: 'SEO-ready blog already built in',
     description:
-      'State what 20xdev helps teams do, who it is for, and why it beats stitching together another starter stack.',
-    proof: 'If the promise is vague, qualified visitors leave before they ever compare features.',
-    kicker: 'Message clarity',
+      'Start publishing from day one with the blog already set up, so you can focus on ranking, writing, and compounding organic traffic.',
+    proof: 'No extra setup, no separate content project, no delay before SEO starts working.',
+    kicker: 'Content and SEO',
     preview: {
-      imageSrc: '/images/website/background.png',
-      imageAlt: 'Homepage preview placeholder',
+      animationSrc: '/images/website/lottie/blog.json',
+      animationLabel: 'SEO-ready blog animation',
+      zoom: 1,
+      transformOrigin: 'center',
+      preserveAspectRatio: 'xMidYMid meet',
     },
   },
   {
-    id: 'activation',
-    icon: MousePointerClick,
-    title: 'Show what happens after the click',
+    id: 'mobile',
+    icon: Smartphone,
+    title: 'Mobile-first across the whole product',
     description:
-      'Make the next step obvious for high-intent buyers: start building, explore the stack, or see how quickly they can launch.',
-    proof: 'People convert faster when the payoff after the click is concrete, not implied.',
-    kicker: 'Friction reduction',
+      'The project is designed for mobile from the start, with responsive tables, bottom sheets, and interaction patterns that feel native on smaller screens.',
+    proof: 'You are not patching mobile later. The UX is already thought through for it.',
+    kicker: 'Mobile UX',
     preview: {
-      imageSrc: '/images/website/background.avif',
-      imageAlt: 'Product flow preview placeholder',
+      animationSrc: '/images/website/lottie/mobile.json',
+      animationLabel: 'Mobile-first product animation',
+      zoom: 1,
+      transformOrigin: 'center',
+      preserveAspectRatio: 'xMidYMid meet',
     },
   },
   {
-    id: 'trust',
-    icon: ShieldCheck,
-    title: 'Answer the objections serious buyers already have',
-    description:
-      'Use this space to prove the stack is production-ready, opinionated where it matters, and built to save real implementation time.',
-    proof: 'Strong claims without proof create curiosity, but not confidence.',
-    kicker: 'Trust building',
-    preview: {
-      imageSrc: '/images/blog-placeholder.svg',
-      imageAlt: 'Trust and proof placeholder image',
-    },
-  },
-  {
-    id: 'experiments',
+    id: 'charts',
     icon: BarChart3,
-    title: 'Give each section one job in the sales journey',
+    title: 'Charts are already wired into the dashboard',
     description:
-      'Instead of stacking generic features, use the page to move visitors from attention to belief to action with less cognitive load.',
-    proof: 'The best homepage sections do one persuasive job each, and do it clearly.',
-    kicker: 'Conversion structure',
+      'Use ready-made chart components in the dashboard instead of spending time setting up the basics before you can show meaningful product data.',
+    proof: 'You can move straight to your own metrics instead of building the chart layer first.',
+    kicker: 'Dashboard foundation',
     preview: {
-      imageSrc: '/images/website/background.png',
-      imageAlt: 'Section structure placeholder image',
+      animationSrc: '/images/website/lottie/charts.json',
+      animationLabel: 'Dashboard charts animation',
+      zoom: 1,
+      transformOrigin: 'center',
+      preserveAspectRatio: 'xMidYMid meet',
+    },
+  },
+  {
+    id: 'ai',
+    icon: Bot,
+    title: 'AI is already part of the foundation',
+    description:
+      'If you want to add AI features, the project already gives you a clean starting point instead of forcing you to bolt that layer on later.',
+    proof: 'Less integration work up front means you can ship AI workflows sooner.',
+    kicker: 'AI-ready stack',
+    preview: {
+      animationSrc: '/images/website/lottie/ai.json',
+      animationLabel: 'AI-ready project animation',
+      zoom: 1,
+      edgeToEdge: true,
+      transformOrigin: 'top left',
+      preserveAspectRatio: 'xMinYMin slice',
     },
   },
 ] as const;
 
+function LottiePreview({ item }: { readonly item: ShowcaseItem }): React.ReactElement {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) {
+      return undefined;
+    }
+
+    const animation: AnimationItem = lottie.loadAnimation({
+      container: containerRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: item.preview.animationSrc,
+      rendererSettings: {
+        preserveAspectRatio: item.preview.preserveAspectRatio ?? 'xMidYMid meet',
+      },
+    });
+
+    return () => {
+      animation.destroy();
+    };
+  }, [item.preview.animationSrc]);
+
+  return (
+    <div
+      className={cn(
+        'h-[320px] w-full overflow-hidden sm:h-[420px] lg:h-[520px]',
+        item.preview.edgeToEdge ? 'rounded-[1.6rem]' : 'rounded-[1.2rem]'
+      )}
+    >
+      <div
+        ref={containerRef}
+        aria-label={item.preview.animationLabel}
+        role="img"
+        className="h-full w-full"
+        style={{
+          transform: `scale(${item.preview.zoom ?? 1})`,
+          transformOrigin: item.preview.transformOrigin ?? 'center',
+        }}
+      />
+    </div>
+  );
+}
+
 function ShowcasePreview({ item }: { readonly item: ShowcaseItem }): React.ReactElement {
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-white/45 bg-[#e9e2d7] p-3 shadow-[0_28px_80px_rgba(61,45,31,0.12)] sm:p-4">
-      <div className="overflow-hidden rounded-[1.6rem] border border-black/6 bg-white/60">
-        <img
-          src={item.preview.imageSrc}
-          alt={item.preview.imageAlt}
-          className="h-[420px] w-full object-cover object-center sm:h-[520px]"
-        />
+      <div
+        className={cn(
+          'overflow-hidden rounded-[1.6rem] border border-black/6 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),rgba(240,231,219,0.9)_36%,rgba(225,213,198,0.92)_100%)]',
+          item.preview.edgeToEdge ? 'p-0' : 'p-4 sm:p-6'
+        )}
+      >
+        <LottiePreview item={item} />
       </div>
     </div>
   );
@@ -110,14 +168,14 @@ export function InteractiveShowcaseSection(): React.ReactElement {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <div className="inline-flex items-center rounded-full border border-black/6 bg-white/55 px-4 py-1.5 text-sm tracking-[-0.02em] text-[color:var(--landing-ink)]">
-              Why buyers convert
+              Built in from day one
             </div>
             <h2 className="mt-6 max-w-3xl text-[2.75rem] leading-[0.98] font-medium tracking-[-0.065em] text-[color:var(--landing-ink)] sm:text-[3.45rem]">
-              Launch your B2B SaaS faster, with the polish and trust signals buyers expect.
+              Start with the parts indie hackers usually spend weeks stitching together.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 tracking-[-0.03em] text-[color:var(--landing-muted)]">
-              Built for indie hackers who want to skip the boilerplate, look legit from day one,
-              and turn early traffic into signups instead of rebuild work.
+              Blog, mobile UX, charts, and AI readiness are already in place, so you can spend
+              more time shipping your product and less time building the foundation around it.
             </p>
           </div>
 

@@ -1,6 +1,10 @@
+import Image from 'next/image';
+
 import type { Metadata } from 'next';
 
 import { siteConfig } from '@/config/site';
+
+const heroLandscape = '/images/website/background.avif';
 
 export const metadata: Metadata = {
   title: `About - ${siteConfig.name}`,
@@ -10,11 +14,13 @@ export const metadata: Metadata = {
 
 export default function AboutPage(): React.ReactElement {
   return (
-    <section className="bg-[#efefed]">
-      <div className="mx-auto min-h-screen max-w-7xl px-6 pb-20 pt-36 sm:px-8 sm:pt-44 lg:px-12 lg:pb-24 lg:pt-[33rem]">
+    <section className="relative overflow-hidden border-b border-black/6">
+      <AboutBackground />
+
+      <div className="relative mx-auto min-h-screen max-w-7xl px-6 pb-20 pt-36 sm:px-8 sm:pt-44 lg:px-12 lg:pb-24 lg:pt-[33rem]">
         <div className="mx-auto flex max-w-[700px] flex-col gap-12">
           <header>
-            <h1 className="max-w-[8ch] text-[clamp(3.3rem,7vw,4.5rem)] leading-[0.97] font-normal tracking-[-0.065em] text-[#222221]">
+            <h1 className="max-w-[11ch] text-[clamp(3.3rem,7vw,4.5rem)] leading-[0.97] font-normal tracking-[-0.065em] text-[#222221]">
               The starting point for agent-built SaaS
             </h1>
           </header>
@@ -52,5 +58,20 @@ export default function AboutPage(): React.ReactElement {
         </div>
       </div>
     </section>
+  );
+}
+
+function AboutBackground(): React.ReactElement {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <Image
+        src={heroLandscape}
+        alt=""
+        fill
+        priority
+        className="object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,241,231,0.62)_0%,rgba(247,241,231,0.74)_34%,rgba(247,241,231,0.9)_58%,rgba(239,239,237,0.98)_76%,rgba(239,239,237,1)_100%)]" />
+    </div>
   );
 }
