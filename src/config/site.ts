@@ -76,7 +76,7 @@ export const siteConfig = {
         {
           title: 'Company',
           links: [
-            { title: 'About', href: '/#faq' },
+            { title: 'About', href: '/about' },
             { title: 'Contact', href: '/contact' },
             { title: 'GitHub', href: 'https://github.com/Carefully-Built/blueprint' },
             { title: 'X / Twitter', href: 'https://twitter.com/blueprint' },

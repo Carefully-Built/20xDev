@@ -213,8 +213,6 @@ const techStack: readonly TechItem[] = [
 
 export function TechStackSection(): React.ReactElement {
   const [isExpanded, setIsExpanded] = useState(false);
-  const visibleTechStack = techStack.slice(0, 8);
-  const hiddenTechStack = techStack.slice(8);
 
   return (
     <section className="border-t border-black/6 bg-[color:var(--landing-panel)] py-24">
@@ -227,25 +225,31 @@ export function TechStackSection(): React.ReactElement {
         />
 
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {visibleTechStack.map((tech) => (
-            <TechStackCard key={tech.name} tech={tech} />
+          {techStack.map((tech, index) => (
+            <TechStackCard
+              key={tech.name}
+              tech={tech}
+              className={getCollapsedVisibleClass(index, isExpanded)}
+            />
           ))}
         </div>
 
-        {hiddenTechStack.length > 0 ? (
+        {techStack.length > 9 ? (
           <div className="relative mt-4">
             <div
               className={
                 isExpanded
-                  ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  ? 'hidden'
                   : 'pointer-events-none max-h-44 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_40%,transparent_100%)]'
               }
             >
-              <div
-                className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${isExpanded ? '' : 'scale-[0.985] opacity-60 blur-[1.5px]'}`}
-              >
-                {hiddenTechStack.map((tech) => (
-                  <TechStackCard key={tech.name} tech={tech} />
+              <div className="grid scale-[0.985] gap-4 opacity-60 blur-[1.5px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {techStack.map((tech, index) => (
+                  <TechStackCard
+                    key={`${tech.name}-preview`}
+                    tech={tech}
+                    className={getCollapsedPreviewClass(index)}
+                  />
                 ))}
               </div>
             </div>
@@ -272,13 +276,19 @@ export function TechStackSection(): React.ReactElement {
   );
 }
 
-function TechStackCard({ tech }: { tech: TechItem }): React.ReactElement {
+function TechStackCard({
+  tech,
+  className = '',
+}: {
+  tech: TechItem;
+  className?: string;
+}): React.ReactElement {
   return (
     <Link
       href={tech.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)]"
+      className={`group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)] ${className}`}
     >
       <div className="flex items-center justify-between">
         <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden">
@@ -303,4 +313,48 @@ function TechStackCard({ tech }: { tech: TechItem }): React.ReactElement {
       <p className="text-sm leading-relaxed text-black/48">{tech.why}</p>
     </Link>
   );
+}
+
+function getCollapsedVisibleClass(index: number, isExpanded: boolean): string {
+  if (isExpanded) {
+    return '';
+  }
+
+  if (index < 2) {
+    return '';
+  }
+
+  if (index < 4) {
+    return 'hidden sm:flex';
+  }
+
+  if (index < 6) {
+    return 'hidden lg:flex';
+  }
+
+  if (index < 8) {
+    return 'hidden xl:flex';
+  }
+
+  return 'hidden';
+}
+
+function getCollapsedPreviewClass(index: number): string {
+  if (index < 2) {
+    return 'hidden';
+  }
+
+  if (index < 4) {
+    return 'flex sm:hidden';
+  }
+
+  if (index < 6) {
+    return 'flex lg:hidden';
+  }
+
+  if (index < 8) {
+    return 'flex xl:hidden';
+  }
+
+  return 'flex';
 }
