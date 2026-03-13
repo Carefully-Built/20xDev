@@ -184,6 +184,14 @@ const techStack: readonly TechItem[] = [
     logo: '/images/stack/featurebase.png',
     href: 'https://featurebase.app',
   },
+  {
+    name: 'Cal.com',
+    category: 'Scheduling',
+    description: 'Instant booking links',
+    why: 'Let prospects book demos and discovery calls without back-and-forth emails.',
+    logo: '/images/stack/cal.png',
+    href: 'https://cal.com',
+  },
   // Code Quality
   {
     name: 'Knip',

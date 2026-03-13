@@ -1,4 +1,3 @@
-import { CtaSection } from './_components/cta-section';
 import { FaqSection } from './_components/faq-section';
 import { FeaturesSection } from './_components/features-section';
 import { HeroSection } from './_components/hero-section';
@@ -24,7 +23,6 @@ export default function LandingPage(): React.ReactElement {
       <FeaturesSection />
       <TechStackSection />
       <FaqSection />
-      <CtaSection />
     </>
   );
 }

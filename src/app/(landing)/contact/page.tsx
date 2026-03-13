@@ -4,10 +4,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { ContactForm } from './_components/contact-form';
+import { DirectScheduleCard } from './_components/direct-schedule-card';
 import { SuccessMessage } from './_components/success-message';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 const heroLandscape = '/images/website/background.avif';
+const discoveryCallUrl
+  = process.env.NEXT_PUBLIC_CAL_DISCOVERY_CALL_URL ?? 'https://cal.com/20xdev/discovery-call';
 
 export default function ContactPage(): React.ReactElement {
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -85,6 +88,8 @@ function ContactContent({
               <ContactForm status={status} errorMessage={errorMessage} onSubmit={onSubmit} />
             )}
           </div>
+
+          <DirectScheduleCard url={discoveryCallUrl} />
         </div>
       </div>
     </div>

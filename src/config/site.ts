@@ -33,7 +33,6 @@ export const siteConfig = {
   // Navigation
   nav: {
     main: [
-      { title: 'Features', href: '/features' },
       { title: 'Pricing', href: '/pricing' },
       { title: 'Blog', href: '/blog' },
       { title: 'About', href: '/about' },
@@ -44,7 +43,6 @@ export const siteConfig = {
         {
           title: 'Product',
           links: [
-            { title: 'Features', href: '/#features' },
             { title: 'Dashboard', href: '/dashboard' },
             { title: 'Blog', href: '/blog' },
           ],
@@ -87,13 +85,13 @@ export const siteConfig = {
           links: [
             { title: 'Privacy Policy', href: '/privacy' },
             { title: 'Terms', href: '/terms' },
-            { title: 'Support', href: 'mailto:hello@blueprint.dev' },
+            { title: 'Support', href: '/contact' },
           ],
         },
       ],
       bottomLinks: [
         { title: 'Privacy Policy', href: '/privacy' },
-        { title: 'Security', href: 'mailto:hello@blueprint.dev?subject=Security%20Inquiry' },
+        { title: 'Security', href: '/contact' },
       ],
     },
   },
