@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 
 import { LandingSectionHeading } from './landing-section-heading';
@@ -209,6 +212,10 @@ const techStack: readonly TechItem[] = [
 ];
 
 export function TechStackSection(): React.ReactElement {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const visibleTechStack = techStack.slice(0, 8);
+  const hiddenTechStack = techStack.slice(8);
+
   return (
     <section className="border-t border-black/6 bg-[color:var(--landing-panel)] py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -220,41 +227,80 @@ export function TechStackSection(): React.ReactElement {
         />
 
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {techStack.map((tech) => (
-            <Link
-              key={tech.name}
-              href={tech.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)]"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden">
-                  <SafeImage
-                    src={tech.logo}
-                    alt={tech.name}
-                    width={32}
-                    height={32}
-                    className={`size-8 ${tech.className?.replace('dark:invert', '').trim() ?? ''}`}
-                  />
-                </div>
-                <Badge variant="secondary" className="border-0 bg-black/5 text-xs text-black/65">
-                  {tech.category}
-                </Badge>
-              </div>
-              <div>
-                <h4 className="font-semibold tracking-[-0.03em] text-[color:var(--landing-ink)] transition-colors group-hover:text-[color:var(--landing-accent-strong)]">
-                  {tech.name}
-                </h4>
-                <p className="text-sm text-black/58">{tech.description}</p>
-              </div>
-              <p className="text-sm leading-relaxed text-black/48">
-                {tech.why}
-              </p>
-            </Link>
+          {visibleTechStack.map((tech) => (
+            <TechStackCard key={tech.name} tech={tech} />
           ))}
         </div>
+
+        {hiddenTechStack.length > 0 ? (
+          <div className="relative mt-4">
+            <div
+              className={
+                isExpanded
+                  ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  : 'pointer-events-none max-h-44 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_40%,transparent_100%)]'
+              }
+            >
+              <div
+                className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${isExpanded ? '' : 'scale-[0.985] opacity-60 blur-[1.5px]'}`}
+              >
+                {hiddenTechStack.map((tech) => (
+                  <TechStackCard key={tech.name} tech={tech} />
+                ))}
+              </div>
+            </div>
+
+            {!isExpanded ? (
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[color:var(--landing-panel)] via-[color:var(--landing-panel)]/88 to-transparent" />
+            ) : null}
+
+            <div
+              className={`flex ${isExpanded ? 'mt-6' : 'absolute inset-x-0 bottom-0 z-10 justify-center pb-3'}`}
+            >
+              <button
+                type="button"
+                onClick={() => setIsExpanded((current) => !current)}
+                className="rounded-full border border-black/10 bg-white/92 px-5 py-2 text-sm font-medium tracking-[-0.02em] text-[color:var(--landing-ink)] shadow-[0_12px_30px_rgba(42,34,28,0.08)] transition hover:border-[color:var(--landing-accent-strong)]/30 hover:text-[color:var(--landing-accent-strong)]"
+              >
+                {isExpanded ? 'Show fewer tools' : `Show all ${techStack.length} tools`}
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
+  );
+}
+
+function TechStackCard({ tech }: { tech: TechItem }): React.ReactElement {
+  return (
+    <Link
+      href={tech.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)]"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden">
+          <SafeImage
+            src={tech.logo}
+            alt={tech.name}
+            width={32}
+            height={32}
+            className={`size-8 ${tech.className?.replace('dark:invert', '').trim() ?? ''}`}
+          />
+        </div>
+        <Badge variant="secondary" className="border-0 bg-black/5 text-xs text-black/65">
+          {tech.category}
+        </Badge>
+      </div>
+      <div>
+        <h4 className="font-semibold tracking-[-0.03em] text-[color:var(--landing-ink)] transition-colors group-hover:text-[color:var(--landing-accent-strong)]">
+          {tech.name}
+        </h4>
+        <p className="text-sm text-black/58">{tech.description}</p>
+      </div>
+      <p className="text-sm leading-relaxed text-black/48">{tech.why}</p>
+    </Link>
   );
 }
