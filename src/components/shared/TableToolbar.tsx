@@ -4,6 +4,8 @@ import { Filter, Search, X } from 'lucide-react';
 import { parseAsString, useQueryState } from 'nuqs';
 import { useCallback, useState } from 'react';
 
+import type { FilterOption } from '@/lib/filters';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -14,7 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import type { FilterOption } from '@/lib/filters';
 
 // ============================================================
 // FILTER DROPDOWN
@@ -36,7 +37,7 @@ export function FilterDropdown<T extends string>({
   className,
 }: FilterDropdownProps<T>): React.ReactElement {
   return (
-    <Select value={value} onValueChange={(v) => onChange(v as T | 'all')}>
+    <Select value={value} onValueChange={(v) => { onChange(v as T | 'all'); }}>
       <SelectTrigger className={className ?? 'w-full sm:w-[140px]'}>
         <SelectValue placeholder={label} />
       </SelectTrigger>
@@ -76,13 +77,13 @@ export function SearchInput({
         type="search"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => { onChange(e.target.value); }}
         className="pl-9 pr-9"
       />
       {value && (
         <button
           type="button"
-          onClick={() => onChange('')}
+          onClick={() => { onChange(''); }}
           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
         >
           <X className="size-4" />
@@ -109,7 +110,7 @@ export interface TableToolbarProps {
     placeholder?: string;
   };
   readonly filters?: {
-    config: FilterConfig<string>;
+    config: FilterConfig;
     value: string;
     onChange: (value: string) => void;
   }[];
@@ -126,8 +127,8 @@ export function TableToolbar({
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const hasActiveFilters =
-    (search?.value && search.value.length > 0) ||
-    filters?.some((f) => f.value !== 'all');
+    ((search?.value?.length ?? 0) > 0) ||
+    (filters?.some((f) => f.value !== 'all') ?? false);
 
   const activeFilterCount = filters?.filter((f) => f.value !== 'all').length ?? 0;
 
@@ -150,7 +151,7 @@ export function TableToolbar({
             variant="outline"
             size="icon"
             className="sm:hidden relative"
-            onClick={() => setFiltersOpen(!filtersOpen)}
+            onClick={() => { setFiltersOpen(!filtersOpen); }}
           >
             <Filter className="size-4" />
             {activeFilterCount > 0 && (

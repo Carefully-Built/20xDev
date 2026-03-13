@@ -72,7 +72,7 @@ export function Pagination({
             <span className="text-xs text-muted-foreground">Rows:</span>
             <Select
               value={String(pageSize)}
-              onValueChange={(v) => onPageSizeChange(Number(v))}
+              onValueChange={(v) => { onPageSizeChange(Number(v)); }}
             >
               <SelectTrigger className="h-7 w-[60px] text-xs">
                 <SelectValue />
@@ -99,7 +99,7 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-7"
-            onClick={() => onPageChange(1)}
+            onClick={() => { onPageChange(1); }}
             disabled={!hasPrevPage}
           >
             <ChevronsLeft className="size-3.5" />
@@ -109,7 +109,7 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-7"
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => { onPageChange(currentPage - 1); }}
             disabled={!hasPrevPage}
           >
             <ChevronLeft className="size-3.5" />
@@ -125,7 +125,7 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-7"
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => { onPageChange(currentPage + 1); }}
             disabled={!hasNextPage}
           >
             <ChevronRight className="size-3.5" />
@@ -135,7 +135,7 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-7"
-            onClick={() => onPageChange(totalPages)}
+            onClick={() => { onPageChange(totalPages); }}
             disabled={!hasNextPage}
           >
             <ChevronsRight className="size-3.5" />

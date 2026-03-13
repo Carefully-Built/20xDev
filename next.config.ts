@@ -1,3 +1,5 @@
+import { withGTConfig } from 'gt-next/config';
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -14,8 +16,12 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.convex.site',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
     ],
   },
 };
 
-export default nextConfig;
+export default withGTConfig(nextConfig);

@@ -1,12 +1,12 @@
 'use client';
 
+import { api } from '@convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { ChevronDown, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 
-import { api } from '@convex/_generated/api';
 
 import { CreateOrganization } from './create-organization';
 

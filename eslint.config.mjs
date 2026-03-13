@@ -80,6 +80,10 @@ export default tseslint.config(
       'prefer-const': 'error',
       'no-var': 'error',
       'eqeqeq': ['error', 'always'],
+      
+      // ========== File Size ==========
+      'max-lines': ['warn', { max: 120, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true, skipComments: true }],
 
       // ========== Next.js ==========
       ...nextPlugin.configs.recommended.rules,

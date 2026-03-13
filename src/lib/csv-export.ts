@@ -51,7 +51,9 @@ function escapeCsvValue(value: unknown): string {
     return '';
   }
   
-  const stringValue = String(value);
+  // Handle objects/arrays to avoid [object Object]
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
   
   // Escape if contains delimiter, quotes, or newlines
   if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
@@ -93,6 +95,7 @@ function formatCsvValue(
     return JSON.stringify(value);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return String(value);
 }
 
@@ -161,12 +164,12 @@ export function exportToCsv<T extends Record<string, unknown>>(
  * Helper to reuse existing table column definitions
  */
 export function tableColumnsToCsv<T>(
-  columns: Array<{ header: string; accessor?: keyof T | string }>,
+  columns: { header: string; accessor?: keyof T | string }[],
 ): CsvColumn<T>[] {
   return columns
-    .filter((col) => col.accessor !== undefined)
+    .filter((col): col is typeof col & { accessor: string } => col.accessor !== undefined)
     .map((col) => ({
       header: col.header,
-      accessor: col.accessor as keyof T | string,
+      accessor: col.accessor,
     }));
 }
