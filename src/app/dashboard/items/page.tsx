@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { Plus, Download } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -217,18 +218,18 @@ export default function ItemsPage(): React.ReactElement {
   return (
     <div className="flex h-[calc(100vh-theme(spacing.16)-theme(spacing.8))] md:h-[calc(100vh-theme(spacing.12))] flex-col gap-6">
       <div className="flex items-center justify-between shrink-0">
-        <h1 className="text-xl font-semibold tracking-tight">Items</h1>
+        <h1 className="text-xl font-semibold tracking-tight"><T>Items</T></h1>
         <div className="flex gap-2">
           <ResponsiveButton
             variant="outline"
-            desktopLabel="Export"
-            mobileLabel="Export"
+            desktopLabel={<T>Export</T>}
+            mobileLabel={<T>Export</T>}
             icon={<Download className="size-4" />}
             onClick={handleDownload}
           />
           <ResponsiveButton
-            desktopLabel="New Item"
-            mobileLabel="New"
+            desktopLabel={<T>New Item</T>}
+            mobileLabel={<T>New</T>}
             icon={<Plus className="size-4" />}
             onClick={handleCreate}
           />
@@ -281,7 +282,7 @@ export default function ItemsPage(): React.ReactElement {
       <ResponsiveSheet
         open={isSheetOpen}
         onOpenChange={setIsSheetOpen}
-        title={editingItem ? 'Edit Item' : 'New Item'}
+        title={editingItem ? <T>Edit Item</T> : <T>New Item</T>}
       >
         <ItemForm
           defaultValues={editingItem ?? undefined}

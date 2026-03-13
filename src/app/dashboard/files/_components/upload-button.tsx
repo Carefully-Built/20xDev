@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { Upload, Loader2 } from 'lucide-react';
 import { useRef } from 'react';
 
@@ -39,8 +40,8 @@ export function UploadButton({
         onChange={handleChange}
       />
       <ResponsiveButton
-        desktopLabel={isUploading ? 'Uploading...' : 'Upload Files'}
-        mobileLabel={isUploading ? 'Uploading...' : 'Upload'}
+        desktopLabel={isUploading ? <T>Uploading...</T> : <T>Upload Files</T>}
+        mobileLabel={isUploading ? <T>Uploading...</T> : <T>Upload</T>}
         icon={isUploading ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
         onClick={handleClick}
         disabled={isUploading || disabled}

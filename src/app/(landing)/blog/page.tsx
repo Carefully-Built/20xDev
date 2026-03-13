@@ -1,21 +1,22 @@
-import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { FileText } from 'lucide-react';
 import { T } from 'gt-next';
-
-import { client, isSanityConfigured } from '@/sanity/lib/client';
-import {
-  getCategoriesQuery,
-  getPostCountQuery,
-  getPostsQuery,
-} from '@/sanity/lib/queries';
-import type { Category, PostListItem } from '@/types/blog';
+import { FileText } from 'lucide-react';
+import { redirect } from 'next/navigation';
 
 import { BlogGrid } from './_components/blog-grid';
 import { BlogHeader } from './_components/blog-header';
 import { BlogPagination } from './_components/blog-pagination';
 import { CategoryFilter } from './_components/category-filter';
+
+import type { Category, PostListItem } from '@/types/blog';
+import type { Metadata } from 'next';
+
 import { siteConfig } from '@/config/site';
+import { client } from '@/sanity/lib/client';
+import {
+  getCategoriesQuery,
+  getPostCountQuery,
+  getPostsQuery,
+} from '@/sanity/lib/queries';
 
 const POSTS_PER_PAGE = 12;
 
@@ -29,6 +30,26 @@ interface BlogPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
+async function getBlogPageData(offset: number): Promise<{
+  categories: Category[];
+  posts: PostListItem[];
+  totalCount: number;
+}> {
+  const [posts, totalCount, categories] = await Promise.all([
+    client.fetch<PostListItem[]>(
+      getPostsQuery,
+      { offset, limit: offset + POSTS_PER_PAGE },
+      { next: { tags: ['posts'] } },
+    ),
+    client.fetch<number>(getPostCountQuery, {}, { next: { tags: ['posts'] } }),
+    client.fetch<Category[]>(getCategoriesQuery, {}, {
+      next: { tags: ['categories'] },
+    }),
+  ]);
+
+  return { categories, posts, totalCount };
+}
+
 export default async function BlogPage({
   searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {
@@ -37,32 +58,24 @@ export default async function BlogPage({
   const currentPage =
     Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const offset = (currentPage - 1) * POSTS_PER_PAGE;
-
-  let posts: PostListItem[] = [];
-  let totalCount = 0;
-  let categories: Category[] = [];
-
-  if (isSanityConfigured) {
-    [posts, totalCount, categories] = await Promise.all([
-      client.fetch<PostListItem[]>(getPostsQuery, {
-        offset,
-        limit: offset + POSTS_PER_PAGE,
-      }, { next: { tags: ['posts'] } }),
-      client.fetch<number>(getPostCountQuery, {}, { next: { tags: ['posts'] } }),
-      client.fetch<Category[]>(getCategoriesQuery, {}, { next: { tags: ['categories'] } }),
-    ]);
-  }
+  const { posts, totalCount, categories } = await getBlogPageData(offset);
 
   const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE);
+  const nextPageHref =
+    currentPage < totalPages ? `/blog?page=${String(currentPage + 1)}` : undefined;
 
   if (totalCount > 0 && posts.length === 0 && currentPage > 1) {
-    redirect(`/blog?page=${totalPages}`);
+    redirect(`/blog?page=${String(totalPages)}`);
   }
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <BlogHeader />
+        <BlogHeader
+          title="News"
+          actionHref={nextPageHref}
+          actionLabel={nextPageHref ? 'See more' : undefined}
+        />
         <CategoryFilter categories={categories} />
         {posts.length > 0 ? (
           <>

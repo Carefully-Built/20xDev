@@ -10,7 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 interface ResponsiveSheetProps {
   readonly open: boolean;
   readonly onOpenChange: (open: boolean) => void;
-  readonly title: string;
+  readonly title: ReactNode;
   readonly children: ReactNode;
   readonly width?: number;
 }

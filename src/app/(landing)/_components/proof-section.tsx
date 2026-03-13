@@ -1,42 +1,57 @@
-import { LandingSectionHeading } from './landing-section-heading';
-import { ProofMetricCard } from './proof-metric-card';
+import { BadgeDollarSign, ChartNoAxesCombined, ShieldCheck } from 'lucide-react';
 
-const proofMetrics = [
+import { ProofBenefit } from './proof-benefit';
+import { ProofStat } from './proof-stat';
+
+const stats = [
+  { value: '120h', label: 'Saved on launch setup' },
+  { value: '24', label: 'Tools with generous free tiers' },
+  { value: '1', label: 'Foundation to ship and scale from' },
+] as const;
+
+const benefits = [
   {
-    value: '120h',
-    label: 'Saved on the first launch cycle',
-    detail: 'Prewired auth, billing, dashboard, and real-time data remove weeks of setup before you ship anything useful.',
+    icon: ChartNoAxesCombined,
+    title: 'Drive revenue',
+    description: 'Launch faster with prewired auth, billing, CMS, and product pages that move visitors into the app.',
   },
   {
-    value: '24',
-    label: 'Best-in-class tools with generous free tiers',
-    detail: 'Start lean with infrastructure that stays affordable while you validate, launch, and grow your first users.',
+    icon: ShieldCheck,
+    title: 'Future-proof the stack',
+    description: 'Standardise your setup early so new features land on a clean base instead of a patchwork of starters.',
   },
   {
-    value: '1',
-    label: 'Production-ready foundation instead of scattered starters',
-    detail: 'Use one opinionated codebase for marketing pages, app shell, payments, CMS, and enterprise-ready auth.',
+    icon: BadgeDollarSign,
+    title: 'Reduce setup cost',
+    description: 'Spend less on glue code, rework, and tooling churn by starting from one coherent production-ready system.',
   },
 ] as const;
 
 export function ProofSection(): React.ReactElement {
   return (
-    <section className="border-b border-black/6 bg-[color:var(--landing-panel)] py-18 sm:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <LandingSectionHeading
-          eyebrow="Proof, not promises"
-          title="Built to compress time-to-launch without adding hidden setup debt"
-          description="The fastest way to trust a starter is to see what it replaces. These are the bottlenecks 20xdev removes before your team writes feature one."
-          className="mx-auto max-w-4xl"
-        />
+    <section className="bg-[color:var(--landing-surface)] px-4 pb-28 pt-[7.95rem] sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="max-w-[28rem]">
+          <h2 className="text-[2.75rem] leading-[0.98] tracking-[-0.065em] text-[color:var(--landing-accent-strong)] sm:text-[3.55rem] sm:leading-[1.03]">
+            <span className="block">Designed to convert.</span>
+            <span className="block">Built to scale.</span>
+          </h2>
+        </div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {proofMetrics.map((metric) => (
-            <ProofMetricCard
-              key={metric.label}
-              value={metric.value}
-              label={metric.label}
-              detail={metric.detail}
+        <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:gap-16">
+          {stats.map((stat) => (
+            <ProofStat key={stat.label} value={stat.value} label={stat.label} />
+          ))}
+        </div>
+
+        <div className="mt-10 grid gap-0 md:grid-cols-3">
+          {benefits.map((benefit, index) => (
+            <ProofBenefit
+              key={benefit.title}
+              icon={benefit.icon}
+              title={benefit.title}
+              description={benefit.description}
+              bordered={index > 0}
             />
           ))}
         </div>

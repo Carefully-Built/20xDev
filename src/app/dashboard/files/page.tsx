@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -69,7 +70,7 @@ export default function FilesPage(): React.ReactElement {
 
   if (isLoading) {
     return (
-      <PageLayout title="Files" actions={actions}>
+      <PageLayout title={<T>Files</T>} actions={actions}>
         <div className={GRID_CLASSES}>
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => <FileCardSkeleton key={i} />)}
         </div>
@@ -79,14 +80,14 @@ export default function FilesPage(): React.ReactElement {
 
   if (!files?.length) {
     return (
-      <PageLayout title="Files" actions={actions}>
+      <PageLayout title={<T>Files</T>} actions={actions}>
         <EmptyState onUpload={() => document.querySelector<HTMLInputElement>('input[type="file"]')?.click()} />
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout title="Files" actions={actions}>
+    <PageLayout title={<T>Files</T>} actions={actions}>
       <div className={GRID_CLASSES}>
         {files.map((file: FileWithUrl) => <FileCard key={file._id} file={file} onDelete={handleDelete} />)}
       </div>

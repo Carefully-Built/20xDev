@@ -68,7 +68,7 @@ interface BlogPostBodyProps {
 
 export function BlogPostBody({ body }: BlogPostBodyProps): React.ReactElement {
   return (
-    <div className="prose prose-sm dark:prose-invert max-w-none md:prose-base">
+    <div className="prose prose-sm max-w-none text-[var(--landing-ink)] prose-headings:text-[var(--landing-ink)] prose-p:text-[color:color-mix(in_oklab,var(--landing-ink)_76%,white)] prose-p:leading-8 prose-a:text-[var(--landing-ink)] prose-strong:text-[var(--landing-ink)] prose-code:text-[var(--landing-ink)] md:prose-base">
       <PortableText value={body} components={components} />
     </div>
   );

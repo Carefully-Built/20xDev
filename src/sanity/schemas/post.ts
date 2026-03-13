@@ -1,5 +1,7 @@
 import { defineField, defineType } from 'sanity';
 
+import type { ReactNode } from 'react';
+
 export const post = defineType({
   name: 'post',
   title: 'Blog Post',
@@ -30,6 +32,7 @@ export const post = defineType({
       title: 'Main Image',
       type: 'image',
       options: { hotspot: true },
+      validation: (rule) => rule.required(),
       fields: [
         defineField({
           name: 'alt',
@@ -73,8 +76,16 @@ export const post = defineType({
   ],
   preview: {
     select: { title: 'title', author: 'author.name', media: 'mainImage' },
-    prepare({ title, author, media }) {
-      return { title, subtitle: author as string, media };
+    prepare({
+      title,
+      author,
+      media,
+    }: {
+      title?: string;
+      author?: string;
+      media?: ReactNode;
+    }) {
+      return { title, subtitle: author, media };
     },
   },
 });

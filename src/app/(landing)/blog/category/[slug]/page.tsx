@@ -1,26 +1,27 @@
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { FileText } from 'lucide-react';
 import { T } from 'gt-next';
+import { FileText } from 'lucide-react';
+import { notFound } from 'next/navigation';
 
-import { client, isSanityConfigured } from '@/sanity/lib/client';
+
+import { BlogGrid } from '../../_components/blog-grid';
+import { BlogHeader } from '../../_components/blog-header';
+import { CategoryFilter } from '../../_components/category-filter';
+
+import type { Category, PostListItem } from '@/types/blog';
+import type { Metadata } from 'next';
+
+import { client } from '@/sanity/lib/client';
 import {
   getCategoriesQuery,
   getCategorySlugsQuery,
   getPostsByCategoryQuery,
 } from '@/sanity/lib/queries';
-import type { Category, PostListItem } from '@/types/blog';
-
-import { BlogGrid } from '../../_components/blog-grid';
-import { BlogHeader } from '../../_components/blog-header';
-import { CategoryFilter } from '../../_components/category-filter';
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  if (!isSanityConfigured) return [];
   try {
     const slugs = await client.fetch<string[]>(getCategorySlugsQuery);
     return slugs.map((slug) => ({ slug }));
@@ -33,7 +34,6 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
-  if (!isSanityConfigured) return { title: 'Category' };
   const { slug } = await params;
   const categories = await client.fetch<Category[]>(getCategoriesQuery, {}, {
     next: { tags: ['categories'] },
@@ -53,7 +53,6 @@ export default async function CategoryPage({
   params,
 }: CategoryPageProps): Promise<React.ReactElement> {
   const { slug } = await params;
-  if (!isSanityConfigured) notFound();
 
   const [posts, categories] = await Promise.all([
     client.fetch<PostListItem[]>(
@@ -70,11 +69,13 @@ export default async function CategoryPage({
   if (!category) notFound();
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <BlogHeader
           title={category.title}
           description={category.description}
+          actionHref="/blog"
+          actionLabel="See more"
         />
         <CategoryFilter categories={categories} />
         {posts.length > 0 ? (

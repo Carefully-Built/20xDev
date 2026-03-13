@@ -8,7 +8,7 @@ interface BlogGridProps {
 
 export function BlogGrid({ posts }: BlogGridProps): React.ReactElement {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
       {posts.map((post) => (
         <BlogCard key={post._id} post={post} />
       ))}

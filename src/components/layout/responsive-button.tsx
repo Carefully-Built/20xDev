@@ -12,9 +12,9 @@ type ButtonProps = ComponentPropsWithoutRef<typeof Button>;
 
 interface ResponsiveButtonProps extends Omit<ButtonProps, 'children'> {
   /** Text to display on desktop */
-  readonly desktopLabel: string;
+  readonly desktopLabel: ReactNode;
   /** Text to display on mobile */
-  readonly mobileLabel: string;
+  readonly mobileLabel: ReactNode;
   /** Custom icon (defaults to Plus) */
   readonly icon?: ReactNode;
   /** Hide icon on mobile */

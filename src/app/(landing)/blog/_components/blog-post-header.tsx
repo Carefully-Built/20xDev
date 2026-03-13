@@ -1,12 +1,9 @@
 import Image from 'next/image';
-
-import { T } from 'gt-next';
+import Link from 'next/link';
 
 import type { Post } from '@/types/blog';
-import { urlForImage } from '@/sanity/lib/image';
-
-import { BlogCardMeta } from './blog-card-meta';
-import { CategoryBadge } from './category-badge';
+import { getBlogReadingTime } from '@/lib/blog';
+import { getBlogImageAlt, getBlogImageSrc } from '@/lib/blog-image';
 
 interface BlogPostHeaderProps {
   post: Post;
@@ -15,48 +12,55 @@ interface BlogPostHeaderProps {
 export function BlogPostHeader({
   post,
 }: BlogPostHeaderProps): React.ReactElement {
-  const readingTime = post.body
-    ? Math.max(1, Math.ceil(JSON.stringify(post.body).length / 1500))
-    : 1;
+  const readingTime = getBlogReadingTime(post.body);
+  const primaryCategory = post.categories[0];
 
   return (
-    <header className="mb-8 space-y-4">
-      <div className="flex flex-wrap gap-1">
-        {post.categories.map((cat) => (
-          <CategoryBadge
-            key={cat._id}
-            title={cat.title}
-            slug={cat.slug.current}
-          />
-        ))}
+    <header className="mb-12 space-y-6 md:mb-14">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.84rem] uppercase tracking-[0.14em] text-[var(--landing-muted)]">
+        {primaryCategory ? (
+          <Link
+            href={`/blog/category/${primaryCategory.slug.current}`}
+            className="hover:text-[var(--landing-ink)]"
+          >
+            {primaryCategory.title}
+          </Link>
+        ) : (
+          <span>Article</span>
+        )}
+        <span aria-hidden="true">/</span>
+        <span>{readingTime} min read</span>
       </div>
-      <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-        {post.title}
-      </h1>
-      <div className="flex items-center gap-3 text-sm text-muted-foreground">
-        <BlogCardMeta
-          authorName={post.author.name}
-          authorImage={post.author.image}
-          publishedAt={post.publishedAt}
+      <div className="max-w-4xl">
+        <h1 className="text-[2.8rem] leading-[0.96] tracking-[-0.07em] text-[var(--landing-ink)] md:text-[4.5rem]">
+          {post.title}
+        </h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 tracking-[-0.02em] text-[var(--landing-muted)]">
+          {post.excerpt}
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--landing-muted)]">
+        <span className="font-medium text-[var(--landing-ink)]">{post.author.name}</span>
+        <span aria-hidden="true">—</span>
+        <time dateTime={post.publishedAt}>
+          {new Intl.DateTimeFormat('en', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          }).format(new Date(post.publishedAt))}
+        </time>
+      </div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-[20px] bg-[var(--landing-panel)]">
+        <Image
+          src={getBlogImageSrc(post.mainImage, 1200, 630)}
+          alt={getBlogImageAlt(post.mainImage, post.title)}
+          fill
+          priority
+          sizes="(max-width: 768px) 100vw, 1200px"
+          className="object-cover"
         />
-        <span aria-hidden="true">·</span>
-        <span>
-          {readingTime}{' '}
-          <T id="blog.minRead">min read</T>
-        </span>
+        <div className="absolute inset-0 rounded-[20px] border border-white/12" />
       </div>
-      {post.mainImage ? (
-        <div className="relative aspect-video overflow-hidden rounded-lg">
-          <Image
-            src={urlForImage(post.mainImage).width(1200).height(630).url()}
-            alt={post.mainImage.alt ?? post.title}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 1200px"
-            className="object-cover"
-          />
-        </div>
-      ) : null}
     </header>
   );
 }

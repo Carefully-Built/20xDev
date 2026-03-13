@@ -1,10 +1,11 @@
 "use client"
 
+import { T } from "gt-next"
 import { LayoutDashboard, ListTodo, Files, Settings, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, createContext, useContext, useEffect, useMemo, useCallback } from "react"
+import { useState, createContext, useContext, useEffect, useMemo, useCallback, type ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 import { siteConfig } from "@/config/site"
@@ -47,19 +48,20 @@ export function useSidebar(): SidebarContextValue {
 }
 
 interface NavItem {
-  title: string
+  key: string
+  label: ReactNode
   href: string
   icon: typeof LayoutDashboard
 }
 
 const navItems: readonly NavItem[] = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Items", href: "/dashboard/items", icon: ListTodo },
-  { title: "Files", href: "/dashboard/files", icon: Files },
+  { key: "dashboard", label: <T>Dashboard</T>, href: "/dashboard", icon: LayoutDashboard },
+  { key: "items", label: <T>Items</T>, href: "/dashboard/items", icon: ListTodo },
+  { key: "files", label: <T>Files</T>, href: "/dashboard/files", icon: Files },
 ] as const
 
 const bottomNavItems: readonly NavItem[] = [
-  { title: "Settings", href: "/dashboard/settings", icon: Settings },
+  { key: "settings", label: <T>Settings</T>, href: "/dashboard/settings", icon: Settings },
 ] as const
 
 // Extracted NavLink component
@@ -87,7 +89,7 @@ function NavLink({ item, isCollapsed, pathname, onNavClick }: NavLinkProps): Rea
       )}
     >
       <Icon className="size-4 shrink-0" />
-      {!isCollapsed && <span>{item.title}</span>}
+      {!isCollapsed && <span>{item.label}</span>}
     </Link>
   )
 
@@ -95,7 +97,7 @@ function NavLink({ item, isCollapsed, pathname, onNavClick }: NavLinkProps): Rea
     return (
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>{content}</TooltipTrigger>
-        <TooltipContent side="right">{item.title}</TooltipContent>
+        <TooltipContent side="right">{item.label}</TooltipContent>
       </Tooltip>
     )
   }
@@ -124,7 +126,7 @@ function MobileNavLink({ item, pathname, onNavClick }: MobileNavLinkProps): Reac
       )}
     >
       <item.icon className="size-4 shrink-0" />
-      <span>{item.title}</span>
+      <span>{item.label}</span>
     </Link>
   )
 }
@@ -171,13 +173,13 @@ function SidebarContent({
           </Button>
         ) : (
           <>
-            <Link href="/dashboard" className="flex items-center gap-2 min-w-0 flex-1" onClick={onNavClick}>
+            <Link href="/dashboard" className="flex min-w-0 flex-1 items-center gap-2 pl-3" onClick={onNavClick}>
               <Image
                 src={siteConfig.logo}
                 alt={siteConfig.name}
-                width={112}
-                height={28}
-                className="h-7 w-auto shrink-0"
+                width={88}
+                height={22}
+                className="h-5 w-auto shrink-0 dark:invert"
               />
             </Link>
             {isMobile ? (
@@ -213,14 +215,14 @@ function SidebarContent({
         {navItems.map((item) => (
           isMobile ? (
             <MobileNavLink
-              key={item.href}
+              key={item.key}
               item={item}
               pathname={pathname}
               onNavClick={onNavClick}
             />
           ) : (
             <NavLink
-              key={item.href}
+              key={item.key}
               item={item}
               isCollapsed={isCollapsed}
               pathname={pathname}
@@ -235,14 +237,14 @@ function SidebarContent({
         {bottomNavItems.map((item) => (
           isMobile ? (
             <MobileNavLink
-              key={item.href}
+              key={item.key}
               item={item}
               pathname={pathname}
               onNavClick={onNavClick}
             />
           ) : (
             <NavLink
-              key={item.href}
+              key={item.key}
               item={item}
               isCollapsed={isCollapsed}
               pathname={pathname}
@@ -276,7 +278,7 @@ function SidebarContent({
                     <LogOut className="size-3.5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Sign out</TooltipContent>
+                <TooltipContent><T>Sign out</T></TooltipContent>
               </Tooltip>
             </>
           )}
@@ -340,7 +342,7 @@ export function AppSidebar(): React.ReactElement {
             <DropdownMenuItem asChild>
               <Link href="/dashboard/settings" className="cursor-pointer">
                 <Settings className="size-4 mr-2" />
-                Settings
+                <T>Settings</T>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -350,7 +352,7 @@ export function AppSidebar(): React.ReactElement {
               className="cursor-pointer"
             >
               <LogOut className="size-4 mr-2" />
-              Sign out
+              <T>Sign out</T>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

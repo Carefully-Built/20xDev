@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -10,7 +11,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 
 interface PageLayoutProps {
-  readonly title: string;
+  readonly title: ReactNode;
   readonly showBack?: boolean;
   readonly actions?: ReactNode;
   readonly children: ReactNode;
@@ -41,7 +42,7 @@ export function PageLayout({
                   <ArrowLeft className="size-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Back</TooltipContent>
+              <TooltipContent><T>Back</T></TooltipContent>
             </Tooltip>
           )}
           <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
