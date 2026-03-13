@@ -4,9 +4,9 @@ import { ProofBenefit } from './proof-benefit';
 import { ProofStat } from './proof-stat';
 
 const stats = [
-  { value: '120h', label: 'Saved on launch setup' },
-  { value: '24', label: 'Tools with generous free tiers' },
-  { value: '1', label: 'Foundation to ship and scale from' },
+  { start: 0, end: 120, suffix: 'h', label: 'Saved on launch setup' },
+  { start: 0, end: 24, suffix: '', label: 'Tools with generous free tiers' },
+  { start: 3, end: 1, suffix: '', label: 'Foundation to ship and scale from' },
 ] as const;
 
 const benefits = [
@@ -40,7 +40,13 @@ export function ProofSection(): React.ReactElement {
 
         <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:gap-16">
           {stats.map((stat) => (
-            <ProofStat key={stat.label} value={stat.value} label={stat.label} />
+            <ProofStat
+              key={stat.label}
+              start={stat.start}
+              end={stat.end}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
           ))}
         </div>
 

@@ -1,13 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { ContactForm } from './_components/contact-form';
 import { SuccessMessage } from './_components/success-message';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+const heroLandscape = '/images/website/background.avif';
 
 export default function ContactPage(): React.ReactElement {
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -43,35 +43,78 @@ export default function ContactPage(): React.ReactElement {
   };
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Get in Touch</h1>
-          <p className="text-lg text-muted-foreground">
-            Have a question or want to work together? We&apos;d love to hear from you.
-          </p>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Send us a message</CardTitle>
-            <CardDescription>
-              Fill out the form below and we&apos;ll get back to you as soon as possible.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {status === 'success' ? (
-              <SuccessMessage onReset={() => setStatus('idle')} />
-            ) : (
-              <ContactForm
-                status={status}
-                errorMessage={errorMessage}
-                onSubmit={(e) => void handleSubmit(e)}
-              />
-            )}
-          </CardContent>
-        </Card>
-      </div>
+    <section className="relative overflow-hidden border-b border-black/6">
+      <ContactBackground />
+      <ContactContent
+        status={status}
+        errorMessage={errorMessage}
+        onReset={() => {
+          setStatus('idle');
+        }}
+        onSubmit={(event) => {
+          void handleSubmit(event);
+        }}
+      />
     </section>
+  );
+}
+
+interface ContactContentProps {
+  status: FormStatus;
+  errorMessage: string;
+  onReset: () => void;
+  onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
+}
+
+function ContactContent({
+  status,
+  errorMessage,
+  onReset,
+  onSubmit,
+}: ContactContentProps): React.ReactElement {
+  return (
+    <div className="relative mx-auto min-h-screen max-w-7xl px-6 pb-20 pt-30 sm:px-8 sm:pt-36 lg:px-12 lg:pb-28 lg:pt-[24rem]">
+      <div className="mx-auto max-w-[30rem]">
+        <div className="flex flex-col items-center gap-8 text-center sm:gap-10">
+          <ContactHeader />
+
+          <div className="w-full">
+            {status === 'success' ? (
+              <SuccessMessage onReset={onReset} />
+            ) : (
+              <ContactForm status={status} errorMessage={errorMessage} onSubmit={onSubmit} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactHeader(): React.ReactElement {
+  return (
+    <header className="space-y-4">
+      <h1 className="text-[clamp(3rem,7vw,4.4rem)] leading-[0.95] font-normal tracking-[-0.07em] text-[#222221]">
+        Get started
+      </h1>
+      <p className="mx-auto max-w-[28rem] text-[1rem] leading-7 tracking-[-0.03em] text-[#5f5751]/85 sm:text-[1.12rem]">
+        Fill out the form and we will reach out to you soon.
+      </p>
+    </header>
+  );
+}
+
+function ContactBackground(): React.ReactElement {
+  return (
+    <div className="absolute inset-x-0 top-0 h-[28rem] overflow-hidden sm:h-[34rem] lg:h-[40rem]">
+      <Image
+        src={heroLandscape}
+        alt=""
+        fill
+        priority
+        className="object-cover [object-position:center_top]"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,241,231,0)_0%,rgba(247,241,231,0.04)_28%,rgba(247,241,231,0.38)_42%,rgba(247,241,231,0.78)_51%,rgba(247,241,231,0.96)_58%,rgba(247,241,231,1)_64%)]" />
+    </div>
   );
 }

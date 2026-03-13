@@ -9,8 +9,7 @@ const heroLandscape = '/images/website/background.avif';
 
 export function HeroSection(): React.ReactElement {
   return (
-    <>
-      <section className="relative min-h-screen overflow-hidden border-b border-black/6">
+    <section className="relative min-h-screen overflow-hidden border-b border-black/6">
       <div className="absolute inset-0 overflow-hidden">
         <img
           src={heroLandscape}
@@ -47,13 +46,6 @@ export function HeroSection(): React.ReactElement {
           </div>
         </div>
       </div>
-      </section>
-
-      <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 lg:px-8">
-        <p className="text-center text-sm tracking-[-0.02em] text-black/50">
-          Trusted by developers building the next generation of SaaS
-        </p>
-      </div>
-    </>
+    </section>
   );
 }

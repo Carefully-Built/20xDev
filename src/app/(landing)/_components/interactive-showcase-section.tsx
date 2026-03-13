@@ -203,8 +203,8 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                   className={cn(
                     'w-full rounded-[1.35rem] border px-5 py-4 text-left transition-all duration-200',
                     isActive
-                      ? 'border-transparent bg-[color:var(--landing-panel)] shadow-[0_20px_50px_rgba(44,34,24,0.08)]'
-                      : 'border-transparent bg-transparent hover:border-black/6 hover:bg-white/28'
+                      ? 'border-[color:var(--landing-accent-strong)]/28 bg-white/72 shadow-[0_20px_50px_rgba(44,34,24,0.08)] ring-1 ring-[color:var(--landing-accent-strong)]/10'
+                      : 'border-transparent bg-transparent hover:border-black/8 hover:bg-white/28'
                   )}
                   aria-pressed={isActive}
                 >
@@ -212,14 +212,21 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                     <div
                       className={cn(
                         'mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl',
-                        isActive ? 'bg-white/72 text-[color:var(--landing-ink)]' : 'bg-white/44 text-black/75'
+                        isActive
+                          ? 'bg-[color:var(--landing-panel)] text-[color:var(--landing-accent-strong)]'
+                          : 'bg-white/44 text-black/75'
                       )}
                     >
                       <item.icon className="size-5" />
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <p className="text-[1.15rem] leading-7 font-medium tracking-[-0.04em] text-[color:var(--landing-ink)]">
+                      <p
+                        className={cn(
+                          'text-[1.15rem] leading-7 font-medium tracking-[-0.04em] text-[color:var(--landing-ink)]',
+                          isActive && 'text-[color:var(--landing-accent-strong)]'
+                        )}
+                      >
                         {item.title}
                       </p>
                       <div
