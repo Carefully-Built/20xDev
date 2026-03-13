@@ -15,12 +15,13 @@ import { BlogGrid } from './_components/blog-grid';
 import { BlogHeader } from './_components/blog-header';
 import { BlogPagination } from './_components/blog-pagination';
 import { CategoryFilter } from './_components/category-filter';
+import { siteConfig } from '@/config/site';
 
 const POSTS_PER_PAGE = 12;
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Insights, tutorials, and updates from the Blueprint team.',
+  description: `Insights, tutorials, and updates from the ${siteConfig.name} team.`,
   openGraph: { title: 'Blog', description: 'Insights, tutorials, and updates.' },
 };
 

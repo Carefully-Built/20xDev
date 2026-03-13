@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 
+import { siteConfig } from '@/config/site';
+
 export const metadata: Metadata = {
   title: 'Terms and Conditions',
-  description: 'Terms and Conditions for Blueprint',
+  description: `Terms and Conditions for ${siteConfig.name}`,
 };
 
 export default function TermsPage(): React.ReactElement {

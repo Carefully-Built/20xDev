@@ -9,7 +9,7 @@ export default function TestErrorPage() {
 
   const triggerClientError = () => {
     try {
-      throw new Error('Test client-side error from Blueprint');
+      throw new Error('Test client-side error from 20xdev');
     } catch (error) {
       const result = captureError(error, {
         category: 'unknown',

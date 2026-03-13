@@ -1,5 +1,5 @@
 /**
- * Centralized Error Handler for Blueprint
+ * Centralized Error Handler for 20xdev
  * 
  * Logs all errors to PostHog without exposing them to users.
  * Provides consistent error handling across the application.

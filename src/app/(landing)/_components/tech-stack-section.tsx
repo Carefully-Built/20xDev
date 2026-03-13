@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { LandingSectionHeading } from './landing-section-heading';
+
 import { Badge } from '@/components/ui/badge';
 import { SafeImage } from '@/components/ui/safe-image';
 
@@ -208,19 +210,14 @@ const techStack: readonly TechItem[] = [
 
 export function TechStackSection(): React.ReactElement {
   return (
-    <section className="border-t bg-muted/30 py-24">
+    <section className="border-t border-black/6 bg-[color:var(--landing-panel)] py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
-            Built with the best
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-            The perfect stack for AI-generated B2B SaaS
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Every tool carefully chosen for a reason. Modern, scalable, and designed to work together.
-          </p>
-        </div>
+        <LandingSectionHeading
+          eyebrow="Built with the best"
+          title="The perfect stack for AI-generated B2B SaaS"
+          description="Every tool carefully chosen for a reason. Modern, scalable, and designed to work together."
+          className="mx-auto max-w-3xl"
+        />
 
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {techStack.map((tech) => (
@@ -229,29 +226,29 @@ export function TechStackSection(): React.ReactElement {
               href={tech.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col gap-3 rounded-xl border bg-background p-5 transition-all hover:border-primary/50 hover:shadow-lg"
+              className="group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)]"
             >
               <div className="flex items-center justify-between">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg overflow-hidden bg-muted/50">
+                <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden">
                   <SafeImage
                     src={tech.logo}
                     alt={tech.name}
                     width={32}
                     height={32}
-                    className={`size-8 ${tech.className ?? ''}`}
+                    className={`size-8 ${tech.className?.replace('dark:invert', '').trim() ?? ''}`}
                   />
                 </div>
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="border-0 bg-black/5 text-xs text-black/65">
                   {tech.category}
                 </Badge>
               </div>
               <div>
-                <h4 className="font-semibold group-hover:text-primary transition-colors">
+                <h4 className="font-semibold tracking-[-0.03em] text-[color:var(--landing-ink)] transition-colors group-hover:text-[color:var(--landing-accent-strong)]">
                   {tech.name}
                 </h4>
-                <p className="text-sm text-muted-foreground">{tech.description}</p>
+                <p className="text-sm text-black/58">{tech.description}</p>
               </div>
-              <p className="text-sm text-muted-foreground/80 leading-relaxed">
+              <p className="text-sm leading-relaxed text-black/48">
                 {tech.why}
               </p>
             </Link>

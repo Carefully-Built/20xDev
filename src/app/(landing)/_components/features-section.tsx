@@ -1,5 +1,7 @@
 import { Rocket, Bot, Building2, Layers } from 'lucide-react';
 
+import { LandingSectionHeading } from './landing-section-heading';
+
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const features = [
@@ -27,26 +29,27 @@ const features = [
 
 export function FeaturesSection(): React.ReactElement {
   return (
-    <section id="features" className="py-24">
+    <section id="features" className="bg-[color:var(--landing-surface)] py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything you need to ship
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Stop rebuilding the same infrastructure. Start with a foundation that scales.
-          </p>
-        </div>
+        <LandingSectionHeading
+          eyebrow="What ships with 20xdev"
+          title="Everything you need to ship"
+          description="Stop rebuilding the same infrastructure. Start with a foundation that scales."
+          className="mx-auto max-w-3xl"
+        />
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
-            <Card key={feature.title} className="border-0 bg-muted/50 transition-colors hover:bg-muted">
+            <Card
+              key={feature.title}
+              className="rounded-[1.75rem] border-black/6 bg-white/78 shadow-[0_18px_50px_rgba(30,25,20,0.06)] transition-transform duration-300 hover:-translate-y-1"
+            >
               <CardHeader>
-                <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                  <feature.icon className="size-5 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
-                <CardDescription className="text-sm leading-relaxed">
+                <feature.icon className="mb-3 size-5 text-[color:var(--landing-accent-strong)]" />
+                <CardTitle className="text-lg tracking-[-0.03em] text-[color:var(--landing-ink)]">
+                  {feature.title}
+                </CardTitle>
+                <CardDescription className="text-sm leading-relaxed text-black/58">
                   {feature.description}
                 </CardDescription>
               </CardHeader>

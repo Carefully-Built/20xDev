@@ -8,8 +8,8 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '';
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production';
 
 export default defineConfig({
-  name: 'blueprint-studio',
-  title: 'Blueprint Blog',
+  name: '20xdev-studio',
+  title: '20xdev Blog',
   projectId,
   dataset,
   plugins: [structureTool(), visionTool()],

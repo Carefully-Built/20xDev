@@ -1,6 +1,7 @@
 'use client';
 
 import { FaqItem, type FaqItemProps } from './faq-item';
+import { LandingSectionHeading } from './landing-section-heading';
 
 interface GenericFaqSectionProps {
   readonly title: string;
@@ -16,13 +17,14 @@ export function GenericFaqSection({
   contactEmail = 'support@blueprint.dev',
 }: GenericFaqSectionProps): React.ReactElement {
   return (
-    <section className="py-24">
+    <section className="bg-[color:var(--landing-surface)] py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">FAQ</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-          <p className="mt-4 text-lg text-muted-foreground">{description}</p>
-        </div>
+        <LandingSectionHeading
+          eyebrow="FAQ"
+          title={title}
+          description={description}
+          className="mx-auto max-w-3xl"
+        />
 
         <div className="mt-12">
           {items.map((item) => (
@@ -31,9 +33,12 @@ export function GenericFaqSection({
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-muted-foreground">
+          <p className="text-black/58">
             Still have questions?{' '}
-            <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">
+            <a
+              href={`mailto:${contactEmail}`}
+              className="font-medium text-[color:var(--landing-accent-strong)] hover:underline"
+            >
               Contact us
             </a>
           </p>

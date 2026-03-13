@@ -1,12 +1,12 @@
-# Blueprint
+# 20xdev
 
 > The AI-optimized starting point for building beautiful B2B SaaS products.
 
-Blueprint is a production-ready template designed to help AI (and humans) build scalable B2B SaaS applications with clean, elegant code. It combines the best modern tools into a cohesive foundation that prioritizes code quality, developer experience, and enterprise-readiness.
+20xdev is a production-ready template designed to help AI (and humans) build scalable B2B SaaS applications with clean, elegant code. It combines the best modern tools into a cohesive foundation that prioritizes code quality, developer experience, and enterprise-readiness.
 
-## Why Blueprint?
+## Why 20xdev?
 
-Building a SaaS from scratch means making hundreds of decisions about tooling, architecture, and patterns. Blueprint makes those decisions for you, providing:
+Building a SaaS from scratch means making hundreds of decisions about tooling, architecture, and patterns. 20xdev makes those decisions for you, providing:
 
 - **Clean, AI-friendly code** — Structured for AI assistants to understand and extend
 - **Enterprise-ready auth** — Multi-tenant authentication out of the box
@@ -141,7 +141,7 @@ bun format       # Format with Prettier
 
 ## Code Standards
 
-Blueprint enforces strict code quality:
+20xdev enforces strict code quality:
 
 - **Zero `any` types** — Strict TypeScript with no exceptions
 - **Airbnb ESLint** — Industry-standard linting rules
@@ -179,9 +179,9 @@ Blueprint enforces strict code quality:
 
 ## Philosophy
 
-Blueprint is built on a simple idea: **AI can build software faster when it starts with clean, well-structured code.**
+20xdev is built on a simple idea: **AI can build software faster when it starts with clean, well-structured code.**
 
-Every decision in Blueprint — from folder structure to naming conventions — is made with AI assistance in mind. The result is a codebase that's easy for both humans and AI to understand, modify, and extend.
+Every decision in 20xdev — from folder structure to naming conventions — is made with AI assistance in mind. The result is a codebase that's easy for both humans and AI to understand, modify, and extend.
 
 ## License
 

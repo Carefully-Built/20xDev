@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 
+import { siteConfig } from '@/config/site';
+
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy Policy for Blueprint',
+  description: `Privacy Policy for ${siteConfig.name}`,
 };
 
 export default function PrivacyPage(): React.ReactElement {

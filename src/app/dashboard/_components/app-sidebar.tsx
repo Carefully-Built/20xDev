@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 import { useState, createContext, useContext, useEffect, useMemo, useCallback } from "react"
 
 import { cn } from "@/lib/utils"
+import { siteConfig } from "@/config/site"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -172,13 +173,12 @@ function SidebarContent({
           <>
             <Link href="/dashboard" className="flex items-center gap-2 min-w-0 flex-1" onClick={onNavClick}>
               <Image
-                src="/images/blue_logo.svg"
-                alt="Blueprint"
-                width={28}
+                src={siteConfig.logo}
+                alt={siteConfig.name}
+                width={112}
                 height={28}
-                className="size-7 shrink-0"
+                className="h-7 w-auto shrink-0"
               />
-              <span className="text-base font-semibold truncate">Blueprint</span>
             </Link>
             {isMobile ? (
               <Button

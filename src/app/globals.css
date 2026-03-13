@@ -151,7 +151,113 @@
   }
 }
 
-/* WorkOS Widget Styles - Match Blueprint Design System */
+html {
+  scrollbar-color: rgb(0 0 0 / 0.05) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 0.05);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0 0 0 / 0.09);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.landing-shell {
+  --background: oklch(0.974 0.012 83.41);
+  --foreground: oklch(0.23 0.02 46.21);
+  --card: oklch(0.992 0.01 84.12);
+  --card-foreground: oklch(0.23 0.02 46.21);
+  --popover: oklch(0.992 0.01 84.12);
+  --popover-foreground: oklch(0.23 0.02 46.21);
+  --primary: oklch(0.19 0.02 38.14);
+  --primary-foreground: oklch(0.99 0.01 82.65);
+  --secondary: oklch(0.955 0.015 82.93);
+  --secondary-foreground: oklch(0.3 0.025 43.72);
+  --muted: oklch(0.955 0.015 82.93);
+  --muted-foreground: oklch(0.53 0.02 48.7);
+  --accent: oklch(0.94 0.02 80.12);
+  --accent-foreground: oklch(0.24 0.022 41.8);
+  --border: oklch(0.89 0.015 78.91);
+  --input: oklch(0.89 0.015 78.91);
+  --ring: oklch(0.73 0.06 67.43);
+  --landing-surface: #f7f1e7;
+  --landing-panel: #f2ebdf;
+  --landing-ink: #222221;
+  --landing-muted: #7b7268;
+  --landing-accent-soft: rgba(122, 99, 76, 0.1);
+  --landing-accent-strong: #6a5648;
+  min-height: 100vh;
+  background-color: var(--landing-surface);
+  color: var(--landing-ink);
+  color-scheme: light;
+}
+
+html[data-landing-header-solid='true'] .landing-header {
+  backdrop-filter: blur(14px);
+}
+
+.landing-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--landing-accent-strong) 78%, white);
+}
+
+.landing-section-title {
+  max-width: 14ch;
+  font-size: clamp(2.65rem, 2.1rem + 2.4vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  color: var(--landing-ink);
+  text-wrap: balance;
+}
+
+.landing-hero-title {
+  font-size: clamp(3.05rem, 2.15rem + 3vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.065em;
+  color: var(--landing-ink);
+  text-wrap: balance;
+}
+
+.landing-section-description,
+.landing-hero-description {
+  font-size: clamp(1.05rem, 0.95rem + 0.55vw, 1.45rem);
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: color-mix(in oklab, var(--landing-muted) 92%, white);
+  text-wrap: balance;
+}
+
+@media (max-width: 640px) {
+  .landing-hero-title {
+    font-size: clamp(2.7rem, 2.1rem + 4vw, 3.7rem);
+  }
+
+  .landing-section-title {
+    max-width: 100%;
+  }
+}
+
+/* WorkOS Widget Styles - Match 20xdev Design System */
 
 /* Base container styles */
 .workos-widget-container {

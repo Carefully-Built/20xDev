@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
+import { siteConfig } from '@/config/site';
+
 interface AuthLayoutProps {
   readonly title: string;
   readonly subtitle?: string;
@@ -12,7 +14,7 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps): Reac
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Link href="/" className="absolute left-6 top-6">
-        <Image src="/images/blue_logo.svg" alt="Blueprint" height={32} width={32} />
+        <Image src={siteConfig.logo} alt={siteConfig.name} height={32} width={128} className="h-8 w-auto" />
       </Link>
 
       <div className="w-full max-w-sm space-y-6">
