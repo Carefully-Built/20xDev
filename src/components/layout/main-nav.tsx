@@ -18,7 +18,7 @@ export function MainNav({ items, className }: MainNavProps): React.ReactElement 
           href={item.href}
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          <T id={`nav.${item.title.toLowerCase()}`}>{item.title}
+          {item.title}
         </Link>
       ))}
     </nav>

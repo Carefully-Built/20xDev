@@ -30,10 +30,8 @@ export function FeatureGrid(): React.ReactElement {
               Everything you need to ship
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              
-                Stop rebuilding the same infrastructure. Start with a foundation
-                that scales.
-              
+              Stop rebuilding the same infrastructure. Start with a foundation
+              that scales.
             </p>
           </div>
         </Fade>
@@ -56,14 +54,10 @@ export function FeatureGrid(): React.ReactElement {
                       <feature.icon className="size-5 text-primary" />
                     </div>
                     <CardTitle className="text-lg">
-                      <T id={`featureGrid.${key}.title`}>
-                        {feature.title}
-                      
+                      {feature.title}
                     </CardTitle>
                     <CardDescription className="text-sm leading-relaxed">
-                      <T id={`featureGrid.${key}.desc`}>
-                        {feature.description}
-                      
+                      {feature.description}
                     </CardDescription>
                   </CardHeader>
                 </Card>

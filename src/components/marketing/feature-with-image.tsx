@@ -22,9 +22,7 @@ export function FeatureWithImage(): React.ReactElement {
               Built for real products
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              
-                Every feature designed, tested, and ready for production use.
-              
+              Every feature designed, tested, and ready for production use.
             </p>
           </div>
         </Fade>
@@ -53,15 +51,11 @@ export function FeatureWithImage(): React.ReactElement {
                         <item.icon className="size-5 text-primary" />
                       </div>
                       <h3 className="text-2xl font-semibold">
-                        <T id={`featureWithImage.${key}.title`}>
-                          {item.title}
-                        
+                        {item.title}
                       </h3>
                     </div>
                     <p className="text-lg leading-relaxed text-muted-foreground">
-                      <T id={`featureWithImage.${key}.desc`}>
-                        {item.description}
-                      
+                      {item.description}
                     </p>
                   </div>
 

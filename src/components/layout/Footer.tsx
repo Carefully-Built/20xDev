@@ -40,9 +40,8 @@ export function Footer(): React.ReactElement {
               <span className="text-xl font-semibold">Blueprint</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              
-                Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.
-              
+              Production-ready foundation for B2B SaaS. Ship faster with
+              pre-built auth, payments, and real-time data.
             </p>
           </div>
 
@@ -56,7 +55,7 @@ export function Footer(): React.ReactElement {
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <T id={`footer.link.${link.id}`}>{link.label}
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -73,7 +72,7 @@ export function Footer(): React.ReactElement {
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <T id={`footer.link.${link.id}`}>{link.label}
+                    {link.label}
                   </Link>
                 </li>
               ))}

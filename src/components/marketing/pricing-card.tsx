@@ -39,7 +39,7 @@ export function PricingCard({ tier, isAnnual }: PricingCardProps): React.ReactEl
         <div className="flex items-baseline gap-1">
           <span className="text-4xl font-bold tracking-tight">${price}</span>
           <span className="text-sm text-muted-foreground">
-            /{isAnnual ? mo : mo}
+            /mo
           </span>
         </div>
         {isAnnual && (

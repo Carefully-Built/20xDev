@@ -10,7 +10,7 @@ export async function AuthButton(): Promise<React.ReactElement> {
   return (
     <Button asChild>
       <Link href={isLoggedIn ? '/dashboard' : '/login'}>
-        {isLoggedIn ? Dashboard : Sign In}
+        {isLoggedIn ? 'Dashboard' : 'Sign In'}
       </Link>
     </Button>
   );

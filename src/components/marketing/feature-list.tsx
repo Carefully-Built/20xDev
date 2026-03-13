@@ -24,10 +24,8 @@ export function FeatureList(): React.ReactElement {
               Everything included
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              
-                No hidden fees, no missing features. Everything you need in one
-                template.
-              
+              No hidden fees, no missing features. Everything you need in one
+              template.
             </p>
           </div>
         </Fade>
@@ -50,14 +48,10 @@ export function FeatureList(): React.ReactElement {
                   </div>
                   <div>
                     <h3 className="font-semibold">
-                      <T id={`featureList.${key}.title`}>
-                        {item.title}
-                      
+                      {item.title}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      <T id={`featureList.${key}.desc`}>
-                        {item.description}
-                      
+                      {item.description}
                     </p>
                   </div>
                 </div>

@@ -64,11 +64,8 @@ export default function AboutPage(): React.ReactElement {
             About Blueprint
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            
-              The production-ready foundation for building B2B SaaS
-              applications. We help developers ship faster without sacrificing
-              quality.
-            
+            The production-ready foundation for building B2B SaaS applications.
+            We help developers ship faster without sacrificing quality.
           </p>
         </div>
       </section>
@@ -82,13 +79,10 @@ export default function AboutPage(): React.ReactElement {
                 Our Mission
               </h2>
               <p className="mt-4 text-muted-foreground">
-                
-                  To eliminate the repetitive infrastructure work that slows
-                  down every new SaaS project. We believe developers should
-                  spend their time building features that matter, not
-                  reinventing authentication, payments, and data layers from
-                  scratch.
-                
+                To eliminate the repetitive infrastructure work that slows down
+                every new SaaS project. We believe developers should spend their
+                time building features that matter, not reinventing
+                authentication, payments, and data layers from scratch.
               </p>
             </div>
             <div>
@@ -96,12 +90,9 @@ export default function AboutPage(): React.ReactElement {
                 Our Vision
               </h2>
               <p className="mt-4 text-muted-foreground">
-                
-                  A world where launching a production-grade SaaS takes hours
-                  instead of months. Where every developer has access to the
-                  same quality infrastructure that powers the best products on
-                  the web.
-                
+                A world where launching a production-grade SaaS takes hours
+                instead of months. Where every developer has access to the same
+                quality infrastructure that powers the best products on the web.
               </p>
             </div>
           </div>
@@ -124,12 +115,10 @@ export default function AboutPage(): React.ReactElement {
                   <value.icon className="size-5" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">
-                  <T id={`about.values.${value.id}.title`}>{value.title}
+                  {value.title}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  <T id={`about.values.${value.id}.description`}>
-                    {value.description}
-                  
+                  {value.description}
                 </p>
               </div>
             ))}
@@ -144,20 +133,16 @@ export default function AboutPage(): React.ReactElement {
             The Story
           </h2>
           <p className="mt-4 text-muted-foreground">
-            
-              Blueprint was born from a simple frustration: every time we
-              started a new SaaS project, we spent weeks building the same
-              foundational pieces. Authentication, billing, database setup,
-              email systems — the list goes on.
-            
+            Blueprint was born from a simple frustration: every time we started
+            a new SaaS project, we spent weeks building the same foundational
+            pieces. Authentication, billing, database setup, email systems -
+            the list goes on.
           </p>
           <p className="mt-4 text-muted-foreground">
-            
-              We decided to build the foundation once, and build it right.
-              Blueprint is the result — a production-ready starter that
-              includes everything you need to launch a B2B SaaS, built with
-              the latest and best tools in the ecosystem.
-            
+            We decided to build the foundation once, and build it right.
+            Blueprint is the result - a production-ready starter that includes
+            everything you need to launch a B2B SaaS, built with the latest and
+            best tools in the ecosystem.
           </p>
         </div>
       </section>
@@ -169,10 +154,8 @@ export default function AboutPage(): React.ReactElement {
             Ready to get started?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            
-              Join developers who are shipping faster with Blueprint. Get up
-              and running in minutes.
-            
+            Join developers who are shipping faster with Blueprint. Get up and
+            running in minutes.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" className="min-w-40" asChild>

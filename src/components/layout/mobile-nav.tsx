@@ -44,7 +44,7 @@ export function MobileNav({ items }: MobileNavProps): React.ReactElement {
                 setOpen(false);
               }}
             >
-              <T id={`nav.${item.title.toLowerCase()}`}>{item.title}
+              {item.title}
             </Link>
           ))}
           <div className="mt-4 border-t pt-4">
