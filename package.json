@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun next dev --turbo",
-    "build": "node scripts/build.mjs",
+    "build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npx convex deploy; fi && bunx --bun next build",
     "build:next": "bunx --bun next build",
     "start": "bunx --bun next start",
     "lint": "bunx --bun eslint . --max-warnings 0",
