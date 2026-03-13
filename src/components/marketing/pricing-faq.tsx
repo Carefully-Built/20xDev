@@ -21,7 +21,7 @@ export function PricingFaq({ items }: PricingFaqProps): React.ReactElement {
       title="Pricing FAQ"
       description={
         <>
-          Common questions about our pricing and billing.
+          Straight answers about billing, plan changes, and team growth.
         </>
       }
       items={faqItems}

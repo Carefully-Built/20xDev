@@ -84,7 +84,7 @@ export const featureWithImageItems: readonly FeatureWithImageItem[] = [
     description:
       'A fully-featured admin dashboard with analytics, data tables, file management, and organization settings. Built with shadcn/ui components and responsive from mobile to desktop.',
     image: '/images/features/dashboard.png',
-    imageAlt: 'Blueprint dashboard showing analytics and data management',
+    imageAlt: '20x Step dashboard showing analytics and data management',
   },
   {
     icon: Lock,
@@ -92,7 +92,7 @@ export const featureWithImageItems: readonly FeatureWithImageItem[] = [
     description:
       'Enterprise-grade auth with WorkOS AuthKit. Social login, email/password, SSO, and multi-tenant organization management with role-based access control.',
     image: '/images/features/auth.png',
-    imageAlt: 'Blueprint authentication and team management interface',
+    imageAlt: '20x Step authentication and team management interface',
   },
   {
     icon: Paintbrush,
@@ -100,7 +100,7 @@ export const featureWithImageItems: readonly FeatureWithImageItem[] = [
     description:
       'Conversion-optimized marketing pages with smooth animations, dark mode support, and full responsiveness. Blog powered by Sanity CMS with SEO built-in.',
     image: '/images/features/landing.png',
-    imageAlt: 'Blueprint landing page with hero section and features',
+    imageAlt: '20x Step landing page with hero section and features',
   },
 ] as const;
 

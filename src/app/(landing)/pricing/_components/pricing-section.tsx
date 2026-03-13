@@ -27,9 +27,7 @@ export function PricingSection(): React.ReactElement {
                   Simple, transparent pricing
                 </h1>
                 <p className="mt-4 text-lg text-muted-foreground">
-                  
-                    Choose the plan that fits your team. All plans include a 14-day free trial.
-                  
+                  Pick the right plan for your stage, from first launch to enterprise rollout.
                 </p>
               </div>
 

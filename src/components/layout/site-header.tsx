@@ -17,12 +17,12 @@ export function SiteHeader(): React.ReactElement {
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Image
               src="/images/blue_logo.svg"
-              alt="Blueprint"
+              alt="20x Step"
               width={32}
               height={32}
               className="size-8"
             />
-            <span className="text-xl">Blueprint</span>
+            <span className="text-xl">20x Step</span>
           </Link>
         </div>
 

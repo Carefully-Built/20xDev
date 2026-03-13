@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@/components/contact-form';
 
 export const metadata: Metadata = {
-  title: 'Contact - Blueprint',
+  title: 'Contact - 20x Step',
   description:
     'Get in touch with us. Send us a message and we will get back to you as soon as possible.',
 };

@@ -32,12 +32,12 @@ export function Footer(): React.ReactElement {
             <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/images/blue_logo.svg"
-                alt="Blueprint"
+                alt="20x Step"
                 width={32}
                 height={32}
                 className="size-8"
               />
-              <span className="text-xl font-semibold">Blueprint</span>
+              <span className="text-xl font-semibold">20x Step</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
               Production-ready foundation for B2B SaaS. Ship faster with
@@ -83,7 +83,7 @@ export function Footer(): React.ReactElement {
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Blueprint. All rights reserved.
+            &copy; {new Date().getFullYear()} 20x Step. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <ThemeToggle />

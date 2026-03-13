@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Learn about Blueprint — the production-ready Next.js foundation for building B2B SaaS applications.',
+    'Learn about 20x Step, the production-ready Next.js foundation for building B2B SaaS applications.',
   openGraph: {
-    title: 'About Blueprint',
+    title: 'About 20x Step',
     description:
-      'Learn about Blueprint — the production-ready Next.js foundation for building B2B SaaS applications.',
+      'Learn about 20x Step, the production-ready Next.js foundation for building B2B SaaS applications.',
   },
 };
 
@@ -61,7 +61,7 @@ export default function AboutPage(): React.ReactElement {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            About Blueprint
+            About 20x Step
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             The production-ready foundation for building B2B SaaS applications.
@@ -133,14 +133,14 @@ export default function AboutPage(): React.ReactElement {
             The Story
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Blueprint was born from a simple frustration: every time we started
+            20x Step was born from a simple frustration: every time we started
             a new SaaS project, we spent weeks building the same foundational
             pieces. Authentication, billing, database setup, email systems -
             the list goes on.
           </p>
           <p className="mt-4 text-muted-foreground">
             We decided to build the foundation once, and build it right.
-            Blueprint is the result - a production-ready starter that includes
+            20x Step is the result - a production-ready starter that includes
             everything you need to launch a B2B SaaS, built with the latest and
             best tools in the ecosystem.
           </p>
@@ -154,7 +154,7 @@ export default function AboutPage(): React.ReactElement {
             Ready to get started?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Join developers who are shipping faster with Blueprint. Get up and
+            Join developers who are shipping faster with 20x Step. Get up and
             running in minutes.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">

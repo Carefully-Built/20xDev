@@ -173,12 +173,12 @@ function SidebarContent({
             <Link href="/dashboard" className="flex items-center gap-2 min-w-0 flex-1" onClick={onNavClick}>
               <Image
                 src="/images/blue_logo.svg"
-                alt="Blueprint"
+                alt="20x Step"
                 width={28}
                 height={28}
                 className="size-7 shrink-0"
               />
-              <span className="text-base font-semibold truncate">Blueprint</span>
+              <span className="text-base font-semibold truncate">20x Step</span>
             </Link>
             {isMobile ? (
               <Button

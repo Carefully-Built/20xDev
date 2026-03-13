@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import { PricingSection } from './_components/pricing-section';
 
 export const metadata: Metadata = {
-  title: 'Pricing - Blueprint',
+  title: 'Pricing - 20x Step',
   description:
-    'Simple, transparent pricing for Blueprint. Choose the plan that fits your team with monthly or annual billing options.',
+    'Explore 20x Step pricing for solo builders, growing teams, and enterprise deployments.',
 };
 
 export default function PricingPage(): React.ReactElement {

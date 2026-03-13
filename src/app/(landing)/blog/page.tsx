@@ -19,7 +19,7 @@ const POSTS_PER_PAGE = 12;
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Insights, tutorials, and updates from the Blueprint team.',
+  description: 'Insights, tutorials, and updates from the 20x Step team.',
   openGraph: { title: 'Blog', description: 'Insights, tutorials, and updates.' },
 };
 

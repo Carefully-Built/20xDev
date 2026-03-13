@@ -24,7 +24,7 @@ export const pricingTiers: readonly PricingTier[] = [
   {
     id: 'starter',
     name: 'Starter',
-    description: 'Perfect for side projects and early-stage startups.',
+    description: 'For solo builders validating an idea and shipping the first version fast.',
     monthlyPrice: 19,
     annualPrice: 15,
     features: [
@@ -37,14 +37,14 @@ export const pricingTiers: readonly PricingTier[] = [
       { text: 'SSO / SAML', included: false },
       { text: 'Audit logs', included: false },
     ],
-    cta: 'Get Started',
+    cta: 'Start with Starter',
     ctaHref: '/login',
     recommended: false,
   },
   {
     id: 'pro',
     name: 'Pro',
-    description: 'For growing teams that need more power and flexibility.',
+    description: 'For small teams that need more capacity, collaboration, and support.',
     monthlyPrice: 49,
     annualPrice: 39,
     features: [
@@ -57,14 +57,14 @@ export const pricingTiers: readonly PricingTier[] = [
       { text: 'SSO / SAML', included: false },
       { text: 'Audit logs', included: false },
     ],
-    cta: 'Start Free Trial',
+    cta: 'Choose Pro',
     ctaHref: '/login',
     recommended: true,
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
-    description: 'For organizations with advanced security and compliance needs.',
+    description: 'For larger organizations that need security controls, scale, and hands-on support.',
     monthlyPrice: 99,
     annualPrice: 79,
     features: [
@@ -77,7 +77,7 @@ export const pricingTiers: readonly PricingTier[] = [
       { text: 'SSO / SAML', included: true },
       { text: 'Audit logs', included: true },
     ],
-    cta: 'Contact Sales',
+    cta: 'Talk to Sales',
     ctaHref: '/contact',
     recommended: false,
   },
@@ -87,31 +87,31 @@ export const pricingFaqs: readonly PricingFaqItem[] = [
   {
     question: 'Can I switch plans later?',
     answer:
-      'Yes, you can upgrade or downgrade your plan at any time. Changes take effect at the start of your next billing cycle. If you upgrade mid-cycle, you will be charged a prorated amount.',
+      'Yes. You can move to a different plan whenever your needs change. Upgrades apply immediately and downgrades take effect on the next billing cycle.',
   },
   {
     question: 'Is there a free trial?',
     answer:
-      'Yes! The Pro plan includes a 14-day free trial with full access to all features. No credit card required to start.',
+      'Yes. The Pro plan includes a 14-day trial so teams can evaluate the product before committing.',
   },
   {
     question: 'What payment methods do you accept?',
     answer:
-      'We accept all major credit cards (Visa, Mastercard, American Express) and process payments securely through Stripe. Annual plans can also be paid via invoice.',
+      'We accept major credit and debit cards. Annual plans can also be paid by invoice for eligible teams.',
   },
   {
     question: 'What happens when I exceed my API limits?',
     answer:
-      'We will notify you when you reach 80% of your limit. If you exceed it, additional requests are charged at a pay-as-you-go rate. You can also upgrade your plan at any time for higher limits.',
+      'We notify you before you hit your limit so you have time to upgrade. If you need more volume, you can move to a higher plan before service is interrupted.',
   },
   {
     question: 'Can I cancel my subscription?',
     answer:
-      'Absolutely. You can cancel anytime from your account settings. Your access continues until the end of your current billing period. We do not offer refunds for partial months.',
+      'Yes. You can cancel from your account settings at any time, and your access remains active until the end of the current billing period.',
   },
   {
     question: 'Do you offer discounts for startups or nonprofits?',
     answer:
-      'Yes, we offer special pricing for qualifying startups and nonprofits. Contact our sales team to learn more about our discount programs.',
+      'We offer custom pricing for qualified startups, nonprofits, and larger teams with specific procurement requirements.',
   },
 ] as const;

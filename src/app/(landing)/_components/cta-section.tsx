@@ -15,7 +15,7 @@ export function CtaSection(): React.ReactElement {
                 Ready to ship faster?
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                Get started with Blueprint today and launch your SaaS in record time.
+                Get started with 20x Step today and launch your SaaS in record time.
               </p>
               <div className="mt-8">
                 <Button size="lg" asChild>

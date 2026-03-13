@@ -9,7 +9,7 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production';
 
 export default defineConfig({
   name: 'blueprint-studio',
-  title: 'Blueprint Blog',
+  title: '20x Step Blog',
   projectId,
   dataset,
   plugins: [structureTool(), visionTool()],

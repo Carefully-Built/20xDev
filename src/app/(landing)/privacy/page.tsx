@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy Policy for Blueprint',
+  description: 'How 20x Step collects, uses, and protects personal information.',
 };
 
 export default function PrivacyPage(): React.ReactElement {
@@ -11,26 +11,39 @@ export default function PrivacyPage(): React.ReactElement {
       <h1 className="mb-8 text-4xl font-bold tracking-tight">Privacy Policy</h1>
       <div className="space-y-6 text-muted-foreground">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          We collect the information required to operate 20x Step, support customer accounts,
+          process payments, improve the product, and communicate important service updates. This
+          policy explains what we collect, why we collect it, and the choices available to you.
         </p>
         <h2 className="text-2xl font-semibold text-foreground">1. Information Collection</h2>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+          We may collect account details such as your name, email address, organization name, and
+          billing information. We also collect limited technical data such as browser type, device
+          information, IP address, and product usage events so we can keep the service secure and
+          reliable.
         </p>
         <h2 className="text-2xl font-semibold text-foreground">2. Use of Information</h2>
         <p>
-          Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+          We use personal information to create and manage accounts, authenticate users, deliver
+          product functionality, process transactions, respond to support requests, send
+          administrative notices, and understand how the product is used so we can improve it.
         </p>
         <h2 className="text-2xl font-semibold text-foreground">3. Data Security</h2>
         <p>
-          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+          We use commercially reasonable safeguards to protect personal information against
+          unauthorized access, disclosure, or loss. No internet-based service can be guaranteed
+          completely secure, but we continuously monitor and improve our security practices.
         </p>
         <h2 className="text-2xl font-semibold text-foreground">4. Cookies</h2>
         <p>
-          Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+          We use cookies and similar technologies to keep you signed in, remember preferences,
+          measure performance, and understand product usage. You can control cookies through your
+          browser settings, although disabling some cookies may affect how the service works.
         </p>
         <p>
-          Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+          If you have questions about this policy or want to request access, correction, or
+          deletion of your information, contact the team through the support channel listed on the
+          site.
         </p>
       </div>
     </div>

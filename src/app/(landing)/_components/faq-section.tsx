@@ -8,10 +8,10 @@ import type { FaqItemProps } from './faq-item';
 
 const faqs: readonly FaqItemProps[] = [
   {
-    question: 'What is Blueprint?',
+    question: 'What is 20x Step?',
     answer: (
       <>
-        Blueprint is a production-ready B2B SaaS starter kit built with Next.js
+        20x Step is a production-ready B2B SaaS starter kit built with Next.js
         15, Convex, and WorkOS. It provides everything you need to launch a
         modern SaaS application: authentication, organization management,
         real-time data, payments, and more.
@@ -19,10 +19,10 @@ const faqs: readonly FaqItemProps[] = [
     ),
   },
   {
-    question: 'Is Blueprint free to use?',
+    question: 'Is 20x Step free to use?',
     answer: (
       <>
-        Blueprint is open source and free to use for any project. You only pay
+        20x Step is open source and free to use for any project. You only pay
         for the services you use (Convex, WorkOS, Stripe, etc.) based on their
         pricing tiers. Most have generous free tiers for getting started.
       </>
@@ -33,16 +33,16 @@ const faqs: readonly FaqItemProps[] = [
     answer: (
       <>
         WorkOS provides enterprise-grade authentication with SSO, SCIM, and
-        directory sync out of the box. This makes Blueprint ideal for B2B SaaS
+        directory sync out of the box. This makes 20x Step ideal for B2B SaaS
         where your customers need to connect their identity providers.
       </>
     ),
   },
   {
-    question: 'Can I use Blueprint for B2C applications?',
+    question: 'Can I use 20x Step for B2C applications?',
     answer: (
       <>
-        While Blueprint is optimized for B2B with organization management and
+        While 20x Step is optimized for B2B with organization management and
         enterprise auth, you can adapt it for B2C use cases. The core
         architecture, real-time backend, and payment integration work great for
         any SaaS.
@@ -61,10 +61,10 @@ const faqs: readonly FaqItemProps[] = [
     ),
   },
   {
-    question: 'Is Blueprint production-ready?',
+    question: 'Is 20x Step production-ready?',
     answer: (
       <>
-        Yes! Blueprint includes production essentials: TypeScript for type
+        Yes! 20x Step includes production essentials: TypeScript for type
         safety, ESLint for code quality, proper error handling, secure
         authentication, and a scalable architecture. Deploy to Vercel with one
         click.
@@ -75,7 +75,7 @@ const faqs: readonly FaqItemProps[] = [
     question: 'How do I customize the design?',
     answer: (
       <>
-        Blueprint uses Tailwind CSS and shadcn/ui components. Customize the
+        20x Step uses Tailwind CSS and shadcn/ui components. Customize the
         theme in your CSS variables, or modify individual components. Everything
         is unstyled by default and designed to be extended.
       </>
@@ -85,7 +85,7 @@ const faqs: readonly FaqItemProps[] = [
     question: 'What about payments and subscriptions?',
     answer: (
       <>
-        Blueprint integrates with Stripe for payments. Handle one-time charges,
+        20x Step integrates with Stripe for payments. Handle one-time charges,
         subscriptions, usage-based billing, and customer portals. Webhook
         handlers and billing state management are included.
       </>
@@ -100,7 +100,7 @@ export function FaqSection(): React.ReactElement {
         title="Frequently asked questions"
         description={
           <>
-            Everything you need to know about Blueprint.
+            Everything you need to know about 20x Step.
           </>
         }
         items={faqs}

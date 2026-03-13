@@ -30,16 +30,19 @@ export function MobileNav({ items }: MobileNavProps): React.ReactElement {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left">
-        <SheetHeader>
-          <SheetTitle className="text-left">Blueprint</SheetTitle>
+      <SheetContent
+        side="left"
+        className="w-screen max-w-none rounded-none border-r bg-white text-foreground sm:max-w-none"
+      >
+        <SheetHeader className="border-b bg-white">
+          <SheetTitle className="text-left">20x Step</SheetTitle>
         </SheetHeader>
-        <nav className="flex flex-col gap-4 px-4">
+        <nav className="flex flex-col gap-4 bg-white px-4 py-2">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="rounded-md px-2 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-foreground"
               onClick={() => {
                 setOpen(false);
               }}
