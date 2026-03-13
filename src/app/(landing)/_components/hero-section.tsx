@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { LandingSectionHeading } from './landing-section-heading';
 
 import { Button } from '@/components/ui/button';
-import { siteConfig } from '@/config/site';
 
 const heroLandscape = '/images/website/background.avif';
 
@@ -23,13 +22,13 @@ export function HeroSection(): React.ReactElement {
         <div className="w-full">
           <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
             <div className="inline-flex items-center rounded-full border border-white/25 bg-[rgba(27,6,36,0.62)] px-4 py-1.5 text-sm font-medium tracking-[-0.02em] text-white shadow-[0_10px_30px_rgba(45,32,50,0.14)] backdrop-blur-sm">
-              Now in public beta
+              Built for 20x companies
             </div>
 
             <LandingSectionHeading
               hero
               title="Ship beautiful B2B SaaS in hours, not months"
-              description={siteConfig.description}
+              description="For small AI-native teams that want to move like companies 20 times larger, without rebuilding the same SaaS foundation from scratch."
               titleClassName="max-w-4xl"
               descriptionClassName="max-w-2xl"
             />

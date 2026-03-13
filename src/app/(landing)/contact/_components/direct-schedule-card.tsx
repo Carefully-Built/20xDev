@@ -33,7 +33,7 @@ export function DirectScheduleCard({ url }: DirectScheduleCardProps): React.Reac
             className="h-13 rounded-full bg-[#160f0c] px-7 text-[1rem] font-normal tracking-[-0.02em] text-white shadow-none hover:bg-[#2b1f1a]"
           >
             <Link href={url} target="_blank" rel="noreferrer">
-              Schedular call
+              Schedule a call
               <ArrowUpRight className="size-4" />
             </Link>
           </Button>

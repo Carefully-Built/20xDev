@@ -67,16 +67,16 @@ interface LandingFooterCta {
 }
 
 const defaultLandingFooterCta: LandingFooterCta = {
-  title: 'Ship faster with the full starter',
+  title: 'Built for 20x companies',
   description:
-    'Get the production-ready base for auth, organizations, billing, files, and dashboard flows without building the foundation from scratch.',
+    'For small AI-native teams that want to move like companies 20 times larger, with the production-ready base for auth, billing, files, organizations, and dashboard flows already in place.',
   buttonLabel: 'See pricing',
   buttonHref: '/pricing',
 };
 
 const contactLandingFooterCta: LandingFooterCta = {
-  title: 'Get lifetime access',
-  description: 'See the temporary 79€ deal and get access to the full starter.',
+  title: 'Start with 20x leverage',
+  description: 'See the temporary 79€ deal and get access to the full starter built for small AI-native teams.',
   buttonLabel: 'Get the 79€ deal',
   buttonHref: '/pricing',
 };
