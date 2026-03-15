@@ -46,6 +46,7 @@
     "next-sanity": "^12.1.0",
     "next-themes": "^0.4.6",
     "nuqs": "^2.8.8",
+    "posthog-js": "^1.358.1",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-day-picker": "^9.13.1",
