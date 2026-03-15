@@ -7,38 +7,35 @@ import { cn } from '@/lib/utils';
 
 type AnyProps = Record<string, unknown>;
 
-type DOMMotionProps<T extends HTMLElement = HTMLElement> = Omit<
-  HTMLMotionProps<keyof HTMLElementTagNameMap>,
+type DOMMotionProps = Omit<
+  HTMLMotionProps<'div'>,
   'ref'
-> & { ref?: React.Ref };
+> & { ref?: React.Ref<HTMLElement> };
 
 type WithAsChild<Base extends object> =
   | (Base & { asChild: true; children: React.ReactElement })
   | (Base & { asChild?: false | undefined });
 
-type SlotProps<T extends HTMLElement = HTMLElement> = {
+type SlotProps = {
   children?: React.ReactNode;
 } & DOMMotionProps;
 
 function mergeRefs(
-  ...refs: (React.Ref | undefined)[]
-): React.RefCallback {
-  return (node) => {
+  ...refs: Array<React.Ref<HTMLElement> | undefined>
+): React.RefCallback<HTMLElement> {
+  return (node: HTMLElement | null) => {
     refs.forEach((ref) => {
       if (!ref) return;
       if (typeof ref === 'function') {
         ref(node);
       } else {
-        (ref as unknown as React.RefObject<T | null>).current = node;
+        (ref as React.MutableRefObject<HTMLElement | null>).current = node;
       }
     });
   };
 }
 
-function mergeProps<T extends HTMLElement>(
-  childProps: AnyProps,
-  slotProps: DOMMotionProps,
-): AnyProps {
+function mergeProps(childProps: AnyProps, slotProps: DOMMotionProps): AnyProps {
   const merged: AnyProps = { ...childProps, ...slotProps };
 
   if (childProps.className || slotProps.className) {
@@ -58,7 +55,7 @@ function mergeProps<T extends HTMLElement>(
   return merged;
 }
 
-function Slot<T extends HTMLElement = HTMLElement>({
+function Slot({
   children,
   ref,
   ...props
@@ -73,12 +70,14 @@ function Slot<T extends HTMLElement = HTMLElement>({
     ? (children.type as React.ElementType)
     : motion.create(children.type as React.ElementType);
 
-  const { ref: childRef, ...childProps } = children.props as AnyProps;
+  const { ref: childRef, ...childProps } = children.props as AnyProps & {
+    ref?: React.Ref<HTMLElement>;
+  };
 
   const mergedProps = mergeProps(childProps, props);
 
   return (
-    <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref, ref)} />
+    <Base {...mergedProps} ref={mergeRefs(childRef, ref)} />
   );
 }
 

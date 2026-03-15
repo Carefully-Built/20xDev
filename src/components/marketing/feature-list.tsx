@@ -5,15 +5,6 @@ import { Fade } from '@/components/animate-ui/fade';
 import { Slide } from '@/components/animate-ui/slide';
 import { featureListItems } from '@/config/features';
 
-const featureKeys = [
-  'stripePayments',
-  'internationalization',
-  'realTimeDb',
-  'transactionalEmail',
-  'orgManagement',
-  'ciCdPipeline',
-] as const;
-
 export function FeatureList(): React.ReactElement {
   return (
     <section className="py-24">
@@ -32,7 +23,6 @@ export function FeatureList(): React.ReactElement {
 
         <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {featureListItems.map((item, i) => {
-            const key = featureKeys[i] ?? `item${String(i)}`;
             return (
               <Slide
                 key={item.title}

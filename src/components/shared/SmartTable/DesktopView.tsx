@@ -20,13 +20,13 @@ import {
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-interface DesktopViewProps {
+interface DesktopViewProps<T> {
   data: T[];
-  columns: Column[];
+  columns: Column<T>[];
   isLoading: boolean;
   skeletonRows: number;
   actions?: ActionType[];
-  actionHandlers?: ActionHandlers;
+  actionHandlers?: ActionHandlers<T>;
   renderActions?: (item: T) => ReactNode;
   noDataMessage: string;
   getRowKey: (item: T) => string | number;
@@ -43,7 +43,7 @@ const ActionIcons: Record<ActionType, typeof Eye> = {
   delete: Trash2,
 };
 
-export function DesktopView({
+export function DesktopView<T extends Record<string, unknown>>({
   data,
   columns,
   isLoading,
@@ -58,10 +58,10 @@ export function DesktopView({
   stickyHeader = false,
   maxHeight = 'calc(100vh - 300px)',
   fullHeight = false,
-}: DesktopViewProps): React.ReactElement {
+}: DesktopViewProps<T>): React.ReactElement {
   const hasActions = (actions?.length ?? 0) > 0 || renderActions !== undefined;
 
-  const renderCellValue = (column: Column, item: T): ReactNode => {
+  const renderCellValue = (column: Column<T>, item: T): ReactNode => {
     const value = column.accessor
       ? typeof column.accessor === 'string' && column.accessor.includes('.')
         ? getNestedValue(item, column.accessor)
@@ -88,7 +88,12 @@ export function DesktopView({
       <div className="flex items-center gap-1">
         {actions.map((action) => {
           const Icon = ActionIcons[action];
-          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers];
+          const handler =
+            action === 'view'
+              ? actionHandlers.onView
+              : action === 'edit'
+                ? actionHandlers.onEdit
+                : actionHandlers.onDelete;
           
           return (
             <Button
@@ -98,7 +103,7 @@ export function DesktopView({
               className="size-8"
               onClick={(e) => {
                 e.stopPropagation();
-                (handler as ((item: T) => void) | undefined)?.(item);
+                handler?.(item);
               }}
             >
               <Icon className="size-4" />

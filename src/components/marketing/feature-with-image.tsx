@@ -7,8 +7,6 @@ import { Slide } from '@/components/animate-ui/slide';
 import { featureWithImageItems } from '@/config/features';
 import { cn } from '@/lib/utils';
 
-const featureKeys = ['dashboard', 'auth', 'landing'] as const;
-
 export function FeatureWithImage(): React.ReactElement {
   return (
     <section className="border-t bg-muted/30 py-24">
@@ -27,9 +25,53 @@ export function FeatureWithImage(): React.ReactElement {
           </div>
         </Fade>
 
-        <div className="mt-16 space-y-24">
+        <div className="mt-16 lg:hidden">
+          <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6">
+            {featureWithImageItems.map((item) => {
+              return (
+                <Slide
+                  key={item.title}
+                  direction="up"
+                  delay={100}
+                  inView
+                  inViewOnce
+                  inViewMargin="-80px"
+                  className="min-w-[88%] snap-center sm:min-w-[32rem]"
+                >
+                  <article className="flex h-full flex-col rounded-2xl border bg-background/95 p-5 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                        <item.icon className="size-5 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-semibold">
+                        {item.title}
+                      </h3>
+                    </div>
+
+                    <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+
+                    <div className="mt-6 overflow-hidden rounded-xl border bg-muted/50 shadow-sm">
+                      <div className="flex aspect-[4/3] items-center justify-center">
+                        <Image
+                          src={item.image}
+                          alt={item.imageAlt}
+                          width={600}
+                          height={400}
+                          className="size-full object-cover object-top"
+                        />
+                      </div>
+                    </div>
+                  </article>
+                </Slide>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-16 hidden space-y-24 lg:block">
           {featureWithImageItems.map((item, i) => {
-            const key = featureKeys[i] ?? `item${String(i)}`;
             return (
               <Slide
                 key={item.title}

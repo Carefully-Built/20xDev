@@ -13,13 +13,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
-interface MobileViewProps {
+interface MobileViewProps<T> {
   data: T[];
-  columns: Column[];
+  columns: Column<T>[];
   isLoading: boolean;
   skeletonRows: number;
   actions?: ActionType[];
-  actionHandlers?: ActionHandlers;
+  actionHandlers?: ActionHandlers<T>;
   renderActions?: (item: T) => ReactNode;
   noDataMessage: string;
   getRowKey: (item: T) => string | number;
@@ -35,7 +35,7 @@ const ActionIcons: Record<ActionType, typeof Eye> = {
   delete: Trash2,
 };
 
-export function MobileView({
+export function MobileView<T extends Record<string, unknown>>({
   data,
   columns,
   isLoading,
@@ -49,11 +49,11 @@ export function MobileView({
   renderMobileCard,
   pagination,
   fullHeight = false,
-}: MobileViewProps): React.ReactElement {
+}: MobileViewProps<T>): React.ReactElement {
   const visibleColumns = columns.filter((col) => !col.hideOnMobile);
   const hasActions = (actions?.length ?? 0) > 0 || renderActions !== undefined;
 
-  const renderValue = (column: Column, item: T): ReactNode => {
+  const renderValue = (column: Column<T>, item: T): ReactNode => {
     const value = column.accessor
       ? typeof column.accessor === 'string' && column.accessor.includes('.')
         ? getNestedValue(item, column.accessor)
@@ -80,7 +80,12 @@ export function MobileView({
       <div className="flex items-center gap-1">
         {actions.map((action) => {
           const Icon = ActionIcons[action];
-          const handler = actionHandlers[`on${action.charAt(0).toUpperCase()}${action.slice(1)}` as keyof ActionHandlers];
+          const handler =
+            action === 'view'
+              ? actionHandlers.onView
+              : action === 'edit'
+                ? actionHandlers.onEdit
+                : actionHandlers.onDelete;
           
           return (
             <Button
@@ -90,7 +95,7 @@ export function MobileView({
               className="size-8"
               onClick={(e) => {
                 e.stopPropagation();
-                (handler as ((item: T) => void) | undefined)?.(item);
+                handler?.(item);
               }}
             >
               <Icon className="size-4" />

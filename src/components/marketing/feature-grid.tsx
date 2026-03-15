@@ -11,15 +11,6 @@ import {
 } from '@/components/ui/card';
 import { featureGridItems } from '@/config/features';
 
-const featureKeys = [
-  'productionReady',
-  'aiOptimized',
-  'b2bReady',
-  'modernStack',
-  'enterpriseSecurity',
-  'realTimeData',
-] as const;
-
 export function FeatureGrid(): React.ReactElement {
   return (
     <section id="features" className="py-24">
@@ -38,7 +29,6 @@ export function FeatureGrid(): React.ReactElement {
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featureGridItems.map((feature, i) => {
-            const key = featureKeys[i] ?? `item${String(i)}`;
             return (
               <Slide
                 key={feature.title}

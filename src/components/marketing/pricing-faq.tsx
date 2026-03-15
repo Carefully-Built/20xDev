@@ -11,7 +11,7 @@ interface PricingFaqProps {
 }
 
 export function PricingFaq({ items }: PricingFaqProps): React.ReactElement {
-  const faqItems: readonly FaqItemProps[] = items.map((item, index) => ({
+  const faqItems: readonly FaqItemProps[] = items.map((item) => ({
     question: item.question,
     answer: item.answer,
   }));

@@ -8,17 +8,14 @@ interface UseIsInViewOptions {
 }
 
 function useIsInView<T extends HTMLElement = HTMLElement>(
-  ref: React.Ref,
+  ref: React.Ref<T> | undefined,
   options: UseIsInViewOptions = {},
 ): { ref: React.RefObject<T | null>; isInView: boolean } {
   const { inView, inViewOnce = false, inViewMargin = '0px' } = options;
-  const localRef = React.useRef(null);
-  React.useImperativeHandle(ref, () => {
-    if (!localRef.current) {
-      throw new Error('useIsInView: ref is not attached to a DOM element');
-    }
-    return localRef.current;
-  });
+  const localRef = React.useRef<T | null>(null);
+
+  React.useImperativeHandle(ref, () => localRef.current as T, []);
+
   const inViewResult = useInView(localRef, {
     once: inViewOnce,
     margin: inViewMargin,
