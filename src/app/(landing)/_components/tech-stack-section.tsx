@@ -14,7 +14,7 @@ interface TechItem {
   readonly description: string;
   readonly why: string;
   readonly logo: string;
-  readonly href: string;
+  readonly href?: string;
   readonly className?: string;
 }
 
@@ -149,6 +149,14 @@ const techStack: readonly TechItem[] = [
     logo: '/images/stack/gt.svg',
     href: 'https://generaltranslation.com',
   },
+  {
+    name: 'IndexNow',
+    category: 'SEO',
+    description: 'Instant content indexing',
+    why: 'Push updates directly to search engines so new pages and edits get discovered faster.',
+    logo: '/images/stack/indexnow.png',
+    href: 'https://www.indexnow.org',
+  },
   // Content
   {
     name: 'Sanity',
@@ -177,12 +185,19 @@ const techStack: readonly TechItem[] = [
   },
   // Support
   {
-    name: 'Featurebase',
-    category: 'Feedback',
-    description: 'Feature requests & docs',
-    why: 'Let users vote on features. Build what customers want.',
-    logo: '/images/stack/featurebase.png',
-    href: 'https://featurebase.app',
+    name: 'Onboarda',
+    category: 'Onboarding',
+    description: 'Guided product setup',
+    why: 'Help new customers reach activation faster with a clear onboarding flow and in-app guidance.',
+    logo: '/images/stack/onboarda.png',
+  },
+  {
+    name: 'AffiliateBase',
+    category: 'Growth',
+    description: 'Affiliate program management',
+    why: 'Launch referral and affiliate loops without building your own tracking and payout system.',
+    logo: '/images/stack/affiliatebase.png',
+    href: 'https://www.affiliatebase.io',
   },
   {
     name: 'Cal.com',
@@ -291,13 +306,8 @@ function TechStackCard({
   tech: TechItem;
   className?: string;
 }): React.ReactElement {
-  return (
-    <Link
-      href={tech.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)] ${className}`}
-    >
+  const content = (
+    <>
       <div className="flex items-center justify-between">
         <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden">
           <SafeImage
@@ -319,6 +329,18 @@ function TechStackCard({
         <p className="text-sm text-black/58">{tech.description}</p>
       </div>
       <p className="text-sm leading-relaxed text-black/48">{tech.why}</p>
+    </>
+  );
+
+  const classes = `group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)] ${className}`;
+
+  if (!tech.href) {
+    return <div className={classes}>{content}</div>;
+  }
+
+  return (
+    <Link href={tech.href} target="_blank" rel="noopener noreferrer" className={classes}>
+      {content}
     </Link>
   );
 }
