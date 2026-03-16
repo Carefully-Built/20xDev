@@ -1,6 +1,8 @@
-# Blueprint
+# 20xdev: AI SaaS Toolkit, B2B SaaS Starter, Next.js SaaS Boilerplate
 
-Blueprint is a Next.js SaaS starter currently branded as `20xdev` in the app config and marketing copy. This README reflects the codebase as it exists today: what is already working, what is partially wired, and what still needs to be configured.
+![20xdev banner](public/images/banner.png)
+
+20xdev is the current name of this project. This README reflects the repo as it exists today: what is already working, what is partially wired, and what still needs to be configured or built next.
 
 ## Current Status
 
@@ -16,60 +18,61 @@ The project already has a working foundation for:
 - Basic internationalization plumbing with General Translation
 - Optional PostHog client instrumentation
 
-The project does **not** yet have real application code for several technologies still mentioned in parts of the site or older docs. Those are listed below under "Still To Configure / Not Implemented Yet".
+The project does **not** yet have real application code for several technologies that are still mentioned in the website stack showcase or older docs. The logo checklist below is the source of truth.
 
-## Stack Actually Present In The Repo
+## Technology Status
 
-### Core
+### Core and frontend
 
-- Next.js 16
-- React 19
-- TypeScript 5
-- Bun
+| Done | Logo | Technology | Status | Notes |
+|---|---|---|---|---|
+| [x] | <img src="public/images/stack/next-js.svg" alt="Next.js" width="22" /> | Next.js 16 | Implemented | App Router foundation is in place |
+| [x] | <img src="public/images/stack/typescript.png" alt="TypeScript" width="22" /> | TypeScript 5 | Implemented | Main app is typed |
+| [x] | <img src="public/images/stack/bun.svg" alt="Bun" width="22" /> | Bun | Implemented | Package manager and scripts |
+| [x] | <img src="public/images/stack/tailwind.png" alt="Tailwind CSS" width="22" /> | Tailwind CSS 4 | Implemented | Styling foundation |
+| [x] | <img src="public/images/stack/shadcn.png" alt="shadcn/ui" width="22" /> | shadcn/ui | Implemented | Core component layer |
+| [ ] | <img src="public/images/stack/animate-ui.ico" alt="Animate UI" width="22" /> | Animate UI | Not implemented | Mentioned in website stack, not wired in app code |
 
-### UI
+### Data, auth, and app infrastructure
 
-- Tailwind CSS 4
-- shadcn/ui
-- Radix-based primitives
-- next-themes
-- Sonner
-- Geist fonts
-- Hugeicons and Lucide icons
+| Done | Logo | Technology | Status | Notes |
+|---|---|---|---|---|
+| [x] | <img src="public/images/stack/convex.webp" alt="Convex" width="22" /> | Convex | Implemented | Schema, tables, queries, mutations, auth component |
+| [x] | <img src="public/images/stack/zod.webp" alt="Zod" width="22" /> | Zod | Implemented | Validation schemas present |
+| [x] | <img src="public/images/stack/workos.png" alt="WorkOS" width="22" /> | WorkOS | Implemented | Auth, organizations, widgets |
+| [x] | <img src="public/images/stack/tanstack.png" alt="TanStack Query" width="22" /> | TanStack Query | Implemented | Query provider present |
+| [x] | <img src="public/images/stack/nuqs.jpg" alt="nuqs" width="22" /> | nuqs | Implemented | URL state integration present |
 
-### Data and Backend
+### Content, analytics, and localization
 
-- Convex
-- Zod
-- React Hook Form
-- TanStack Query
-- nuqs
+| Done | Logo | Technology | Status | Notes |
+|---|---|---|---|---|
+| [x] | <img src="public/images/stack/sanity.png" alt="Sanity" width="22" /> | Sanity | Implemented | Blog, Studio, schemas, webhook route |
+| [ ] | <img src="public/images/stack/posthog.png" alt="PostHog" width="22" /> | PostHog | Partial | Client integration exists, env and project setup still needed |
+| [ ] | <img src="public/images/stack/gt.svg" alt="General Translation" width="22" /> | General Translation | Partial | Package and locale config exist, app-wide localization is incomplete |
+| [ ] | <img src="public/images/stack/datafast.png" alt="DataFast" width="22" /> | DataFast | Not implemented | Mentioned only |
+| [ ] | <img src="public/images/stack/indexnow.png" alt="IndexNow" width="22" /> | IndexNow | Not implemented | Mentioned only |
+| [ ] | <img src="public/images/stack/cal.png" alt="Cal.com" width="22" /> | Cal.com | Partial | Contact page link exists, no deeper integration |
 
-### Auth and Organizations
+### Revenue, onboarding, AI, and support
 
-- WorkOS Node SDK
-- WorkOS AuthKit for Next.js
-- `@convex-dev/workos-authkit` for Convex auth integration
-- WorkOS widgets for account and organization management
+| Done | Logo | Technology | Status | Notes |
+|---|---|---|---|---|
+| [ ] | <img src="public/images/stack/sripe.png" alt="Stripe" width="22" /> | Stripe | Not implemented | Planned via `@convex-dev/stripe` |
+| [ ] | <img src="public/images/stack/resend.webp" alt="Resend" width="22" /> | Resend | Not implemented | Planned via `@convex-dev/resend` |
+| [ ] | <img src="public/images/stack/openai.webp" alt="OpenAI" width="22" /> | OpenAI | Not implemented | Requested for command/chat page |
+| [ ] | <img src="public/images/stack/featurebase.png" alt="Featurebase" width="22" /> | Featurebase | Not implemented | Roadmap/changelog/docs still to set up |
+| [ ] | <img src="public/images/stack/onboarda.png" alt="Onboarda" width="22" /> | Onboarda | Not implemented | Requested onboarding setup |
+| [ ] | <img src="public/images/stack/affiliatebase.png" alt="AffiliateBase" width="22" /> | AffiliateBase | Not implemented | Requested affiliate/revenue setup |
 
-### Content and Marketing
+### Code quality
 
-- Sanity
-- next-sanity
-- Sanity Studio at `/studio`
-- Cal.com link support on the contact page
-
-### Analytics and i18n
-
-- PostHog client integration is present, but environment setup is still needed
-- General Translation (`gt-next`) is installed with `en` and `it` locales configured
-
-### Code Quality
-
-- ESLint
-- Prettier
-- SonarCloud GitHub Action
-- Knip is installed as a dependency, but it is not yet wired into scripts or CI
+| Done | Logo | Technology | Status | Notes |
+|---|---|---|---|---|
+| [ ] | <img src="public/images/stack/knip.svg" alt="Knip" width="22" /> | Knip | Partial | Installed but not scripted or enforced |
+| [ ] | <img src="public/images/stack/coderabbit.png" alt="CodeRabbit" width="22" /> | CodeRabbit | Not implemented | Mentioned in docs, not configured in repo |
+| [x] | <img src="public/images/stack/sonarcloud.ico" alt="SonarCloud" width="22" /> | SonarCloud | Implemented | GitHub Action present |
+| [x] | <img src="public/images/stack/prettier.png" alt="Prettier" width="22" /> | Prettier | Implemented | Formatter configured |
 
 ## Features Already Built
 
