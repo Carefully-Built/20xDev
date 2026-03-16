@@ -1,192 +1,195 @@
-# 20xdev
+# Blueprint
 
-> The AI-optimized starting point for building beautiful B2B SaaS products.
+Blueprint is a Next.js SaaS starter currently branded as `20xdev` in the app config and marketing copy. This README reflects the codebase as it exists today: what is already working, what is partially wired, and what still needs to be configured.
 
-20xdev is a production-ready template designed to help AI (and humans) build scalable B2B SaaS applications with clean, elegant code. It combines the best modern tools into a cohesive foundation that prioritizes code quality, developer experience, and enterprise-readiness.
+## Current Status
 
-## Why 20xdev?
+The project already has a working foundation for:
 
-Building a SaaS from scratch means making hundreds of decisions about tooling, architecture, and patterns. 20xdev makes those decisions for you, providing:
+- Marketing site and public pages
+- Email/password auth with WorkOS AuthKit
+- Multi-organization flows with WorkOS widgets
+- Convex-backed app data
+- Protected dashboard area
+- Items and files CRUD flows
+- Blog and Sanity Studio integration
+- Basic internationalization plumbing with General Translation
+- Optional PostHog client instrumentation
 
-- **Clean, AI-friendly code** — Structured for AI assistants to understand and extend
-- **Enterprise-ready auth** — Multi-tenant authentication out of the box
-- **Real-time by default** — Live updates without complexity
-- **Type-safe everything** — From database to UI, fully typed
-- **Production patterns** — Battle-tested approaches to common problems
+The project does **not** yet have real application code for several technologies still mentioned in parts of the site or older docs. Those are listed below under "Still To Configure / Not Implemented Yet".
 
-## Tech Stack
+## Stack Actually Present In The Repo
 
-### Core Framework
-| Tool | Purpose |
-|------|---------|
-| [Next.js 16](https://nextjs.org) | React framework with App Router & Turbopack |
-| [TypeScript](https://typescriptlang.org) | Type-safe JavaScript |
-| [Bun](https://bun.sh) | Fast JavaScript runtime & package manager |
+### Core
 
-### Backend & Data
-| Tool | Purpose |
-|------|---------|
-| [Convex](https://convex.dev) | Real-time database & backend functions |
-| [Zod](https://zod.dev) | Schema validation & type inference |
+- Next.js 16
+- React 19
+- TypeScript 5
+- Bun
 
-### Authentication & Enterprise
-| Tool | Purpose |
-|------|---------|
-| [WorkOS](https://workos.com) | Enterprise SSO, SCIM, directory sync |
-| [AuthKit](https://workos.com/authkit) | Beautiful, secure authentication UI |
+### UI
 
-### UI & Styling
-| Tool | Purpose |
-|------|---------|
-| [shadcn/ui](https://ui.shadcn.com) | Beautiful, accessible components |
-| [Tailwind CSS](https://tailwindcss.com) | Utility-first styling |
-| [Lucide](https://lucide.dev) | Clean, consistent icons |
-| [Animate UI](https://animate-ui.com) | Smooth animations & micro-interactions |
+- Tailwind CSS 4
+- shadcn/ui
+- Radix-based primitives
+- next-themes
+- Sonner
+- Geist fonts
+- Hugeicons and Lucide icons
 
-### Payments & Email
-| Tool | Purpose |
-|------|---------|
-| [Stripe](https://stripe.com) | Payments & billing (connected to Convex) |
-| [Resend](https://resend.com) | Transactional emails |
+### Data and Backend
 
-### State & Data Fetching
-| Tool | Purpose |
-|------|---------|
-| [TanStack Query](https://tanstack.com/query) | Server state management |
-| [nuqs](https://nuqs.47ng.com) | Type-safe URL search params |
+- Convex
+- Zod
+- React Hook Form
+- TanStack Query
+- nuqs
 
-### AI & Intelligence
-| Tool | Purpose |
-|------|---------|
-| [OpenAI](https://openai.com) | LLM integration for AI features |
+### Auth and Organizations
 
-### Internationalization
-| Tool | Purpose |
-|------|---------|
-| [General Translation](https://generaltranslation.com) | AI-powered i18n |
+- WorkOS Node SDK
+- WorkOS AuthKit for Next.js
+- `@convex-dev/workos-authkit` for Convex auth integration
+- WorkOS widgets for account and organization management
 
-### Content & Blog
-| Tool | Purpose |
-|------|---------|
-| [Sanity](https://sanity.io) | Headless CMS for blog & content |
+### Content and Marketing
 
-### Analytics
-| Tool | Purpose |
-|------|---------|
-| [DataFast](https://datafa.st) | Simple, privacy-friendly analytics |
+- Sanity
+- next-sanity
+- Sanity Studio at `/studio`
+- Cal.com link support on the contact page
 
-### Product Analytics & Logging
-| Tool | Purpose |
-|------|---------|
-| [PostHog](https://posthog.com) | Product analytics, error tracking & session replay |
+### Analytics and i18n
 
-### Feedback & Support
-| Tool | Purpose |
-|------|---------|
-| [Featurebase](https://featurebase.app) | Feature requests, changelog & documentation |
+- PostHog client integration is present, but environment setup is still needed
+- General Translation (`gt-next`) is installed with `en` and `it` locales configured
 
 ### Code Quality
-| Tool | Purpose |
-|------|---------|
-| [ESLint](https://eslint.org) | Code linting (Airbnb config) |
-| [Knip](https://knip.dev) | Find unused files & dependencies |
-| [CodeRabbit](https://coderabbit.ai) | AI-powered code review |
-| [SonarCloud](https://sonarcloud.io) | Code quality & security analysis |
 
-## Getting Started
+- ESLint
+- Prettier
+- SonarCloud GitHub Action
+- Knip is installed as a dependency, but it is not yet wired into scripts or CI
 
-> ⚠️ **Important:** This project uses [Bun](https://bun.sh) as the package manager and runtime. Make sure you have Bun installed before proceeding.
+## Features Already Built
+
+- Public landing pages: home, pricing, about, contact, blog, privacy, terms
+- Auth routes: login, signup, forgot password, update password
+- Dashboard shell and protected layout
+- Organization create, switch, update, and delete flows
+- Convex tables for users, organizations, items, and files
+- File upload UI and file listing flows
+- Blog category pages and post detail pages
+- Sanity revalidation endpoint at `/api/revalidate`
+- WorkOS token endpoints for widgets
+
+## Environment Variables In Use
+
+These variables are referenced by the current codebase or scripts:
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_CONVEX_URL` | Yes | Convex client URL used by the app |
+| `CONVEX_DEPLOY_KEY` | Production only | Required when production builds should deploy Convex |
+| `WORKOS_API_KEY` | Yes | WorkOS server SDK |
+| `WORKOS_CLIENT_ID` | Yes | WorkOS AuthKit / OAuth flows |
+| `WORKOS_COOKIE_PASSWORD` | Yes | Session encryption |
+| `WORKOS_REDIRECT_URI` | Yes | WorkOS callback URL |
+| `NEXT_PUBLIC_APP_URL` | Recommended | Canonical app URL, used in blog metadata |
+| `NEXT_PUBLIC_CAL_DISCOVERY_CALL_URL` | Optional | Contact page booking link |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Yes for Sanity | Sanity client and Studio config |
+| `NEXT_PUBLIC_SANITY_DATASET` | Yes for Sanity | Sanity dataset |
+| `SANITY_REVALIDATE_SECRET` | Needed for webhook revalidation | Validates Sanity webhook requests |
+| `SANITY_API_TOKEN` | Optional | Used by `scripts/seed-content.mjs` |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Optional | Enables PostHog in the frontend |
+| `NEXT_PUBLIC_POSTHOG_HOST` | Optional | Overrides default PostHog host |
+| `NEXT_PUBLIC_POSTHOG_DEV` | Optional | Allows PostHog during development |
+
+## Still To Configure / Not Implemented Yet
+
+### Config that still needs finishing
+
+- Production WorkOS settings still need to be confirmed:
+  `WORKOS_REDIRECT_URI` and `NEXT_PUBLIC_APP_URL` should match the final deployed domain.
+- Sanity webhook setup is incomplete until `SANITY_REVALIDATE_SECRET` is added and the webhook is configured in Sanity.
+- PostHog is optional and only becomes active once the PostHog env vars are added.
+- A clean `.env.example` file is missing even though setup scripts expect one.
+- Secrets are currently stored in the local `.env`; this should stay untracked and be rotated if any real credentials were ever committed.
+
+### Packages or tools present but only partially adopted
+
+- `gt-next` is installed and used in parts of the UI, but localization is not yet complete across the whole app.
+- Knip is installed, but there is no `bun run knip` script and no CI enforcement for unused code.
+- SonarCloud is configured in GitHub Actions, but CodeRabbit is referenced in docs/marketing only and is not configured in this repo.
+
+### Technologies mentioned in older docs or marketing but not implemented in app code
+
+- Stripe
+- Resend
+- OpenAI
+- DataFast
+- Featurebase
+- IndexNow
+- Onboarda
+- AffiliateBase
+
+These may still be part of the intended product direction, but they are not configured as real runtime integrations in the current codebase.
+
+## Local Development
+
+This repo uses Bun.
 
 ```bash
-# Install dependencies
 bun install
-
-# Set up environment variables
-cp .env.example .env.local
-
-# Start development server
+npx convex dev
 bun dev
 ```
 
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── (landing)/        # Public marketing pages
-│   ├── (auth)/           # Authentication flows
-│   ├── dashboard/        # Authenticated app
-│   └── api/              # API routes
-├── components/
-│   └── ui/               # shadcn/ui components
-├── lib/                  # Utilities & helpers
-├── providers/            # React context providers
-└── config/               # App configuration
-
-convex/
-├── schema.ts             # Database schema
-└── *.ts                  # Backend functions
-```
-
-## Scripts
+Useful commands:
 
 ```bash
-bun dev          # Start dev server with Turbopack
-bun build        # Production build
-bun lint         # ESLint (strict, zero warnings)
-bun typecheck    # TypeScript check
-bun check        # Run typecheck + lint
-bun format       # Format with Prettier
+bun run dev
+bun run build
+bun run start
+bun run lint
+bun run typecheck
+bun run check
+bun run format
 ```
 
-## Code Standards
+Notes:
 
-20xdev enforces strict code quality:
+- `bun run build` triggers `convex deploy` only when `VERCEL_ENV=production`.
+- `scripts/setup.sh` expects `.env.example`, but that file does not currently exist.
+- Sanity Studio is available at `/studio`.
 
-- **Zero `any` types** — Strict TypeScript with no exceptions
-- **Airbnb ESLint** — Industry-standard linting rules
-- **Prettier formatting** — Consistent code style
-- **Type imports** — Always use `import type` for types
-- **Small components** — Max 120 lines per file
+## Project Structure
 
-## Roadmap
+```text
+src/
+  app/                 Next.js App Router pages, layouts, and route handlers
+  components/          Shared UI and layout components
+  config/              Site-wide config
+  hooks/               Custom React hooks
+  lib/                 Utilities and integration helpers
+  providers/           App providers
+  sanity/              Sanity client, config, schemas
+  types/               Shared TypeScript types
 
-### ✅ Implemented
-- [x] Authentication (WorkOS + AuthKit)
-- [x] Real-time database (Convex)
-- [x] Payments & billing (Stripe)
-- [x] Dashboard with settings
-- [x] Code quality tools (ESLint, Prettier)
-- [x] CI/CD with code review (CodeRabbit, SonarCloud)
-- [x] Blog & CMS (Sanity)
-- [x] Internationalization (General Translation)
-- [x] Contact form
-- [x] Product analytics & error tracking (PostHog)
+convex/
+  functions/           Queries and mutations
+  tables/              Table definitions
+  schema.ts            Combined Convex schema
+  auth.ts              Convex auth integration
+```
 
-### 🚧 In Progress
-- [ ] Animations (Animate UI)
-- [ ] Welcome emails (Resend)
+## Recommended Next Steps
 
-### 📋 Planned
-- [ ] Analytics dashboard (DataFast)
-- [ ] Roadmap & feature requests (Featurebase)
-- [ ] AI features (OpenAI)
-- [ ] Affiliate program
-- [ ] Unused code detection (Knip)
-- [ ] About page
-- [ ] Feature sections
-- [ ] Pricing page
-
-## Philosophy
-
-20xdev is built on a simple idea: **AI can build software faster when it starts with clean, well-structured code.**
-
-Every decision in 20xdev — from folder structure to naming conventions — is made with AI assistance in mind. The result is a codebase that's easy for both humans and AI to understand, modify, and extend.
+1. Add a safe `.env.example` that matches the variables above.
+2. Decide which "planned" integrations are actually in scope and remove the rest from marketing sections.
+3. Finish production configuration for WorkOS, Sanity webhooks, and optional PostHog.
+4. Add missing CI/runtime wiring for tools that are already installed, especially Knip.
 
 ## License
 
 MIT
-
----
-
-Built with ♥ by [Carefully Built](https://github.com/Carefully-Built)
