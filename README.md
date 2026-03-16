@@ -1,6 +1,6 @@
 # 20xdev: AI SaaS Toolkit, B2B SaaS Starter, Next.js SaaS Boilerplate
 
-<img src="public/images/banner.png" alt="20xdev banner" width="100%" />
+<img src="public/images/banner.png" alt="20xdev banner" width="100%" style="border-radius: 18px;" />
 
 20xdev is the current name of this project. This README reflects the repo as it exists today: what is already working, what is partially wired, and what still needs to be configured or built next.
 
