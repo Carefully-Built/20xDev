@@ -63,6 +63,7 @@ The project does **not** yet have real application code for several technologies
 | [ ] | <img src="public/images/stack/sripe.png" alt="Stripe" width="22" /> | Stripe | Not implemented | Planned via `@convex-dev/stripe` |
 | [ ] | <img src="public/images/stack/resend.webp" alt="Resend" width="22" /> | Resend | Not implemented | Planned via `@convex-dev/resend` |
 | [ ] | <img src="public/images/stack/openai.webp" alt="OpenAI" width="22" /> | OpenAI | Not implemented | Requested for command/chat page |
+| [ ] | <img src="public/images/stack/elevenlabs.svg" alt="ElevenLabs" width="22" /> | ElevenLabs | Not implemented | Planned via `convex-elevenlabs` |
 | [ ] | <img src="public/images/stack/featurebase.png" alt="Featurebase" width="22" /> | Featurebase | Not implemented | Roadmap/changelog/docs still to set up |
 | [ ] | <img src="public/images/stack/onboarda.png" alt="Onboarda" width="22" /> | Onboarda | Not implemented | Requested onboarding setup |
 | [ ] | <img src="public/images/stack/affiliatebase.png" alt="AffiliateBase" width="22" /> | AffiliateBase | Not implemented | Requested affiliate/revenue setup |
@@ -273,6 +274,22 @@ The requested implementation is Resend through the official Convex Resend compon
 - [ ] Add error states for provider/API failures
 - [ ] Decide whether chat is per-user, per-organization, or shared workspace
 
+### Voice and audio with ElevenLabs
+
+The requested implementation is ElevenLabs via the Convex component. Reference:
+[Convex ElevenLabs component](https://www.convex.dev/components/convex-elevenlabs)
+
+- [ ] Install `convex-elevenlabs`
+- [ ] Add the ElevenLabs component in `convex/convex.config.ts`
+- [ ] Run `npx convex dev` to generate component bindings
+- [ ] Add ElevenLabs API credentials to environment management
+- [ ] Decide the first voice use case:
+- [ ] Text-to-speech
+- [ ] Voice responses inside chat
+- [ ] Audio generation for onboarding or docs
+- [ ] Add storage and playback strategy for generated audio
+- [ ] Add error handling and usage limits for voice generation
+
 ### CSV import and inline editing
 
 - [ ] Build CSV import flow
@@ -299,6 +316,7 @@ The requested implementation is Resend through the official Convex Resend compon
 - [ ] Stripe implementation
 - [ ] Resend implementation
 - [ ] OpenAI
+- [ ] ElevenLabs
 - [ ] DataFast
 - [ ] Featurebase
 - [ ] IndexNow

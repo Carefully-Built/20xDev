@@ -142,6 +142,15 @@ const techStack: readonly TechItem[] = [
     className: 'dark:invert',
   },
   {
+    name: 'ElevenLabs',
+    category: 'AI Voice',
+    description: 'Voice and speech generation',
+    why: 'Add text-to-speech, voice agents, and audio experiences with the Convex component.',
+    logo: '/images/stack/elevenlabs.svg',
+    href: 'https://www.convex.dev/components/convex-elevenlabs',
+    className: 'dark:invert',
+  },
+  {
     name: 'General Translation',
     category: 'i18n',
     description: 'AI-powered translations',
