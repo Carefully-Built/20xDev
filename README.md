@@ -1,6 +1,6 @@
 # 20xdev: AI SaaS Toolkit, B2B SaaS Starter, Next.js SaaS Boilerplate
 
-![20xdev banner](public/images/banner.png)
+<img src="public/images/banner.png" alt="20xdev banner" width="100%" />
 
 20xdev is the current name of this project. This README reflects the repo as it exists today: what is already working, what is partially wired, and what still needs to be configured or built next.
 
@@ -48,11 +48,11 @@ The project does **not** yet have real application code for several technologies
 | Done | Logo | Technology | Status | Notes |
 |---|---|---|---|---|
 | [x] | <img src="public/images/stack/sanity.png" alt="Sanity" width="22" /> | Sanity | Implemented | Blog, Studio, schemas, webhook route |
-| [ ] | <img src="public/images/stack/posthog.png" alt="PostHog" width="22" /> | PostHog | Partial | Client integration exists, env and project setup still needed |
+| [x] | <img src="public/images/stack/posthog.png" alt="PostHog" width="22" /> | PostHog | Implemented | Client integration exists in the app |
 | [ ] | <img src="public/images/stack/gt.svg" alt="General Translation" width="22" /> | General Translation | Partial | Package and locale config exist, app-wide localization is incomplete |
 | [ ] | <img src="public/images/stack/datafast.png" alt="DataFast" width="22" /> | DataFast | Not implemented | Mentioned only |
 | [ ] | <img src="public/images/stack/indexnow.png" alt="IndexNow" width="22" /> | IndexNow | Not implemented | Mentioned only |
-| [ ] | <img src="public/images/stack/cal.png" alt="Cal.com" width="22" /> | Cal.com | Partial | Contact page link exists, no deeper integration |
+| [x] | <img src="public/images/stack/cal.png" alt="Cal.com" width="22" /> | Cal.com | Implemented | Discovery call link is connected in the contact flow |
 
 ### Revenue, onboarding, AI, and support
 
