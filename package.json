@@ -11,6 +11,7 @@
     "lint:fix": "bunx --bun eslint . --fix",
     "typecheck": "bunx --bun tsc --noEmit",
     "check": "bun run typecheck && bun run lint",
+    "knip": "knip",
     "format": "bunx --bun prettier --write ."
   },
   "dependencies": {
@@ -83,6 +84,6 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "typescript-eslint": "^8.54.0"
+    "typescript-eslint": "^8.57.2"
   }
 }
