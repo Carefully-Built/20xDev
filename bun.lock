@@ -20,7 +20,6 @@
         "@sanity/vision": "^5.13.0",
         "@tanstack/react-query": "^5.90.20",
         "@tanstack/react-table": "^8.21.3",
-        "@workos-inc/authkit-nextjs": "^2.13.0",
         "@workos-inc/node": "^8.2.0",
         "@workos-inc/widgets": "^1.8.1",
         "class-variance-authority": "^0.7.1",
@@ -40,7 +39,6 @@
         "posthog-js": "^1.358.1",
         "radix-ui": "^1.4.3",
         "react": "19.2.3",
-        "react-countup": "^6.5.3",
         "react-day-picker": "^9.13.1",
         "react-dom": "19.2.3",
         "react-hook-form": "^7.71.1",
@@ -64,10 +62,8 @@
         "@typescript-eslint/eslint-plugin": "^8.54.0",
         "@typescript-eslint/parser": "^8.54.0",
         "eslint": "^9",
-        "eslint-config-airbnb-typescript": "^18.0.0",
         "eslint-config-next": "16.1.6",
         "eslint-plugin-import": "^2.32.0",
-        "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^7.0.1",
         "prettier": "^3.5.3",
@@ -1419,8 +1415,6 @@
 
     "@workos-inc/authkit-js": ["@workos-inc/authkit-js@0.14.0", "", {}, ""],
 
-    "@workos-inc/authkit-nextjs": ["@workos-inc/authkit-nextjs@2.13.0", "", { "dependencies": { "@workos-inc/node": "^7.72.0", "iron-session": "^8.0.1", "jose": "^5.2.3", "path-to-regexp": "^6.2.2" }, "peerDependencies": { "next": "^13.5.9 || ^14.2.26 || ^15.2.3 || ^16", "react": "^18.0 || ^19.0.0", "react-dom": "^18.0 || ^19.0.0" } }, ""],
-
     "@workos-inc/authkit-react": ["@workos-inc/authkit-react@0.13.0", "", { "dependencies": { "@workos-inc/authkit-js": "0.14.0" }, "peerDependencies": { "react": ">=17" } }, ""],
 
     "@workos-inc/node": ["@workos-inc/node@8.2.0", "", { "dependencies": { "iron-webcrypto": "^2.0.0", "jose": "~6.1.0" } }, ""],
@@ -1677,8 +1671,6 @@
 
     "configstore": ["configstore@5.0.1", "", { "dependencies": { "dot-prop": "^5.2.0", "graceful-fs": "^4.1.2", "make-dir": "^3.0.0", "unique-string": "^2.0.0", "write-file-atomic": "^3.0.0", "xdg-basedir": "^4.0.0" } }, "sha512-aMKprgk5YhBNyH25hj8wGt2+D52Sw1DRRIzqBwLp2Ya9mFmY8KPvvtvmna8SxVR9JMZ4kzMD68N22vlaRpkeFA=="],
 
-    "confusing-browser-globals": ["confusing-browser-globals@1.0.11", "", {}, ""],
-
     "console-table-printer": ["console-table-printer@2.15.0", "", { "dependencies": { "simple-wcswidth": "^1.1.2" } }, "sha512-SrhBq4hYVjLCkBVOWaTzceJalvn5K1Zq5aQA6wXC/cYjI3frKWNPEMK3sZsJfNNQApvCQmgBcc13ZKmFj8qExw=="],
 
     "content-disposition": ["content-disposition@1.0.1", "", {}, ""],
@@ -1704,8 +1696,6 @@
     "cors": ["cors@2.8.6", "", { "dependencies": { "object-assign": "^4", "vary": "^1" } }, ""],
 
     "cosmiconfig": ["cosmiconfig@9.0.0", "", { "dependencies": { "env-paths": "^2.2.1", "import-fresh": "^3.3.0", "js-yaml": "^4.1.0", "parse-json": "^5.2.0" }, "peerDependencies": { "typescript": ">=4.9.5" } }, ""],
-
-    "countup.js": ["countup.js@2.10.0", "", {}, "sha512-QQpZx7oYxsR+OeITlZe46fY/OQjV11oBqjY8wgIXzLU2jIz8GzOrbMhqKLysGY8bWI3T1ZNrYkwGzKb4JNgyzg=="],
 
     "crc-32": ["crc-32@1.2.2", "", { "bin": { "crc32": "bin/crc32.njs" } }, "sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ=="],
 
@@ -1908,10 +1898,6 @@
     "escape-string-regexp": ["escape-string-regexp@4.0.0", "", {}, ""],
 
     "eslint": ["eslint@9.39.2", "", { "dependencies": { "@eslint-community/eslint-utils": "^4.8.0", "@eslint-community/regexpp": "^4.12.1", "@eslint/config-array": "^0.21.1", "@eslint/config-helpers": "^0.4.2", "@eslint/core": "^0.17.0", "@eslint/eslintrc": "^3.3.1", "@eslint/js": "9.39.2", "@eslint/plugin-kit": "^0.4.1", "@humanfs/node": "^0.16.6", "@humanwhocodes/module-importer": "^1.0.1", "@humanwhocodes/retry": "^0.4.2", "@types/estree": "^1.0.6", "ajv": "^6.12.4", "chalk": "^4.0.0", "cross-spawn": "^7.0.6", "debug": "^4.3.2", "escape-string-regexp": "^4.0.0", "eslint-scope": "^8.4.0", "eslint-visitor-keys": "^4.2.1", "espree": "^10.4.0", "esquery": "^1.5.0", "esutils": "^2.0.2", "fast-deep-equal": "^3.1.3", "file-entry-cache": "^8.0.0", "find-up": "^5.0.0", "glob-parent": "^6.0.2", "ignore": "^5.2.0", "imurmurhash": "^0.1.4", "is-glob": "^4.0.0", "json-stable-stringify-without-jsonify": "^1.0.1", "lodash.merge": "^4.6.2", "minimatch": "^3.1.2", "natural-compare": "^1.4.0", "optionator": "^0.9.3" }, "peerDependencies": { "jiti": "*" }, "bin": "bin/eslint.js" }, ""],
-
-    "eslint-config-airbnb-base": ["eslint-config-airbnb-base@15.0.0", "", { "dependencies": { "confusing-browser-globals": "^1.0.10", "object.assign": "^4.1.2", "object.entries": "^1.1.5", "semver": "^6.3.0" }, "peerDependencies": { "eslint": "^7.32.0 || ^8.2.0", "eslint-plugin-import": "^2.25.2" } }, ""],
-
-    "eslint-config-airbnb-typescript": ["eslint-config-airbnb-typescript@18.0.0", "", { "dependencies": { "eslint-config-airbnb-base": "^15.0.0" }, "peerDependencies": { "@typescript-eslint/eslint-plugin": "^7.0.0", "@typescript-eslint/parser": "^7.0.0", "eslint": "^8.56.0" } }, ""],
 
     "eslint-config-next": ["eslint-config-next@16.1.6", "", { "dependencies": { "@next/eslint-plugin-next": "16.1.6", "eslint-import-resolver-node": "^0.3.6", "eslint-import-resolver-typescript": "^3.5.2", "eslint-plugin-import": "^2.32.0", "eslint-plugin-jsx-a11y": "^6.10.0", "eslint-plugin-react": "^7.37.0", "eslint-plugin-react-hooks": "^7.0.0", "globals": "16.4.0", "typescript-eslint": "^8.46.0" }, "peerDependencies": { "eslint": ">=9.0.0", "typescript": ">=3.3.1" } }, ""],
 
@@ -2339,7 +2325,7 @@
 
     "jiti": ["jiti@2.6.1", "", { "bin": "lib/jiti-cli.mjs" }, ""],
 
-    "jose": ["jose@5.6.3", "", {}, ""],
+    "jose": ["jose@6.1.3", "", {}, ""],
 
     "js-tokens": ["js-tokens@4.0.0", "", {}, ""],
 
@@ -2752,8 +2738,6 @@
     "react-clientside-effect": ["react-clientside-effect@1.2.8", "", { "dependencies": { "@babel/runtime": "^7.12.13" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc" } }, "sha512-ma2FePH0z3px2+WOu6h+YycZcEvFmmxIlAb62cF52bG86eMySciO/EQZeQMXd07kPCYB0a1dWDT5J+KE9mCDUw=="],
 
     "react-compiler-runtime": ["react-compiler-runtime@1.0.0", "", { "peerDependencies": { "react": "^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental" } }, "sha512-rRfjYv66HlG8896yPUDONgKzG5BxZD1nV9U6rkm+7VCuvQc903C4MjcoZR4zPw53IKSOX9wMQVpA1IAbRtzQ7w=="],
-
-    "react-countup": ["react-countup@6.5.3", "", { "dependencies": { "countup.js": "^2.8.0" }, "peerDependencies": { "react": ">= 16.3.0" } }, "sha512-udnqVQitxC7QWADSPDOxVWULkLvKUWrDapn5i53HE4DPRVgs+Y5rr4bo25qEl8jSh+0l2cToJgGMx+clxPM3+w=="],
 
     "react-day-picker": ["react-day-picker@9.13.1", "", { "dependencies": { "@date-fns/tz": "^1.4.1", "date-fns": "^4.1.0", "date-fns-jalali": "^4.1.0-0" }, "peerDependencies": { "react": ">=16.8.0" } }, ""],
 
@@ -3403,8 +3387,6 @@
 
     "@modelcontextprotocol/sdk/eventsource": ["eventsource@3.0.7", "", { "dependencies": { "eventsource-parser": "^3.0.1" } }, ""],
 
-    "@modelcontextprotocol/sdk/jose": ["jose@6.1.3", "", {}, ""],
-
     "@mux/mux-player/media-chrome": ["media-chrome@4.17.2", "", { "dependencies": { "ce-la-react": "^0.3.2" } }, "sha512-o/IgiHx0tdSVwRxxqF5H12FK31A/A8T71sv3KdAvh7b6XeBS9dXwqvIFwlR9kdEuqg3n7xpmRIuL83rmYq8FTg=="],
 
     "@mux/mux-player/player.style": ["player.style@0.3.1", "", { "dependencies": { "media-chrome": "~4.16.1" } }, "sha512-z/T8hJGaTkHT9vdXgWdOgF37eB1FV7/j52VXQZ2lgEhpru9oT8TaUWIxp6GoxTnhPBM4X6nSbpkAHrT7UTjUKg=="],
@@ -3492,10 +3474,6 @@
     "@typescript-eslint/typescript-estree/semver": ["semver@7.7.4", "", { "bin": "bin/semver.js" }, "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA=="],
 
     "@unrs/resolver-binding-wasm32-wasi/@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@0.2.12", "", { "dependencies": { "@emnapi/core": "^1.4.3", "@emnapi/runtime": "^1.4.3", "@tybys/wasm-util": "^0.10.0" } }, "sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ=="],
-
-    "@workos-inc/authkit-nextjs/@workos-inc/node": ["@workos-inc/node@7.82.0", "", { "dependencies": { "iron-session": "~6.3.1", "jose": "~5.6.3", "leb": "^1.0.0", "qs": "6.14.1" } }, ""],
-
-    "@workos-inc/node/jose": ["jose@6.1.3", "", {}, ""],
 
     "accepts/mime-types": ["mime-types@3.0.2", "", { "dependencies": { "mime-db": "^1.54.0" } }, ""],
 
@@ -3721,6 +3699,8 @@
 
     "@convex-dev/workos-authkit/@workos-inc/node/iron-session": ["iron-session@6.3.1", "", { "dependencies": { "@peculiar/webcrypto": "^1.4.0", "@types/cookie": "^0.5.1", "@types/express": "^4.17.13", "@types/koa": "^2.13.5", "@types/node": "^17.0.41", "cookie": "^0.5.0", "iron-webcrypto": "^0.2.5" }, "peerDependencies": { "express": ">=4", "koa": ">=2", "next": ">=10" }, "optionalPeers": ["koa"] }, ""],
 
+    "@convex-dev/workos-authkit/@workos-inc/node/jose": ["jose@5.6.3", "", {}, ""],
+
     "@convex-dev/workos/@workos-inc/authkit-react/@workos-inc/authkit-js": ["@workos-inc/authkit-js@0.13.0", "", {}, ""],
 
     "@dotenvx/dotenvx/execa/get-stream": ["get-stream@6.0.1", "", {}, ""],
@@ -3912,8 +3892,6 @@
     "@ts-morph/common/fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "@typescript-eslint/typescript-estree/minimatch/brace-expansion": ["brace-expansion@2.0.2", "", { "dependencies": { "balanced-match": "^1.0.0" } }, ""],
-
-    "@workos-inc/authkit-nextjs/@workos-inc/node/iron-session": ["iron-session@6.3.1", "", { "dependencies": { "@peculiar/webcrypto": "^1.4.0", "@types/cookie": "^0.5.1", "@types/express": "^4.17.13", "@types/koa": "^2.13.5", "@types/node": "^17.0.41", "cookie": "^0.5.0", "iron-webcrypto": "^0.2.5" }, "peerDependencies": { "express": ">=4", "koa": ">=2", "next": ">=10" }, "optionalPeers": ["koa"] }, ""],
 
     "accepts/mime-types/mime-db": ["mime-db@1.54.0", "", {}, ""],
 
@@ -4124,12 +4102,6 @@
     "@sanity/cli-core/jsdom/tough-cookie/tldts": ["tldts@7.0.22", "", { "dependencies": { "tldts-core": "^7.0.22" }, "bin": "bin/cli.js" }, ""],
 
     "@sanity/cli-core/jsdom/whatwg-url/tr46": ["tr46@6.0.0", "", { "dependencies": { "punycode": "^2.3.1" } }, "sha512-bLVMLPtstlZ4iMQHpFHTR7GAGj2jxi8Dg0s2h2MafAE4uSWF98FC/3MomU51iQAMf8/qDUbKWf5GxuvvVcXEhw=="],
-
-    "@workos-inc/authkit-nextjs/@workos-inc/node/iron-session/@types/node": ["@types/node@17.0.45", "", {}, ""],
-
-    "@workos-inc/authkit-nextjs/@workos-inc/node/iron-session/cookie": ["cookie@0.5.0", "", {}, ""],
-
-    "@workos-inc/authkit-nextjs/@workos-inc/node/iron-session/iron-webcrypto": ["iron-webcrypto@0.2.8", "", { "dependencies": { "buffer": "^6" } }, ""],
 
     "find-cache-dir/pkg-dir/find-up/locate-path": ["locate-path@3.0.0", "", { "dependencies": { "p-locate": "^3.0.0", "path-exists": "^3.0.0" } }, "sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A=="],
 
