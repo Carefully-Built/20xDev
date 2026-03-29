@@ -1,10 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 
-import { resetPasswordSchema, type ResetPasswordFormData } from '@/schemas/auth';
 import { resetPassword } from '@/app/(auth)/actions';
+import { resetPasswordSchema, type ResetPasswordFormData } from '@/schemas/auth';
 
 interface UseUpdatePasswordFormResult {
   form: ReturnType<typeof useForm<ResetPasswordFormData>>;

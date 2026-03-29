@@ -1,39 +1,20 @@
 /**
  * Reusable CSV Export Utility
- * 
- * Usage:
- *   exportToCsv(data, columns, 'items.csv');
- *   
- * Or with custom formatting:
- *   exportToCsv(data, columns, 'items.csv', {
- *     formatDate: (d) => new Date(d).toLocaleDateString(),
- *     excludeColumns: ['_id'],
- *   });
  */
 
 export interface CsvColumn<T> {
-  /** Header text for CSV */
   header: string;
-  /** Key to access data (supports nested paths like 'user.name') */
   accessor: keyof T | string;
-  /** Custom formatter for this column */
   format?: (value: unknown, row: T) => string;
 }
 
 export interface CsvExportOptions {
-  /** Custom date formatter */
   formatDate?: (date: number | Date) => string;
-  /** Columns to exclude from export */
   excludeColumns?: string[];
-  /** Delimiter character (default: ',') */
   delimiter?: string;
-  /** Include BOM for Excel compatibility (default: true) */
   includeBom?: boolean;
 }
 
-/**
- * Get nested value from object using dot notation
- */
 function getNestedValue(obj: unknown, path: string): unknown {
   return path.split('.').reduce((acc: unknown, key: string) => {
     if (acc && typeof acc === 'object' && key in acc) {
@@ -43,109 +24,63 @@ function getNestedValue(obj: unknown, path: string): unknown {
   }, obj);
 }
 
-/**
- * Escape CSV cell value
- */
+function toCsvString(value: unknown): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return String(value);
+  }
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  return JSON.stringify(value);
+}
+
 function escapeCsvValue(value: unknown): string {
   if (value === null || value === undefined) {
     return '';
   }
-  
-  const stringValue = String(value);
-  
-  // Escape if contains delimiter, quotes, or newlines
+
+  const stringValue = toCsvString(value);
   if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
     return `"${stringValue.replace(/"/g, '""')}"`;
   }
-  
   return stringValue;
 }
 
-/**
- * Format a value for CSV export
- */
-function formatCsvValue(
-  value: unknown,
-  options: CsvExportOptions,
-): string {
+function formatCsvValue(value: unknown, options: CsvExportOptions): string {
   if (value === null || value === undefined) {
     return '';
   }
-
-  // Handle dates
   if (typeof value === 'number' && value > 1000000000000) {
-    // Likely a timestamp in milliseconds
-    if (options.formatDate) {
-      return options.formatDate(value);
-    }
-    return new Date(value).toISOString();
+    return options.formatDate ? options.formatDate(value) : new Date(value).toISOString();
   }
-
   if (value instanceof Date) {
-    if (options.formatDate) {
-      return options.formatDate(value);
-    }
-    return value.toISOString();
+    return options.formatDate ? options.formatDate(value) : value.toISOString();
   }
-
-  // Handle objects/arrays
-  if (typeof value === 'object') {
-    return JSON.stringify(value);
-  }
-
-  return String(value);
+  return toCsvString(value);
 }
 
-/**
- * Export data to CSV and trigger download
- */
 export function exportToCsv<T extends Record<string, unknown>>(
   data: T[],
   columns: CsvColumn<T>[],
   filename: string,
-  options: CsvExportOptions = {},
+  options: CsvExportOptions = {}
 ): void {
-  const {
-    excludeColumns = [],
-    delimiter = ',',
-    includeBom = true,
-  } = options;
-
-  // Filter out excluded columns
-  const exportColumns = columns.filter(
-    (col) => !excludeColumns.includes(String(col.accessor))
-  );
-
-  // Build header row
+  const { excludeColumns = [], delimiter = ',', includeBom = true } = options;
+  const exportColumns = columns.filter((col) => !excludeColumns.includes(String(col.accessor)));
   const headers = exportColumns.map((col) => escapeCsvValue(col.header));
-  
-  // Build data rows
-  const rows = data.map((item) =>
-    exportColumns.map((col) => {
-      const accessor = String(col.accessor);
-      const value = accessor.includes('.')
-        ? getNestedValue(item, accessor)
-        : item[accessor as keyof T];
-
-      if (col.format) {
-        return escapeCsvValue(col.format(value, item));
-      }
-
-      return escapeCsvValue(formatCsvValue(value, options));
-    })
-  );
-
-  // Combine into CSV string
-  const csvContent = [
-    headers.join(delimiter),
-    ...rows.map((row) => row.join(delimiter)),
-  ].join('\n');
-
-  // Add BOM for Excel compatibility
-  const bom = includeBom ? '\uFEFF' : '';
-  const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8' });
-
-  // Trigger download
+  const rows = data.map((item) => exportColumns.map((col) => {
+    const accessor = String(col.accessor);
+    const value = accessor.includes('.') ? getNestedValue(item, accessor) : item[accessor as keyof T];
+    const formatted = col.format ? col.format(value, item) : formatCsvValue(value, options);
+    return escapeCsvValue(formatted);
+  }));
+  const csvContent = [headers.join(delimiter), ...rows.map((row) => row.join(delimiter))].join('\n');
+  const blob = new Blob([`${includeBom ? '\uFEFF' : ''}${csvContent}`], {
+    type: 'text/csv;charset=utf-8',
+  });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -156,17 +91,11 @@ export function exportToCsv<T extends Record<string, unknown>>(
   URL.revokeObjectURL(url);
 }
 
-/**
- * Convert table columns to CSV columns
- * Helper to reuse existing table column definitions
- */
 export function tableColumnsToCsv<T>(
-  columns: Array<{ header: string; accessor?: keyof T | string }>,
+  columns: { header: string; accessor?: keyof T | string }[]
 ): CsvColumn<T>[] {
-  return columns
-    .filter((col) => col.accessor !== undefined)
-    .map((col) => ({
-      header: col.header,
-      accessor: col.accessor as keyof T | string,
-    }));
+  return columns.flatMap((col) => (col.accessor === undefined ? [] : [{
+    header: col.header,
+    accessor: col.accessor,
+  }]));
 }

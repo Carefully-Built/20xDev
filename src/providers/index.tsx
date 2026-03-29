@@ -1,8 +1,8 @@
 'use client';
 
+import { WorkOsWidgets } from '@workos-inc/widgets';
 import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { WorkOsWidgets } from '@workos-inc/widgets';
 
 import { ConvexClientProvider } from './convex-provider';
 import { QueryProvider } from './query-provider';

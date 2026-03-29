@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { Github, Twitter } from 'lucide-react';
+import Link from 'next/link';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -16,8 +15,8 @@ const footerLinks = {
     { label: 'Terms of Service', href: '/terms' },
   ],
   social: [
-    { label: 'GitHub', href: 'https://github.com', icon: Github },
-    { label: 'Twitter', href: 'https://twitter.com', icon: Twitter },
+    { label: 'GitHub', href: 'https://github.com' },
+    { label: 'Twitter', href: 'https://twitter.com' },
   ],
 };
 
@@ -94,8 +93,7 @@ export function Footer(): React.ReactElement {
                 rel="noopener noreferrer"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                <link.icon className="size-5" />
-                <span className="sr-only">{link.label}</span>
+                <span className="text-sm font-medium">{link.label}</span>
               </Link>
             ))}
           </div>

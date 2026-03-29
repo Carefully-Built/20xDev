@@ -1,10 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 
-import { loginSchema, type LoginFormData } from '@/schemas/auth';
 import { signIn } from '@/app/(auth)/actions';
+import { loginSchema, type LoginFormData } from '@/schemas/auth';
 
 interface UseLoginFormResult {
   form: ReturnType<typeof useForm<LoginFormData>>;
