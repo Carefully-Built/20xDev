@@ -12,7 +12,6 @@ import type { ActionHandlers } from '@/components/shared/SmartTable';
 import { useTableFilters } from '@/components/shared/TableToolbar';
 import { useCreateItem, useDeleteItem, useItemsByOrganization, useUpdateItem } from '@/hooks/use-items';
 import { usePagination } from '@/hooks/use-pagination';
-import { useCurrentUserByOrganization } from '@/hooks/use-users';
 import { exportToCsv, tableColumnsToCsv } from '@/lib/csv-export';
 import { useOrganization } from '@/providers';
 
@@ -21,12 +20,11 @@ export function useItemsPage(): UseItemsPageResult {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { organizationId } = useOrganization();
   const items = useItemsByOrganization(organizationId);
-  const currentUser = useCurrentUserByOrganization(organizationId);
   const createItem = useCreateItem();
   const updateItem = useUpdateItem();
   const deleteItem = useDeleteItem();
   const itemRows: ItemRow[] = items ?? [];
-  const isLoading = items === undefined || currentUser === undefined || organizationId === null;
+  const isLoading = items === undefined || organizationId === null;
   const { filteredData, search, setSearch, filters, setFilter, clearAll } = useTableFilters({
     data: itemRows,
     searchFields: ['name', 'description'],
@@ -71,9 +69,8 @@ export function useItemsPage(): UseItemsPageResult {
   };
   const handleSubmit = async (data: ItemFormValues): Promise<void> => {
     if (!organizationId) throw new Error('No organization selected.');
-    if (!currentUser?._id) throw new Error('No user found.');
     if (editingItem) await updateItem({ id: editingItem._id, organizationId, data });
-    else await createItem({ data: { ...data, organizationId }, createdBy: currentUser._id });
+    else await createItem({ data: { ...data, organizationId } });
     toast.success(editingItem ? 'Item updated' : 'Item created');
     handleCancel();
   };

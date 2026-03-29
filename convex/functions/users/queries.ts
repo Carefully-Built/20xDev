@@ -1,7 +1,7 @@
 import { v } from 'convex/values';
 
 import { query } from '../../_generated/server';
-import { authKit } from '../../auth';
+import { getOrganizationUser } from '../../lib/organization-user';
 
 export const getById = query({
   args: { id: v.id('users') },
@@ -33,18 +33,7 @@ export const getByEmail = query({
 export const listByOrganization = query({
   args: { organizationId: v.string() },
   handler: async (ctx, args) => {
-    const authUser = await authKit.getAuthUser(ctx);
-    if (!authUser) {
-      return null;
-    }
-
-    const currentUser = await ctx.db
-      .query('users')
-      .withIndex('by_workos_id_and_organization', (q) => (
-        q.eq('workosId', authUser.id).eq('organizationId', args.organizationId)
-      ))
-      .unique();
-
+    const currentUser = await getOrganizationUser(ctx, args.organizationId);
     if (!currentUser) {
       return null;
     }
@@ -59,16 +48,6 @@ export const listByOrganization = query({
 export const getCurrentByOrganization = query({
   args: { organizationId: v.string() },
   handler: async (ctx, args) => {
-    const authUser = await authKit.getAuthUser(ctx);
-    if (!authUser) {
-      return null;
-    }
-
-    return await ctx.db
-      .query('users')
-      .withIndex('by_workos_id_and_organization', (q) => (
-        q.eq('workosId', authUser.id).eq('organizationId', args.organizationId)
-      ))
-      .unique();
+    return getOrganizationUser(ctx, args.organizationId);
   },
 });

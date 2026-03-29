@@ -9,14 +9,9 @@ import { requireUserInOrganization } from './mutation-auth';
 export const create = mutation({
   args: {
     data: createItemValidator,
-    createdBy: v.id('users'),
   },
   handler: async (ctx, args) => {
     const currentUser = await requireOrganizationUser(ctx, args.data.organizationId);
-    if (currentUser._id !== args.createdBy) {
-      throw new Error('Forbidden');
-    }
-    await requireUserInOrganization(ctx, args.createdBy, args.data.organizationId);
     if (args.data.assignedTo) {
       await requireUserInOrganization(ctx, args.data.assignedTo, args.data.organizationId);
     }
@@ -24,7 +19,7 @@ export const create = mutation({
     const now = Date.now();
     return ctx.db.insert('items', {
       ...args.data,
-      createdBy: args.createdBy,
+      createdBy: currentUser._id,
       createdAt: now,
       updatedAt: now,
     });
