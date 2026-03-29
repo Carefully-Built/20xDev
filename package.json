@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun next dev --turbo",
-    "build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npx convex deploy; fi && npx next build",
-    "build:next": "npx next build",
+    "build": "unset NODE_USE_SYSTEM_CA NODE_EXTRA_CA_CERTS && if [ \"$VERCEL_ENV\" = \"production\" ]; then convex deploy; fi && next build",
+    "build:next": "unset NODE_USE_SYSTEM_CA NODE_EXTRA_CA_CERTS && next build",
     "start": "bunx --bun next start",
-    "lint": "npx eslint . --max-warnings 0",
-    "lint:fix": "npx eslint . --fix",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "typecheck": "bunx --bun tsc --noEmit",
     "check": "bun run typecheck && npm run lint",
     "format": "bunx --bun prettier --write ."
