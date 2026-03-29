@@ -52,13 +52,10 @@ export const listByAssignee = query({
     assignedTo: v.id('users'),
     organizationId: v.string(),
   },
-  handler: async (ctx, args) => {
-    const items = await ctx.db
-      .query('items')
-      .withIndex('by_assigned', (q) => q.eq('assignedTo', args.assignedTo))
-      .collect();
-    return items.filter((item) => item.organizationId === args.organizationId);
-  },
+  handler: async (ctx, args) => ctx.db
+    .query('items')
+    .withIndex('by_assigned', (q) => q.eq('organizationId', args.organizationId).eq('assignedTo', args.assignedTo))
+    .collect(),
 });
 
 export const countByStatus = query({

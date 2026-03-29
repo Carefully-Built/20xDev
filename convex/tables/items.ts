@@ -35,7 +35,7 @@ export const itemsTable = defineTable({
   .index('by_organization', ['organizationId'])
   .index('by_status', ['organizationId', 'status'])
   .index('by_priority', ['organizationId', 'priority'])
-  .index('by_assigned', ['assignedTo'])
+  .index('by_assigned', ['organizationId', 'assignedTo'])
   .index('by_created', ['organizationId', 'createdAt']);
 
 // ============================================================

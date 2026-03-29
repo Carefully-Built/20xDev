@@ -4,12 +4,28 @@ import { mutation } from '../../_generated/server';
 import { createItemValidator, itemStatusValidator, updateItemValidator } from '../../tables/items';
 import { getScopedItem } from './helpers';
 
+import type { Id } from '../../_generated/dataModel';
+import type { MutationCtx } from '../../_generated/server';
+
+async function requireUserInOrganization(
+  ctx: MutationCtx,
+  userId: Id<'users'>,
+  organizationId: string
+): Promise<void> {
+  const user = await ctx.db.get(userId);
+  if (user?.organizationId !== organizationId) {
+    throw new Error('User not found in organization');
+  }
+}
+
 export const create = mutation({
   args: {
     data: createItemValidator,
     createdBy: v.id('users'),
   },
   handler: async (ctx, args) => {
+    await requireUserInOrganization(ctx, args.createdBy, args.data.organizationId);
+
     const now = Date.now();
     return ctx.db.insert('items', {
       ...args.data,
@@ -54,6 +70,9 @@ export const assign = mutation({
   },
   handler: async (ctx, args) => {
     await getScopedItem(ctx, args.id, args.organizationId);
+    if (args.assignedTo) {
+      await requireUserInOrganization(ctx, args.assignedTo, args.organizationId);
+    }
     await ctx.db.patch(args.id, { assignedTo: args.assignedTo, updatedAt: Date.now() });
     return ctx.db.get(args.id);
   },
