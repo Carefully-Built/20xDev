@@ -63,8 +63,8 @@ const columns: Column<Item>[] = [
     render: (value) => {
       const config = ITEM_STATUS_CONFIG[value as ItemStatus];
       return (
-        <span className={`rounded-full px-2 py-1 text-xs font-medium ${config?.bgColor ?? ''}`}>
-          {config?.label ?? String(value)}
+        <span className={`rounded-full px-2 py-1 text-xs font-medium ${config.bgColor}`}>
+          {config.label}
         </span>
       );
     },
@@ -76,8 +76,8 @@ const columns: Column<Item>[] = [
     render: (value) => {
       const config = ITEM_PRIORITY_CONFIG[value as ItemPriority];
       return (
-        <span className={`font-medium ${config?.color ?? ''}`}>
-          {config?.label ?? String(value)}
+        <span className={`font-medium ${config.color}`}>
+          {config.label}
         </span>
       );
     },
@@ -135,7 +135,7 @@ export default function ItemsPage(): React.ReactElement {
         action: {
           label: 'Confirm',
           onClick: () => {
-            void deleteItem({ id: item._id }).then(() => {
+            void deleteItem({ id: item._id, organizationId: organizationId ?? '' }).then(() => {
               toast.success(`"${item.name}" deleted`);
             });
           },
@@ -159,7 +159,7 @@ export default function ItemsPage(): React.ReactElement {
     exportToCsv(filteredData, csvColumns, 'items.csv', {
       formatDate: (d) => new Date(d).toLocaleDateString(),
     });
-    toast.success(`Exported ${filteredData.length} items`);
+    toast.success('Exported ' + String(filteredData.length) + ' items');
   };
 
   const handleSubmit = async (data: { 
@@ -171,7 +171,8 @@ export default function ItemsPage(): React.ReactElement {
     try {
       if (editingItem) {
         await updateItem({ 
-          id: editingItem._id, 
+          id: editingItem._id,
+          organizationId: organizationId ?? '',
           data: {
             name: data.name,
             description: data.description,
@@ -245,13 +246,13 @@ export default function ItemsPage(): React.ReactElement {
           filters={[
             {
               config: STATUS_FILTER,
-              value: filters['status'] ?? 'all',
-              onChange: (v) => setFilter('status', v),
+              value: filters.status ?? 'all',
+              onChange: (v) => { setFilter('status', v); },
             },
             {
               config: PRIORITY_FILTER,
-              value: filters['priority'] ?? 'all',
-              onChange: (v) => setFilter('priority', v),
+              value: filters.priority ?? 'all',
+              onChange: (v) => { setFilter('priority', v); },
             },
           ]}
           onClearAll={clearAll}
@@ -264,7 +265,7 @@ export default function ItemsPage(): React.ReactElement {
         isLoading={isLoading}
         actions={['edit', 'delete']}
         actionHandlers={actionHandlers}
-        noDataMessage={search || filters['status'] || filters['priority'] ? 'No matching items' : 'No items found'}
+        noDataMessage={search || filters.status || filters.priority ? 'No matching items' : 'No items found'}
         stickyHeader
         fullHeight
         pagination={{

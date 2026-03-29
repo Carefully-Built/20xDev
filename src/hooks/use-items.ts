@@ -4,9 +4,11 @@ import { useMutation, useQuery } from 'convex/react';
 
 import type { Id } from '@convex/_generated/dataModel';
 
-// Queries
-export function useItem(id: Id<'items'> | undefined | null) {
-  return useQuery(api.functions.items.queries.getById, id ? { id } : 'skip');
+export function useItem(id: Id<'items'> | undefined | null, organizationId: string | undefined | null) {
+  return useQuery(
+    api.functions.items.queries.getById,
+    id && organizationId ? { id, organizationId } : 'skip'
+  );
 }
 
 export function useItemsByOrganization(organizationId: string | undefined | null, limit?: number) {
@@ -20,37 +22,30 @@ export function useItemsByStatus(
   organizationId: string | undefined | null,
   status: 'draft' | 'active' | 'archived'
 ) {
-  return useQuery(
-    api.functions.items.queries.listByStatus,
-    organizationId ? { organizationId, status } : 'skip'
-  );
+  return useQuery(api.functions.items.queries.listByStatus, organizationId ? { organizationId, status } : 'skip');
 }
 
 export function useItemsByPriority(
   organizationId: string | undefined | null,
   priority: 'low' | 'medium' | 'high'
 ) {
-  return useQuery(
-    api.functions.items.queries.listByPriority,
-    organizationId ? { organizationId, priority } : 'skip'
-  );
+  return useQuery(api.functions.items.queries.listByPriority, organizationId ? { organizationId, priority } : 'skip');
 }
 
-export function useItemsByAssignee(assignedTo: Id<'users'> | undefined | null) {
+export function useItemsByAssignee(
+  assignedTo: Id<'users'> | undefined | null,
+  organizationId: string | undefined | null
+) {
   return useQuery(
     api.functions.items.queries.listByAssignee,
-    assignedTo ? { assignedTo } : 'skip'
+    assignedTo && organizationId ? { assignedTo, organizationId } : 'skip'
   );
 }
 
 export function useItemsCountByStatus(organizationId: string | undefined | null) {
-  return useQuery(
-    api.functions.items.queries.countByStatus,
-    organizationId ? { organizationId } : 'skip'
-  );
+  return useQuery(api.functions.items.queries.countByStatus, organizationId ? { organizationId } : 'skip');
 }
 
-// Mutations
 export function useCreateItem() {
   return useMutation(api.functions.items.mutations.create);
 }

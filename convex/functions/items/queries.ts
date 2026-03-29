@@ -2,12 +2,14 @@ import { v } from 'convex/values';
 
 import { query } from '../../_generated/server';
 import { itemPriorityValidator, itemStatusValidator } from '../../tables/items';
+import { getScopedItem } from './helpers';
 
 export const getById = query({
-  args: { id: v.id('items') },
-  handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
+  args: {
+    id: v.id('items'),
+    organizationId: v.string(),
   },
+  handler: async (ctx, args) => getScopedItem(ctx, args.id, args.organizationId),
 });
 
 export const listByOrganization = query({
@@ -16,15 +18,10 @@ export const listByOrganization = query({
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const q = ctx.db
+    const items = ctx.db
       .query('items')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId));
-
-    if (args.limit) {
-      return await q.take(args.limit);
-    }
-
-    return await q.collect();
+    return args.limit ? items.take(args.limit) : items.collect();
   },
 });
 
@@ -33,14 +30,10 @@ export const listByStatus = query({
     organizationId: v.string(),
     status: itemStatusValidator,
   },
-  handler: async (ctx, args) => {
-    const allItems = await ctx.db
-      .query('items')
-      .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
-      .collect();
-
-    return allItems.filter((item) => item.status === args.status);
-  },
+  handler: async (ctx, args) => ctx.db
+    .query('items')
+    .withIndex('by_status', (q) => q.eq('organizationId', args.organizationId).eq('status', args.status))
+    .collect(),
 });
 
 export const listByPriority = query({
@@ -48,23 +41,23 @@ export const listByPriority = query({
     organizationId: v.string(),
     priority: itemPriorityValidator,
   },
-  handler: async (ctx, args) => {
-    const allItems = await ctx.db
-      .query('items')
-      .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
-      .collect();
-
-    return allItems.filter((item) => item.priority === args.priority);
-  },
+  handler: async (ctx, args) => ctx.db
+    .query('items')
+    .withIndex('by_priority', (q) => q.eq('organizationId', args.organizationId).eq('priority', args.priority))
+    .collect(),
 });
 
 export const listByAssignee = query({
-  args: { assignedTo: v.id('users') },
+  args: {
+    assignedTo: v.id('users'),
+    organizationId: v.string(),
+  },
   handler: async (ctx, args) => {
-    return await ctx.db
+    const items = await ctx.db
       .query('items')
       .withIndex('by_assigned', (q) => q.eq('assignedTo', args.assignedTo))
       .collect();
+    return items.filter((item) => item.organizationId === args.organizationId);
   },
 });
 
@@ -75,11 +68,10 @@ export const countByStatus = query({
       .query('items')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
       .collect();
-
     return {
-      draft: items.filter((i) => i.status === 'draft').length,
-      active: items.filter((i) => i.status === 'active').length,
-      archived: items.filter((i) => i.status === 'archived').length,
+      draft: items.filter((item) => item.status === 'draft').length,
+      active: items.filter((item) => item.status === 'active').length,
+      archived: items.filter((item) => item.status === 'archived').length,
       total: items.length,
     };
   },
