@@ -10,7 +10,7 @@ import type { ItemFormValues } from './ItemForm';
 import type { ActionHandlers } from '@/components/shared/SmartTable';
 
 import { useTableFilters } from '@/components/shared/TableToolbar';
-import { useCreateItem, useDeleteItem, useItemsByOrganization, useUpdateItem } from '@/hooks/use-items';
+import { useOrganizationItems } from '@/hooks/use-organization-items';
 import { usePagination } from '@/hooks/use-pagination';
 import { exportToCsv, tableColumnsToCsv } from '@/lib/csv-export';
 import { useOrganization } from '@/providers';
@@ -19,12 +19,8 @@ export function useItemsPage(): UseItemsPageResult {
   const [editingItem, setEditingItem] = useState<ItemRow | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { organizationId } = useOrganization();
-  const items = useItemsByOrganization(organizationId);
-  const createItem = useCreateItem();
-  const updateItem = useUpdateItem();
-  const deleteItem = useDeleteItem();
-  const itemRows: ItemRow[] = items ?? [];
-  const isLoading = items === undefined || organizationId === null;
+  const { items, isLoading, createItem, updateItem, deleteItem } = useOrganizationItems(organizationId);
+  const itemRows: ItemRow[] = items;
   const { filteredData, search, setSearch, filters, setFilter, clearAll } = useTableFilters({
     data: itemRows,
     searchFields: ['name', 'description'],
@@ -44,7 +40,7 @@ export function useItemsPage(): UseItemsPageResult {
         return;
       }
       toast.error(`Delete "${item.name}"?`, {
-        action: { label: 'Confirm', onClick: (): void => void deleteItem({ id: item._id, organizationId }).then(() => toast.success(`"${item.name}" deleted`)) },
+        action: { label: 'Confirm', onClick: (): void => void deleteItem(item._id).then(() => toast.success(`"${item.name}" deleted`)) },
       });
     },
   };
@@ -68,9 +64,8 @@ export function useItemsPage(): UseItemsPageResult {
     toast.success(`Exported ${String(filteredData.length)} items`);
   };
   const handleSubmit = async (data: ItemFormValues): Promise<void> => {
-    if (!organizationId) throw new Error('No organization selected.');
-    if (editingItem) await updateItem({ id: editingItem._id, organizationId, data });
-    else await createItem({ data: { ...data, organizationId } });
+    if (editingItem) await updateItem(editingItem._id, data);
+    else await createItem(data);
     toast.success(editingItem ? 'Item updated' : 'Item created');
     handleCancel();
   };
