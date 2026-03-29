@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
-import { syncUserToConvex } from '@/lib/convex-server';
+import { syncUserOrganizationToConvex } from '@/lib/convex-server';
 import { getSession } from '@/lib/session';
 import { workos, WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI } from '@/lib/workos';
 
@@ -50,14 +50,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ensureSignedIn: true,
     });
 
-    await syncUserToConvex({
-      id: session.user.id,
-      email: session.user.email,
-      firstName: session.user.firstName,
-      lastName: session.user.lastName,
-      profilePictureUrl: session.user.profilePictureUrl,
-      organizationId,
-    });
+    await syncUserOrganizationToConvex(session.user.id, organizationId);
 
     return NextResponse.json({ success: true, organizationId });
   } catch (err) {

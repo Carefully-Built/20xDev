@@ -16,7 +16,7 @@ import {
   useDeleteFile,
   uploadFile,
 } from '@/hooks/use-files';
-import { useUsersByOrganization } from '@/hooks/use-users';
+import { useCurrentUserByOrganization } from '@/hooks/use-users';
 import { useOrganization } from '@/providers';
 
 
@@ -28,13 +28,12 @@ export default function FilesPage(): React.ReactElement {
   const [isUploading, setIsUploading] = useState(false);
   const { organizationId } = useOrganization();
   const files = useFilesByOrganization(organizationId);
-  const users = useUsersByOrganization(organizationId);
+  const currentUser = useCurrentUserByOrganization(organizationId);
   const generateUploadUrl = useGenerateUploadUrl();
   const saveFile = useSaveFile();
   const deleteFile = useDeleteFile();
 
-  const isLoading = files === undefined || organizationId === null;
-  const currentUser = users?.[0];
+  const isLoading = files === undefined || currentUser === undefined || organizationId === null;
 
   const handleUpload = async (selectedFiles: FileList): Promise<void> => {
     if (!currentUser?._id || !organizationId) return;

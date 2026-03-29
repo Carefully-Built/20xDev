@@ -25,6 +25,7 @@ export const usersTable = defineTable({
   updatedAt: v.number(),
 })
   .index('by_workos_id', ['workosId'])
+  .index('by_workos_id_and_organization', ['workosId', 'organizationId'])
   .index('by_email', ['email'])
   .index('by_organization', ['organizationId']);
 

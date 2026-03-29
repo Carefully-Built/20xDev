@@ -27,6 +27,13 @@ export function useUsersByOrganization(organizationId: string | undefined | null
   );
 }
 
+export function useCurrentUserByOrganization(organizationId: string | undefined | null) {
+  return useQuery(
+    api.functions.users.queries.getCurrentByOrganization,
+    organizationId ? { organizationId } : 'skip'
+  );
+}
+
 // Mutations
 export function useCreateUser() {
   return useMutation(api.functions.users.mutations.create);

@@ -71,3 +71,27 @@ export const syncFromWorkOS = mutation({
     }
   },
 });
+
+export const updateOrganizationContext = mutation({
+  args: {
+    workosId: v.string(),
+    organizationId: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_workos_id', (q) => q.eq('workosId', args.workosId))
+      .unique();
+
+    if (!user) {
+      return null;
+    }
+
+    await ctx.db.patch(user._id, {
+      organizationId: args.organizationId,
+      updatedAt: Date.now(),
+    });
+
+    return user._id;
+  },
+});

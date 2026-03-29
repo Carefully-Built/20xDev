@@ -35,3 +35,18 @@ export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'
     role: 'member',
   });
 }
+
+export async function syncUserOrganizationToConvex(
+  workosId: string,
+  organizationId?: string
+): Promise<Id<'users'> | null> {
+  if (!convexServer) {
+    console.warn('Convex not configured - skipping organization sync');
+    return null;
+  }
+
+  return convexServer.mutation(api.functions.users.mutations.updateOrganizationContext, {
+    workosId,
+    organizationId,
+  });
+}

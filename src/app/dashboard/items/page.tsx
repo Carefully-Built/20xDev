@@ -20,7 +20,7 @@ import {
   useUpdateItem,
 } from '@/hooks/use-items';
 import { usePagination } from '@/hooks/use-pagination';
-import { useUserByWorkosId } from '@/hooks/use-users';
+import { useCurrentUserByOrganization } from '@/hooks/use-users';
 import { exportToCsv, tableColumnsToCsv } from '@/lib/csv-export';
 import {
   ITEM_STATUS_CONFIG,
@@ -30,7 +30,7 @@ import {
   type ItemStatus,
   type ItemPriority,
 } from '@/lib/filters';
-import { useOrganization, useUser } from '@/providers';
+import { useOrganization } from '@/providers';
 
 interface Item {
   _id: Id<'items'>;
@@ -88,11 +88,10 @@ export default function ItemsPage(): React.ReactElement {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const { organizationId } = useOrganization();
-  const { user } = useUser();
   
   // Convex queries and mutations
   const items = useItemsByOrganization(organizationId);
-  const currentUser = useUserByWorkosId(user?.id);
+  const currentUser = useCurrentUserByOrganization(organizationId);
   const createItem = useCreateItem();
   const updateItem = useUpdateItem();
   const deleteItem = useDeleteItem();
