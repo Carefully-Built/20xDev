@@ -51,7 +51,7 @@ export function PeopleTable({ people }: PeopleTableProps): React.ReactElement {
               {filteredPeople.length}
             </span>
           </div>
-          <div className="relative w-full sm:w-[295px]">
+          <div className="relative w-full min-w-0 sm:w-[295px]">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={search}
@@ -66,7 +66,64 @@ export function PeopleTable({ people }: PeopleTableProps): React.ReactElement {
       </div>
 
       <div className="overflow-hidden rounded-[18px] border border-border/70 bg-card shadow-sm">
-        <Table>
+        <div className="md:hidden">
+          {filteredPeople.length === 0 ? (
+            <div className="px-4 py-12 text-center text-sm text-muted-foreground">No results</div>
+          ) : (
+            <div className="divide-y divide-border/60">
+              {filteredPeople.map((person) => (
+                <article key={person.id} className="space-y-3 px-4 py-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <Avatar className="size-8 shrink-0">
+                        <AvatarFallback className="bg-muted text-[11px] font-semibold text-foreground">
+                          {getInitials(person.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">{person.name}</p>
+                        <p className="truncate text-xs text-muted-foreground">{person.email}</p>
+                      </div>
+                    </div>
+                    <span
+                      className={cn(
+                        'shrink-0 inline-flex items-center rounded-full px-2 py-1 text-[11px] font-medium capitalize ring-1 ring-inset',
+                        getPersonStatusClasses(person.status)
+                      )}
+                    >
+                      {person.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                    <div className="min-w-0">
+                      <p className="text-muted-foreground">Company</p>
+                      <p className="truncate font-medium text-foreground">{person.company}</p>
+                      <p className="truncate text-muted-foreground">{person.title}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Owner</p>
+                      <p className="font-medium text-foreground">{person.owner}</p>
+                      <p className="text-muted-foreground">{person.city}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground">Last touch</p>
+                      <p className="font-medium text-foreground">{person.lastContact}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-muted-foreground">Open / Value</p>
+                      <p className="font-medium text-foreground">
+                        {person.openOpportunities} / {formatCurrency(person.estimatedValue)}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <Table className="hidden md:table">
           <TableHeader>
             <TableRow className="border-border/70 hover:bg-transparent">
               <TableHead className="px-4 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Person</TableHead>
