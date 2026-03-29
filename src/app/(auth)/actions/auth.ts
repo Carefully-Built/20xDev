@@ -3,7 +3,7 @@
 import { saveSession, signOut as signOutFromAuthkit } from '@workos-inc/authkit-nextjs';
 import { redirect } from 'next/navigation';
 
-import { syncUserToConvex } from '@/lib/convex-server';
+import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import { WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI, workos } from '@/lib/workos';
 
 export async function signUp(formData: FormData): Promise<{ success: boolean; error?: string }> {
@@ -24,7 +24,7 @@ export async function signUp(formData: FormData): Promise<{ success: boolean; er
         password,
       });
 
-    await syncUserToConvex(authenticatedUser);
+    await syncAuthenticatedUser(authenticatedUser);
     await saveSession({ accessToken, refreshToken, user: authenticatedUser }, WORKOS_REDIRECT_URI);
 
     return { success: true };
@@ -49,7 +49,7 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
         password,
       });
 
-    await syncUserToConvex(user);
+    await syncAuthenticatedUser(user);
     await saveSession({ accessToken, refreshToken, user }, WORKOS_REDIRECT_URI);
 
     return { success: true };

@@ -6,47 +6,9 @@ import { AppearanceSection } from './_components/appearance-section';
 import { OrganizationSection } from './_components/organization-section';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
-
-interface OrgInfo {
-  id: string;
-  name: string;
-  role: string;
-}
-
-async function getOrganization(userId: string, sessionOrgId?: string): Promise<OrgInfo | null> {
-  try {
-    const memberships = await workos.userManagement.listOrganizationMemberships({
-      userId,
-    });
-
-    if (memberships.data.length === 0) {
-      return null;
-    }
-
-    // Use session org if it exists and user has access to it
-    const targetMembership = sessionOrgId
-      ? memberships.data.find((m) => m.organizationId === sessionOrgId)
-      : memberships.data[0];
-
-    const membership = targetMembership ?? memberships.data[0];
-    if (!membership) {
-      return null;
-    }
-
-    const org = await workos.organizations.getOrganization(membership.organizationId);
-
-    return {
-      id: org.id,
-      name: org.name,
-      role: membership.role.slug || 'member',
-    };
-  } catch (err) {
-    console.error('Error getting user org:', err);
-    return null;
-  }
-}
 
 async function getWidgetToken(userId: string, organizationId: string): Promise<string | null> {
   try {
@@ -71,7 +33,14 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
     redirect('/login');
   }
 
-  const organization = await getOrganization(session.user.id, session.organizationId);
+  const organizations = await listUserOrganizations(session.user.id).catch((error: unknown) => {
+    console.error('Error getting user org:', error);
+    return [];
+  });
+  const organizationId = getActiveOrganizationId(organizations, session.organizationId);
+  const organization = organizationId
+    ? organizations.find((item) => item.id === organizationId) ?? null
+    : null;
   
   // Get widget token for team management
   let teamAuthToken: string | null = null;

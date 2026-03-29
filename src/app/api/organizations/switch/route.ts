@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
-import { syncUserOrganizationToConvex } from '@/lib/convex-server';
+import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
+import { listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
 import { workos, WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI } from '@/lib/workos';
 
@@ -30,6 +31,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Organization ID required' }, { status: 400 });
     }
 
+    const organizations = await listUserOrganizations(session.user.id);
+    const targetOrganization = organizations.find((organization) => organization.id === organizationId);
+
+    if (!targetOrganization) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const org = await workos.organizations.getOrganization(organizationId);
     const domains = org.domains as OrgDomain[] | undefined;
     const requiresSSO = domains?.some((d) => d.state === 'verified') ?? false;
@@ -50,13 +58,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ensureSignedIn: true,
     });
 
-    await syncUserOrganizationToConvex({
-      id: session.user.id,
-      email: session.user.email,
-      firstName: session.user.firstName,
-      lastName: session.user.lastName,
-      profilePictureUrl: session.user.profilePictureUrl,
-    }, organizationId);
+    await syncAuthenticatedUser(session.user, organizationId);
 
     return NextResponse.json({ success: true, organizationId });
   } catch (err) {

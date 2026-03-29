@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
-import { syncUserOrganizationToConvex } from '@/lib/convex-server';
+import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
+import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
 
@@ -41,13 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ensureSignedIn: true,
     });
 
-    await syncUserOrganizationToConvex({
-      id: session.user.id,
-      email: session.user.email,
-      firstName: session.user.firstName,
-      lastName: session.user.lastName,
-      profilePictureUrl: session.user.profilePictureUrl,
-    }, org.id);
+    await syncAuthenticatedUser(session.user, org.id);
 
     return NextResponse.json({
       success: true,
@@ -69,24 +64,14 @@ export async function GET(): Promise<NextResponse> {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const memberships = await workos.userManagement.listOrganizationMemberships({
-      userId: session.user.id,
-    });
-
-    const organizations = await Promise.all(
-      memberships.data.map(async (membership) => {
-        const org = await workos.organizations.getOrganization(membership.organizationId);
-        return {
-          id: org.id,
-          name: org.name,
-          role: membership.role.slug || 'member',
-        };
-      })
-    );
+    const organizations = await listUserOrganizations(session.user.id);
 
     return NextResponse.json({
       organizations,
-      currentOrganizationId: session.organizationId ?? organizations[0]?.id ?? null,
+      currentOrganizationId: getActiveOrganizationId(
+        organizations,
+        session.organizationId
+      ),
     });
   } catch (err) {
     console.error('Error listing organizations:', err);

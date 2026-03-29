@@ -1,16 +1,10 @@
 import { handleAuth } from '@workos-inc/authkit-nextjs';
 
-import { syncUserToConvex } from '@/lib/convex-server';
+import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 
 export const GET = handleAuth({
   returnPathname: '/dashboard',
   onSuccess: async ({ user }) => {
-    await syncUserToConvex({
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      profilePictureUrl: user.profilePictureUrl,
-    });
+    await syncAuthenticatedUser(user);
   },
 });

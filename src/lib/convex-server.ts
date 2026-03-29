@@ -7,7 +7,7 @@ const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
 export const convexServer = convexUrl ? new ConvexHttpClient(convexUrl) : null;
 
-interface SyncUserParams {
+export interface SyncUserParams {
   id: string;
   email: string;
   firstName?: string | null;
@@ -15,38 +15,49 @@ interface SyncUserParams {
   profilePictureUrl?: string | null;
 }
 
-export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'> | null> {
+function getUserName(user: SyncUserParams): string | undefined {
+  return [user.firstName, user.lastName].filter(Boolean).join(' ') || undefined;
+}
+
+async function syncConvexUser(
+  user: SyncUserParams,
+  organizationId?: string
+): Promise<Id<'users'> | null> {
   if (!convexServer) {
     console.warn('Convex not configured - skipping user sync');
     return null;
   }
 
-  const name = [user.firstName, user.lastName].filter(Boolean).join(' ') || undefined;
-
   return convexServer.mutation(api.functions.users.mutations.syncFromWorkOS, {
     workosId: user.id,
     email: user.email,
-    name,
+    name: getUserName(user),
     firstName: user.firstName ?? undefined,
     lastName: user.lastName ?? undefined,
     imageUrl: user.profilePictureUrl ?? undefined,
-    organizationId: undefined,
+    organizationId,
     role: 'member',
   });
+}
+
+export async function syncWorkOSUserToConvex(
+  user: SyncUserParams,
+  organizationId?: string
+): Promise<Id<'users'> | null> {
+  const syncedUser = await syncConvexUser(user);
+  if (!organizationId) {
+    return syncedUser;
+  }
+  return syncConvexUser(user, organizationId);
+}
+
+export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'> | null> {
+  return syncWorkOSUserToConvex(user);
 }
 
 export async function syncUserOrganizationToConvex(
   user: SyncUserParams,
   organizationId?: string
 ): Promise<Id<'users'> | null> {
-  if (!convexServer) {
-    console.warn('Convex not configured - skipping organization sync');
-    return null;
-  }
-
-  await syncUserToConvex(user);
-  return convexServer.mutation(api.functions.users.mutations.updateOrganizationContext, {
-    workosId: user.id,
-    organizationId,
-  });
+  return syncWorkOSUserToConvex(user, organizationId);
 }
