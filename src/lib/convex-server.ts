@@ -37,7 +37,7 @@ export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'
 }
 
 export async function syncUserOrganizationToConvex(
-  workosId: string,
+  user: SyncUserParams,
   organizationId?: string
 ): Promise<Id<'users'> | null> {
   if (!convexServer) {
@@ -45,8 +45,14 @@ export async function syncUserOrganizationToConvex(
     return null;
   }
 
-  return convexServer.mutation(api.functions.users.mutations.updateOrganizationContext, {
-    workosId,
+  return convexServer.mutation(api.functions.users.mutations.syncFromWorkOS, {
+    workosId: user.id,
+    email: user.email,
+    name: [user.firstName, user.lastName].filter(Boolean).join(' ') || undefined,
+    firstName: user.firstName ?? undefined,
+    lastName: user.lastName ?? undefined,
+    imageUrl: user.profilePictureUrl ?? undefined,
     organizationId,
+    role: 'member',
   });
 }

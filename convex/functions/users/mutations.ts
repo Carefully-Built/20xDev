@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
+import { upsertUserRecord } from '../../lib/workos-user-sync';
 import { createUserValidator, updateUserValidator } from '../../tables/users';
 
 export const create = mutation({
@@ -40,35 +41,13 @@ export const remove = mutation({
 export const syncFromWorkOS = mutation({
   args: createUserValidator,
   handler: async (ctx, args) => {
-    // Check if user exists by WorkOS ID
-    const existingUser = await ctx.db
-      .query('users')
-      .withIndex('by_workos_id', (q) => q.eq('workosId', args.workosId))
-      .first();
-
-    const now = Date.now();
-
-    if (existingUser) {
-      // Update existing user
-      await ctx.db.patch(existingUser._id, {
-        email: args.email,
-        name: args.name,
-        firstName: args.firstName,
-        lastName: args.lastName,
-        imageUrl: args.imageUrl,
-        organizationId: args.organizationId,
-        role: args.role,
-        updatedAt: now,
-      });
-      return existingUser._id;
-    } else {
-      // Create new user
-      return await ctx.db.insert('users', {
-        ...args,
-        createdAt: now,
-        updatedAt: now,
-      });
-    }
+    return upsertUserRecord(ctx, {
+      workosId: args.workosId,
+      email: args.email,
+      firstName: args.firstName,
+      lastName: args.lastName,
+      imageUrl: args.imageUrl,
+    }, args.organizationId, args.role);
   },
 });
 
@@ -81,17 +60,18 @@ export const updateOrganizationContext = mutation({
     const user = await ctx.db
       .query('users')
       .withIndex('by_workos_id', (q) => q.eq('workosId', args.workosId))
-      .unique();
+      .first();
 
-    if (!user) {
+    if (!user || !args.organizationId) {
       return null;
     }
 
-    await ctx.db.patch(user._id, {
-      organizationId: args.organizationId,
-      updatedAt: Date.now(),
-    });
-
-    return user._id;
+    return upsertUserRecord(ctx, {
+      workosId: user.workosId,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      imageUrl: user.imageUrl,
+    }, args.organizationId, user.role);
   },
 });

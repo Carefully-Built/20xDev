@@ -46,7 +46,13 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
     );
   }
 
-  await syncUserOrganizationToConvex(session.user.id, organizationId);
+  await syncUserOrganizationToConvex({
+    id: session.user.id,
+    email: session.user.email,
+    firstName: session.user.firstName,
+    lastName: session.user.lastName,
+    profilePictureUrl: session.user.profilePictureUrl,
+  }, organizationId);
 
   const userInfo = {
     id: session.user.id,

@@ -41,7 +41,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ensureSignedIn: true,
     });
 
-    await syncUserOrganizationToConvex(session.user.id, org.id);
+    await syncUserOrganizationToConvex({
+      id: session.user.id,
+      email: session.user.email,
+      firstName: session.user.firstName,
+      lastName: session.user.lastName,
+      profilePictureUrl: session.user.profilePictureUrl,
+    }, org.id);
 
     return NextResponse.json({
       success: true,
