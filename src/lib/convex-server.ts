@@ -13,7 +13,6 @@ interface SyncUserParams {
   firstName?: string | null;
   lastName?: string | null;
   profilePictureUrl?: string | null;
-  organizationId?: string;
 }
 
 export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'> | null> {
@@ -31,7 +30,7 @@ export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'
     firstName: user.firstName ?? undefined,
     lastName: user.lastName ?? undefined,
     imageUrl: user.profilePictureUrl ?? undefined,
-    organizationId: user.organizationId,
+    organizationId: undefined,
     role: 'member',
   });
 }
@@ -45,14 +44,9 @@ export async function syncUserOrganizationToConvex(
     return null;
   }
 
-  return convexServer.mutation(api.functions.users.mutations.syncFromWorkOS, {
+  await syncUserToConvex(user);
+  return convexServer.mutation(api.functions.users.mutations.updateOrganizationContext, {
     workosId: user.id,
-    email: user.email,
-    name: [user.firstName, user.lastName].filter(Boolean).join(' ') || undefined,
-    firstName: user.firstName ?? undefined,
-    lastName: user.lastName ?? undefined,
-    imageUrl: user.profilePictureUrl ?? undefined,
     organizationId,
-    role: 'member',
   });
 }
