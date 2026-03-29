@@ -13,19 +13,19 @@ export const siteConfig = {
     'Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.',
 
   // URLs
-  url: 'https://cb-blueprint.vercel.app',
+  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
 
   // Legal
   companyName: '20xdev',
 
   // Social
   social: {
-    twitter: 'https://twitter.com/blueprint',
-    github: 'https://github.com/Carefully-Built/blueprint',
+    twitter: 'https://twitter.com/20xdev',
+    github: 'https://github.com/20xdev/20xdev',
   },
 
   // Contact
-  email: 'hello@blueprint.dev',
+  email: 'hello@20xdev.com',
 
   // Copyright
   copyrightYear: new Date().getFullYear(),
@@ -76,8 +76,8 @@ export const siteConfig = {
           links: [
             { title: 'About', href: '/about' },
             { title: 'Contact', href: '/contact' },
-            { title: 'GitHub', href: 'https://github.com/Carefully-Built/blueprint' },
-            { title: 'X / Twitter', href: 'https://twitter.com/blueprint' },
+            { title: 'GitHub', href: 'https://github.com/20xdev/20xdev' },
+            { title: 'X / Twitter', href: 'https://twitter.com/20xdev' },
           ],
         },
         {

@@ -10,12 +10,21 @@ const shadcnPatterns = [
   'src/app/**/_components/**',
   'src/app/dashboard/page.tsx',
   'src/hooks/use-mobile.ts',
-  'convex/**',  // Convex functions use dynamic types
+  'convex/**', // Convex functions use dynamic types
 ];
 
 export default tseslint.config(
   {
-    ignores: ['.next/**', 'node_modules/**', '*.config.*', 'convex/_generated/**', '.netlify/**'],
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      '*.config.*',
+      'convex/_generated/**',
+      '.netlify/**',
+      'scripts/**',
+      '*.config.mjs',
+      'deno.lock',
+    ],
   },
 
   // Base TypeScript strict config
@@ -48,10 +57,13 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-argument': 'error',
 
       // ========== TypeScript Strict ==========
-      '@typescript-eslint/explicit-function-return-type': ['error', {
-        allowExpressions: true,
-        allowTypedFunctionExpressions: true,
-      }],
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+        },
+      ],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/no-floating-promises': 'error',
@@ -68,19 +80,22 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'warn',
 
       // ========== Imports ==========
-      'import/order': ['error', {
-        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
-        'newlines-between': 'always',
-        alphabetize: { order: 'asc', caseInsensitive: true },
-      }],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
       'import/no-duplicates': 'error',
 
       // ========== General ==========
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'prefer-const': 'error',
       'no-var': 'error',
-      'eqeqeq': ['error', 'always'],
-      
+      eqeqeq: ['error', 'always'],
+
       // ========== File Size ==========
       'max-lines': ['warn', { max: 120, skipBlankLines: true, skipComments: true }],
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true, skipComments: true }],
