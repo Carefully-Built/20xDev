@@ -2,6 +2,7 @@ import { v } from 'convex/values';
 
 import { query } from '../../_generated/server';
 import { itemPriorityValidator, itemStatusValidator } from '../../tables/items';
+import { requireOrganizationUser } from './auth';
 import { getScopedItem } from './helpers';
 
 export const getById = query({
@@ -9,7 +10,10 @@ export const getById = query({
     id: v.id('items'),
     organizationId: v.string(),
   },
-  handler: async (ctx, args) => getScopedItem(ctx, args.id, args.organizationId),
+  handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
+    return getScopedItem(ctx, args.id, args.organizationId);
+  },
 });
 
 export const listByOrganization = query({
@@ -18,6 +22,7 @@ export const listByOrganization = query({
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     const items = ctx.db
       .query('items')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId));
@@ -30,10 +35,13 @@ export const listByStatus = query({
     organizationId: v.string(),
     status: itemStatusValidator,
   },
-  handler: async (ctx, args) => ctx.db
-    .query('items')
-    .withIndex('by_status', (q) => q.eq('organizationId', args.organizationId).eq('status', args.status))
-    .collect(),
+  handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
+    return ctx.db
+      .query('items')
+      .withIndex('by_status', (q) => q.eq('organizationId', args.organizationId).eq('status', args.status))
+      .collect();
+  },
 });
 
 export const listByPriority = query({
@@ -41,10 +49,13 @@ export const listByPriority = query({
     organizationId: v.string(),
     priority: itemPriorityValidator,
   },
-  handler: async (ctx, args) => ctx.db
-    .query('items')
-    .withIndex('by_priority', (q) => q.eq('organizationId', args.organizationId).eq('priority', args.priority))
-    .collect(),
+  handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
+    return ctx.db
+      .query('items')
+      .withIndex('by_priority', (q) => q.eq('organizationId', args.organizationId).eq('priority', args.priority))
+      .collect();
+  },
 });
 
 export const listByAssignee = query({
@@ -52,15 +63,19 @@ export const listByAssignee = query({
     assignedTo: v.id('users'),
     organizationId: v.string(),
   },
-  handler: async (ctx, args) => ctx.db
-    .query('items')
-    .withIndex('by_assigned', (q) => q.eq('organizationId', args.organizationId).eq('assignedTo', args.assignedTo))
-    .collect(),
+  handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
+    return ctx.db
+      .query('items')
+      .withIndex('by_assigned', (q) => q.eq('organizationId', args.organizationId).eq('assignedTo', args.assignedTo))
+      .collect();
+  },
 });
 
 export const countByStatus = query({
   args: { organizationId: v.string() },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     const items = await ctx.db
       .query('items')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))

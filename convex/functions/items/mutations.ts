@@ -2,21 +2,9 @@ import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
 import { createItemValidator, itemStatusValidator, updateItemValidator } from '../../tables/items';
+import { requireOrganizationUser } from './auth';
 import { getScopedItem } from './helpers';
-
-import type { Id } from '../../_generated/dataModel';
-import type { MutationCtx } from '../../_generated/server';
-
-async function requireUserInOrganization(
-  ctx: MutationCtx,
-  userId: Id<'users'>,
-  organizationId: string
-): Promise<void> {
-  const user = await ctx.db.get(userId);
-  if (user?.organizationId !== organizationId) {
-    throw new Error('User not found in organization');
-  }
-}
+import { requireUserInOrganization } from './mutation-auth';
 
 export const create = mutation({
   args: {
@@ -24,6 +12,10 @@ export const create = mutation({
     createdBy: v.id('users'),
   },
   handler: async (ctx, args) => {
+    const currentUser = await requireOrganizationUser(ctx, args.data.organizationId);
+    if (currentUser._id !== args.createdBy) {
+      throw new Error('Forbidden');
+    }
     await requireUserInOrganization(ctx, args.createdBy, args.data.organizationId);
     if (args.data.assignedTo) {
       await requireUserInOrganization(ctx, args.data.assignedTo, args.data.organizationId);
@@ -46,6 +38,7 @@ export const update = mutation({
     data: updateItemValidator,
   },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     await getScopedItem(ctx, args.id, args.organizationId);
     if (args.data.assignedTo) {
       await requireUserInOrganization(ctx, args.data.assignedTo, args.organizationId);
@@ -62,6 +55,7 @@ export const updateStatus = mutation({
     status: itemStatusValidator,
   },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     await getScopedItem(ctx, args.id, args.organizationId);
     await ctx.db.patch(args.id, { status: args.status, updatedAt: Date.now() });
     return ctx.db.get(args.id);
@@ -75,6 +69,7 @@ export const assign = mutation({
     assignedTo: v.optional(v.id('users')),
   },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     await getScopedItem(ctx, args.id, args.organizationId);
     if (args.assignedTo) {
       await requireUserInOrganization(ctx, args.assignedTo, args.organizationId);
@@ -90,6 +85,7 @@ export const remove = mutation({
     organizationId: v.string(),
   },
   handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
     await getScopedItem(ctx, args.id, args.organizationId);
     await ctx.db.delete(args.id);
   },
