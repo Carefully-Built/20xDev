@@ -6,7 +6,6 @@ import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import { ConvexClientProvider } from './convex-provider';
-import { QueryProvider } from './query-provider';
 
 import type { ReactNode } from 'react';
 
@@ -22,11 +21,9 @@ export const Providers = ({ children }: ProvidersProps): React.ReactElement => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
     <NuqsAdapter>
       <AuthKitProvider>
-        <QueryProvider>
-          <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
-            <ConvexClientProvider>{children}</ConvexClientProvider>
-          </WorkOsWidgets>
-        </QueryProvider>
+        <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </WorkOsWidgets>
       </AuthKitProvider>
     </NuqsAdapter>
   </ThemeProvider>

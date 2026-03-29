@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import type { ReactNode } from 'react';
 
@@ -22,6 +22,10 @@ interface OrganizationProviderProps {
   readonly initialOrganizationId?: string;
 }
 
+function getNextOrganizationId(data: OrganizationsResponse): string | null {
+  return data.currentOrganizationId ?? data.organizations[0]?.id ?? null;
+}
+
 export function OrganizationProvider({
   children,
   initialOrganizationId,
@@ -31,19 +35,19 @@ export function OrganizationProvider({
   );
 
   const refreshOrganization = useCallback((): void => {
-    // Fetch current org from API
     fetch('/api/organizations')
       .then((res) => (res.ok ? res.json() : { organizations: [] }))
       .then((data: OrganizationsResponse) => {
-        const nextOrganizationId = data.currentOrganizationId ?? data.organizations[0]?.id ?? null;
-        if (nextOrganizationId) {
-          setOrganizationId(nextOrganizationId);
-        }
+        setOrganizationId(getNextOrganizationId(data));
       })
       .catch(() => {
         // Silently fail
       });
   }, []);
+
+  useEffect(() => {
+    setOrganizationId(initialOrganizationId ?? null);
+  }, [initialOrganizationId]);
 
   useEffect(() => {
     const handleOrgUpdate = (): void => {
@@ -60,7 +64,7 @@ export function OrganizationProvider({
     organizationId,
     setOrganizationId,
     refreshOrganization,
-  }), [organizationId, setOrganizationId, refreshOrganization]);
+  }), [organizationId, refreshOrganization]);
 
   return (
     <OrganizationContext.Provider value={contextValue}>
