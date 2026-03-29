@@ -14,7 +14,7 @@ const itemSchema = z.object({
   priority: z.enum(['low', 'medium', 'high']),
 });
 
-type ItemFormValues = z.infer<typeof itemSchema>;
+export type ItemFormValues = z.infer<typeof itemSchema>;
 
 interface ItemFormProps {
   readonly defaultValues?: Partial<ItemFormValues>;
