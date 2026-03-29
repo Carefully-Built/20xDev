@@ -59,7 +59,6 @@ export const createItemValidator = v.object({
   description: v.optional(v.string()),
   status: itemStatusValidator,
   priority: itemPriorityValidator,
-  organizationId: v.string(),
   assignedTo: v.optional(v.id('users')),
   dueDate: v.optional(v.number()),
 });

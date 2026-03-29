@@ -4,7 +4,7 @@ import { useMutation, useQuery } from 'convex/react';
 import type { Id } from '@convex/_generated/dataModel';
 import type { FunctionArgs, FunctionReturnType } from 'convex/server';
 
-type CreateItemData = Omit<FunctionArgs<typeof api.functions.items.mutations.create>['data'], 'organizationId'>;
+type CreateItemData = FunctionArgs<typeof api.functions.items.mutations.create>['data'];
 type UpdateItemData = FunctionArgs<typeof api.functions.items.mutations.update>['data'];
 type ItemsResult = FunctionReturnType<typeof api.functions.items.queries.listByOrganization> | undefined;
 
@@ -35,7 +35,8 @@ export function useOrganizationItems(
   const remove = useMutation(api.functions.items.mutations.remove);
   const getScopedOrganizationId = (): string => requireOrganizationId(organizationId);
   const createItem = (data: CreateItemData): Promise<Id<'items'>> => create({
-    data: { ...data, organizationId: getScopedOrganizationId() },
+    organizationId: getScopedOrganizationId(),
+    data,
   });
   const updateItem = (
     id: Id<'items'>,

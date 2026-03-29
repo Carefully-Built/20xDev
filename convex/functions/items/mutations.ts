@@ -8,17 +8,19 @@ import { requireUserInOrganization } from './mutation-auth';
 
 export const create = mutation({
   args: {
+    organizationId: v.string(),
     data: createItemValidator,
   },
   handler: async (ctx, args) => {
-    const currentUser = await requireOrganizationUser(ctx, args.data.organizationId);
+    const currentUser = await requireOrganizationUser(ctx, args.organizationId);
     if (args.data.assignedTo) {
-      await requireUserInOrganization(ctx, args.data.assignedTo, args.data.organizationId);
+      await requireUserInOrganization(ctx, args.data.assignedTo, args.organizationId);
     }
 
     const now = Date.now();
     return ctx.db.insert('items', {
       ...args.data,
+      organizationId: args.organizationId,
       createdBy: currentUser._id,
       createdAt: now,
       updatedAt: now,
