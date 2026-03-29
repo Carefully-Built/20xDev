@@ -97,7 +97,10 @@ export default function ItemsPage(): React.ReactElement {
   const updateItem = useUpdateItem();
   const deleteItem = useDeleteItem();
 
-  const isLoading = items === undefined || organizationId === null;
+  const isLoading =
+    items === undefined
+    || currentUser === undefined
+    || organizationId === null;
 
   // Filtering
   const {

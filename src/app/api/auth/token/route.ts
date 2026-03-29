@@ -28,12 +28,8 @@ export async function GET(): Promise<NextResponse> {
       );
     }
 
-    const memberships = await workos.userManagement.listOrganizationMemberships({
-      userId: session.user.id,
-    });
-
-    const firstMembership = memberships.data[0];
-    if (!firstMembership) {
+    const organizationId = session.organizationId;
+    if (!organizationId) {
       return NextResponse.json(
         { error: 'No organization found' },
         { status: 400 }
@@ -42,7 +38,7 @@ export async function GET(): Promise<NextResponse> {
 
     const token = await workos.widgets.getToken({
       userId: session.user.id,
-      organizationId: firstMembership.organizationId,
+      organizationId,
       scopes: [...WIDGET_SCOPES],
     });
 

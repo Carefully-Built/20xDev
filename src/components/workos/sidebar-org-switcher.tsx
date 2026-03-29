@@ -31,6 +31,7 @@ interface Organization {
 
 interface OrganizationsResponse {
   organizations: Organization[];
+  currentOrganizationId?: string | null;
 }
 
 interface SidebarOrgSwitcherProps {
@@ -85,7 +86,8 @@ export function SidebarOrgSwitcher({ collapsed = false, onSwitch }: SidebarOrgSw
       .then((res) => (res.ok ? res.json() : { organizations: [] }))
       .then((data: OrganizationsResponse) => {
         setOrganizations(data.organizations);
-        const matchingOrg = data.organizations.find((o) => o.id === organizationId);
+        const activeOrganizationId = data.currentOrganizationId ?? organizationId;
+        const matchingOrg = data.organizations.find((o) => o.id === activeOrganizationId);
         if (matchingOrg) {
           setCurrentOrg(matchingOrg);
         } else if (data.organizations.length > 0 && data.organizations[0]) {
@@ -119,6 +121,11 @@ export function SidebarOrgSwitcher({ collapsed = false, onSwitch }: SidebarOrgSw
       });
 
       if (response.ok) {
+        const data = await response.json() as { redirectUrl?: string };
+        if (data.redirectUrl) {
+          globalThis.location.href = data.redirectUrl;
+          return;
+        }
         setCurrentOrg(org);
         setOrganizationId(org.id);
         onSwitch?.(org.id);

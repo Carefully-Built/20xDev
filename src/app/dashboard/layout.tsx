@@ -4,6 +4,7 @@ import { DashboardShell } from './_components/dashboard-shell';
 import { NoOrgView } from './_components/no-org-view';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { syncUserToConvex } from '@/lib/convex-server';
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
 
@@ -44,6 +45,15 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
       </div>
     );
   }
+
+  await syncUserToConvex({
+    id: session.user.id,
+    email: session.user.email,
+    firstName: session.user.firstName,
+    lastName: session.user.lastName,
+    profilePictureUrl: session.user.profilePictureUrl,
+    organizationId,
+  });
 
   const userInfo = {
     id: session.user.id,

@@ -1,3 +1,4 @@
+import { refreshSession } from '@workos-inc/authkit-nextjs';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
@@ -35,16 +36,23 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       roleSlug: 'admin',
     });
 
+    await refreshSession({
+      organizationId: org.id,
+      ensureSignedIn: true,
+    });
+
     await syncUserToConvex({
       id: session.user.id,
       email: session.user.email,
       firstName: session.user.firstName,
       lastName: session.user.lastName,
       profilePictureUrl: session.user.profilePictureUrl,
+      organizationId: org.id,
     });
 
     return NextResponse.json({
       success: true,
+      currentOrganizationId: org.id,
       organizationId: org.id,
       organization: { id: org.id, name: org.name },
     });
@@ -77,7 +85,10 @@ export async function GET(): Promise<NextResponse> {
       })
     );
 
-    return NextResponse.json({ organizations });
+    return NextResponse.json({
+      organizations,
+      currentOrganizationId: session.organizationId ?? organizations[0]?.id ?? null,
+    });
   } catch (err) {
     console.error('Error listing organizations:', err);
     return NextResponse.json({ error: 'Failed to list organizations' }, { status: 500 });

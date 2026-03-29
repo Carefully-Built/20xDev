@@ -25,6 +25,9 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     await requireUserInOrganization(ctx, args.createdBy, args.data.organizationId);
+    if (args.data.assignedTo) {
+      await requireUserInOrganization(ctx, args.data.assignedTo, args.data.organizationId);
+    }
 
     const now = Date.now();
     return ctx.db.insert('items', {
@@ -44,6 +47,9 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     await getScopedItem(ctx, args.id, args.organizationId);
+    if (args.data.assignedTo) {
+      await requireUserInOrganization(ctx, args.data.assignedTo, args.organizationId);
+    }
     await ctx.db.patch(args.id, { ...args.data, updatedAt: Date.now() });
     return ctx.db.get(args.id);
   },

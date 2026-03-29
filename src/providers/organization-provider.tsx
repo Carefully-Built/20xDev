@@ -10,6 +10,11 @@ interface OrganizationContextValue {
   refreshOrganization: () => void;
 }
 
+interface OrganizationsResponse {
+  organizations: { id: string }[];
+  currentOrganizationId?: string | null;
+}
+
 const OrganizationContext = createContext<OrganizationContextValue | null>(null);
 
 interface OrganizationProviderProps {
@@ -29,9 +34,10 @@ export function OrganizationProvider({
     // Fetch current org from API
     fetch('/api/organizations')
       .then((res) => (res.ok ? res.json() : { organizations: [] }))
-      .then((data: { organizations: { id: string }[] }) => {
-        if (data.organizations.length > 0 && data.organizations[0]) {
-          setOrganizationId(data.organizations[0].id);
+      .then((data: OrganizationsResponse) => {
+        const nextOrganizationId = data.currentOrganizationId ?? data.organizations[0]?.id ?? null;
+        if (nextOrganizationId) {
+          setOrganizationId(nextOrganizationId);
         }
       })
       .catch(() => {

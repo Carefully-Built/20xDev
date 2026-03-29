@@ -1,8 +1,10 @@
+import { refreshSession } from '@workos-inc/authkit-nextjs';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
-import { getSession, createSession } from '@/lib/session';
+import { syncUserToConvex } from '@/lib/convex-server';
+import { getSession } from '@/lib/session';
 import { workos, WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI } from '@/lib/workos';
 
 interface SwitchOrgBody {
@@ -43,10 +45,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ redirectUrl: authUrl });
     }
 
-    await createSession({
-      user: session.user,
-      accessToken: session.accessToken,
-      refreshToken: session.refreshToken,
+    await refreshSession({
+      organizationId,
+      ensureSignedIn: true,
+    });
+
+    await syncUserToConvex({
+      id: session.user.id,
+      email: session.user.email,
+      firstName: session.user.firstName,
+      lastName: session.user.lastName,
+      profilePictureUrl: session.user.profilePictureUrl,
       organizationId,
     });
 
