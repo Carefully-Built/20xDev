@@ -1,7 +1,9 @@
 'use client';
 
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithAuth, ConvexReactClient } from 'convex/react';
 import { useMemo } from 'react';
+
+import { useWorkosConvexAuth } from './workos-convex-auth';
 
 import type { ReactNode } from 'react';
 
@@ -9,23 +11,34 @@ interface ConvexClientProviderProps {
   readonly children: ReactNode;
 }
 
-export const ConvexClientProvider = ({
+function AuthenticatedConvexProvider({
   children,
-}: ConvexClientProviderProps): React.ReactElement => {
-  // eslint-disable-next-line @typescript-eslint/dot-notation
-  const convexUrl = process.env['NEXT_PUBLIC_CONVEX_URL'];
+  client,
+}: ConvexClientProviderProps & {
+  readonly client: ConvexReactClient;
+}): React.ReactElement {
+  return (
+    <ConvexProviderWithAuth client={client} useAuth={useWorkosConvexAuth}>
+      {children}
+    </ConvexProviderWithAuth>
+  );
+}
 
+export function ConvexClientProvider({
+  children,
+}: ConvexClientProviderProps): React.ReactElement {
   const client = useMemo(() => {
-    if (!convexUrl) {
-      return null;
-    }
-    return new ConvexReactClient(convexUrl);
-  }, [convexUrl]);
+    const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+    return convexUrl ? new ConvexReactClient(convexUrl) : null;
+  }, []);
 
-  // If no Convex URL configured, render children without Convex provider
   if (!client) {
     return <>{children}</>;
   }
 
-  return <ConvexProvider client={client}>{children}</ConvexProvider>;
-};
+  return (
+    <AuthenticatedConvexProvider client={client}>
+      {children}
+    </AuthenticatedConvexProvider>
+  );
+}

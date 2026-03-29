@@ -1,10 +1,10 @@
 'use server';
 
+import { saveSession, signOut as signOutFromAuthkit } from '@workos-inc/authkit-nextjs';
 import { redirect } from 'next/navigation';
 
 import { syncUserToConvex } from '@/lib/convex-server';
-import { createSession, deleteSession } from '@/lib/session';
-import { WORKOS_CLIENT_ID, workos } from '@/lib/workos';
+import { WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI, workos } from '@/lib/workos';
 
 export async function signUp(formData: FormData): Promise<{ success: boolean; error?: string }> {
   const email = formData.get('email') as string;
@@ -25,12 +25,7 @@ export async function signUp(formData: FormData): Promise<{ success: boolean; er
       });
 
     await syncUserToConvex(authenticatedUser);
-
-    await createSession({
-      user: authenticatedUser,
-      accessToken,
-      refreshToken,
-    });
+    await saveSession({ accessToken, refreshToken, user: authenticatedUser }, WORKOS_REDIRECT_URI);
 
     return { success: true };
   } catch (error) {
@@ -55,12 +50,7 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
       });
 
     await syncUserToConvex(user);
-
-    await createSession({
-      user,
-      accessToken,
-      refreshToken,
-    });
+    await saveSession({ accessToken, refreshToken, user }, WORKOS_REDIRECT_URI);
 
     return { success: true };
   } catch (error) {
@@ -73,6 +63,6 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
 }
 
 export async function signOut(): Promise<void> {
-  await deleteSession();
+  await signOutFromAuthkit({ returnTo: '/' });
   redirect('/');
 }
