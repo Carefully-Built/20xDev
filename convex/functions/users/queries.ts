@@ -1,7 +1,7 @@
 import { v } from 'convex/values';
 
 import { query } from '../../_generated/server';
-import { getOrganizationUser } from '../../lib/organization-user';
+import { getOrganizationUser } from '../../lib/organization_user';
 
 export const getById = query({
   args: { id: v.id('users') },

@@ -1,7 +1,7 @@
 import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
-import { upsertUserRecord } from '../../lib/workos-user-sync';
+import { upsertUserRecord } from '../../lib/workos_user_sync';
 import { createUserValidator, updateUserValidator } from '../../tables/users';
 
 export const create = mutation({

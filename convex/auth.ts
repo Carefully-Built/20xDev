@@ -1,7 +1,7 @@
 import { AuthKit, type AuthFunctions } from '@convex-dev/workos-authkit';
 
 import { components, internal } from './_generated/api';
-import { deleteUserRecords, patchUserRecords, upsertUserRecord } from './lib/workos-user-sync';
+import { deleteUserRecords, patchUserRecords, upsertUserRecord } from './lib/workos_user_sync';
 
 import type { DataModel } from './_generated/dataModel';
 
