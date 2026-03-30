@@ -1,6 +1,8 @@
 import { api } from '@convex/_generated/api';
 import { useQuery } from 'convex/react';
 
+import { filterItemsByOrganization } from './filter-items-by-organization';
+
 import type { Id } from '@convex/_generated/dataModel';
 import type { FunctionReturnType } from 'convex/server';
 
@@ -25,34 +27,44 @@ export function useItemsByOrganization(
   organizationId: string | undefined | null,
   limit?: number
 ): ItemsResult {
-  return useQuery(
+  const items = useQuery(
     api.functions.items.queries.listByOrganization,
     organizationId ? { organizationId, limit } : 'skip'
   );
+  return filterItemsByOrganization(items, organizationId);
 }
 
 export function useItemsByStatus(
   organizationId: string | undefined | null,
   status: 'draft' | 'active' | 'archived'
 ): StatusItemsResult {
-  return useQuery(api.functions.items.queries.listByStatus, organizationId ? { organizationId, status } : 'skip');
+  const items = useQuery(
+    api.functions.items.queries.listByStatus,
+    organizationId ? { organizationId, status } : 'skip'
+  );
+  return filterItemsByOrganization(items, organizationId);
 }
 
 export function useItemsByPriority(
   organizationId: string | undefined | null,
   priority: 'low' | 'medium' | 'high'
 ): PriorityItemsResult {
-  return useQuery(api.functions.items.queries.listByPriority, organizationId ? { organizationId, priority } : 'skip');
+  const items = useQuery(
+    api.functions.items.queries.listByPriority,
+    organizationId ? { organizationId, priority } : 'skip'
+  );
+  return filterItemsByOrganization(items, organizationId);
 }
 
 export function useItemsByAssignee(
   assignedTo: Id<'users'> | undefined | null,
   organizationId: string | undefined | null
 ): AssigneeItemsResult {
-  return useQuery(
+  const items = useQuery(
     api.functions.items.queries.listByAssignee,
     assignedTo && organizationId ? { assignedTo, organizationId } : 'skip'
   );
+  return filterItemsByOrganization(items, organizationId);
 }
 
 export function useItemsCountByStatus(organizationId: string | undefined | null): CountResult {
