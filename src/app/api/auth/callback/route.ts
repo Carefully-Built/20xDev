@@ -4,7 +4,7 @@ import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 
 export const GET = handleAuth({
   returnPathname: '/dashboard',
-  onSuccess: async ({ user }) => {
-    await syncAuthenticatedUser(user);
+  onSuccess: async ({ user, organizationId }) => {
+    await syncAuthenticatedUser(user, organizationId);
   },
 });
