@@ -1,5 +1,5 @@
 import { api } from '@convex/_generated/api';
-import { useMutation, useQuery, type ReactMutation } from 'convex/react';
+import { useQuery } from 'convex/react';
 
 import type { Id } from '@convex/_generated/dataModel';
 import type { FunctionReturnType } from 'convex/server';
@@ -57,24 +57,4 @@ export function useItemsByAssignee(
 
 export function useItemsCountByStatus(organizationId: string | undefined | null): CountResult {
   return useQuery(api.functions.items.queries.countByStatus, organizationId ? { organizationId } : 'skip');
-}
-
-export function useCreateItem(): ReactMutation<typeof api.functions.items.mutations.create> {
-  return useMutation(api.functions.items.mutations.create);
-}
-
-export function useUpdateItem(): ReactMutation<typeof api.functions.items.mutations.update> {
-  return useMutation(api.functions.items.mutations.update);
-}
-
-export function useUpdateItemStatus(): ReactMutation<typeof api.functions.items.mutations.updateStatus> {
-  return useMutation(api.functions.items.mutations.updateStatus);
-}
-
-export function useAssignItem(): ReactMutation<typeof api.functions.items.mutations.assign> {
-  return useMutation(api.functions.items.mutations.assign);
-}
-
-export function useDeleteItem(): ReactMutation<typeof api.functions.items.mutations.remove> {
-  return useMutation(api.functions.items.mutations.remove);
 }
