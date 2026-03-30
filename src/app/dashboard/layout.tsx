@@ -33,7 +33,11 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
     );
   }
 
-  await syncAuthenticatedUser(session.user, organizationId);
+  try {
+    await syncAuthenticatedUser(session.user, organizationId);
+  } catch (error) {
+    console.error('Error syncing authenticated user to Convex:', error);
+  }
 
   const userInfo = {
     id: session.user.id,
