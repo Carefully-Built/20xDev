@@ -1,6 +1,5 @@
 'use server';
 
-import { saveSession, signOut as signOutFromAuthkit } from '@workos-inc/authkit-nextjs';
 import { redirect } from 'next/navigation';
 
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
@@ -25,6 +24,7 @@ export async function signUp(formData: FormData): Promise<{ success: boolean; er
       });
 
     await syncAuthenticatedUser(authenticatedUser);
+    const { saveSession } = await import('@workos-inc/authkit-nextjs');
     await saveSession({ accessToken, refreshToken, user: authenticatedUser }, WORKOS_REDIRECT_URI);
 
     return { success: true };
@@ -50,6 +50,7 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
       });
 
     await syncAuthenticatedUser(user);
+    const { saveSession } = await import('@workos-inc/authkit-nextjs');
     await saveSession({ accessToken, refreshToken, user }, WORKOS_REDIRECT_URI);
 
     return { success: true };
@@ -63,6 +64,7 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
 }
 
 export async function signOut(): Promise<void> {
-  await signOutFromAuthkit({ returnTo: '/' });
+  const { signOut } = await import('@workos-inc/authkit-nextjs');
+  await signOut({ returnTo: '/' });
   redirect('/');
 }

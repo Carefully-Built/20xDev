@@ -1,4 +1,3 @@
-import { refreshSession } from '@workos-inc/authkit-nextjs';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
@@ -53,6 +52,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ redirectUrl: authUrl });
     }
 
+    const { refreshSession } = await import('@workos-inc/authkit-nextjs');
     await refreshSession({
       organizationId,
       ensureSignedIn: true,
