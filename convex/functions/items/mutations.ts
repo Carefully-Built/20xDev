@@ -4,7 +4,7 @@ import { mutation } from '../../_generated/server';
 import { createItemValidator, itemStatusValidator, updateItemValidator } from '../../tables/items';
 import { requireOrganizationUser } from './auth';
 import { getScopedItem } from './helpers';
-import { requireUserInOrganization } from './mutation-auth';
+import { requireUserInOrganization } from './mutation_auth';
 
 export const create = mutation({
   args: {
