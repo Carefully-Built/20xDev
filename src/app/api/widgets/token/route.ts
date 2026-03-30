@@ -26,6 +26,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!scopes || !Array.isArray(scopes)) {
       return NextResponse.json({ error: 'Scopes required' }, { status: 400 });
     }
+    if (session.organizationId && session.organizationId !== organizationId) {
+      return NextResponse.json({ error: 'Organization mismatch' }, { status: 403 });
+    }
 
     const token = await workos.widgets.getToken({
       userId: session.user.id,

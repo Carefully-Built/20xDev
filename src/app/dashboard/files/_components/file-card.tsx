@@ -25,9 +25,8 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
       {/* Preview area - fixed height, no scroll */}
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         {showPreview && file.mimeType.startsWith('image/') ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={file.url!}
+            src={file.url ?? ''}
             alt={file.name}
             className="size-full object-cover"
           />
@@ -36,7 +35,6 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
             src={`${file.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
             title={file.name}
             className="size-full pointer-events-none"
-            scrolling="no"
           />
         ) : (
           <div className="flex size-full items-center justify-center">

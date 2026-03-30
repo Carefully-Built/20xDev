@@ -35,7 +35,7 @@ export const itemsTable = defineTable({
   .index('by_organization', ['organizationId'])
   .index('by_status', ['organizationId', 'status'])
   .index('by_priority', ['organizationId', 'priority'])
-  .index('by_assigned', ['assignedTo'])
+  .index('by_assigned', ['organizationId', 'assignedTo'])
   .index('by_created', ['organizationId', 'createdAt']);
 
 // ============================================================
@@ -59,7 +59,6 @@ export const createItemValidator = v.object({
   description: v.optional(v.string()),
   status: itemStatusValidator,
   priority: itemPriorityValidator,
-  organizationId: v.string(),
   assignedTo: v.optional(v.id('users')),
   dueDate: v.optional(v.number()),
 });

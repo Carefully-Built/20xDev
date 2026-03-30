@@ -1,8 +1,10 @@
+import { refreshSession } from '@workos-inc/authkit-nextjs';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
-import { syncUserToConvex } from '@/lib/convex-server';
+import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
+import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
 
@@ -35,16 +37,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       roleSlug: 'admin',
     });
 
-    await syncUserToConvex({
-      id: session.user.id,
-      email: session.user.email,
-      firstName: session.user.firstName,
-      lastName: session.user.lastName,
-      profilePictureUrl: session.user.profilePictureUrl,
+    await refreshSession({
+      organizationId: org.id,
+      ensureSignedIn: true,
     });
+
+    await syncAuthenticatedUser(session.user, org.id);
 
     return NextResponse.json({
       success: true,
+      currentOrganizationId: org.id,
       organizationId: org.id,
       organization: { id: org.id, name: org.name },
     });
@@ -62,22 +64,15 @@ export async function GET(): Promise<NextResponse> {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const memberships = await workos.userManagement.listOrganizationMemberships({
-      userId: session.user.id,
+    const organizations = await listUserOrganizations(session.user.id);
+
+    return NextResponse.json({
+      organizations,
+      currentOrganizationId: getActiveOrganizationId(
+        organizations,
+        session.organizationId
+      ),
     });
-
-    const organizations = await Promise.all(
-      memberships.data.map(async (membership) => {
-        const org = await workos.organizations.getOrganization(membership.organizationId);
-        return {
-          id: org.id,
-          name: org.name,
-          role: membership.role.slug || 'member',
-        };
-      })
-    );
-
-    return NextResponse.json({ organizations });
   } catch (err) {
     console.error('Error listing organizations:', err);
     return NextResponse.json({ error: 'Failed to list organizations' }, { status: 500 });

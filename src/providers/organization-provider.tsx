@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useAuth } from '@workos-inc/authkit-nextjs/components';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import type { ReactNode } from 'react';
 
@@ -10,6 +11,11 @@ interface OrganizationContextValue {
   refreshOrganization: () => void;
 }
 
+interface OrganizationsResponse {
+  organizations: { id: string }[];
+  currentOrganizationId?: string | null;
+}
+
 const OrganizationContext = createContext<OrganizationContextValue | null>(null);
 
 interface OrganizationProviderProps {
@@ -17,22 +23,25 @@ interface OrganizationProviderProps {
   readonly initialOrganizationId?: string;
 }
 
+function getNextOrganizationId(data: OrganizationsResponse): string | null {
+  return data.currentOrganizationId ?? data.organizations[0]?.id ?? null;
+}
+
 export function OrganizationProvider({
   children,
   initialOrganizationId,
 }: OrganizationProviderProps): React.ReactElement {
-  const [organizationId, setOrganizationId] = useState<string | null>(
+  const { user, loading, organizationId: authOrganizationId } = useAuth();
+  const [fallbackOrganizationId, setFallbackOrganizationId] = useState<string | null>(
     initialOrganizationId ?? null
   );
+  const organizationId = authOrganizationId ?? fallbackOrganizationId;
 
   const refreshOrganization = useCallback((): void => {
-    // Fetch current org from API
     fetch('/api/organizations')
       .then((res) => (res.ok ? res.json() : { organizations: [] }))
-      .then((data: { organizations: { id: string }[] }) => {
-        if (data.organizations.length > 0 && data.organizations[0]) {
-          setOrganizationId(data.organizations[0].id);
-        }
+      .then((data: OrganizationsResponse) => {
+        setFallbackOrganizationId(getNextOrganizationId(data));
       })
       .catch(() => {
         // Silently fail
@@ -40,6 +49,23 @@ export function OrganizationProvider({
   }, []);
 
   useEffect(() => {
+    setFallbackOrganizationId(initialOrganizationId ?? null);
+  }, [initialOrganizationId]);
+
+  useEffect(() => {
+    if (authOrganizationId) {
+      setFallbackOrganizationId(authOrganizationId);
+      return;
+    }
+    if (!loading && !user) {
+      setFallbackOrganizationId(null);
+    }
+  }, [authOrganizationId, loading, user]);
+
+  useEffect(() => {
+    if (loading || authOrganizationId || !user) {
+      return;
+    }
     const handleOrgUpdate = (): void => {
       refreshOrganization();
     };
@@ -48,13 +74,13 @@ export function OrganizationProvider({
     return (): void => {
       globalThis.removeEventListener('org-updated', handleOrgUpdate);
     };
-  }, [refreshOrganization]);
+  }, [authOrganizationId, loading, refreshOrganization, user]);
 
   const contextValue = useMemo(() => ({
     organizationId,
-    setOrganizationId,
+    setOrganizationId: setFallbackOrganizationId,
     refreshOrganization,
-  }), [organizationId, setOrganizationId, refreshOrganization]);
+  }), [organizationId, refreshOrganization]);
 
   return (
     <OrganizationContext.Provider value={contextValue}>

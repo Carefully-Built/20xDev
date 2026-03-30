@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { OrganizationProvider, UserProvider } from '@/providers';
 import { AppSidebar, SidebarProvider, useSidebar } from './app-sidebar';
-import { useSyncUser, type WorkOSUser } from '@/hooks/use-sync-user';
+import type { WorkOSUser } from '@/hooks/use-sync-user';
 
 import type { UserData } from '@/providers';
 
@@ -36,8 +36,6 @@ interface DashboardShellProps {
 }
 
 export function DashboardShell({ children, user }: DashboardShellProps): React.ReactElement {
-  useSyncUser(user);
-
   const userData: UserData = {
     id: user.id,
     email: user.email,

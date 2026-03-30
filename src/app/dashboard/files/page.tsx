@@ -17,7 +17,7 @@ import {
   useDeleteFile,
   uploadFile,
 } from '@/hooks/use-files';
-import { useUsersByOrganization } from '@/hooks/use-users';
+import { useCurrentUserByOrganization } from '@/hooks/use-users';
 import { useOrganization } from '@/providers';
 
 
@@ -29,13 +29,12 @@ export default function FilesPage(): React.ReactElement {
   const [isUploading, setIsUploading] = useState(false);
   const { organizationId } = useOrganization();
   const files = useFilesByOrganization(organizationId);
-  const users = useUsersByOrganization(organizationId);
+  const currentUser = useCurrentUserByOrganization(organizationId);
   const generateUploadUrl = useGenerateUploadUrl();
   const saveFile = useSaveFile();
   const deleteFile = useDeleteFile();
 
-  const isLoading = files === undefined || organizationId === null;
-  const currentUser = users?.[0];
+  const isLoading = files === undefined || currentUser === undefined || organizationId === null;
 
   const handleUpload = async (selectedFiles: FileList): Promise<void> => {
     if (!currentUser?._id || !organizationId) return;
@@ -46,7 +45,7 @@ export default function FilesPage(): React.ReactElement {
           uploadFile({ file, organizationId, uploadedBy: currentUser._id, generateUploadUrl, saveFile })
         )
       );
-      toast.success(`Uploaded ${selectedFiles.length} file${selectedFiles.length > 1 ? 's' : ''}`);
+      toast.success('Uploaded ' + String(selectedFiles.length) + ' file' + (selectedFiles.length > 1 ? 's' : ''));
     } catch {
       toast.error('Failed to upload files');
     } finally {
@@ -56,7 +55,7 @@ export default function FilesPage(): React.ReactElement {
 
   const handleDelete = (id: Id<'files'>): void => {
     const file = files?.find((f: FileWithUrl) => f._id === id);
-    toast.error(`Delete "${file?.name}"?`, {
+    toast.error(file ? `Delete "${file.name}"?` : 'Delete file?', {
       action: {
         label: 'Confirm',
         onClick: () => void deleteFile({ id }).then(() => toast.success('File deleted')),
@@ -78,7 +77,7 @@ export default function FilesPage(): React.ReactElement {
     );
   }
 
-  if (!files?.length) {
+  if (!files.length) {
     return (
       <PageLayout title={<T>Files</T>} actions={actions}>
         <EmptyState onUpload={() => document.querySelector<HTMLInputElement>('input[type="file"]')?.click()} />

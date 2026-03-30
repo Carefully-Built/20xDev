@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 
 import { query } from '../../_generated/server';
+import { getOrganizationUser } from '../../lib/organization-user';
 
 export const getById = query({
   args: { id: v.id('users') },
@@ -32,9 +33,21 @@ export const getByEmail = query({
 export const listByOrganization = query({
   args: { organizationId: v.string() },
   handler: async (ctx, args) => {
+    const currentUser = await getOrganizationUser(ctx, args.organizationId);
+    if (!currentUser) {
+      return null;
+    }
+
     return await ctx.db
       .query('users')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
       .collect();
+  },
+});
+
+export const getCurrentByOrganization = query({
+  args: { organizationId: v.string() },
+  handler: async (ctx, args) => {
+    return getOrganizationUser(ctx, args.organizationId);
   },
 });
