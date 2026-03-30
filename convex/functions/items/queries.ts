@@ -4,6 +4,7 @@ import { query } from '../../_generated/server';
 import { itemPriorityValidator, itemStatusValidator } from '../../tables/items';
 import { requireOrganizationUser } from './auth';
 import { getScopedItem } from './helpers';
+import { filterItemsByOrganization } from './scoped-items';
 
 export const getById = query({
   args: {
@@ -23,10 +24,12 @@ export const listByOrganization = query({
   },
   handler: async (ctx, args) => {
     await requireOrganizationUser(ctx, args.organizationId);
-    const items = ctx.db
+    const items = await ctx.db
       .query('items')
-      .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId));
-    return args.limit ? items.take(args.limit) : items.collect();
+      .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
+      .collect();
+    const scopedItems = filterItemsByOrganization(items, args.organizationId);
+    return args.limit ? scopedItems.slice(0, args.limit) : scopedItems;
   },
 });
 
@@ -80,11 +83,12 @@ export const countByStatus = query({
       .query('items')
       .withIndex('by_organization', (q) => q.eq('organizationId', args.organizationId))
       .collect();
+    const scopedItems = filterItemsByOrganization(items, args.organizationId);
     return {
-      draft: items.filter((item) => item.status === 'draft').length,
-      active: items.filter((item) => item.status === 'active').length,
-      archived: items.filter((item) => item.status === 'archived').length,
-      total: items.length,
+      draft: scopedItems.filter((item) => item.status === 'draft').length,
+      active: scopedItems.filter((item) => item.status === 'active').length,
+      archived: scopedItems.filter((item) => item.status === 'archived').length,
+      total: scopedItems.length,
     };
   },
 });
