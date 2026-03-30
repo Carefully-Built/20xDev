@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 export function useWorkosConvexAuth(): {
   isAuthenticated: boolean;
   isLoading: boolean;
-  fetchAccessToken: () => Promise<string | null>;
+  fetchAccessToken: (args: { forceRefreshToken: boolean }) => Promise<string | null>;
 } {
   const { user, loading, organizationId } = useAuth();
   const { getAccessToken, refresh } = useAccessToken();
@@ -29,12 +29,21 @@ export function useWorkosConvexAuth(): {
     previousOrganizationId.current = organizationId;
   }, [organizationId, refresh, user]);
 
-  const fetchAccessToken = useCallback(async (): Promise<string | null> => {
+  const fetchAccessToken = useCallback(async (
+    args: { forceRefreshToken: boolean }
+  ): Promise<string | null> => {
     if (!user) {
       return null;
     }
-    return (await getAccessToken()) ?? null;
-  }, [getAccessToken, user]);
+    try {
+      const token = args.forceRefreshToken
+        ? await refresh()
+        : await getAccessToken();
+      return token ?? null;
+    } catch {
+      return null;
+    }
+  }, [getAccessToken, refresh, user]);
 
   return useMemo(() => ({
     isAuthenticated: Boolean(user),

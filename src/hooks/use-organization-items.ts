@@ -30,7 +30,6 @@ export function useOrganizationItems(
     api.functions.items.queries.listByOrganization,
     organizationId ? { organizationId } : 'skip'
   );
-  const scopedItems = (items ?? []).filter((item) => item.organizationId === organizationId);
   const create = useMutation(api.functions.items.mutations.create);
   const update = useMutation(api.functions.items.mutations.update);
   const remove = useMutation(api.functions.items.mutations.remove);
@@ -52,7 +51,7 @@ export function useOrganizationItems(
   );
 
   return {
-    items: scopedItems,
+    items: items ?? [],
     isLoading: items === undefined || !organizationId,
     createItem,
     updateItem,
