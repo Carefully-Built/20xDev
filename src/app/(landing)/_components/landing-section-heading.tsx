@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface LandingSectionHeadingProps {
   readonly eyebrow?: string;
-  readonly title: string;
-  readonly description?: string;
+  readonly title: ReactNode;
+  readonly description?: ReactNode;
   readonly centered?: boolean;
   readonly hero?: boolean;
   readonly className?: string;
@@ -26,21 +28,12 @@ export function LandingSectionHeading({
       className={cn(
         'flex flex-col gap-4',
         centered ? 'items-center text-center' : 'items-start text-left',
-        className
+        className,
       )}
     >
-      {eyebrow ? (
-        <p className="landing-eyebrow">
-          {eyebrow}
-        </p>
-      ) : null}
+      {eyebrow ? <p className="landing-eyebrow">{eyebrow}</p> : null}
 
-      <h2
-        className={cn(
-          hero ? 'landing-hero-title' : 'landing-section-title',
-          titleClassName
-        )}
-      >
+      <h2 className={cn(hero ? 'landing-hero-title' : 'landing-section-title', titleClassName)}>
         {title}
       </h2>
 
@@ -48,7 +41,7 @@ export function LandingSectionHeading({
         <p
           className={cn(
             hero ? 'landing-hero-description' : 'landing-section-description',
-            descriptionClassName
+            descriptionClassName,
           )}
         >
           {description}

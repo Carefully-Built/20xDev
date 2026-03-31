@@ -1,5 +1,6 @@
 'use client';
 
+import { T } from 'gt-next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -19,31 +20,31 @@ const socialLinks = [
 
 const landingFooterColumns = [
   {
-    title: 'Navigate',
+    title: <T>Navigate</T>,
     links: landingNav,
   },
   {
-    title: 'Account',
+    title: <T>Account</T>,
     links: [
-      { title: 'Sign In', href: '/login' },
-      { title: 'Dashboard', href: '/dashboard' },
+      { title: <T>Sign In</T>, href: '/login' },
+      { title: <T>Dashboard</T>, href: '/dashboard' },
     ],
   },
   {
-    title: 'Company',
+    title: <T>Company</T>,
     links: [
-      { title: 'About', href: '/about' },
-      { title: 'Contact', href: '/contact' },
-      { title: 'GitHub', href: siteConfig.social.github },
-      { title: 'X / Twitter', href: siteConfig.social.twitter },
+      { title: <T>About</T>, href: '/about' },
+      { title: <T>Contact</T>, href: '/contact' },
+      { title: <T>GitHub</T>, href: siteConfig.social.github },
+      { title: <T>X / Twitter</T>, href: siteConfig.social.twitter },
     ],
   },
   {
-    title: 'Legal',
+    title: <T>Legal</T>,
     links: [
-      { title: 'Privacy Policy', href: '/privacy' },
-      { title: 'Terms', href: '/terms' },
-      { title: 'Support', href: '/contact' },
+      { title: <T>Privacy Policy</T>, href: '/privacy' },
+      { title: <T>Terms</T>, href: '/terms' },
+      { title: <T>Support</T>, href: '/contact' },
     ],
   },
 ] as const;
@@ -76,7 +77,8 @@ const defaultLandingFooterCta: LandingFooterCta = {
 
 const contactLandingFooterCta: LandingFooterCta = {
   title: 'Start with 20x leverage',
-  description: 'See the temporary 79€ deal and get access to the full starter built for small AI-native teams.',
+  description:
+    'See the temporary 79€ deal and get access to the full starter built for small AI-native teams.',
   buttonLabel: 'Get the 79€ deal',
   buttonHref: '/pricing',
 };
@@ -115,14 +117,14 @@ function LandingFooter({
           {resolvedCta ? <LandingFooterCtaCard cta={resolvedCta} /> : null}
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
-            {landingFooterColumns.map((column) => (
-              <div key={column.title} className="min-w-0">
+            {landingFooterColumns.map((column, index) => (
+              <div key={index} className="min-w-0">
                 <h3 className="text-[1.24rem] leading-[1.9rem] font-normal tracking-[-0.02em] text-white">
                   {column.title}
                 </h3>
                 <ul className="mt-3 space-y-3">
-                  {column.links.map((link) => (
-                    <li key={`${column.title}-${link.title}`}>
+                  {column.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
                       <FooterLink href={link.href} subtle={false}>
                         {link.title}
                       </FooterLink>

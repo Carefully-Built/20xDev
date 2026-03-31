@@ -232,6 +232,20 @@ import { OrganizationSwitcher } from '@workos-inc/authkit-nextjs/components';
 import { useOrganization, useUser } from '@workos-inc/authkit-nextjs';
 ```
 
+### Internationalization
+
+Translations use General Translation (gt-next):
+
+```typescript
+import { T } from 'gt-next';
+
+// Wrap translatable strings
+<T>Sign In</T>
+<T>Welcome, {user.name}</T>
+```
+
+Translations are managed via the General Translation dashboard.
+
 ### Pre-Commit Checklist
 
 - [ ] ESLint passes (`bun run lint`)
@@ -239,6 +253,8 @@ import { useOrganization, useUser } from '@workos-inc/authkit-nextjs';
 - [ ] No console.log (use console.warn/error only)
 - [ ] Organization-scoped data access
 - [ ] Proper error handling
+- [ ] Files under 120 lines
+- [ ] Functions under 50 lines
 
 ### Testing Before Done
 

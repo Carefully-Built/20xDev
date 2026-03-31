@@ -72,8 +72,8 @@ The project does **not** yet have real application code for several technologies
 
 | Done | Logo | Technology | Status | Notes |
 |---|---|---|---|---|
-| [ ] | <img src="public/images/stack/knip.svg" alt="Knip" width="22" /> | Knip | Partial | Installed but not scripted or enforced |
-| [ ] | <img src="public/images/stack/coderabbit.png" alt="CodeRabbit" width="22" /> | CodeRabbit | Not implemented | Mentioned in docs, not configured in repo |
+| [x] | <img src="public/images/stack/knip.svg" alt="Knip" width="22" /> | Knip | Partial | Installed but not scripted or enforced |
+| [x] | <img src="public/images/stack/coderabbit.png" alt="CodeRabbit" width="22" /> | CodeRabbit | Not implemented | Mentioned in docs, not configured in repo |
 | [x] | <img src="public/images/stack/sonarcloud.ico" alt="SonarCloud" width="22" /> | SonarCloud | Implemented | GitHub Action present |
 | [x] | <img src="public/images/stack/prettier.png" alt="Prettier" width="22" /> | Prettier | Implemented | Formatter configured |
 
