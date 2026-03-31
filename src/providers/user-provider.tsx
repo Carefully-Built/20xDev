@@ -28,10 +28,7 @@ interface UserProviderProps {
   readonly initialUser: UserData | null;
 }
 
-export function UserProvider({
-  children,
-  initialUser,
-}: UserProviderProps): React.ReactElement {
+export function UserProvider({ children, initialUser }: UserProviderProps): React.ReactElement {
   const [user, setUser] = useState(initialUser);
 
   const updateUser = useCallback((updates: Partial<UserData>): void => {
@@ -42,24 +39,27 @@ export function UserProvider({
     globalThis.dispatchEvent(new CustomEvent('user-updated'));
   }, []);
 
-  const contextValue = useMemo(() => ({
-    user,
-    setUser,
-    updateUser,
-    refreshUser,
-  }), [user, setUser, updateUser, refreshUser]);
-
-  return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      user,
+      setUser,
+      updateUser,
+      refreshUser,
+    }),
+    [user, setUser, updateUser, refreshUser],
   );
+
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
+
+const defaultContextValue: UserContextValue = {
+  user: null,
+  setUser: () => {},
+  updateUser: () => {},
+  refreshUser: () => {},
+};
 
 export function useUser(): UserContextValue {
   const context = useContext(UserContext);
-  if (!context) {
-    throw new Error('useUser must be used within UserProvider');
-  }
-  return context;
+  return context ?? defaultContextValue;
 }
