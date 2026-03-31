@@ -52,11 +52,14 @@ export function UserProvider({ children, initialUser }: UserProviderProps): Reac
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = (): void => {};
+
 const defaultContextValue: UserContextValue = {
   user: null,
-  setUser: () => {},
-  updateUser: () => {},
-  refreshUser: () => {},
+  setUser: noop,
+  updateUser: noop,
+  refreshUser: noop,
 };
 
 export function useUser(): UserContextValue {

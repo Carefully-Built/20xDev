@@ -11,9 +11,11 @@ export function SignUpWithEmailForm(): React.ReactElement {
 
   return (
     <FormProvider {...form}>
-      <form 
-        className="space-y-3" 
-        onSubmit={(e): void => { void form.handleSubmit(onSubmit)(e); }}
+      <form
+        className="space-y-3"
+        onSubmit={(e): void => {
+          void form.handleSubmit(onSubmit)(e);
+        }}
       >
         <CustomInputField
           name="email"
@@ -29,12 +31,11 @@ export function SignUpWithEmailForm(): React.ReactElement {
           placeholder="At least 8 characters"
           autoComplete="new-password"
           disabled={loading}
+          showRequirements
         />
 
         {error && (
-          <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-            {error}
-          </div>
+          <div className="bg-destructive/15 text-destructive rounded-md p-3 text-sm">{error}</div>
         )}
 
         <Button className="w-full" disabled={loading} type="submit">
