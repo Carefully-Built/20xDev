@@ -23,18 +23,14 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
   return (
     <Card className="group overflow-hidden transition-shadow hover:shadow-md">
       {/* Preview area - fixed height, no scroll */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-        {showPreview && file.mimeType.startsWith('image/') ? (
-          <img
-            src={file.url ?? ''}
-            alt={file.name}
-            className="size-full object-cover"
-          />
-        ) : showPreview && file.mimeType === 'application/pdf' ? (
+      <div className="bg-muted relative aspect-[4/3] overflow-hidden">
+        {showPreview && file.mimeType.startsWith('image/') && file.url ? (
+          <img src={file.url} alt={file.name} className="size-full object-cover" />
+        ) : showPreview && file.mimeType === 'application/pdf' && file.url ? (
           <iframe
             src={`${file.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
             title={file.name}
-            className="size-full pointer-events-none"
+            className="pointer-events-none size-full overflow-hidden"
           />
         ) : (
           <div className="flex size-full items-center justify-center">
@@ -50,7 +46,7 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
             <p className="truncate text-sm font-medium" title={file.name}>
               {file.name}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {formatFileSize(file.size)} • {new Date(file.createdAt).toLocaleDateString()}
             </p>
           </div>
@@ -60,7 +56,12 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="size-7" asChild>
-                  <a href={file.url ?? '#'} download={file.name} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={file.url ?? '#'}
+                    download={file.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Download className="size-3.5" />
                   </a>
                 </Button>
@@ -73,7 +74,7 @@ export function FileCard({ file, onDelete }: FileCardProps): React.ReactElement 
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-7 text-destructive hover:text-destructive"
+                  className="text-destructive hover:text-destructive size-7"
                   onClick={() => onDelete(file._id)}
                 >
                   <Trash2 className="size-3.5" />

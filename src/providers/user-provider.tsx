@@ -32,7 +32,7 @@ export function UserProvider({
   children,
   initialUser,
 }: UserProviderProps): React.ReactElement {
-  const [user, setUser] = useState<UserData | null>(initialUser);
+  const [user, setUser] = useState(initialUser);
 
   const updateUser = useCallback((updates: Partial<UserData>): void => {
     setUser((prev) => (prev ? { ...prev, ...updates } : null));

@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+
 import { initPostHog, capturePageView, isPostHogEnabled, posthog } from '@/lib/posthog';
 
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
+export function PostHogProvider({ children }: { children: React.ReactNode }): React.ReactElement {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const previousPath = useRef<string | null>(null);
@@ -19,7 +20,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     if (!isPostHogEnabled || typeof window === 'undefined') return;
 
     const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
-    
+
     // Only capture if path actually changed (avoid duplicate captures)
     if (previousPath.current !== url) {
       capturePageView(window.location.href);
@@ -43,7 +44,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
  * PostHog Page View component for explicit page tracking
  * Use this in specific pages if automatic tracking isn't sufficient
  */
-export function PostHogPageView() {
+export function PostHogPageView(): React.ReactElement {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -57,5 +58,5 @@ export function PostHogPageView() {
     }
   }, [pathname, searchParams]);
 
-  return null;
+  return null as unknown as React.ReactElement;
 }

@@ -159,7 +159,7 @@ export function InteractiveShowcaseSection(): React.ReactElement {
     throw new Error('Interactive showcase items are required.');
   }
 
-  const [activeId, setActiveId] = useState<ShowcaseItem['id']>(defaultShowcaseItem.id);
+  const [activeId, setActiveId] = useState(defaultShowcaseItem.id);
   const activeItem = showcaseItems.find((item) => item.id === activeId) ?? defaultShowcaseItem;
 
   return (
