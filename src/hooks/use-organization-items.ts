@@ -1,12 +1,15 @@
-import { api } from '@convex/_generated/api';
-import { useMutation, useQuery } from 'convex/react';
+import { useCreateItem, useDeleteItem, useUpdateItem } from './use-item-mutations';
+import { useItemsByOrganization } from './use-items';
 
+import type { api } from '@convex/_generated/api';
 import type { Id } from '@convex/_generated/dataModel';
 import type { FunctionArgs, FunctionReturnType } from 'convex/server';
 
 type CreateItemData = FunctionArgs<typeof api.functions.items.mutations.create>['data'];
 type UpdateItemData = FunctionArgs<typeof api.functions.items.mutations.update>['data'];
-type ItemsResult = FunctionReturnType<typeof api.functions.items.queries.listByOrganization> | undefined;
+type ItemsResult = FunctionReturnType<
+  typeof api.functions.items.queries.listByOrganization
+> | undefined;
 
 interface OrganizationItemsResult {
   items: NonNullable<ItemsResult>;
@@ -16,43 +19,17 @@ interface OrganizationItemsResult {
   deleteItem: (id: Id<'items'>) => Promise<FunctionReturnType<typeof api.functions.items.mutations.remove>>;
 }
 
-function requireOrganizationId(organizationId: string | null | undefined): string {
-  if (!organizationId) {
-    throw new Error('No organization selected.');
-  }
-  return organizationId;
-}
-
 export function useOrganizationItems(
   organizationId: string | null | undefined
 ): OrganizationItemsResult {
-  const items = useQuery(
-    api.functions.items.queries.listByOrganization,
-    organizationId ? { organizationId } : 'skip'
-  );
-  const create = useMutation(api.functions.items.mutations.create);
-  const update = useMutation(api.functions.items.mutations.update);
-  const remove = useMutation(api.functions.items.mutations.remove);
-  const getScopedOrganizationId = (): string => requireOrganizationId(organizationId);
-  const createItem = (data: CreateItemData): Promise<Id<'items'>> => create({
-    organizationId: getScopedOrganizationId(),
-    data,
-  });
-  const updateItem = (
-    id: Id<'items'>,
-    data: UpdateItemData
-  ): Promise<FunctionReturnType<typeof api.functions.items.mutations.update>> => (
-    update({ id, organizationId: getScopedOrganizationId(), data })
-  );
-  const deleteItem = (
-    id: Id<'items'>
-  ): Promise<FunctionReturnType<typeof api.functions.items.mutations.remove>> => (
-    remove({ id, organizationId: getScopedOrganizationId() })
-  );
+  const queryResult = useItemsByOrganization(organizationId);
+  const createItem = useCreateItem(organizationId);
+  const updateItem = useUpdateItem(organizationId);
+  const deleteItem = useDeleteItem(organizationId);
 
   return {
-    items: items ?? [],
-    isLoading: items === undefined || !organizationId,
+    items: queryResult ?? [],
+    isLoading: Boolean(organizationId) && queryResult === undefined,
     createItem,
     updateItem,
     deleteItem,
