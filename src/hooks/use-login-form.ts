@@ -40,7 +40,9 @@ export function useLoginForm(): UseLoginFormResult {
       const result = await signIn(formData);
 
       if (result.success) {
-        router.push('/dashboard');
+        router.refresh();
+        router.replace('/dashboard');
+        return;
       } else {
         setError(result.error);
         // Clear password on error for security
