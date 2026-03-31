@@ -31,8 +31,7 @@ export function OrganizationProvider({
   children,
   initialOrganizationId,
 }: OrganizationProviderProps): React.ReactElement {
-  const { user, loading, organizationId: authOrganizationId } = useAuth();
-  const [fallbackOrganizationId, setFallbackOrganizationId] = useState<string | null>(
+  const [organizationId, setOrganizationId] = useState(
     initialOrganizationId ?? null
   );
   const organizationId = authOrganizationId ?? fallbackOrganizationId;

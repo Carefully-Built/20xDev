@@ -1,29 +1,30 @@
+'use client';
+
+import { T } from 'gt-next';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import { getSession } from '@/lib/session';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/providers';
 
 interface AuthButtonProps {
   readonly variant?: 'default' | 'landing';
 }
 
-export async function AuthButton({
-  variant = 'default',
-}: AuthButtonProps): Promise<React.ReactElement> {
-  const session = await getSession();
-  const isLoggedIn = !!session?.user;
+export function AuthButton({ variant = 'default' }: AuthButtonProps): React.ReactElement {
+  const { user } = useUser();
+  const isLoggedIn = !!user;
 
   return (
     <Button
       asChild
       className={cn(
         variant === 'landing' &&
-          'rounded-full border border-black/8 bg-white/78 px-4 text-[0.95rem] font-medium tracking-[-0.02em] text-[color:var(--landing-ink)] shadow-none hover:bg-white'
+          'rounded-full border border-black/8 bg-white/78 px-4 text-[0.95rem] font-medium tracking-[-0.02em] text-[color:var(--landing-ink)] shadow-none hover:bg-white',
       )}
     >
       <Link href={isLoggedIn ? '/dashboard' : '/login'}>
-        {isLoggedIn ? 'Dashboard' : 'Sign In'}
+        {isLoggedIn ? <T>Dashboard</T> : <T>Sign In</T>}
       </Link>
     </Button>
   );

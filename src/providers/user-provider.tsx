@@ -28,11 +28,8 @@ interface UserProviderProps {
   readonly initialUser: UserData | null;
 }
 
-export function UserProvider({
-  children,
-  initialUser,
-}: UserProviderProps): React.ReactElement {
-  const [user, setUser] = useState<UserData | null>(initialUser);
+export function UserProvider({ children, initialUser }: UserProviderProps): React.ReactElement {
+  const [user, setUser] = useState(initialUser);
 
   const updateUser = useCallback((updates: Partial<UserData>): void => {
     setUser((prev) => (prev ? { ...prev, ...updates } : null));
@@ -42,24 +39,30 @@ export function UserProvider({
     globalThis.dispatchEvent(new CustomEvent('user-updated'));
   }, []);
 
-  const contextValue = useMemo(() => ({
-    user,
-    setUser,
-    updateUser,
-    refreshUser,
-  }), [user, setUser, updateUser, refreshUser]);
-
-  return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      user,
+      setUser,
+      updateUser,
+      refreshUser,
+    }),
+    [user, setUser, updateUser, refreshUser],
   );
+
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = (): void => {};
+
+const defaultContextValue: UserContextValue = {
+  user: null,
+  setUser: noop,
+  updateUser: noop,
+  refreshUser: noop,
+};
 
 export function useUser(): UserContextValue {
   const context = useContext(UserContext);
-  if (!context) {
-    throw new Error('useUser must be used within UserProvider');
-  }
-  return context;
+  return context ?? defaultContextValue;
 }

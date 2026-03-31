@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface GlobalErrorProps {
@@ -13,26 +14,28 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
   useEffect(() => {
     // Import dynamically since this is the global error boundary
     // and can't rely on providers being available
-    import('@/lib/error-handler').then(({ captureError }) => {
-      const { errorId } = captureError(error, {
-        category: 'unknown',
-        severity: 'critical',
-        context: {
-          metadata: { digest: error.digest, isGlobalError: true },
-        },
+    import('@/lib/error-handler')
+      .then(({ captureError }) => {
+        const { errorId } = captureError(error, {
+          category: 'unknown',
+          severity: 'critical',
+          context: {
+            metadata: { digest: error.digest, isGlobalError: true },
+          },
+        });
+        setErrorId(errorId);
+      })
+      .catch(() => {
+        // If error handler fails, generate a simple error ID
+        setErrorId(`err_${String(Date.now())}`);
+        console.error('Global error:', error);
       });
-      setErrorId(errorId);
-    }).catch(() => {
-      // If error handler fails, generate a simple error ID
-      setErrorId(`err_${Date.now()}`);
-      console.error('Global error:', error);
-    });
   }, [error]);
 
   return (
     <html lang="en">
       <body>
-        <div 
+        <div
           style={{
             display: 'flex',
             minHeight: '100vh',
@@ -45,10 +48,10 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
             fontFamily: 'system-ui, -apple-system, sans-serif',
           }}
         >
-          <h1 
-            style={{ 
-              fontSize: '8rem', 
-              fontWeight: 'bold', 
+          <h1
+            style={{
+              fontSize: '8rem',
+              fontWeight: 'bold',
               color: 'rgba(161, 161, 170, 0.3)',
               margin: 0,
               lineHeight: 1,
@@ -56,13 +59,11 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
           >
             500
           </h1>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>
-            Something went wrong
-          </h2>
-          <p 
-            style={{ 
-              maxWidth: '28rem', 
-              textAlign: 'center', 
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>Something went wrong</h2>
+          <p
+            style={{
+              maxWidth: '28rem',
+              textAlign: 'center',
               color: '#a1a1aa',
               margin: 0,
             }}
@@ -90,7 +91,7 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
             >
               Try Again
             </button>
-            <a
+            <Link
               href="/"
               style={{
                 padding: '0.625rem 1.25rem',
@@ -105,7 +106,7 @@ const GlobalError = ({ error, reset }: GlobalErrorProps): React.ReactElement => 
               }}
             >
               Go Home
-            </a>
+            </Link>
           </div>
         </div>
       </body>

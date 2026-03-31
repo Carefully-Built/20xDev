@@ -1,6 +1,6 @@
 /**
  * PostHog Configuration
- * 
+ *
  * Full PostHog integration for Next.js App Router:
  * - Product Analytics
  * - Session Replay
@@ -11,7 +11,7 @@
 import posthog from 'posthog-js';
 
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com';
 
 export const isPostHogEnabled = !!POSTHOG_KEY;
 
@@ -31,14 +31,14 @@ export function initPostHog(): void {
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
     ui_host: 'https://us.posthog.com',
-    
+
     // ===== PAGE VIEWS =====
     capture_pageview: false, // We capture manually for better SPA support
     capture_pageleave: true,
-    
+
     // ===== AUTOCAPTURE =====
     autocapture: true,
-    
+
     // ===== SESSION REPLAY =====
     disable_session_recording: false,
     session_recording: {
@@ -50,20 +50,20 @@ export function initPostHog(): void {
       // Capture network requests
       recordCrossOriginIframes: true,
     },
-    
+
     // Record console logs in session replay
     enable_recording_console_log: true,
-    
+
     // ===== ERROR TRACKING =====
     capture_exceptions: true, // Auto-capture unhandled errors
-    
+
     // ===== PRIVACY =====
     respect_dnt: false,
     secure_cookie: true,
-    
+
     // ===== PERSISTENCE =====
     persistence: 'localStorage+cookie',
-    
+
     // ===== PERFORMANCE =====
     loaded: (ph) => {
       // In development, only enable if explicitly set
@@ -93,10 +93,7 @@ export function capturePageLeave(): void {
 /**
  * Identify user for tracking context
  */
-export function identifyUser(
-  userId: string,
-  properties?: Record<string, unknown>
-): void {
+export function identifyUser(userId: string, properties?: Record<string, unknown>): void {
   if (!isPostHogEnabled || typeof window === 'undefined') return;
   posthog.identify(userId, properties);
 }
@@ -112,10 +109,7 @@ export function resetUser(): void {
 /**
  * Track custom event
  */
-export function trackEvent(
-  eventName: string,
-  properties?: Record<string, unknown>
-): void {
+export function trackEvent(eventName: string, properties?: Record<string, unknown>): void {
   if (!isPostHogEnabled || typeof window === 'undefined') return;
   posthog.capture(eventName, properties);
 }

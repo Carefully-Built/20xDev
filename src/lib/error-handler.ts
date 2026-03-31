@@ -1,6 +1,6 @@
 /**
  * Centralized Error Handler for 20xdev
- * 
+ *
  * Logs all errors to PostHog without exposing them to users.
  * Provides consistent error handling across the application.
  */
@@ -9,13 +9,7 @@ import posthog from 'posthog-js';
 
 // Error types for categorization
 export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
-export type ErrorCategory = 
-  | 'api' 
-  | 'auth' 
-  | 'database' 
-  | 'validation' 
-  | 'network' 
-  | 'unknown';
+export type ErrorCategory = 'api' | 'auth' | 'database' | 'validation' | 'network' | 'unknown';
 
 interface ErrorContext {
   userId?: string;
@@ -41,7 +35,7 @@ interface ErrorReport {
  */
 function generateFingerprint(error: Error, category: ErrorCategory): string {
   const message = error.message.slice(0, 100);
-  const stack = error.stack?.split('\n')[1]?.trim() || '';
+  const stack = error.stack?.split('\n')[1]?.trim() ?? '';
   return `${category}:${message}:${stack}`.replace(/\s+/g, '_').slice(0, 200);
 }
 
@@ -51,7 +45,7 @@ function generateFingerprint(error: Error, category: ErrorCategory): string {
 function determineSeverity(
   error: Error,
   category: ErrorCategory,
-  explicitSeverity?: ErrorSeverity
+  explicitSeverity?: ErrorSeverity,
 ): ErrorSeverity {
   if (explicitSeverity) return explicitSeverity;
 
@@ -84,13 +78,13 @@ function determineSeverity(
  * Logs error to PostHog and returns a safe user-friendly message
  */
 export function captureError(
-  error: Error | unknown,
+  error: unknown,
   options: {
     category?: ErrorCategory;
     severity?: ErrorSeverity;
     context?: ErrorContext;
     silent?: boolean; // Don't log to console
-  } = {}
+  } = {},
 ): { userMessage: string; errorId: string } {
   const {
     category = 'unknown',
@@ -100,13 +94,11 @@ export function captureError(
   } = options;
 
   // Normalize error
-  const normalizedError = error instanceof Error 
-    ? error 
-    : new Error(String(error));
+  const normalizedError = error instanceof Error ? error : new Error(String(error));
 
   const severity = determineSeverity(normalizedError, category, explicitSeverity);
   const fingerprint = generateFingerprint(normalizedError, category);
-  const errorId = `err_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  const errorId = `err_${String(Date.now())}_${Math.random().toString(36).slice(2, 9)}`;
 
   const report: ErrorReport = {
     message: normalizedError.message,
@@ -138,7 +130,7 @@ export function captureError(
       ...report.context,
       ...report.context.metadata,
     });
-    
+
     // Also log to console in session replay
     console.error(`[${category.toUpperCase()}] Error captured:`, {
       errorId,
@@ -164,7 +156,7 @@ export function captureError(
  */
 function getUserFriendlyMessage(
   category: ErrorCategory,
-  _severity: ErrorSeverity // Prefixed with _ to indicate intentionally unused (for future use)
+  _severity: ErrorSeverity, // Prefixed with _ to indicate intentionally unused (for future use)
 ): string {
   const messages: Record<ErrorCategory, string> = {
     api: 'Unable to complete the request. Please try again.',
@@ -186,11 +178,12 @@ export function withErrorHandler<T extends (...args: unknown[]) => Promise<unkno
   options: {
     category?: ErrorCategory;
     context?: ErrorContext;
-  } = {}
+  } = {},
 ): (...args: Parameters<T>) => Promise<ReturnType<T> | { error: string; errorId: string }> {
   return async (...args: Parameters<T>) => {
     try {
-      return await fn(...args) as ReturnType<T>;
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return (await fn(...args)) as ReturnType<T>;
     } catch (error) {
       const { userMessage, errorId } = captureError(error, options);
       return { error: userMessage, errorId };
@@ -204,7 +197,7 @@ export function withErrorHandler<T extends (...args: unknown[]) => Promise<unkno
 export function captureReactError(
   error: Error,
   errorInfo: { componentStack?: string },
-  componentName?: string
+  componentName?: string,
 ): { userMessage: string; errorId: string } {
   return captureError(error, {
     category: 'unknown',
@@ -222,10 +215,10 @@ export function captureReactError(
  * API error handler - use in API routes
  */
 export function captureApiError(
-  error: Error | unknown,
+  error: unknown,
   endpoint: string,
   method: string,
-  statusCode?: number
+  statusCode?: number,
 ): { userMessage: string; errorId: string } {
   return captureError(error, {
     category: 'api',
@@ -241,9 +234,9 @@ export function captureApiError(
  * Form/validation error handler
  */
 export function captureValidationError(
-  error: Error | unknown,
+  error: unknown,
   formName: string,
-  fieldName?: string
+  fieldName?: string,
 ): { userMessage: string; errorId: string } {
   return captureError(error, {
     category: 'validation',
@@ -259,9 +252,9 @@ export function captureValidationError(
  * Network/fetch error handler
  */
 export function captureNetworkError(
-  error: Error | unknown,
+  error: unknown,
   url: string,
-  method: string = 'GET'
+  method = 'GET',
 ): { userMessage: string; errorId: string } {
   return captureError(error, {
     category: 'network',

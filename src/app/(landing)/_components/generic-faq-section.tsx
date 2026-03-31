@@ -1,13 +1,14 @@
 'use client';
 
+import { T } from 'gt-next';
 import Link from 'next/link';
 
 import { FaqItem, type FaqItemProps } from './faq-item';
 import { LandingSectionHeading } from './landing-section-heading';
 
 interface GenericFaqSectionProps {
-  readonly title: string;
-  readonly description: string;
+  readonly title: React.ReactNode;
+  readonly description: React.ReactNode;
   readonly items: readonly FaqItemProps[];
 }
 
@@ -27,19 +28,19 @@ export function GenericFaqSection({
         />
 
         <div className="mt-12">
-          {items.map((item) => (
-            <FaqItem key={item.question} question={item.question} answer={item.answer} />
+          {items.map((item, index) => (
+            <FaqItem key={index} question={item.question} answer={item.answer} />
           ))}
         </div>
 
         <div className="mt-12 text-center">
           <p className="text-black/58">
-            Still have questions?{' '}
+            <T>Still have questions?</T>{' '}
             <Link
               href="/contact"
               className="font-medium text-[color:var(--landing-accent-strong)] hover:underline"
             >
-              Contact us
+              <T>Contact us</T>
             </Link>
           </p>
         </div>

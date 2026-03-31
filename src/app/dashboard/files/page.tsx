@@ -20,8 +20,6 @@ import {
 import { useCurrentUserByOrganization } from '@/hooks/use-users';
 import { useOrganization } from '@/providers';
 
-
-
 const SKELETON_COUNT = 10;
 const GRID_CLASSES = 'grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5';
 
@@ -42,10 +40,18 @@ export default function FilesPage(): React.ReactElement {
     try {
       await Promise.all(
         Array.from(selectedFiles).map((file) =>
-          uploadFile({ file, organizationId, uploadedBy: currentUser._id, generateUploadUrl, saveFile })
-        )
+          uploadFile({
+            file,
+            organizationId,
+            uploadedBy: currentUser._id,
+            generateUploadUrl,
+            saveFile,
+          }),
+        ),
       );
-      toast.success('Uploaded ' + String(selectedFiles.length) + ' file' + (selectedFiles.length > 1 ? 's' : ''));
+      toast.success(
+        `Uploaded ${String(selectedFiles.length)} file${selectedFiles.length > 1 ? 's' : ''}`,
+      );
     } catch {
       toast.error('Failed to upload files');
     } finally {
@@ -55,23 +61,29 @@ export default function FilesPage(): React.ReactElement {
 
   const handleDelete = (id: Id<'files'>): void => {
     const file = files?.find((f: FileWithUrl) => f._id === id);
-    toast.error(file ? `Delete "${file.name}"?` : 'Delete file?', {
+    toast.error(`Delete "${file?.name ?? 'this file'}"?`, {
       action: {
         label: 'Confirm',
-        onClick: () => void deleteFile({ id }).then(() => toast.success('File deleted')),
+        onClick: () => void deleteFile({ id }).then(() => toast.success(`File deleted`)),
       },
     });
   };
 
   const actions = (
-    <UploadButton isUploading={isUploading} disabled={!currentUser} onFilesSelected={(f) => void handleUpload(f)} />
+    <UploadButton
+      isUploading={isUploading}
+      disabled={!currentUser}
+      onFilesSelected={(f) => void handleUpload(f)}
+    />
   );
 
   if (isLoading) {
     return (
       <PageLayout title={<T>Files</T>} actions={actions}>
         <div className={GRID_CLASSES}>
-          {Array.from({ length: SKELETON_COUNT }).map((_, i) => <FileCardSkeleton key={i} />)}
+          {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+            <FileCardSkeleton key={i} />
+          ))}
         </div>
       </PageLayout>
     );
@@ -80,7 +92,9 @@ export default function FilesPage(): React.ReactElement {
   if (!files.length) {
     return (
       <PageLayout title={<T>Files</T>} actions={actions}>
-        <EmptyState onUpload={() => document.querySelector<HTMLInputElement>('input[type="file"]')?.click()} />
+        <EmptyState
+          onUpload={() => document.querySelector<HTMLInputElement>('input[type="file"]')?.click()}
+        />
       </PageLayout>
     );
   }
@@ -88,7 +102,9 @@ export default function FilesPage(): React.ReactElement {
   return (
     <PageLayout title={<T>Files</T>} actions={actions}>
       <div className={GRID_CLASSES}>
-        {files.map((file: FileWithUrl) => <FileCard key={file._id} file={file} onDelete={handleDelete} />)}
+        {files.map((file: FileWithUrl) => (
+          <FileCard key={file._id} file={file} onDelete={handleDelete} />
+        ))}
       </div>
     </PageLayout>
   );

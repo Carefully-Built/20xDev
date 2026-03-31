@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { captureError, captureApiError } from '@/lib/error-handler';
 
-export default function TestErrorPage() {
+export default function TestErrorPage(): React.ReactElement {
   const [lastError, setLastError] = useState<{ userMessage: string; errorId: string } | null>(null);
 
-  const triggerClientError = () => {
+  const triggerClientError = (): void => {
     try {
       throw new Error('Test client-side error from 20xdev');
     } catch (error) {
@@ -23,17 +24,12 @@ export default function TestErrorPage() {
     }
   };
 
-  const triggerApiError = () => {
-    const result = captureApiError(
-      new Error('Simulated API failure'),
-      '/api/test',
-      'POST',
-      500
-    );
+  const triggerApiError = (): void => {
+    const result = captureApiError(new Error('Simulated API failure'), '/api/test', 'POST', 500);
     setLastError(result);
   };
 
-  const triggerUnhandledError = () => {
+  const triggerUnhandledError = (): void => {
     // This will be caught by the error boundary
     throw new Error('Unhandled error - should trigger error boundary');
   };
@@ -58,24 +54,30 @@ export default function TestErrorPage() {
       </div>
 
       {lastError && (
-        <div className="rounded-lg border border-border bg-card p-6 text-center">
-          <p className="text-sm text-muted-foreground">User sees:</p>
+        <div className="border-border bg-card rounded-lg border p-6 text-center">
+          <p className="text-muted-foreground text-sm">User sees:</p>
           <p className="font-medium">{lastError.userMessage}</p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Error ID: {lastError.errorId}
-          </p>
+          <p className="text-muted-foreground mt-2 text-xs">Error ID: {lastError.errorId}</p>
           <p className="mt-4 text-xs text-green-600">
             ✅ Error logged to PostHog (check dashboard)
           </p>
         </div>
       )}
 
-      <div className="max-w-md text-center text-sm text-muted-foreground">
+      <div className="text-muted-foreground max-w-md text-center text-sm">
         <p>
           Gli errori vengono inviati a PostHog ma l&apos;utente vede solo un messaggio generico.
         </p>
         <p className="mt-2">
-          Dashboard: <a href="https://us.posthog.com" className="text-primary underline" target="_blank" rel="noopener noreferrer">us.posthog.com</a>
+          Dashboard:{' '}
+          <a
+            href="https://us.posthog.com"
+            className="text-primary underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            us.posthog.com
+          </a>
         </p>
       </div>
     </div>
