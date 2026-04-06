@@ -30,6 +30,15 @@ const techStack: readonly TechItem[] = [
     className: 'dark:invert',
   },
   {
+    name: 'Vercel',
+    category: 'Deployment',
+    description: 'Hosting & edge delivery',
+    why: 'Optimized platform for Next.js deployments with preview environments and global CDN.',
+    logo: '/images/stack/vercel.svg',
+    href: 'https://vercel.com',
+    className: 'dark:invert',
+  },
+  {
     name: 'TypeScript',
     category: 'Language',
     description: 'Type-safe development',

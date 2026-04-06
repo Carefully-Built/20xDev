@@ -29,6 +29,7 @@ The project does **not** yet have real application code for several technologies
 | Done | Logo | Technology | Status | Notes |
 |---|---|---|---|---|
 | [x] | <img src="public/images/stack/next-js.svg" alt="Next.js" width="22" /> | Next.js 16 | Implemented | App Router foundation is in place |
+| [x] | <img src="public/images/stack/vercel.svg" alt="Vercel" width="22" /> | Vercel | Implemented | `vercel.json` is present for deployment configuration |
 | [x] | <img src="public/images/stack/typescript.png" alt="TypeScript" width="22" /> | TypeScript 5 | Implemented | Main app is typed |
 | [x] | <img src="public/images/stack/bun.svg" alt="Bun" width="22" /> | Bun | Implemented | Package manager and scripts |
 | [x] | <img src="public/images/stack/tailwind.png" alt="Tailwind CSS" width="22" /> | Tailwind CSS 4 | Implemented | Styling foundation |
