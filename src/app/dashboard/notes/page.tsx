@@ -1,7 +1,9 @@
 'use client';
 
 import { AssociationPicker, type AssociationPickerOption } from '@carefully-built/association-picker';
+import { buildAssociationValue, getAssociationTypeLabel } from '@carefully-built/convex-platform';
 import { NotesCrudPage, type NoteCrudValues, type NoteListItem } from '@carefully-built/notes';
+import { RichTextEditor } from '@carefully-built/rich-text';
 import { Label } from '@carefully-built/ui';
 import { toast } from 'sonner';
 
@@ -28,6 +30,17 @@ interface StoredNoteAssociation {
   readonly value: string;
 }
 
+interface NoteAssociationFieldProps {
+  readonly associationOptions: readonly AssociationPickerOption[];
+  readonly onChange: (value: readonly string[]) => void;
+  readonly value: readonly string[];
+}
+
+interface NoteBodyFieldProps {
+  readonly onChange: (value: string) => void;
+  readonly value: string;
+}
+
 function toDashboardNote(note: {
   readonly _id: Id<'notes'>;
   readonly body: string;
@@ -47,6 +60,38 @@ function toDashboardNote(note: {
   };
 }
 
+function renderNoteBodyField({ value, onChange }: NoteBodyFieldProps): React.ReactNode {
+  return (
+    <RichTextEditor
+      label="Body"
+      value={value}
+      onChange={onChange}
+      placeholder="Write the note..."
+    />
+  );
+}
+
+function renderNoteAssociationField({
+  associationOptions,
+  onChange,
+  value,
+}: NoteAssociationFieldProps): React.ReactNode {
+  return (
+    <div className="space-y-2">
+      <Label>Contact</Label>
+      <AssociationPicker
+        allowedEntityTypes={['contact']}
+        maxSelections={1}
+        onChange={onChange}
+        options={[...associationOptions]}
+        placeholder="Assign a contact"
+        searchPlaceholder="Search contacts..."
+        value={[...value]}
+      />
+    </div>
+  );
+}
+
 export default function NotesPage(): React.ReactElement {
   const { organizationId } = useOrganization();
   const notes = useNotesByOrganization(organizationId);
@@ -59,8 +104,8 @@ export default function NotesPage(): React.ReactElement {
     entityId: String(contact._id),
     entityType: 'contact',
     label: contact.name,
-    typeLabel: 'Contact',
-    value: `contact:${contact._id}`,
+    typeLabel: getAssociationTypeLabel('contact'),
+    value: buildAssociationValue('contact', String(contact._id)),
   }));
 
   function resolveAssociations(values: readonly string[]): StoredNoteAssociation[] {
@@ -126,20 +171,8 @@ export default function NotesPage(): React.ReactElement {
       onCreate={create}
       onDelete={remove}
       onUpdate={update}
-      associationField={({ value, onChange }) => (
-        <div className="space-y-2">
-          <Label>Contact</Label>
-          <AssociationPicker
-            allowedEntityTypes={['contact']}
-            maxSelections={1}
-            onChange={onChange}
-            options={associationOptions}
-            placeholder="Assign a contact"
-            searchPlaceholder="Search contacts..."
-            value={[...value]}
-          />
-        </div>
-      )}
+      associationField={(props) => renderNoteAssociationField({ ...props, associationOptions })}
+      bodyField={renderNoteBodyField}
     />
   );
 }

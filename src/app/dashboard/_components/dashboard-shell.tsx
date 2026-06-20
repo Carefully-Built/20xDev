@@ -13,12 +13,14 @@ import { DashboardSearch } from './dashboard-search';
 import { DashboardOrgSwitcher } from './dashboard-org-switcher';
 
 interface DashboardShellProps {
+  readonly canAccessSuperAdmin?: boolean;
   readonly children: ReactNode;
   readonly initialOrganizationId?: string | null;
   readonly initialOrganizations?: readonly WorkOSOrganization[];
 }
 
 export function DashboardShell({
+  canAccessSuperAdmin = false,
   children,
   initialOrganizationId,
   initialOrganizations,
@@ -47,6 +49,7 @@ export function DashboardShell({
           )}
           renderFooter={({ isCollapsed, isMobile }) => (
             <DashboardOrgSwitcher
+              canAccessSuperAdmin={canAccessSuperAdmin}
               collapsed={isCollapsed}
               initialOrganizationId={initialOrganizationId}
               initialOrganizations={initialOrganizations}

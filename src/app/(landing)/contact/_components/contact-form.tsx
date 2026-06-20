@@ -8,9 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 
 interface ContactFormProps {
-  status: 'idle' | 'submitting' | 'error';
-  errorMessage: string;
-  onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
+  readonly status: 'idle' | 'submitting' | 'error';
+  readonly errorMessage: string;
+  readonly onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
 }
 
 export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps) {
@@ -18,7 +18,9 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
     <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
       <div className="space-y-3 sm:space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name" className="sr-only">Name</Label>
+          <Label htmlFor="name" className="sr-only">
+            Name
+          </Label>
           <Input
             id="name"
             name="name"
@@ -30,7 +32,9 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="sr-only">Business email</Label>
+          <Label htmlFor="email" className="sr-only">
+            Business email
+          </Label>
           <Input
             id="email"
             name="email"
@@ -43,7 +47,9 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone" className="sr-only">Phone number</Label>
+          <Label htmlFor="phone" className="sr-only">
+            Phone number
+          </Label>
           <Input
             id="phone"
             name="phone"
@@ -55,7 +61,9 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="message" className="sr-only">How can we help you?</Label>
+          <Label htmlFor="message" className="sr-only">
+            How can we help you?
+          </Label>
           <Textarea
             id="message"
             name="message"
@@ -69,7 +77,7 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
       </div>
 
       {status === 'error' && (
-        <div className="flex items-center justify-center gap-2 text-sm tracking-[-0.02em] text-destructive">
+        <div className="text-destructive flex items-center justify-center gap-2 text-sm tracking-[-0.02em]">
           <AlertCircle className="size-4" />
           <span>{errorMessage}</span>
         </div>
@@ -81,14 +89,14 @@ export function ContactForm({ status, errorMessage, onSubmit }: ContactFormProps
           disabled={status === 'submitting'}
           className="h-12 rounded-full bg-[#160f0c] px-7 text-[0.98rem] font-normal tracking-[-0.02em] text-white shadow-none hover:bg-[#2b1f1a]"
         >
-        {status === 'submitting' ? (
-          <>
-            <Loader2 className="mr-2 size-4 animate-spin" />
-            Sending...
-          </>
-        ) : (
-          'Schedule a demo'
-        )}
+          {status === 'submitting' ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              Sending...
+            </>
+          ) : (
+            'Schedule a demo'
+          )}
         </Button>
       </div>
     </form>

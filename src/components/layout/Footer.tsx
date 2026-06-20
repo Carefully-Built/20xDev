@@ -20,10 +20,12 @@ const socialLinks = [
 
 const landingFooterColumns = [
   {
+    id: 'navigate',
     title: <T>Navigate</T>,
     links: landingNav,
   },
   {
+    id: 'account',
     title: <T>Account</T>,
     links: [
       { title: <T>Sign In</T>, href: '/login' },
@@ -31,6 +33,7 @@ const landingFooterColumns = [
     ],
   },
   {
+    id: 'company',
     title: <T>Company</T>,
     links: [
       { title: <T>About</T>, href: '/about' },
@@ -40,6 +43,7 @@ const landingFooterColumns = [
     ],
   },
   {
+    id: 'legal',
     title: <T>Legal</T>,
     links: [
       { title: <T>Privacy Policy</T>, href: '/privacy' },
@@ -49,22 +53,25 @@ const landingFooterColumns = [
   },
 ] as const;
 
+type FooterVariant = 'default' | 'landing';
+type LandingFooterCtaOption = LandingFooterCta | null | 'auto';
+
 interface FooterProps {
-  variant?: 'default' | 'landing';
-  cta?: LandingFooterCta | null | 'auto';
+  readonly variant?: FooterVariant;
+  readonly cta?: LandingFooterCtaOption;
 }
 
 interface SocialLink {
-  label: string;
-  href: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  readonly label: string;
+  readonly href: string;
+  readonly icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 interface LandingFooterCta {
-  title: string;
-  description: string;
-  buttonLabel: string;
-  buttonHref: string;
+  readonly title: string;
+  readonly description: string;
+  readonly buttonLabel: string;
+  readonly buttonHref: string;
 }
 
 const defaultLandingFooterCta: LandingFooterCta = {
@@ -94,7 +101,7 @@ export function Footer({ variant = 'default', cta = 'auto' }: FooterProps): Reac
 function LandingFooter({
   cta = 'auto',
 }: {
-  cta?: LandingFooterCta | null | 'auto';
+  readonly cta?: LandingFooterCtaOption;
 }): React.ReactElement {
   const pathname = usePathname();
   const resolvedCta = resolveLandingFooterCta(pathname, cta);
@@ -117,14 +124,14 @@ function LandingFooter({
           {resolvedCta ? <LandingFooterCtaCard cta={resolvedCta} /> : null}
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
-            {landingFooterColumns.map((column, index) => (
-              <div key={index} className="min-w-0">
+            {landingFooterColumns.map((column) => (
+              <div key={column.id} className="min-w-0">
                 <h3 className="text-[1.24rem] leading-[1.9rem] font-normal tracking-[-0.02em] text-white">
                   {column.title}
                 </h3>
                 <ul className="mt-3 space-y-3">
-                  {column.links.map((link, linkIndex) => (
-                    <li key={linkIndex}>
+                  {column.links.map((link) => (
+                    <li key={`${column.id}-${link.href}`}>
                       <FooterLink href={link.href} subtle={false}>
                         {link.title}
                       </FooterLink>
@@ -156,7 +163,7 @@ function LandingFooter({
   );
 }
 
-function LandingFooterCtaCard({ cta }: { cta: LandingFooterCta }): React.ReactElement {
+function LandingFooterCtaCard({ cta }: { readonly cta: LandingFooterCta }): React.ReactElement {
   return (
     <section className="pb-[4.5rem] sm:pb-24">
       <div className="mx-auto grid max-w-[800px] gap-8 rounded-[24px] border border-[rgba(238,237,231,0.16)] bg-[rgba(106,154,162,0.28)] px-7 py-8 shadow-[0_16px_40px_rgba(31,66,72,0.12)] backdrop-blur-[8px] sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10">
@@ -182,7 +189,7 @@ function LandingFooterCtaCard({ cta }: { cta: LandingFooterCta }): React.ReactEl
   );
 }
 
-function DefaultFooter({ socialLinks }: { socialLinks: SocialLink[] }): React.ReactElement {
+function DefaultFooter({ socialLinks }: { readonly socialLinks: readonly SocialLink[] }): React.ReactElement {
   return (
     <footer className="bg-muted/30 border-t">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -238,7 +245,7 @@ function DefaultFooter({ socialLinks }: { socialLinks: SocialLink[] }): React.Re
 
 function resolveLandingFooterCta(
   pathname: string | null,
-  cta: LandingFooterCta | null | 'auto',
+  cta: LandingFooterCtaOption,
 ): LandingFooterCta | null {
   if (cta !== 'auto') {
     return cta;

@@ -15,7 +15,7 @@ import { urlForImage } from '@/sanity/lib/image';
 import { getPostBySlugQuery, getPostSlugsQuery } from '@/sanity/lib/queries';
 
 interface PostPageProps {
-  params: Promise<{ slug: string }>;
+  readonly params: Promise<{ readonly slug: string }>;
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -28,13 +28,15 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }
 }
 
-export async function generateMetadata({
-  params,
-}: PostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await client.fetch<Post | null>(getPostBySlugQuery, { slug }, {
-    next: { tags: [`post-${slug}`] },
-  });
+  const post = await client.fetch<Post | null>(
+    getPostBySlugQuery,
+    { slug },
+    {
+      next: { tags: [`post-${slug}`] },
+    },
+  );
 
   if (!post) return { title: 'Post Not Found' };
 
@@ -57,14 +59,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostPage({
-  params,
-}: PostPageProps): Promise<React.ReactElement> {
+export default async function PostPage({ params }: PostPageProps): Promise<React.ReactElement> {
   const { slug } = await params;
 
-  const post = await client.fetch<Post | null>(getPostBySlugQuery, { slug }, {
-    next: { tags: [`post-${slug}`] },
-  });
+  const post = await client.fetch<Post | null>(
+    getPostBySlugQuery,
+    { slug },
+    {
+      next: { tags: [`post-${slug}`] },
+    },
+  );
 
   if (!post) notFound();
 

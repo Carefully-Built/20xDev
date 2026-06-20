@@ -6,7 +6,7 @@ import { getExcerptReadingTime } from '@/lib/blog';
 import { BlogCardImage } from './blog-card-image';
 
 interface BlogCardProps {
-  post: PostListItem;
+  readonly post: PostListItem;
 }
 
 export function BlogCard({ post }: BlogCardProps): React.ReactElement {
@@ -17,14 +17,14 @@ export function BlogCard({ post }: BlogCardProps): React.ReactElement {
     <article className="group">
       <Link
         href={`/blog/${post.slug.current}`}
-        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--landing-surface)] rounded-[12px]"
+        className="focus-visible:ring-primary/50 block rounded-[12px] focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--landing-surface)] focus-visible:outline-none"
       >
         <BlogCardImage image={post.mainImage} title={post.title} />
       </Link>
       <div className="px-1 pt-4">
         <Link
           href={`/blog/${post.slug.current}`}
-          className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2"
+          className="focus-visible:ring-primary/50 inline-block focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           <h2 className="max-w-[20ch] text-[1.95rem] leading-[1.05] tracking-[-0.055em] text-[var(--landing-ink)] sm:text-[2rem] lg:text-[2.05rem]">
             {post.title}

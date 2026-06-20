@@ -5,6 +5,7 @@ import { DashboardShell } from './_components/dashboard-shell';
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
+import { isSuperAdminEmailAllowed } from '@/lib/super-admin-access';
 import { ConvexClientProvider, OrganizationProvider, UserProvider } from '@/providers';
 
 interface DashboardLayoutProps {
@@ -36,6 +37,7 @@ export default async function DashboardLayout({
 
   const name =
     `${session.user.firstName ?? ''} ${session.user.lastName ?? ''}`.trim() || session.user.email;
+  const canAccessSuperAdmin = isSuperAdminEmailAllowed(session.user.email);
 
   return (
     <ConvexClientProvider>
@@ -52,6 +54,7 @@ export default async function DashboardLayout({
           }}
         >
           <DashboardShell
+            canAccessSuperAdmin={canAccessSuperAdmin}
             initialOrganizationId={organizationId}
             initialOrganizations={organizations}
           >

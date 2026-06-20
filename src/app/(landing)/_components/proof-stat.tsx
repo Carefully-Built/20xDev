@@ -30,7 +30,7 @@ export function ProofStat({ start, end, suffix, label }: ProofStatProps): React.
       }
 
       hasAnimated = true;
-      const startedAt = window.performance.now();
+      const startedAt = globalThis.performance.now();
 
       const step = (timestamp: number): void => {
         const progress = Math.min((timestamp - startedAt) / duration, 1);
@@ -39,11 +39,11 @@ export function ProofStat({ start, end, suffix, label }: ProofStatProps): React.
         setValue(nextValue);
 
         if (progress < 1) {
-          frameRef.current = window.requestAnimationFrame(step);
+          frameRef.current = globalThis.requestAnimationFrame(step);
         }
       };
 
-      frameRef.current = window.requestAnimationFrame(step);
+      frameRef.current = globalThis.requestAnimationFrame(step);
     };
 
     const observer = new IntersectionObserver(
@@ -55,7 +55,7 @@ export function ProofStat({ start, end, suffix, label }: ProofStatProps): React.
         animate();
         observer.disconnect();
       },
-      { threshold: 0.35 }
+      { threshold: 0.35 },
     );
 
     observer.observe(node);
@@ -64,7 +64,7 @@ export function ProofStat({ start, end, suffix, label }: ProofStatProps): React.
       observer.disconnect();
 
       if (frameRef.current !== null) {
-        window.cancelAnimationFrame(frameRef.current);
+        globalThis.cancelAnimationFrame(frameRef.current);
       }
     };
   }, [end, start]);

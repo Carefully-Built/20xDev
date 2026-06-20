@@ -5,26 +5,21 @@ import { usePathname } from 'next/navigation';
 import { T } from 'gt-next';
 
 interface CategoryItem {
-  title: string;
-  slug: { current: string };
+  readonly title: string;
+  readonly slug: { readonly current: string };
 }
 
 interface CategoryFilterProps {
-  categories: CategoryItem[];
+  readonly categories: CategoryItem[];
 }
 
-export function CategoryFilter({
-  categories,
-}: CategoryFilterProps): React.ReactElement {
+export function CategoryFilter({ categories }: CategoryFilterProps): React.ReactElement {
   const pathname = usePathname();
 
   const isAll = pathname === '/blog' || pathname.endsWith('/blog');
 
   return (
-    <nav
-      className="mb-10 flex gap-2 overflow-x-auto pb-2 md:mb-12"
-      aria-label="Category filter"
-    >
+    <nav className="mb-10 flex gap-2 overflow-x-auto pb-2 md:mb-12" aria-label="Category filter">
       <Link href="/blog">
         <span
           className={[
@@ -43,7 +38,7 @@ export function CategoryFilter({
           <Link key={cat.slug.current} href={`/blog/category/${cat.slug.current}`}>
             <span
               className={[
-                'inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full border px-4 text-sm transition-colors',
+                'inline-flex min-h-[44px] items-center rounded-full border px-4 text-sm whitespace-nowrap transition-colors',
                 isActive
                   ? 'border-[color:color-mix(in_oklab,var(--landing-ink)_12%,white)] bg-white/70 text-[var(--landing-ink)]'
                   : 'border-transparent bg-transparent text-[var(--landing-muted)] hover:border-[color:color-mix(in_oklab,var(--landing-ink)_8%,white)] hover:bg-white/45 hover:text-[var(--landing-ink)]',

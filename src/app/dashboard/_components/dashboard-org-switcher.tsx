@@ -10,13 +10,25 @@ import { fetchOrganizations, switchOrganization } from '@/lib/organization-api-c
 import { useOrganization } from '@/providers';
 
 interface DashboardOrgSwitcherProps {
+  readonly canAccessSuperAdmin?: boolean;
   readonly collapsed?: boolean;
   readonly initialOrganizationId?: string | null;
   readonly initialOrganizations?: readonly WorkOSOrganization[];
   readonly mobileSheet?: boolean;
 }
 
+function renderCreateOrganization({
+  children,
+  onCreated,
+}: {
+  readonly children: React.ReactNode;
+  readonly onCreated: (organizationId: string) => void;
+}): React.ReactElement {
+  return <CreateOrganization onCreated={onCreated}>{children}</CreateOrganization>;
+}
+
 export function DashboardOrgSwitcher({
+  canAccessSuperAdmin = false,
   collapsed,
   initialOrganizationId,
   initialOrganizations,
@@ -26,10 +38,9 @@ export function DashboardOrgSwitcher({
 
   return (
     <SidebarOrgSwitcherBase
+      canAccessSuperAdmin={canAccessSuperAdmin}
       collapsed={collapsed}
-      createOrganization={({ children, onCreated }) => (
-        <CreateOrganization onCreated={onCreated}>{children}</CreateOrganization>
-      )}
+      createOrganization={renderCreateOrganization}
       currentOrganizationId={organizationId}
       dashboardHref="/dashboard"
       fetchOrganizations={fetchOrganizations}
@@ -38,6 +49,7 @@ export function DashboardOrgSwitcher({
       mobileSheet={mobileSheet}
       onContextOrganizationChange={setOrganizationId}
       switchOrganization={switchOrganization}
+      superAdminHref="/super-admin"
     />
   );
 }

@@ -57,7 +57,7 @@ function escapeCsvValue(value: unknown): string {
   
   // Escape if contains delimiter, quotes, or newlines
   if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-    return `"${stringValue.replace(/"/g, '""')}"`;
+    return `"${stringValue.replaceAll('"', '""')}"`;
   }
   
   return stringValue;
@@ -155,7 +155,7 @@ export function exportToCsv<T extends Record<string, unknown>>(
   link.download = filename;
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
+  link.remove();
   URL.revokeObjectURL(url);
 }
 

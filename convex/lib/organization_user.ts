@@ -1,6 +1,7 @@
 import type { Doc } from '../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../_generated/server';
 import type { UserIdentity } from 'convex/server';
+import { requireUserInOrganization } from '@carefully-built/convex-multitenant';
 
 type OrganizationCtx = MutationCtx | QueryCtx;
 
@@ -35,5 +36,6 @@ export async function requireOrganizationUser(
   if (!user) {
     throw new Error('Forbidden');
   }
+  await requireUserInOrganization(ctx, user._id, organizationId);
   return user;
 }

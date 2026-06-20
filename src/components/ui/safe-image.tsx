@@ -7,12 +7,12 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface SafeImageProps {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  className?: string;
-  fallbackClassName?: string;
+  readonly src: string;
+  readonly alt: string;
+  readonly width?: number;
+  readonly height?: number;
+  readonly className?: string;
+  readonly fallbackClassName?: string;
 }
 
 export function SafeImage({

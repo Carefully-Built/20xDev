@@ -5,9 +5,9 @@ import { T } from 'gt-next';
 import { Button } from '@/components/ui/button';
 
 interface BlogPaginationProps {
-  currentPage: number;
-  totalPages: number;
-  basePath?: string;
+  readonly currentPage: number;
+  readonly totalPages: number;
+  readonly basePath?: string;
 }
 
 export function BlogPagination({
@@ -18,10 +18,7 @@ export function BlogPagination({
   if (totalPages <= 1) return null;
 
   return (
-    <nav
-      className="mt-8 flex items-center justify-center gap-4"
-      aria-label="Blog pagination"
-    >
+    <nav className="mt-8 flex items-center justify-center gap-4" aria-label="Blog pagination">
       {currentPage > 1 ? (
         <Button variant="outline" asChild className="min-h-[44px]">
           <Link href={`${basePath}?page=${currentPage - 1}`}>
@@ -32,7 +29,7 @@ export function BlogPagination({
       ) : (
         <div className="min-h-[44px] min-w-[100px]" aria-hidden="true" />
       )}
-      <span className="text-sm text-muted-foreground">
+      <span className="text-muted-foreground text-sm">
         {currentPage} / {totalPages}
       </span>
       {currentPage < totalPages ? (

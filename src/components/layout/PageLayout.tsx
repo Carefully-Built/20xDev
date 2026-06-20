@@ -4,19 +4,19 @@ import { SiteHeader } from './site-header';
 import type { LayoutProps } from '@/types';
 
 interface LandingFooterCta {
-  title: string;
-  description: string;
-  buttonLabel: string;
-  buttonHref: string;
+  readonly title: string;
+  readonly description: string;
+  readonly buttonLabel: string;
+  readonly buttonHref: string;
 }
 
 interface PageLayoutProps extends LayoutProps {
   /** Whether to show the footer. Defaults to true. */
-  showFooter?: boolean;
+  readonly showFooter?: boolean;
   /** Visual treatment for public vs app surfaces. */
-  variant?: 'default' | 'landing';
+  readonly variant?: 'default' | 'landing';
   /** Optional landing footer CTA override. */
-  footerCta?: LandingFooterCta | null | 'auto';
+  readonly footerCta?: LandingFooterCta | null | 'auto';
 }
 
 export function PageLayout({

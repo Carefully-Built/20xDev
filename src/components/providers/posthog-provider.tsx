@@ -5,7 +5,11 @@ import { useEffect, useRef } from 'react';
 
 import { initPostHog, capturePageView, isPostHogEnabled, posthog } from '@/lib/posthog';
 
-export function PostHogProvider({ children }: { children: React.ReactNode }): React.ReactElement {
+export function PostHogProvider({
+  children,
+}: {
+  readonly children: React.ReactNode;
+}): React.ReactElement {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const previousPath = useRef<string | null>(null);
@@ -17,13 +21,13 @@ export function PostHogProvider({ children }: { children: React.ReactNode }): Re
 
   // Track page views on route change
   useEffect(() => {
-    if (!isPostHogEnabled || typeof window === 'undefined') return;
+    if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
 
-    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
+    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
 
     // Only capture if path actually changed (avoid duplicate captures)
     if (previousPath.current !== url) {
-      capturePageView(window.location.href);
+      capturePageView(globalThis.window.location.href);
       previousPath.current = url;
     }
   }, [pathname, searchParams]);
@@ -31,7 +35,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }): Re
   // Capture page leave on unmount
   useEffect(() => {
     return () => {
-      if (isPostHogEnabled && typeof window !== 'undefined') {
+      if (isPostHogEnabled && typeof globalThis.window !== 'undefined') {
         posthog.capture('$pageleave');
       }
     };
@@ -50,8 +54,8 @@ export function PostHogPageView(): React.ReactElement {
 
   useEffect(() => {
     if (pathname && isPostHogEnabled) {
-      let url = window.origin + pathname;
-      if (searchParams?.toString()) {
+      let url = globalThis.window.origin + pathname;
+      if (searchParams.toString()) {
         url = url + '?' + searchParams.toString();
       }
       posthog.capture('$pageview', { $current_url: url });

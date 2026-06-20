@@ -1,4 +1,5 @@
 import { v } from 'convex/values';
+import { createTimestampFields, updateTimestampFields } from '@carefully-built/convex-crud';
 
 import { mutation } from '../../_generated/server';
 import { createContactValidator, updateContactValidator } from '../../tables/contacts';
@@ -18,10 +19,9 @@ export const create = mutation({
 
     const contactId = await ctx.db.insert('contacts', {
       ...args.data,
-      createdAt: now,
       createdBy: currentUser._id,
       organizationId: args.organizationId,
-      updatedAt: now,
+      ...createTimestampFields(now),
     });
 
     await createNotification(
@@ -47,7 +47,7 @@ export const update = mutation({
   handler: async (ctx, args) => {
     await requireOrganizationUser(ctx, args.organizationId);
     await getScopedContact(ctx, args.id, args.organizationId);
-    await ctx.db.patch(args.id, { ...args.data, updatedAt: Date.now() });
+    await ctx.db.patch(args.id, { ...args.data, ...updateTimestampFields() });
 
     return ctx.db.get(args.id);
   },

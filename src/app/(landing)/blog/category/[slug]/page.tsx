@@ -2,7 +2,6 @@ import { T } from 'gt-next';
 import { FileText } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-
 import { BlogGrid } from '../../_components/blog-grid';
 import { BlogHeader } from '../../_components/blog-header';
 import { CategoryFilter } from '../../_components/category-filter';
@@ -18,7 +17,7 @@ import {
 } from '@/sanity/lib/queries';
 
 interface CategoryPageProps {
-  params: Promise<{ slug: string }>;
+  readonly params: Promise<{ readonly slug: string }>;
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -31,13 +30,15 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }
 }
 
-export async function generateMetadata({
-  params,
-}: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const categories = await client.fetch<Category[]>(getCategoriesQuery, {}, {
-    next: { tags: ['categories'] },
-  });
+  const categories = await client.fetch<Category[]>(
+    getCategoriesQuery,
+    {},
+    {
+      next: { tags: ['categories'] },
+    },
+  );
   const category = categories.find((c) => c.slug.current === slug);
 
   if (!category) return { title: 'Category Not Found' };
@@ -60,9 +61,13 @@ export default async function CategoryPage({
       { categorySlug: slug },
       { next: { tags: [`category-${slug}`] } },
     ),
-    client.fetch<Category[]>(getCategoriesQuery, {}, {
-      next: { tags: ['categories'] },
-    }),
+    client.fetch<Category[]>(
+      getCategoriesQuery,
+      {},
+      {
+        next: { tags: ['categories'] },
+      },
+    ),
   ]);
 
   const category = categories.find((c) => c.slug.current === slug);
@@ -82,14 +87,12 @@ export default async function CategoryPage({
           <BlogGrid posts={posts} />
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <FileText className="mb-4 size-12 text-muted-foreground" />
+            <FileText className="text-muted-foreground mb-4 size-12" />
             <h2 className="text-lg font-semibold">
               <T id="blog.noPosts">No posts yet</T>
             </h2>
-            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-              <T id="blog.noPostsDescription">
-                Check back soon for new content.
-              </T>
+            <p className="text-muted-foreground mt-1 max-w-sm text-sm">
+              <T id="blog.noPostsDescription">Check back soon for new content.</T>
             </p>
           </div>
         )}

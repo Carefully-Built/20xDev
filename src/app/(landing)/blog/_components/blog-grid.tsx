@@ -3,7 +3,7 @@ import type { PostListItem } from '@/types/blog';
 import { BlogCard } from './blog-card';
 
 interface BlogGridProps {
-  posts: PostListItem[];
+  readonly posts: PostListItem[];
 }
 
 export function BlogGrid({ posts }: BlogGridProps): React.ReactElement {

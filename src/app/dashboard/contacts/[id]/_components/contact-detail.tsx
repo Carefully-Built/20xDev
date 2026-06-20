@@ -15,6 +15,7 @@ import { ContactDetailSidebar } from './contact-detail-sidebar';
 import { ContactOverview } from './contact-overview';
 
 import { useContact, useUpdateContact } from '@/hooks/use-contacts';
+import { useUsersByOrganization } from '@/hooks/use-users';
 import { useOrganization } from '@/providers';
 
 import type { Id } from '@convex/_generated/dataModel';
@@ -40,6 +41,7 @@ export function ContactDetail({ id }: ContactDetailProps): React.ReactElement {
   const { organizationId } = useOrganization();
   const contact = useContact(id, organizationId);
   const updateContact = useUpdateContact(organizationId);
+  const users = useUsersByOrganization(organizationId);
   const [activeTab, setActiveTab] = useState<ContactDetailTab>('overview');
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -110,6 +112,7 @@ export function ContactDetail({ id }: ContactDetailProps): React.ReactElement {
         open={isEditSheetOpen}
         onOpenChange={setIsEditSheetOpen}
         onSubmit={saveContact}
+        users={users ?? []}
       />
     </>
   );

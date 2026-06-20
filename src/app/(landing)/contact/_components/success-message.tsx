@@ -5,7 +5,7 @@ import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SuccessMessageProps {
-  onReset: () => void;
+  readonly onReset: () => void;
 }
 
 export function SuccessMessage({ onReset }: SuccessMessageProps) {

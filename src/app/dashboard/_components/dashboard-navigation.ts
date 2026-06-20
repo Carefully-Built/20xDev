@@ -6,7 +6,6 @@ import {
   KanbanSquare,
   LayoutDashboard,
   Settings,
-  ShieldCheck,
   StickyNote,
   UsersRound,
 } from 'lucide-react';
@@ -65,13 +64,6 @@ export const navItems: readonly NavigationItem[] = [
 ];
 
 export const bottomNavItems: readonly NavigationItem[] = [
-  {
-    activeMatch: 'prefix',
-    href: '/super-admin',
-    icon: ShieldCheck,
-    key: 'super-admin',
-    label: 'Super Admin',
-  },
   {
     activeMatch: 'prefix',
     href: '/dashboard/settings',

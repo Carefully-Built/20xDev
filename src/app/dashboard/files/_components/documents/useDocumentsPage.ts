@@ -27,6 +27,19 @@ interface UseDocumentsPageResult {
   readonly uploadSelectedFile: (file: File) => Promise<void>;
 }
 
+function copyDocumentLink(url: string): void {
+  void navigator.clipboard.writeText(url).then(() => {
+    toast.success('Link copied');
+  });
+}
+
+function openDocument(document: DocumentCardItem<Id<'files'>>): void {
+  const url = getFileUrl(document);
+  if (url) {
+    globalThis.open(url, '_blank', 'noopener,noreferrer');
+  }
+}
+
 export function useDocumentsPage(): UseDocumentsPageResult {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [selectedAssociations, setSelectedAssociations] = useState<readonly string[]>([]);
@@ -50,12 +63,6 @@ export function useDocumentsPage(): UseDocumentsPageResult {
     return resolveFileAssociations(selectedAssociations, associationOptions);
   }
 
-  function copyDocumentLink(url: string): void {
-    void navigator.clipboard.writeText(url).then(() => {
-      toast.success('Link copied');
-    });
-  }
-
   function deleteDocument(id: Id<'files'>): void {
     showDestructiveActionToast({
       message: 'Delete this file?',
@@ -64,13 +71,6 @@ export function useDocumentsPage(): UseDocumentsPageResult {
         toast.success('File deleted');
       },
     });
-  }
-
-  function openDocument(document: DocumentCardItem<Id<'files'>>): void {
-    const url = getFileUrl(document);
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
   }
 
   async function uploadSelectedFile(file: File): Promise<void> {

@@ -1,7 +1,7 @@
 import { siteConfig } from '@/config/site';
 
 interface CopyrightProps {
-  className?: string;
+  readonly className?: string;
 }
 
 export function Copyright({ className }: CopyrightProps): React.ReactElement {

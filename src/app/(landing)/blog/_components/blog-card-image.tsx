@@ -4,14 +4,11 @@ import type { SanityImage } from '@/types/blog';
 import { getBlogImageAlt, getBlogImageSrc } from '@/lib/blog-image';
 
 interface BlogCardImageProps {
-  image?: SanityImage;
-  title: string;
+  readonly image?: SanityImage;
+  readonly title: string;
 }
 
-export function BlogCardImage({
-  image,
-  title,
-}: BlogCardImageProps): React.ReactElement {
+export function BlogCardImage({ image, title }: BlogCardImageProps): React.ReactElement {
   return (
     <div className="relative aspect-[357/275] overflow-hidden rounded-[12px] bg-[var(--landing-panel)]">
       <Image

@@ -9,8 +9,8 @@ import { SuccessMessage } from './_components/success-message';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 const heroLandscape = '/images/website/background.avif';
-const discoveryCallUrl
-  = process.env.NEXT_PUBLIC_CAL_DISCOVERY_CALL_URL ?? 'https://cal.com/20xdev/discovery-call';
+const discoveryCallUrl =
+  process.env.NEXT_PUBLIC_CAL_DISCOVERY_CALL_URL ?? 'https://cal.com/20xdev/discovery-call';
 
 export default function ContactPage(): React.ReactElement {
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -30,7 +30,7 @@ export default function ContactPage(): React.ReactElement {
         body: formData,
       });
 
-      const data = await response.json() as { success: boolean; message?: string };
+      const data = (await response.json()) as { success: boolean; message?: string };
 
       if (data.success) {
         setStatus('success');
@@ -63,10 +63,10 @@ export default function ContactPage(): React.ReactElement {
 }
 
 interface ContactContentProps {
-  status: FormStatus;
-  errorMessage: string;
-  onReset: () => void;
-  onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
+  readonly status: FormStatus;
+  readonly errorMessage: string;
+  readonly onReset: () => void;
+  readonly onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void;
 }
 
 function ContactContent({
@@ -76,7 +76,7 @@ function ContactContent({
   onSubmit,
 }: ContactContentProps): React.ReactElement {
   return (
-    <div className="relative mx-auto min-h-screen max-w-7xl px-6 pb-20 pt-30 sm:px-8 sm:pt-36 lg:px-12 lg:pb-28 lg:pt-[24rem]">
+    <div className="relative mx-auto min-h-screen max-w-7xl px-6 pt-30 pb-20 sm:px-8 sm:pt-36 lg:px-12 lg:pt-[24rem] lg:pb-28">
       <div className="mx-auto max-w-[30rem]">
         <div className="flex flex-col items-center gap-8 text-center sm:gap-10">
           <ContactHeader />

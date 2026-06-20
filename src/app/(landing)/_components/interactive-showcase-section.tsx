@@ -120,13 +120,12 @@ function LottiePreview({ item }: { readonly item: ShowcaseItem }): React.ReactEl
     <div
       className={cn(
         'h-[320px] w-full overflow-hidden sm:h-[420px] lg:h-[520px]',
-        item.preview.edgeToEdge ? 'rounded-[1.6rem]' : 'rounded-[1.2rem]'
+        item.preview.edgeToEdge ? 'rounded-[1.6rem]' : 'rounded-[1.2rem]',
       )}
     >
       <div
         ref={containerRef}
         aria-label={item.preview.animationLabel}
-        role="img"
         className="h-full w-full"
         style={{
           transform: `scale(${item.preview.zoom ?? 1})`,
@@ -143,7 +142,7 @@ function ShowcasePreview({ item }: { readonly item: ShowcaseItem }): React.React
       <div
         className={cn(
           'overflow-hidden rounded-[1.6rem] border border-black/6 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),rgba(240,231,219,0.9)_36%,rgba(225,213,198,0.92)_100%)]',
-          item.preview.edgeToEdge ? 'p-0' : 'p-4 sm:p-6'
+          item.preview.edgeToEdge ? 'p-0' : 'p-4 sm:p-6',
         )}
       >
         <LottiePreview item={item} />
@@ -174,8 +173,8 @@ export function InteractiveShowcaseSection(): React.ReactElement {
               Start with the parts indie hackers usually spend weeks stitching together.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 tracking-[-0.03em] text-[color:var(--landing-muted)]">
-              Blog, mobile UX, charts, and AI readiness are already in place, so you can spend
-              more time shipping your product and less time building the foundation around it.
+              Blog, mobile UX, charts, and AI readiness are already in place, so you can spend more
+              time shipping your product and less time building the foundation around it.
             </p>
           </div>
 
@@ -204,7 +203,7 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                     'w-full rounded-[1.35rem] border px-5 py-4 text-left transition-all duration-200',
                     isActive
                       ? 'border-[color:var(--landing-accent-strong)]/28 bg-white/72 shadow-[0_20px_50px_rgba(44,34,24,0.08)] ring-1 ring-[color:var(--landing-accent-strong)]/10'
-                      : 'border-transparent bg-transparent hover:border-black/8 hover:bg-white/28'
+                      : 'border-transparent bg-transparent hover:border-black/8 hover:bg-white/28',
                   )}
                   aria-pressed={isActive}
                 >
@@ -214,7 +213,7 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                         'mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl',
                         isActive
                           ? 'bg-[color:var(--landing-panel)] text-[color:var(--landing-accent-strong)]'
-                          : 'bg-white/44 text-black/75'
+                          : 'bg-white/44 text-black/75',
                       )}
                     >
                       <item.icon className="size-5" />
@@ -224,7 +223,7 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                       <p
                         className={cn(
                           'text-[1.15rem] leading-7 font-medium tracking-[-0.04em] text-[color:var(--landing-ink)]',
-                          isActive && 'text-[color:var(--landing-accent-strong)]'
+                          isActive && 'text-[color:var(--landing-accent-strong)]',
                         )}
                       >
                         {item.title}
@@ -232,7 +231,9 @@ export function InteractiveShowcaseSection(): React.ReactElement {
                       <div
                         className={cn(
                           'grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-200',
-                          isActive ? 'mt-2 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                          isActive
+                            ? 'mt-2 grid-rows-[1fr] opacity-100'
+                            : 'grid-rows-[0fr] opacity-0',
                         )}
                       >
                         <div className="overflow-hidden">

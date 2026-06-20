@@ -1,3 +1,9 @@
+import {
+  deleteWorkosUserRecords,
+  patchWorkosUserRecords,
+  upsertWorkosUserRecord,
+} from '@carefully-built/convex-workos';
+
 import type { Id, Doc } from '../_generated/dataModel';
 import type { MutationCtx } from '../_generated/server';
 
@@ -11,80 +17,28 @@ export interface SyncedWorkOSUser {
 
 type UserRole = Doc<'users'>['role'];
 
-function getName(user: SyncedWorkOSUser): string | undefined {
-  return [user.firstName, user.lastName].filter(Boolean).join(' ') || undefined;
-}
-
-function getUserFields(
-  user: SyncedWorkOSUser
-): Omit<Doc<'users'>, '_id' | '_creationTime' | 'organizationId' | 'role' | 'createdAt' | 'updatedAt'> {
-  return {
-    workosId: user.workosId,
-    email: user.email,
-    name: getName(user),
-    firstName: user.firstName ?? undefined,
-    lastName: user.lastName ?? undefined,
-    imageUrl: user.imageUrl ?? undefined,
-  };
-}
-
-async function getBaseUser(ctx: MutationCtx, workosId: string): Promise<Doc<'users'> | undefined> {
-  const users = await ctx.db
-    .query('users')
-    .withIndex('by_workos_id', (q) => q.eq('workosId', workosId))
-    .collect();
-  return users.find((user) => user.organizationId === undefined);
-}
-
 export async function upsertUserRecord(
   ctx: MutationCtx,
   user: SyncedWorkOSUser,
   organizationId?: string,
-  role: UserRole = 'member'
+  role: UserRole = 'member',
 ): Promise<Id<'users'>> {
-  const existing = organizationId
-    ? await ctx.db
-      .query('users')
-      .withIndex('by_workos_id_and_organization', (q) => q.eq('workosId', user.workosId).eq('organizationId', organizationId))
-      .unique()
-    : await getBaseUser(ctx, user.workosId);
-  const updatedAt = Date.now();
-  const record = {
-    ...getUserFields(user),
+  return await upsertWorkosUserRecord({
+    ctx,
+    tableName: 'users',
+    user,
     organizationId,
-    role: existing?.role ?? role,
-    updatedAt,
-  };
-  if (existing) {
-    await ctx.db.patch(existing._id, record);
-    return existing._id;
-  }
-  return ctx.db.insert('users', {
-    ...record,
-    createdAt: updatedAt,
-  });
+    role,
+  }) as Id<'users'>;
 }
 
 export async function patchUserRecords(
   ctx: MutationCtx,
-  user: SyncedWorkOSUser
+  user: SyncedWorkOSUser,
 ): Promise<void> {
-  const users = await ctx.db
-    .query('users')
-    .withIndex('by_workos_id', (q) => q.eq('workosId', user.workosId))
-    .collect();
-  if (users.length === 0) {
-    await upsertUserRecord(ctx, user);
-    return;
-  }
-  const patch = { ...getUserFields(user), updatedAt: Date.now() };
-  await Promise.all(users.map(async (record) => ctx.db.patch(record._id, patch)));
+  await patchWorkosUserRecords({ ctx, tableName: 'users', user });
 }
 
 export async function deleteUserRecords(ctx: MutationCtx, workosId: string): Promise<void> {
-  const users = await ctx.db
-    .query('users')
-    .withIndex('by_workos_id', (q) => q.eq('workosId', workosId))
-    .collect();
-  await Promise.all(users.map(async (user) => ctx.db.delete(user._id)));
+  await deleteWorkosUserRecords({ ctx, tableName: 'users', workosId });
 }

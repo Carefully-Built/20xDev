@@ -321,8 +321,8 @@ function TechStackCard({
   tech,
   className = '',
 }: {
-  tech: TechItem;
-  className?: string;
+  readonly tech: TechItem;
+  readonly className?: string;
 }): React.ReactElement {
   const content = (
     <>
@@ -352,15 +352,15 @@ function TechStackCard({
 
   const classes = `group flex flex-col gap-3 rounded-[1.5rem] border border-black/6 bg-white/78 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--landing-accent-strong)]/25 hover:shadow-[0_20px_45px_rgba(42,34,28,0.08)] ${className}`;
 
-  if (!tech.href) {
-    return <div className={classes}>{content}</div>;
+  if (tech.href) {
+    return (
+      <Link href={tech.href} target="_blank" rel="noopener noreferrer" className={classes}>
+        {content}
+      </Link>
+    );
   }
 
-  return (
-    <Link href={tech.href} target="_blank" rel="noopener noreferrer" className={classes}>
-      {content}
-    </Link>
-  );
+  return <div className={classes}>{content}</div>;
 }
 
 function getCollapsedVisibleClass(index: number, isExpanded: boolean): string {

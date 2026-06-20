@@ -19,7 +19,7 @@ export const isPostHogEnabled = !!POSTHOG_KEY;
  * Initialize PostHog (call once in app root)
  */
 export function initPostHog(): void {
-  if (typeof window === 'undefined' || !POSTHOG_KEY) {
+  if (typeof globalThis.window === 'undefined' || !POSTHOG_KEY) {
     return;
   }
 
@@ -78,7 +78,7 @@ export function initPostHog(): void {
  * Capture page view - call on route change
  */
 export function capturePageView(url: string): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.capture('$pageview', { $current_url: url });
 }
 
@@ -86,7 +86,7 @@ export function capturePageView(url: string): void {
  * Capture page leave
  */
 export function capturePageLeave(): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.capture('$pageleave');
 }
 
@@ -94,7 +94,7 @@ export function capturePageLeave(): void {
  * Identify user for tracking context
  */
 export function identifyUser(userId: string, properties?: Record<string, unknown>): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.identify(userId, properties);
 }
 
@@ -102,7 +102,7 @@ export function identifyUser(userId: string, properties?: Record<string, unknown
  * Reset user identity (on logout)
  */
 export function resetUser(): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.reset();
 }
 
@@ -110,7 +110,7 @@ export function resetUser(): void {
  * Track custom event
  */
 export function trackEvent(eventName: string, properties?: Record<string, unknown>): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.capture(eventName, properties);
 }
 
@@ -118,7 +118,7 @@ export function trackEvent(eventName: string, properties?: Record<string, unknow
  * Get PostHog feature flag value
  */
 export function getFeatureFlag(flagKey: string): boolean | string | undefined {
-  if (!isPostHogEnabled || typeof window === 'undefined') return undefined;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return undefined;
   return posthog.getFeatureFlag(flagKey);
 }
 
@@ -126,7 +126,7 @@ export function getFeatureFlag(flagKey: string): boolean | string | undefined {
  * Check if feature flag is enabled
  */
 export function isFeatureEnabled(flagKey: string): boolean {
-  if (!isPostHogEnabled || typeof window === 'undefined') return false;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return false;
   return posthog.isFeatureEnabled(flagKey) ?? false;
 }
 
@@ -134,7 +134,7 @@ export function isFeatureEnabled(flagKey: string): boolean {
  * Start session recording manually
  */
 export function startSessionRecording(): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.startSessionRecording();
 }
 
@@ -142,7 +142,7 @@ export function startSessionRecording(): void {
  * Stop session recording
  */
 export function stopSessionRecording(): void {
-  if (!isPostHogEnabled || typeof window === 'undefined') return;
+  if (!isPostHogEnabled || typeof globalThis.window === 'undefined') return;
   posthog.stopSessionRecording();
 }
 

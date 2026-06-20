@@ -23,12 +23,13 @@ interface NavigatorWithUserAgentData extends Navigator {
 let activeShortcutToken: symbol | null = null;
 
 function getDesktopShortcutModifierLabel(): string {
-  if (typeof navigator === 'undefined') {
+  if (typeof globalThis.navigator === 'undefined') {
     return 'Ctrl';
   }
 
-  const navigatorWithUserAgentData = navigator as NavigatorWithUserAgentData;
-  const platform = navigatorWithUserAgentData.userAgentData?.platform ?? navigator.userAgent;
+  const navigatorWithUserAgentData = globalThis.navigator as NavigatorWithUserAgentData;
+  const platform =
+    navigatorWithUserAgentData.userAgentData?.platform ?? globalThis.navigator.userAgent;
 
   return /Mac|iPhone|iPad|iPod/i.test(platform) ? 'Cmd' : 'Ctrl';
 }
@@ -82,7 +83,7 @@ export function showDestructiveActionToast({
     if (activeShortcutToken === shortcutToken) {
       activeShortcutToken = null;
     }
-    window.removeEventListener('keydown', handleKeyDown, true);
+    globalThis.window.removeEventListener('keydown', handleKeyDown, true);
   };
 
   const confirm = (event?: { preventDefault: () => void; stopPropagation: () => void }): void => {
@@ -97,14 +98,14 @@ export function showDestructiveActionToast({
     cleanup();
     toast.dismiss(toastId);
 
-    void Promise.resolve(onConfirm()).catch((error: unknown) => {
+    Promise.resolve(onConfirm()).catch((error: unknown) => {
       console.error('Destructive action failed:', error);
     });
   };
 
   const handleKeyDown = createConfirmShortcutHandler(shortcutToken, desktopModifierLabel, confirm);
 
-  window.addEventListener('keydown', handleKeyDown, true);
+  globalThis.window.addEventListener('keydown', handleKeyDown, true);
 
   const toastId = toast.custom(
     () =>

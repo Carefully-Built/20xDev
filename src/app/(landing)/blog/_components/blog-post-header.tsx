@@ -6,18 +6,16 @@ import { getBlogReadingTime } from '@/lib/blog';
 import { getBlogImageAlt, getBlogImageSrc } from '@/lib/blog-image';
 
 interface BlogPostHeaderProps {
-  post: Post;
+  readonly post: Post;
 }
 
-export function BlogPostHeader({
-  post,
-}: BlogPostHeaderProps): React.ReactElement {
+export function BlogPostHeader({ post }: BlogPostHeaderProps): React.ReactElement {
   const readingTime = getBlogReadingTime(post.body);
   const primaryCategory = post.categories[0];
 
   return (
     <header className="mb-12 space-y-6 md:mb-14">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.84rem] uppercase tracking-[0.14em] text-[var(--landing-muted)]">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.84rem] tracking-[0.14em] text-[var(--landing-muted)] uppercase">
         {primaryCategory ? (
           <Link
             href={`/blog/category/${primaryCategory.slug.current}`}

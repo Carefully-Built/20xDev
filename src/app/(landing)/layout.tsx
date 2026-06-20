@@ -4,7 +4,7 @@ import type { LayoutProps } from '@/types';
 
 import { PageLayout } from '@/components/layout/PageLayout';
 
-export default function LandingLayout({ children }: LayoutProps): React.ReactElement {
+export default function LandingLayout({ children }: Readonly<LayoutProps>): React.ReactElement {
   return (
     <div className="landing-shell">
       <LandingHeaderObserver />

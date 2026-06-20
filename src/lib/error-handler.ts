@@ -36,7 +36,7 @@ interface ErrorReport {
 function generateFingerprint(error: Error, category: ErrorCategory): string {
   const message = error.message.slice(0, 100);
   const stack = error.stack?.split('\n')[1]?.trim() ?? '';
-  return `${category}:${message}:${stack}`.replace(/\s+/g, '_').slice(0, 200);
+  return `${category}:${message}:${stack}`.replaceAll(/\s+/g, '_').slice(0, 200);
 }
 
 /**
@@ -107,14 +107,14 @@ export function captureError(
     severity,
     context: {
       ...context,
-      url: typeof window !== 'undefined' ? window.location.href : undefined,
+      url: typeof globalThis.window !== 'undefined' ? globalThis.window.location.href : undefined,
     },
     timestamp: new Date().toISOString(),
     fingerprint,
   };
 
   // Log to PostHog
-  if (typeof window !== 'undefined' && posthog) {
+  if (typeof globalThis.window !== 'undefined') {
     // Use PostHog's exception capture format
     posthog.capture('$exception', {
       $exception_message: report.message,
@@ -122,7 +122,8 @@ export function captureError(
       $exception_type: normalizedError.name || category,
       $exception_source: 'custom',
       $exception_fingerprint: fingerprint,
-      $exception_personURL: typeof window !== 'undefined' ? window.location.href : undefined,
+      $exception_personURL:
+        typeof globalThis.window !== 'undefined' ? globalThis.window.location.href : undefined,
       // Custom properties
       error_id: errorId,
       error_category: category,

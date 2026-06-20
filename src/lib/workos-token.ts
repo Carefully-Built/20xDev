@@ -1,6 +1,6 @@
 function decodeBase64Url(value: string): string | null {
   try {
-    const base64 = value.replace(/-/g, '+').replace(/_/g, '/');
+    const base64 = value.replaceAll('-', '+').replaceAll('_', '/');
     return globalThis.atob(base64);
   } catch {
     return null;

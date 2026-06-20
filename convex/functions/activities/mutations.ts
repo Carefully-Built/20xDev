@@ -1,4 +1,5 @@
 import { v } from 'convex/values';
+import { createTimestampFields, updateTimestampFields } from '@carefully-built/convex-crud';
 
 import { mutation } from '../../_generated/server';
 import { requireOrganizationUser } from '../../lib/organization_user';
@@ -55,8 +56,7 @@ export const create = mutation({
       status: args.data.status ?? 'todo',
       organizationId: args.organizationId,
       createdBy: currentUser._id,
-      createdAt: now,
-      updatedAt: now,
+      ...createTimestampFields(now),
     });
   },
 });
@@ -73,7 +73,7 @@ export const update = mutation({
     await ctx.db.patch(args.id, {
       ...args.data,
       title: args.data.title?.trim(),
-      updatedAt: Date.now(),
+      ...updateTimestampFields(),
     });
 
     return ctx.db.get(args.id);

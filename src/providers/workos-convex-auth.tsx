@@ -66,7 +66,9 @@ export function useWorkosConvexAuth(): {
   );
 
   useEffect(() => {
-    void loadToken(false, true);
+    loadToken(false, true).catch((error: unknown) => {
+      console.warn('Unable to load data auth token:', error);
+    });
   }, [loadToken]);
 
   const fetchAccessToken = useCallback(

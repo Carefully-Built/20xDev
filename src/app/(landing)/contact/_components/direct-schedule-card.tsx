@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 interface DirectScheduleCardProps {
-  url: string;
+  readonly url: string;
 }
 
 export function DirectScheduleCard({ url }: DirectScheduleCardProps): React.ReactElement {

@@ -4,6 +4,7 @@ import { api } from '@convex/_generated/api';
 import { convexServer } from '@/lib/convex-server';
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import { createSession, getSession } from '@/lib/session';
+import { SUPER_ADMIN_EMAILS_ENV } from '@/lib/super-admin-access';
 import { WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI, workos } from '@/lib/workos';
 
 async function getOrganizationLogoUrl(organizationId: string): Promise<string | null> {
@@ -20,6 +21,7 @@ async function getOrganizationLogoUrl(organizationId: string): Promise<string | 
 
 const SuperAdminPage = createSuperAdminPage({
   access: {
+    allowedEmailsEnv: SUPER_ADMIN_EMAILS_ENV,
     fallbackPath: '/dashboard',
     loginPath: '/login',
   },

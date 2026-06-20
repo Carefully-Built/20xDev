@@ -6,8 +6,9 @@ import {
   useCrudTableState,
   type CrudFilterDefinition,
 } from '@carefully-built/crud';
+import { buildContactImportCsvTemplate, buildCsvExport } from '@carefully-built/import-export';
 import { Button, Chip, EmptyStateCard, type Column } from '@carefully-built/ui';
-import { Plus, SearchX, UserRound, Workflow } from 'lucide-react';
+import { Download, FileDown, Plus, SearchX, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
@@ -20,6 +21,7 @@ import {
   useDeleteContact,
   useUpdateContact,
 } from '@/hooks/use-contacts';
+import { useUsersByOrganization } from '@/hooks/use-users';
 import { showDestructiveActionToast } from '@/lib/ui/destructive-action-toast';
 import { useOrganization } from '@/providers';
 
@@ -59,10 +61,20 @@ const statusFilter: CrudFilterDefinition<Contact> = {
   },
 };
 
+function downloadCsv(filename: string, csv: string): void {
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 export function ContactsPageClient(): React.ReactElement {
   const router = useRouter();
   const { organizationId } = useOrganization();
   const contacts = useContactsByOrganization(organizationId);
+  const users = useUsersByOrganization(organizationId);
   const createContact = useCreateContact(organizationId);
   const updateContact = useUpdateContact(organizationId);
   const deleteContact = useDeleteContact(organizationId);
@@ -137,13 +149,43 @@ export function ContactsPageClient(): React.ReactElement {
     });
   };
 
+  const exportContacts = (): void => {
+    downloadCsv(
+      'contacts.csv',
+      buildCsvExport(tableData, [
+        { header: 'Name', value: (contact) => contact.name },
+        { header: 'Company', value: (contact) => contact.company },
+        { header: 'Email', value: (contact) => contact.email },
+        { header: 'Phone', value: (contact) => contact.phone },
+        { header: 'Owner', value: (contact) => contact.owner },
+        { header: 'Status', value: (contact) => statusLabels[contact.status] },
+        { header: 'Value', value: (contact) => contact.value },
+      ]),
+    );
+  };
+
   return (
     <DashboardPageLayout
       actions={
-        <Button type="button" size="sm" onClick={openCreateSheet}>
-          <Plus className="size-4" />
-          Add contact
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => downloadCsv('contacts-import-template.csv', buildContactImportCsvTemplate())}
+          >
+            <FileDown className="size-4" />
+            Template
+          </Button>
+          <Button type="button" size="sm" variant="outline" onClick={exportContacts}>
+            <Download className="size-4" />
+            Export
+          </Button>
+          <Button type="button" size="sm" onClick={openCreateSheet}>
+            <Plus className="size-4" />
+            Add contact
+          </Button>
+        </div>
       }
       title="Contacts"
     >
@@ -177,6 +219,7 @@ export function ContactsPageClient(): React.ReactElement {
         open={isSheetOpen}
         onOpenChange={setIsSheetOpen}
         onSubmit={saveContact}
+        users={users ?? []}
       />
     </DashboardPageLayout>
   );

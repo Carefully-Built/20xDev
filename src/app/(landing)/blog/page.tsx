@@ -12,11 +12,7 @@ import type { Metadata } from 'next';
 
 import { siteConfig } from '@/config/site';
 import { client } from '@/sanity/lib/client';
-import {
-  getCategoriesQuery,
-  getPostCountQuery,
-  getPostsQuery,
-} from '@/sanity/lib/queries';
+import { getCategoriesQuery, getPostCountQuery, getPostsQuery } from '@/sanity/lib/queries';
 
 const POSTS_PER_PAGE = 12;
 
@@ -27,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 interface BlogPageProps {
-  searchParams: Promise<{ page?: string }>;
+  readonly searchParams: Promise<{ readonly page?: string }>;
 }
 
 async function getBlogPageData(offset: number): Promise<{
@@ -42,9 +38,13 @@ async function getBlogPageData(offset: number): Promise<{
       { next: { tags: ['posts'] } },
     ),
     client.fetch<number>(getPostCountQuery, {}, { next: { tags: ['posts'] } }),
-    client.fetch<Category[]>(getCategoriesQuery, {}, {
-      next: { tags: ['categories'] },
-    }),
+    client.fetch<Category[]>(
+      getCategoriesQuery,
+      {},
+      {
+        next: { tags: ['categories'] },
+      },
+    ),
   ]);
 
   return { categories, posts, totalCount };
@@ -55,8 +55,7 @@ export default async function BlogPage({
 }: BlogPageProps): Promise<React.ReactElement> {
   const params = await searchParams;
   const parsedPage = Number(params.page);
-  const currentPage =
-    Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const currentPage = Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const offset = (currentPage - 1) * POSTS_PER_PAGE;
   const { posts, totalCount, categories } = await getBlogPageData(offset);
 
@@ -84,14 +83,12 @@ export default async function BlogPage({
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <FileText className="mb-4 size-12 text-muted-foreground" />
+            <FileText className="text-muted-foreground mb-4 size-12" />
             <h2 className="text-lg font-semibold">
               <T id="blog.noPosts">No posts yet</T>
             </h2>
-            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-              <T id="blog.noPostsDescription">
-                Check back soon for new content.
-              </T>
+            <p className="text-muted-foreground mt-1 max-w-sm text-sm">
+              <T id="blog.noPostsDescription">Check back soon for new content.</T>
             </p>
           </div>
         )}

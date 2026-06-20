@@ -65,7 +65,9 @@ export function usePagination({
   const goToPage = useCallback(
     (newPage: number) => {
       const validPage = Math.min(Math.max(1, newPage), totalPages);
-      void setPage(validPage === 1 ? null : validPage);
+      setPage(validPage === 1 ? null : validPage).catch((error: unknown) => {
+        console.error('Unable to update pagination state:', error);
+      });
     },
     [totalPages, setPage]
   );

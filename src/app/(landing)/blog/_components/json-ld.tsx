@@ -2,8 +2,8 @@ import type { Post } from '@/types/blog';
 import { urlForImage } from '@/sanity/lib/image';
 
 interface JsonLdProps {
-  post: Post;
-  url: string;
+  readonly post: Post;
+  readonly url: string;
 }
 
 export function JsonLd({ post, url }: JsonLdProps): React.ReactElement {
@@ -25,12 +25,7 @@ export function JsonLd({ post, url }: JsonLdProps): React.ReactElement {
     url,
   };
 
-  const safeJson = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+  const safeJson = JSON.stringify(jsonLd).replaceAll('<', String.raw`\u003c`);
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: safeJson }}
-    />
-  );
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJson }} />;
 }
