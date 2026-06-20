@@ -1,61 +1,63 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { OrganizationProvider, UserProvider } from '@/providers';
-import { AppSidebar, SidebarProvider, useSidebar } from './app-sidebar';
-import type { WorkOSUser } from '@/hooks/use-sync-user';
+import { AppNavigationShell, SidebarInset, SidebarProvider } from '@carefully-built/app-shell';
+import { TooltipProvider } from '@carefully-built/ui';
+import type { WorkOSOrganization } from '@carefully-built/workos';
+import { usePathname } from 'next/navigation';
 
-import type { UserData } from '@/providers';
+import type { ReactNode } from 'react';
 
-interface MainContentProps {
-  readonly children: React.ReactNode;
-}
-
-function MainContent({ children }: MainContentProps): React.ReactElement {
-  const { isCollapsed } = useSidebar();
-  
-  return (
-    <main 
-      className={cn(
-        "min-h-screen transition-all duration-200 ease-in-out",
-        "md:pl-14",
-        !isCollapsed && "md:pl-[220px]",
-        "pt-16 md:pt-0"
-      )}
-    >
-      <div className="p-4 lg:p-6">
-        {children}
-      </div>
-    </main>
-  );
-}
+import { DashboardLogo } from './dashboard-logo';
+import { bottomNavItems, navItems } from './dashboard-navigation';
+import { DashboardSearch } from './dashboard-search';
+import { DashboardOrgSwitcher } from './dashboard-org-switcher';
 
 interface DashboardShellProps {
-  readonly children: React.ReactNode;
-  readonly user: WorkOSUser & UserData;
+  readonly children: ReactNode;
+  readonly initialOrganizationId?: string | null;
+  readonly initialOrganizations?: readonly WorkOSOrganization[];
 }
 
-export function DashboardShell({ children, user }: DashboardShellProps): React.ReactElement {
-  const userData: UserData = {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    imageUrl: user.imageUrl,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    organizationId: user.organizationId,
-  };
+export function DashboardShell({
+  children,
+  initialOrganizationId,
+  initialOrganizations,
+}: DashboardShellProps): React.ReactElement {
+  const pathname = usePathname();
 
   return (
-    <UserProvider initialUser={userData}>
-      <OrganizationProvider initialOrganizationId={user.organizationId}>
-        <SidebarProvider>
-          <div className="min-h-screen">
-            <AppSidebar />
-            <MainContent>{children}</MainContent>
-          </div>
-        </SidebarProvider>
-      </OrganizationProvider>
-    </UserProvider>
+    <TooltipProvider>
+      <SidebarProvider>
+        <AppNavigationShell
+          currentPath={pathname}
+          logo={<DashboardLogo />}
+          logoHref="/dashboard"
+          navItems={navItems}
+          bottomNavItems={bottomNavItems}
+          mobileNavigation={{
+            bottom: ['overview', 'contacts', 'pipeline', 'files'],
+          }}
+          renderSearch={({ isCollapsed, isMobile, onNavigate, triggerVariant }) => (
+            <DashboardSearch
+              isCollapsed={isCollapsed}
+              isMobile={isMobile}
+              onNavigate={onNavigate}
+              triggerVariant={triggerVariant}
+            />
+          )}
+          renderFooter={({ isCollapsed, isMobile }) => (
+            <DashboardOrgSwitcher
+              collapsed={isCollapsed}
+              initialOrganizationId={initialOrganizationId}
+              initialOrganizations={initialOrganizations}
+              mobileSheet={isMobile}
+            />
+          )}
+        />
+        <SidebarInset as="main" hasMobileBottomNav contentClassName="space-y-4">
+          {children}
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }

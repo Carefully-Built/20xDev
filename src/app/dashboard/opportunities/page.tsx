@@ -1,8 +1,7 @@
 'use client';
 
-import { OpportunityBoard } from '../crm/_components/opportunity-board';
-import { mockOpportunities } from '../crm/_lib';
+import { OpportunitiesBoard } from './_components/opportunities-board';
 
-export default function OpportunitiesPage(): React.ReactElement {
-  return <OpportunityBoard opportunities={mockOpportunities} />;
+export default function DashboardOpportunitiesPage(): React.ReactElement {
+  return <OpportunitiesBoard />;
 }

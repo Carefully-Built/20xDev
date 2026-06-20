@@ -56,7 +56,6 @@ export function useDeleteFile() {
 interface UploadFileParams {
   file: File;
   organizationId: string;
-  uploadedBy: Id<'users'>;
   generateUploadUrl: () => Promise<string>;
   saveFile: (args: {
     storageId: Id<'_storage'>;
@@ -64,7 +63,6 @@ interface UploadFileParams {
     mimeType: string;
     size: number;
     organizationId: string;
-    uploadedBy: Id<'users'>;
   }) => Promise<Id<'files'>>;
 }
 
@@ -74,7 +72,6 @@ interface UploadFileParams {
 export async function uploadFile({
   file,
   organizationId,
-  uploadedBy,
   generateUploadUrl,
   saveFile,
 }: UploadFileParams): Promise<Id<'files'>> {
@@ -101,6 +98,5 @@ export async function uploadFile({
     mimeType: file.type,
     size: file.size,
     organizationId,
-    uploadedBy,
   });
 }

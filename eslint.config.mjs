@@ -22,6 +22,7 @@ export default tseslint.config(
       'convex/_generated/**',
       '.netlify/**',
       'scripts/**',
+      'tests/**',
       '*.config.mjs',
       'deno.lock',
     ],

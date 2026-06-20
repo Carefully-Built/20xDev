@@ -13,7 +13,7 @@ export const siteConfig = {
     'Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.',
 
   // URLs
-  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
 
   // Legal
   companyName: '20xdev',

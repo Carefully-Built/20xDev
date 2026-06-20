@@ -10,6 +10,7 @@
     "noEmit": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "preserveSymlinks": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -48,5 +49,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "convex/**"]
+  "exclude": ["node_modules", "convex/**", "tests/**"]
 }

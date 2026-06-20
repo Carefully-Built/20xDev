@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@carefully-built/agenda/styles.css";
+
+@source "../**/*.{ts,tsx}";
+@source "../../../carefully-built-saas-kit/packages/**/*.{ts,tsx,mjs}";
 
 /* WorkOS Widgets styles */
 @import '@radix-ui/themes/styles.css';

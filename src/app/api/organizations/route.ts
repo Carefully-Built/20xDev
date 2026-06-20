@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
-import { getSession } from '@/lib/session';
+import { getSession, refreshSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
 
 interface CreateOrgBody {
@@ -36,11 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       roleSlug: 'admin',
     });
 
-    const { refreshSession } = await import('@workos-inc/authkit-nextjs');
-    await refreshSession({
-      organizationId: org.id,
-      ensureSignedIn: true,
-    });
+    await refreshSession(org.id);
 
     await syncAuthenticatedUser(session.user, org.id);
 

@@ -1,5 +1,6 @@
 {
   "$schema": "https://knip.dev/schema.json",
+  "entry": ["tests/**/*.test.ts"],
   "ignore": ["src/components/ui/**", "src/types/**", "src/schemas/**"],
   "ignoreFiles": [
     "scripts/**",

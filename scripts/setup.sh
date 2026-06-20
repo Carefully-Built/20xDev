@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Setting up Blueprint with WorkOS + Convex..."
+echo "🚀 Setting up 20xdev with WorkOS + Convex..."
 echo ""
 
 # Check if .env exists

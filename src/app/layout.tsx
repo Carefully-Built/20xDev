@@ -1,6 +1,7 @@
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { GTProvider } from 'gt-next';
+import Script from 'next/script';
 import { Toaster } from 'sonner';
 
 import type { Metadata, Viewport } from 'next';
@@ -34,13 +35,29 @@ interface RootLayoutProps {
   readonly children: ReactNode;
 }
 
+const removeJamIframeBeforeHydration = `
+(() => {
+  const removeJamIframe = () => document.getElementById('jam-ui')?.remove();
+
+  removeJamIframe();
+
+  const observer = new MutationObserver(removeJamIframe);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  window.addEventListener('load', () => observer.disconnect(), { once: true });
+})();
+`;
+
 const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
   <html
     lang="en"
     className={`${GeistSans.variable} ${GeistMono.variable}`}
     suppressHydrationWarning
   >
-    <body className="min-h-screen bg-background font-sans antialiased">
+    <Script id="remove-jam-iframe-before-hydration" strategy="beforeInteractive">
+      {removeJamIframeBeforeHydration}
+    </Script>
+    <body className="bg-background min-h-screen font-sans antialiased">
       <GTProvider>
         <Providers>
           <TooltipProvider>{children}</TooltipProvider>

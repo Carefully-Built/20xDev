@@ -23,7 +23,7 @@ export function AuthButton({ variant = 'default' }: AuthButtonProps): React.Reac
           'rounded-full border border-black/8 bg-white/78 px-4 text-[0.95rem] font-medium tracking-[-0.02em] text-[color:var(--landing-ink)] shadow-none hover:bg-white',
       )}
     >
-      <Link href={isLoggedIn ? '/dashboard' : '/login'}>
+      <Link href="/dashboard">
         {isLoggedIn ? <T>Dashboard</T> : <T>Sign In</T>}
       </Link>
     </Button>

@@ -1,6 +1,9 @@
 import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
+import { requireOrganizationUser } from '../../lib/organization_user';
+import { buildFileUploadedNotification } from '../notifications/builders';
+import { createNotification } from '../notifications/helpers';
 
 /**
  * Generate an upload URL for client-side file upload
@@ -21,19 +24,46 @@ export const saveFile = mutation({
     name: v.string(),
     mimeType: v.string(),
     size: v.number(),
+    associations: v.optional(
+      v.array(
+        v.object({
+          entityId: v.string(),
+          entityType: v.union(v.literal('contact'), v.literal('opportunity')),
+          label: v.string(),
+          typeLabel: v.string(),
+          value: v.string(),
+        }),
+      ),
+    ),
     organizationId: v.string(),
-    uploadedBy: v.id('users'),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert('files', {
+    const currentUser = await requireOrganizationUser(ctx, args.organizationId);
+    const createdAt = Date.now();
+    const fileId = await ctx.db.insert('files', {
       storageId: args.storageId,
       name: args.name,
       mimeType: args.mimeType,
       size: args.size,
+      associations: args.associations,
       organizationId: args.organizationId,
-      uploadedBy: args.uploadedBy,
-      createdAt: Date.now(),
+      uploadedBy: currentUser._id,
+      createdAt,
     });
+    const associationLabel = args.associations?.[0]?.label;
+
+    await createNotification(
+      ctx,
+      buildFileUploadedNotification({
+        associationLabel,
+        createdAt,
+        fileId,
+        fileName: args.name,
+        organizationId: args.organizationId,
+      }),
+    );
+
+    return fileId;
   },
 });
 

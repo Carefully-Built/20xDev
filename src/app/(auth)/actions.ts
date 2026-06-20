@@ -1,17 +1,16 @@
 'use server';
 
-import { redirect } from 'next/navigation';
-
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
+import { createSession } from '@/lib/session';
 import { WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI, workos } from '@/lib/workos';
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function getGoogleAuthUrl(): Promise<string> {
-  return workos.userManagement.getAuthorizationUrl({
+  return await Promise.resolve(workos.userManagement.getAuthorizationUrl({
     clientId: WORKOS_CLIENT_ID,
-    redirectUri: WORKOS_REDIRECT_URI,
     provider: 'GoogleOAuth',
-  });
+    redirectUri: WORKOS_REDIRECT_URI,
+    state: '/dashboard',
+  }));
 }
 
 export async function signUp(formData: FormData): Promise<{ success: boolean; error?: string }> {
@@ -30,11 +29,10 @@ export async function signUp(formData: FormData): Promise<{ success: boolean; er
         clientId: WORKOS_CLIENT_ID,
         email,
         password,
-      });
+    });
 
     await syncAuthenticatedUser(authenticatedUser);
-    const { saveSession } = await import('@workos-inc/authkit-nextjs');
-    await saveSession({ accessToken, refreshToken, user: authenticatedUser }, WORKOS_REDIRECT_URI);
+    await createSession({ accessToken, refreshToken, user: authenticatedUser });
 
     return { success: true };
   } catch (error) {
@@ -59,8 +57,7 @@ export async function signIn(formData: FormData): Promise<{ success: boolean; er
       });
 
     await syncAuthenticatedUser(user);
-    const { saveSession } = await import('@workos-inc/authkit-nextjs');
-    await saveSession({ accessToken, refreshToken, user }, WORKOS_REDIRECT_URI);
+    await createSession({ accessToken, refreshToken, user });
 
     return { success: true };
   } catch (error) {
@@ -106,10 +103,4 @@ export async function resetPassword(
       error: error instanceof Error ? error.message : 'Failed to reset password',
     };
   }
-}
-
-export async function signOutAction(): Promise<void> {
-  const { signOut } = await import('@workos-inc/authkit-nextjs');
-  await signOut({ returnTo: '/' });
-  redirect('/');
 }

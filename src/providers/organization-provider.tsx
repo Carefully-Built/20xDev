@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@workos-inc/authkit-nextjs/components';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import type { ReactNode } from 'react';
@@ -31,40 +30,24 @@ export function OrganizationProvider({
   children,
   initialOrganizationId,
 }: OrganizationProviderProps): React.ReactElement {
-  const [organizationId, setOrganizationId] = useState(
-    initialOrganizationId ?? null
-  );
-  const organizationId = authOrganizationId ?? fallbackOrganizationId;
+  const [organizationId, setOrganizationId] = useState(initialOrganizationId ?? null);
 
   const refreshOrganization = useCallback((): void => {
     fetch('/api/organizations')
       .then((res) => (res.ok ? res.json() : { organizations: [] }))
       .then((data: OrganizationsResponse) => {
-        setFallbackOrganizationId(getNextOrganizationId(data));
+        setOrganizationId(getNextOrganizationId(data));
       })
       .catch(() => {
-        // Silently fail
+        // Keep the current organization when the optional API is unavailable.
       });
   }, []);
 
   useEffect(() => {
-    setFallbackOrganizationId(initialOrganizationId ?? null);
+    setOrganizationId(initialOrganizationId ?? null);
   }, [initialOrganizationId]);
 
   useEffect(() => {
-    if (authOrganizationId) {
-      setFallbackOrganizationId(authOrganizationId);
-      return;
-    }
-    if (!loading && !user) {
-      setFallbackOrganizationId(null);
-    }
-  }, [authOrganizationId, loading, user]);
-
-  useEffect(() => {
-    if (loading || authOrganizationId || !user) {
-      return;
-    }
     const handleOrgUpdate = (): void => {
       refreshOrganization();
     };
@@ -73,13 +56,16 @@ export function OrganizationProvider({
     return (): void => {
       globalThis.removeEventListener('org-updated', handleOrgUpdate);
     };
-  }, [authOrganizationId, loading, refreshOrganization, user]);
+  }, [refreshOrganization]);
 
-  const contextValue = useMemo(() => ({
-    organizationId,
-    setOrganizationId: setFallbackOrganizationId,
-    refreshOrganization,
-  }), [organizationId, refreshOrganization]);
+  const contextValue = useMemo(
+    () => ({
+      organizationId,
+      refreshOrganization,
+      setOrganizationId,
+    }),
+    [organizationId, refreshOrganization],
+  );
 
   return (
     <OrganizationContext.Provider value={contextValue}>

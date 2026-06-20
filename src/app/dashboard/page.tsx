@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { OverviewPage } from './_components/overview-page';
 
-export default function DashboardPage(): never {
-  redirect('/dashboard/opportunities');
+export default function DashboardPage(): React.ReactElement {
+  return <OverviewPage />;
 }

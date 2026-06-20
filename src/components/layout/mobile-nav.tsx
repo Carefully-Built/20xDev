@@ -15,6 +15,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { siteConfig } from '@/config/site';
+import { useUser } from '@/providers';
 
 interface MobileNavProps {
   readonly items: readonly NavItem[];
@@ -43,8 +44,10 @@ export function MobileNav({
   items,
   variant = 'default',
 }: MobileNavProps): React.ReactElement {
+  const { user } = useUser();
   const [open, setOpen] = useState(false);
   const classes = getMobileNavClasses(variant);
+  const isLoggedIn = !!user;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -79,7 +82,7 @@ export function MobileNav({
                 setOpen(false);
               }}
             >
-              <Link href="/login">Sign In</Link>
+              <Link href="/dashboard">{isLoggedIn ? 'Dashboard' : 'Sign In'}</Link>
             </Button>
           </div>
         </nav>

@@ -1,15 +1,15 @@
-import { Suspense } from 'react';
+'use client';
 
-import { AuthLayout } from '../_components/auth-layout';
+import { AuthUpdatePasswordPage } from '@carefully-built/auth-pages/pages';
 
-import { UpdatePasswordForm } from './_components/update-password-form';
+import { resetPassword } from '../actions';
 
 export default function UpdatePasswordPage(): React.ReactElement {
   return (
-    <AuthLayout subtitle="Enter your new password" title="Update password">
-      <Suspense fallback={<div className="animate-pulse h-48 bg-muted rounded-lg" />}>
-        <UpdatePasswordForm />
-      </Suspense>
-    </AuthLayout>
+    <AuthUpdatePasswordPage
+      resetPassword={resetPassword}
+      subtitle="Enter your new password"
+      title="Update password"
+    />
   );
 }

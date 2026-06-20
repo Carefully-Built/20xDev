@@ -1,11 +1,15 @@
-import { AuthLayout } from '../_components/auth-layout';
+'use client';
 
-import { ForgotPasswordForm } from './_components/forgot-password-form';
+import { AuthForgotPasswordPage } from '@carefully-built/auth-pages/pages';
+
+import { sendPasswordResetEmail } from '../actions';
 
 export default function ForgotPasswordPage(): React.ReactElement {
   return (
-    <AuthLayout subtitle="Enter your email to receive a password reset link" title="Forgot password">
-      <ForgotPasswordForm />
-    </AuthLayout>
+    <AuthForgotPasswordPage
+      sendPasswordResetEmail={sendPasswordResetEmail}
+      subtitle="Enter your email to receive a password reset link"
+      title="Forgot password"
+    />
   );
 }

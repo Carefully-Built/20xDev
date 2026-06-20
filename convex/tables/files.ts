@@ -14,6 +14,17 @@ export const filesTable = defineTable({
   // Metadata
   mimeType: v.string(),
   size: v.number(), // bytes
+  associations: v.optional(
+    v.array(
+      v.object({
+        entityId: v.string(),
+        entityType: v.union(v.literal('contact'), v.literal('opportunity')),
+        label: v.string(),
+        typeLabel: v.string(),
+        value: v.string(),
+      }),
+    ),
+  ),
   
   // Ownership
   organizationId: v.string(),

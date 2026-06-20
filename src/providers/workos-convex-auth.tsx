@@ -1,87 +1,95 @@
 'use client';
 
-import { useAccessToken, useAuth } from '@workos-inc/authkit-nextjs/components';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { getTokenOrganizationId } from '@/lib/workos-token';
+interface ConvexTokenResponse {
+  readonly token: string | null;
+}
+
+async function fetchConvexToken(forceRefreshToken: boolean): Promise<string | null> {
+  try {
+    const response = await fetch(`/api/auth/convex-token${forceRefreshToken ? '?refresh=1' : ''}`, {
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as ConvexTokenResponse;
+
+    return data.token;
+  } catch (error) {
+    console.warn('Unable to fetch data auth token:', error);
+    return null;
+  }
+}
 
 export function useWorkosConvexAuth(): {
   isAuthenticated: boolean;
   isLoading: boolean;
   fetchAccessToken: (args?: { forceRefreshToken?: boolean }) => Promise<string | null>;
 } {
-  const { user, loading: authLoading, organizationId, refreshAuth } = useAuth();
-  const { accessToken, getAccessToken, loading: tokenLoading, refresh } = useAccessToken();
-  const [isRefreshingOrganization, setIsRefreshingOrganization] = useState<boolean>(false);
-  const pendingOrganizationId = useRef<string | null>(null);
-  const refreshOrganizationToken = useCallback(async (
-    nextOrganizationId: string
-  ): Promise<string | null> => {
-    const authResult = await refreshAuth({
-      ensureSignedIn: true,
-      organizationId: nextOrganizationId,
-    });
-    if (authResult?.error) {
-      throw new Error(authResult.error);
-    }
-    return (await refresh()) ?? null;
-  }, [refresh, refreshAuth]);
-  const getHasOrganizationTokenMismatch = useCallback((
-    token: string | undefined,
-    nextOrganizationId: string
-  ): boolean => getTokenOrganizationId(token) !== nextOrganizationId, []);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const tokenRequestRef = useRef<Promise<string | null> | null>(null);
 
-  useEffect((): void => {
-    if (!user || !organizationId || !getHasOrganizationTokenMismatch(accessToken, organizationId)) {
-      pendingOrganizationId.current = null;
-      setIsRefreshingOrganization(false);
-      return;
-    }
-    if (authLoading || tokenLoading || pendingOrganizationId.current === organizationId) {
-      return;
-    }
-    pendingOrganizationId.current = organizationId;
-    setIsRefreshingOrganization(true);
-    refreshOrganizationToken(organizationId)
-      .catch((error: unknown) => {
-        console.error('Failed to refresh WorkOS auth for Convex organization switch:', error);
-      })
-      .finally((): void => {
-        if (pendingOrganizationId.current === organizationId) {
-          pendingOrganizationId.current = null;
-        }
-        setIsRefreshingOrganization(false);
+  const loadToken = useCallback(
+    async (forceRefreshToken = false, showLoading = false): Promise<string | null> => {
+      if (!forceRefreshToken && tokenRequestRef.current) {
+        return tokenRequestRef.current;
+      }
+
+      if (showLoading) {
+        setIsLoading(true);
+      }
+
+      const tokenRequest = fetchConvexToken(forceRefreshToken).then((nextToken) => {
+        setToken(nextToken);
+        return nextToken;
       });
-  }, [accessToken, authLoading, getHasOrganizationTokenMismatch, organizationId, refreshAuth, refreshOrganizationToken, tokenLoading, user]);
 
-  const fetchAccessToken = useCallback(async (
-    args: { forceRefreshToken?: boolean } = {}
-  ): Promise<string | null> => {
-    if (!user) {
-      return null;
-    }
-    try {
-      if (organizationId) {
-        const needsOrganizationRefresh = (args.forceRefreshToken ?? false)
-          || getHasOrganizationTokenMismatch(accessToken, organizationId);
-        if (needsOrganizationRefresh) {
-          return await refreshOrganizationToken(organizationId);
+      tokenRequestRef.current = tokenRequest;
+
+      try {
+        return await tokenRequest;
+      } finally {
+        if (tokenRequestRef.current === tokenRequest) {
+          tokenRequestRef.current = null;
+        }
+        if (showLoading) {
+          setIsLoading(false);
         }
       }
-      const token = await getAccessToken();
-      if (token) {
-        return token;
-      }
-      return organizationId ? await refreshOrganizationToken(organizationId) : null;
-    } catch (error: unknown) {
-      console.error('Failed to get WorkOS access token for Convex:', error);
-      return null;
-    }
-  }, [accessToken, getAccessToken, getHasOrganizationTokenMismatch, organizationId, refreshOrganizationToken, user]);
+    },
+    [],
+  );
 
-  return useMemo(() => ({
-    isAuthenticated: Boolean(user),
-    isLoading: authLoading || tokenLoading || isRefreshingOrganization,
-    fetchAccessToken,
-  }), [authLoading, fetchAccessToken, isRefreshingOrganization, tokenLoading, user]);
+  useEffect(() => {
+    void loadToken(false, true);
+  }, [loadToken]);
+
+  const fetchAccessToken = useCallback(
+    async (args: { forceRefreshToken?: boolean } = {}) => {
+      if (args.forceRefreshToken) {
+        return loadToken(true);
+      }
+
+      if (!token) {
+        return loadToken();
+      }
+
+      return token;
+    },
+    [loadToken, token],
+  );
+
+  return useMemo(
+    () => ({
+      fetchAccessToken,
+      isAuthenticated: Boolean(token),
+      isLoading,
+    }),
+    [fetchAccessToken, isLoading, token],
+  );
 }

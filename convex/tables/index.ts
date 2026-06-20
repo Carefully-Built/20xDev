@@ -4,12 +4,15 @@
 // ============================================================
 
 // Users
+export { usersTable, userRoleValidator, createUserValidator, updateUserValidator } from './users';
+
 export {
-  usersTable,
-  userRoleValidator,
-  createUserValidator,
-  updateUserValidator,
-} from './users';
+  activitiesTable,
+  activityAssociationValidator,
+  activityMutationDataValidator,
+  activityStatusValidator,
+  activityVisibilityValidator,
+} from './activities';
 
 // Items
 export {
@@ -19,3 +22,19 @@ export {
   createItemValidator,
   updateItemValidator,
 } from './items';
+
+// Contacts
+export {
+  contactsTable,
+  contactStatusValidator,
+  createContactValidator,
+  updateContactValidator,
+} from './contacts';
+
+export { createNoteValidator, notesTable, updateNoteValidator } from './notes';
+
+export {
+  notificationEntityTypeValidator,
+  notificationsTable,
+  notificationTypeValidator,
+} from './notifications';

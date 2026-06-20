@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import { listUserOrganizations } from '@/lib/organization-memberships';
-import { getSession } from '@/lib/session';
+import { getSession, refreshSession } from '@/lib/session';
 import { workos, WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI } from '@/lib/workos';
 
 interface SwitchOrgBody {
@@ -52,11 +52,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ redirectUrl: authUrl });
     }
 
-    const { refreshSession } = await import('@workos-inc/authkit-nextjs');
-    await refreshSession({
-      organizationId,
-      ensureSignedIn: true,
-    });
+    await refreshSession(organizationId);
 
     await syncAuthenticatedUser(session.user, organizationId);
 

@@ -33,12 +33,12 @@ async function seed() {
   const post = await client.createOrReplace({
     _type: 'post',
     _id: 'post-first-article',
-    title: 'Benvenuti sul Blog di Blueprint',
-    slug: { _type: 'slug', current: 'benvenuti-sul-blog-di-blueprint' },
+    title: 'Benvenuti sul Blog di 20xdev',
+    slug: { _type: 'slug', current: 'benvenuti-sul-blog-di-20xdev' },
     author: { _type: 'reference', _ref: 'author-alessandro' },
     categories: [{ _type: 'reference', _ref: 'category-tech', _key: 'cat1' }],
     publishedAt: new Date().toISOString(),
-    excerpt: 'Il primo articolo del nostro blog. Scopri come Blueprint può aiutarti a costruire il tuo prossimo progetto.',
+    excerpt: 'Il primo articolo del nostro blog. Scopri come 20xdev può aiutarti a costruire il tuo prossimo progetto.',
     body: [
       {
         _type: 'block',
@@ -48,7 +48,7 @@ async function seed() {
           {
             _type: 'span',
             _key: 'span1',
-            text: 'Benvenuti sul blog di Blueprint! Questo è il primo post di test. Lo Studio Sanity è ora configurato e pronto per gestire tutti i contenuti del blog.',
+            text: 'Benvenuti sul blog di 20xdev! Questo è il primo post di test. Lo Studio Sanity è ora configurato e pronto per gestire tutti i contenuti del blog.',
           },
         ],
         markDefs: [],

@@ -38,7 +38,7 @@ export default function TestErrorPage(): React.ReactElement {
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
       <h1 className="text-3xl font-bold">PostHog Error Test</h1>
       <p className="text-muted-foreground">
-        Usa questi pulsanti per testare il sistema di error tracking
+        Use these buttons to test the error tracking system
       </p>
 
       <div className="flex flex-wrap gap-4">
@@ -66,7 +66,7 @@ export default function TestErrorPage(): React.ReactElement {
 
       <div className="text-muted-foreground max-w-md text-center text-sm">
         <p>
-          Gli errori vengono inviati a PostHog ma l&apos;utente vede solo un messaggio generico.
+          Errors are sent to PostHog, but users only see a generic message.
         </p>
         <p className="mt-2">
           Dashboard:{' '}

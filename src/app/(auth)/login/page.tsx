@@ -1,12 +1,23 @@
-import { AuthLayout } from '../_components/auth-layout';
-import { SocialLoginButtons } from '../_components/social-login-buttons';
-import { TermsAndConditions } from '../_components/terms-and-conditions';
+'use client';
+
+import { AuthLoginPage } from '@carefully-built/auth-pages/pages';
+
+import { getGoogleAuthUrl } from '../actions';
+
+const providers = [
+  {
+    name: 'Google',
+    icon: '/images/icons/google.svg',
+    action: getGoogleAuthUrl,
+  },
+];
 
 export default function LoginPage(): React.ReactElement {
   return (
-    <AuthLayout title="Log in">
-      <SocialLoginButtons />
-      <TermsAndConditions />
-    </AuthLayout>
+    <AuthLoginPage
+      title="Log in"
+      providers={providers}
+      emailLabel="Continue with email"
+    />
   );
 }
