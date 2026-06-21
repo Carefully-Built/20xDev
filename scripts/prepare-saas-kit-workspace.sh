@@ -13,5 +13,5 @@ fi
 (
   cd "$SAAS_KIT_DIR"
   bun install --frozen-lockfile --linker=hoisted
-  bun run build
+  bun run --sequential --filter './packages/*' build
 )
