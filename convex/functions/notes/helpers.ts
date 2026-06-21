@@ -1,3 +1,5 @@
+import { getActiveOrgRecord, type ConvexCrudCtx } from '@carefully-built/convex-crud';
+
 import type { Doc } from '../../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../../_generated/server';
 
@@ -6,11 +8,10 @@ export async function getScopedNote(
   id: Doc<'notes'>['_id'],
   organizationId: string,
 ): Promise<Doc<'notes'>> {
-  const note = await ctx.db.get(id);
-
-  if (note?.organizationId !== organizationId) {
-    throw new Error('Note not found');
-  }
-
-  return note;
+  return getActiveOrgRecord<Doc<'notes'>>(
+    ctx as ConvexCrudCtx,
+    id,
+    organizationId,
+    'Note not found',
+  );
 }

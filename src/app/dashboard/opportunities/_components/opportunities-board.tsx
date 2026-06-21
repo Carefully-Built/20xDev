@@ -1,19 +1,31 @@
 'use client';
 
-import { DashboardPageLayout } from '@carefully-built/app-shell';
+import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/app-shell';
 import { buildKanbanColumns, KanbanBoard, type KanbanItem } from '@carefully-built/kanban';
 import { TableToolbar } from '@carefully-built/ui';
-import { UserRound, Workflow } from 'lucide-react';
+import { Plus, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import { opportunities as initialOpportunities, pipeline } from '../_data';
+import { OpportunityEditSheet } from '../[id]/_components/opportunity-edit-sheet';
+import type { OpportunityFormValues } from '../[id]/_components/opportunity-types';
+
+const emptyOpportunityValues: OpportunityFormValues = {
+  assignedUserName: '',
+  notes: '',
+  stageKey: pipeline.stages.at(0)?.key ?? '',
+  status: 'open',
+  title: '',
+  value: '',
+};
 
 export function OpportunitiesBoard(): React.ReactElement {
   const router = useRouter();
   const [items, setItems] = useState<KanbanItem[]>(() => [...initialOpportunities]);
   const [draggedItem, setDraggedItem] = useState<KanbanItem | null>(null);
   const [dropStageKey, setDropStageKey] = useState<string | null>(null);
+  const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedStage, setSelectedStage] = useState('all');
   const [selectedOwner, setSelectedOwner] = useState('all');
@@ -55,8 +67,38 @@ export function OpportunitiesBoard(): React.ReactElement {
     );
   }
 
+  function createOpportunity(values: OpportunityFormValues): void {
+    const value = Number(values.value);
+
+    setItems((currentItems) => [
+      {
+        _id: `opp-${Date.now()}`,
+        assignedUserName: values.assignedUserName.trim() || undefined,
+        associations: [],
+        notes: values.notes.trim(),
+        pipelineKey: pipeline.key,
+        stageKey: values.stageKey,
+        status: values.status,
+        title: values.title.trim(),
+        value: Number.isFinite(value) ? value : 0,
+      },
+      ...currentItems,
+    ]);
+  }
+
   return (
-    <DashboardPageLayout title="Opportunities">
+    <DashboardPageLayout
+      title="Opportunities"
+      actions={
+        <ResponsivePageActions
+          primaryAction={{
+            icon: <Plus className="size-4" />,
+            label: 'Add opportunity',
+            onClick: () => setIsCreateSheetOpen(true),
+          }}
+        />
+      }
+    >
       <TableToolbar
         search={{ value: search, onChange: setSearch, placeholder: 'Search opportunities...' }}
         filters={[
@@ -131,6 +173,15 @@ export function OpportunitiesBoard(): React.ReactElement {
         }}
         itemLabel="opportunity"
         totalLabel="Pipeline"
+      />
+      <OpportunityEditSheet
+        initialValues={emptyOpportunityValues}
+        open={isCreateSheetOpen}
+        title="Add opportunity"
+        description="Create a new opportunity on the board."
+        confirmLabel="Add"
+        onOpenChange={setIsCreateSheetOpen}
+        onSave={createOpportunity}
       />
     </DashboardPageLayout>
   );

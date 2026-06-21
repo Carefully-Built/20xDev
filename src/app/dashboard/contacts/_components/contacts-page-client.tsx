@@ -1,14 +1,20 @@
 'use client';
 
-import { DashboardPageLayout } from '@carefully-built/app-shell';
+import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/app-shell';
 import {
   CrudTableView,
   useCrudTableState,
   type CrudFilterDefinition,
 } from '@carefully-built/crud';
-import { buildContactImportCsvTemplate, buildCsvExport } from '@carefully-built/import-export';
-import { Button, Chip, EmptyStateCard, type Column } from '@carefully-built/ui';
-import { Download, FileDown, Plus, SearchX, UserRound, Workflow } from 'lucide-react';
+import {
+  buildContactImportMutationPayload,
+  buildCsvExport,
+  ContactsImportSheet,
+  useContactImportState,
+  type ContactImportPreviewRow,
+} from '@carefully-built/import-export';
+import { Chip, EmptyStateCard, type Column } from '@carefully-built/ui';
+import { Download, FileUp, Plus, SearchX, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
@@ -25,7 +31,7 @@ import { useUsersByOrganization } from '@/hooks/use-users';
 import { showDestructiveActionToast } from '@/lib/ui/destructive-action-toast';
 import { useOrganization } from '@/providers';
 
-import type { Doc } from '@convex/_generated/dataModel';
+import type { Doc, Id } from '@convex/_generated/dataModel';
 import type { api } from '@convex/_generated/api';
 import type { FunctionArgs } from 'convex/server';
 
@@ -61,6 +67,24 @@ const statusFilter: CrudFilterDefinition<Contact> = {
   },
 };
 
+function toContactData(row: ContactImportPreviewRow['normalized']): ContactData {
+  if (!row) {
+    throw new Error('Import row is empty');
+  }
+
+  return {
+    company: row.company,
+    name: row.name,
+    status: row.status,
+    ...(row.email ? { email: row.email } : {}),
+    ...(row.notes ? { notes: row.notes } : {}),
+    ...(row.owner ? { owner: row.owner } : {}),
+    ...(row.phone ? { phone: row.phone } : {}),
+    ...(row.role ? { role: row.role } : {}),
+    ...(typeof row.value === 'number' ? { value: row.value } : {}),
+  };
+}
+
 function downloadCsv(filename: string, csv: string): void {
   const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
   const link = document.createElement('a');
@@ -80,6 +104,7 @@ export function ContactsPageClient(): React.ReactElement {
   const deleteContact = useDeleteContact(organizationId);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const tableData = useMemo(() => contacts ?? [], [contacts]);
@@ -106,6 +131,14 @@ export function ContactsPageClient(): React.ReactElement {
     filters,
     searchFields: ['name', 'company', 'role', 'owner', 'email'],
     pageSize: 20,
+  });
+  const importState = useContactImportState({
+    existingContacts: tableData.map((contact) => ({
+      _id: String(contact._id),
+      email: contact.email,
+      phone: contact.phone,
+    })),
+    onErrorMessage: (error) => error instanceof Error ? error.message : 'Could not parse file',
   });
 
   const openCreateSheet = (): void => {
@@ -164,28 +197,50 @@ export function ContactsPageClient(): React.ReactElement {
     );
   };
 
+  const confirmImport = async (): Promise<void> => {
+    const payload = buildContactImportMutationPayload(importState.importPreviewRows);
+
+    setIsImporting(true);
+    try {
+      for (const row of payload.creates) {
+        await createContact(toContactData(row));
+      }
+
+      for (const row of payload.updates) {
+        await updateContact(row.id as Id<'contacts'>, toContactData(row.data));
+      }
+
+      toast.success('Contacts imported');
+      importState.closeImportSheet();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not import contacts');
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   return (
     <DashboardPageLayout
       actions={
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={() => downloadCsv('contacts-import-template.csv', buildContactImportCsvTemplate())}
-          >
-            <FileDown className="size-4" />
-            Template
-          </Button>
-          <Button type="button" size="sm" variant="outline" onClick={exportContacts}>
-            <Download className="size-4" />
-            Export
-          </Button>
-          <Button type="button" size="sm" onClick={openCreateSheet}>
-            <Plus className="size-4" />
-            Add contact
-          </Button>
-        </div>
+        <ResponsivePageActions
+          primaryAction={{
+            icon: <Plus className="size-4" />,
+            label: 'Add contact',
+            onClick: openCreateSheet,
+          }}
+          secondaryActions={[
+            {
+              icon: <FileUp className="size-4" />,
+              label: 'Import',
+              onClick: () => importState.setIsImportSheetOpen(true),
+            },
+            {
+              icon: <Download className="size-4" />,
+              label: 'Export',
+              onClick: exportContacts,
+            },
+          ]}
+        />
       }
       title="Contacts"
     >
@@ -220,6 +275,25 @@ export function ContactsPageClient(): React.ReactElement {
         onOpenChange={setIsSheetOpen}
         onSubmit={saveContact}
         users={users ?? []}
+      />
+      <ContactsImportSheet
+        open={importState.isImportSheetOpen}
+        onOpenChange={importState.syncImportSheetOpen}
+        overwriteExisting={importState.overwriteExisting}
+        onOverwriteExistingChange={importState.setOverwriteExisting}
+        onDownloadTemplate={importState.downloadCsvTemplate}
+        onFileSelected={(file) => {
+          void importState.parseImportFile(file);
+        }}
+        onConfirmImport={() => {
+          void confirmImport();
+        }}
+        previewSummary={importState.importPreviewSummary}
+        fileName={importState.selectedImportFileName}
+        isParsing={importState.isParsingImportFile}
+        isImporting={isImporting}
+        rows={importState.importPreviewRows}
+        fileError={importState.importFileError}
       />
     </DashboardPageLayout>
   );

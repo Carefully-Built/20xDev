@@ -67,8 +67,33 @@ function renderNoteBodyField({ value, onChange }: NoteBodyFieldProps): React.Rea
       value={value}
       onChange={onChange}
       placeholder="Write the note..."
+      improveText={improveRichTextDocument}
+      onImproveError={() => {
+        toast.error('Could not improve the note');
+      }}
+      improveLabel="Improve"
+      improvingLabel="Improving..."
     />
   );
+}
+
+async function improveRichTextDocument(serializedDocument: string): Promise<string> {
+  const response = await fetch('/api/ai/improve-markdown', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ document: JSON.parse(serializedDocument) as unknown }),
+  });
+
+  const body = (await response.json()) as {
+    readonly document?: unknown;
+    readonly error?: string;
+  };
+
+  if (!response.ok || !body.document) {
+    throw new Error(body.error ?? 'Could not improve text');
+  }
+
+  return JSON.stringify(body.document);
 }
 
 function renderNoteAssociationField({

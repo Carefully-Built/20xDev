@@ -5,9 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@carefully-built/ui';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ThemeSettings } from './theme-settings';
-
 interface OrganizationInfo {
   readonly id: string;
   readonly name: string;
@@ -30,10 +27,7 @@ async function fetchWidgetToken(): Promise<string> {
   return data.token;
 }
 
-export function WorkOSSettings({
-  organization,
-  teamAuthToken,
-}: AccountWidgetsProps): React.ReactElement {
+export function WorkOSSettings(): React.ReactElement {
   const router = useRouter();
   const refreshAfterUserUpdate = useCallback(() => {
     router.refresh();
@@ -48,55 +42,50 @@ export function WorkOSSettings({
 
   return (
     <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
-      <Tabs className="space-y-4" defaultValue="profile">
-        <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="organization">Organization</TabsTrigger>
-          <TabsTrigger value="appearance">Appearance</TabsTrigger>
-        </TabsList>
+      <div className="space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile</CardTitle>
+          </CardHeader>
+          <CardContent className="workos-widget-container">
+            <UserProfile authToken={fetchWidgetToken} />
+          </CardContent>
+        </Card>
 
-        <TabsContent className="space-y-4" value="profile">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile</CardTitle>
-            </CardHeader>
-            <CardContent className="workos-widget-container">
-              <UserProfile authToken={fetchWidgetToken} />
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Security</CardTitle>
+          </CardHeader>
+          <CardContent className="workos-widget-container">
+            <UserSecurity authToken={fetchWidgetToken} />
+          </CardContent>
+        </Card>
+      </div>
+    </WorkOsWidgets>
+  );
+}
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Security</CardTitle>
-            </CardHeader>
-            <CardContent className="workos-widget-container">
-              <UserSecurity authToken={fetchWidgetToken} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="organization">
-          <Card>
-            <CardHeader>
-              <CardTitle>{organization ? organization.name : 'Organization'}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 workos-widget-container">
-              {organization ? (
-                <p className="text-sm text-muted-foreground">Role: {organization.role}</p>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  No organization is active for this session.
-                </p>
-              )}
-              {teamAuthToken ? <UsersManagement authToken={teamAuthToken} /> : null}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="appearance">
-          <ThemeSettings />
-        </TabsContent>
-      </Tabs>
+export function WorkOSOrganizationSettings({
+  organization,
+  teamAuthToken,
+}: AccountWidgetsProps): React.ReactElement {
+  return (
+    <WorkOsWidgets theme={{ accentColor: 'teal', radius: 'medium' }}>
+      <Card>
+        <CardHeader>
+          <CardTitle>{organization ? organization.name : 'Organization'}</CardTitle>
+        </CardHeader>
+        <CardContent className="workos-widget-container space-y-3">
+          {organization ? (
+            <p className="text-muted-foreground text-sm">Role: {organization.role}</p>
+          ) : (
+            <p className="text-muted-foreground text-sm">
+              No organization is active for this session.
+            </p>
+          )}
+          {teamAuthToken ? <UsersManagement authToken={teamAuthToken} /> : null}
+        </CardContent>
+      </Card>
     </WorkOsWidgets>
   );
 }

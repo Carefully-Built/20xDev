@@ -54,9 +54,11 @@ const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
     className={`${GeistSans.variable} ${GeistMono.variable}`}
     suppressHydrationWarning
   >
-    <Script id="remove-jam-iframe-before-hydration" strategy="beforeInteractive">
-      {removeJamIframeBeforeHydration}
-    </Script>
+    <head>
+      <Script id="remove-jam-iframe-before-hydration" strategy="beforeInteractive">
+        {removeJamIframeBeforeHydration}
+      </Script>
+    </head>
     <body className="bg-background min-h-screen font-sans antialiased">
       <GTProvider>
         <Providers>

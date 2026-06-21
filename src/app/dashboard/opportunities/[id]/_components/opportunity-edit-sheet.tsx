@@ -1,17 +1,11 @@
 'use client';
 
-import {
-  Input,
-  Label,
-  ResponsiveSheet,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Textarea,
-} from '@carefully-built/ui';
-import { useEffect, useId, useState } from 'react';
+import { CrudResourceSheet } from '@carefully-built/crud';
+import { CustomForm, SchemaForm, type SchemaFormField } from '@carefully-built/forms';
+import { RichTextEditor } from '@carefully-built/rich-text';
+import { useId } from 'react';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 import { pipeline } from '../../_data';
 import type { OpportunityFormValues } from './opportunity-types';
@@ -22,153 +16,115 @@ const statusOptions = [
   { label: 'Lost', value: 'lost' },
 ] as const;
 
+const formSchema: z.ZodType<OpportunityFormValues> = z.object({
+  assignedUserName: z.string(),
+  notes: z.string(),
+  stageKey: z.string().min(1, 'Select a stage'),
+  status: z.enum(['open', 'won', 'lost']),
+  title: z.string().min(1, 'Name is required'),
+  value: z.string(),
+});
+
+const fields: readonly SchemaFormField<OpportunityFormValues>[] = [
+  { name: 'title', label: 'Name' },
+  { name: 'value', label: 'Value', min: 0, type: 'number' },
+  {
+    name: 'stageKey',
+    label: 'Stage',
+    type: 'select',
+    options: pipeline.stages.map((stage) => ({ label: stage.name, value: stage.key })),
+  },
+  {
+    name: 'status',
+    label: 'Status',
+    type: 'select',
+    options: statusOptions,
+  },
+  { name: 'assignedUserName', label: 'Owner' },
+];
+
+async function improveRichTextDocument(serializedDocument: string): Promise<string> {
+  const response = await fetch('/api/ai/improve-markdown', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ document: JSON.parse(serializedDocument) as unknown }),
+  });
+
+  const body = (await response.json()) as {
+    readonly document?: unknown;
+    readonly error?: string;
+  };
+
+  if (!response.ok || !body.document) {
+    throw new Error(body.error ?? 'Could not improve text');
+  }
+
+  return JSON.stringify(body.document);
+}
+
 interface OpportunityEditSheetProps {
+  readonly confirmLabel?: string;
+  readonly description?: string;
   readonly initialValues: OpportunityFormValues | null;
   readonly onOpenChange: (open: boolean) => void;
   readonly onSave: (values: OpportunityFormValues) => void;
   readonly open: boolean;
+  readonly title?: string;
 }
 
 export function OpportunityEditSheet({
+  confirmLabel = 'Save',
+  description = 'Update the fields shown on this detail page.',
   initialValues,
   onOpenChange,
   onSave,
   open,
+  title = 'Edit opportunity',
 }: OpportunityEditSheetProps): React.ReactElement | null {
   const formId = useId();
-  const fieldIds = {
-    notes: `${formId}-notes`,
-    owner: `${formId}-owner`,
-    stage: `${formId}-stage`,
-    status: `${formId}-status`,
-    title: `${formId}-title`,
-    value: `${formId}-value`,
-  };
-  const [values, setValues] = useState(initialValues);
 
-  useEffect(() => {
-    if (open) {
-      setValues(initialValues);
-    }
-  }, [initialValues, open]);
-
-  if (!values) return null;
-
-  const updateValue = <TField extends keyof OpportunityFormValues>(
-    field: TField,
-    value: OpportunityFormValues[TField],
-  ): void => {
-    setValues((currentValues) => (currentValues ? { ...currentValues, [field]: value } : null));
-  };
-
-  const submitForm = (): void => {
-    const form = document.getElementById(formId);
-
-    if (form instanceof HTMLFormElement) {
-      form.requestSubmit();
-    }
-  };
+  if (!initialValues) return null;
 
   return (
-    <ResponsiveSheet
+    <CrudResourceSheet
+      formId={formId}
       open={open}
       onOpenChange={onOpenChange}
-      title="Edit opportunity"
-      description="Update the fields shown on this detail page."
-      confirmLabel="Save"
-      confirmDisabled={!values.title.trim()}
+      title={title}
+      description={description}
+      confirmLabel={confirmLabel}
       onCancel={() => onOpenChange(false)}
-      onConfirm={submitForm}
       width={560}
     >
-      <form
+      <CustomForm
+        key={`${open}-${initialValues.title}-${initialValues.stageKey}`}
         id={formId}
+        schema={formSchema}
+        defaultValues={initialValues}
         className="space-y-4 px-4 pb-4"
-        onSubmit={(event) => {
-          event.preventDefault();
+        onSubmit={(values) => {
           onSave(values);
           onOpenChange(false);
         }}
       >
-        <FormField label="Name" fieldId={fieldIds.title}>
-          <Input
-            id={fieldIds.title}
-            value={values.title}
-            onChange={(event) => updateValue('title', event.target.value)}
-          />
-        </FormField>
-        <FormField label="Value" fieldId={fieldIds.value}>
-          <Input
-            id={fieldIds.value}
-            min={0}
-            type="number"
-            value={values.value}
-            onChange={(event) => updateValue('value', event.target.value)}
-          />
-        </FormField>
-        <FormField label="Stage" fieldId={fieldIds.stage}>
-          <Select value={values.stageKey} onValueChange={(value) => updateValue('stageKey', value)}>
-            <SelectTrigger id={fieldIds.stage} className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {pipeline.stages.map((stage) => (
-                <SelectItem key={stage.key} value={stage.key}>
-                  {stage.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormField>
-        <FormField label="Status" fieldId={fieldIds.status}>
-          <Select
-            value={values.status}
-            onValueChange={(value) => updateValue('status', value as OpportunityFormValues['status'])}
-          >
-            <SelectTrigger id={fieldIds.status} className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((status) => (
-                <SelectItem key={status.value} value={status.value}>
-                  {status.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormField>
-        <FormField label="Owner" fieldId={fieldIds.owner}>
-          <Input
-            id={fieldIds.owner}
-            value={values.assignedUserName}
-            onChange={(event) => updateValue('assignedUserName', event.target.value)}
-          />
-        </FormField>
-        <FormField label="Notes" fieldId={fieldIds.notes}>
-          <Textarea
-            id={fieldIds.notes}
-            value={values.notes}
-            onChange={(event) => updateValue('notes', event.target.value)}
-          />
-        </FormField>
-      </form>
-    </ResponsiveSheet>
-  );
-}
-
-function FormField({
-  children,
-  fieldId,
-  label,
-}: {
-  readonly children: React.ReactNode;
-  readonly fieldId: string;
-  readonly label: string;
-}): React.ReactElement {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={fieldId}>{label}</Label>
-      {children}
-    </div>
+        {(methods) => (
+          <>
+            <SchemaForm fields={fields} />
+            <RichTextEditor
+              label="Notes"
+              value={methods.watch('notes')}
+              onChange={(value) => methods.setValue('notes', value, { shouldDirty: true })}
+              placeholder="Write long-form notes..."
+              improveText={improveRichTextDocument}
+              onImproveError={() => {
+                toast.error('Could not improve the notes');
+              }}
+              improveLabel="Improve"
+              improvingLabel="Improving..."
+            />
+          </>
+        )}
+      </CustomForm>
+    </CrudResourceSheet>
   );
 }

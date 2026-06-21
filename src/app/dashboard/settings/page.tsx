@@ -1,7 +1,9 @@
 import { DashboardPageLayout } from '@carefully-built/app-shell';
+import { SettingsTabs } from '@carefully-built/settings-ui/client';
 import { redirect } from 'next/navigation';
 
-import { WorkOSSettings } from './_components/workos-settings';
+import { ThemeSettings } from './_components/theme-settings';
+import { WorkOSOrganizationSettings, WorkOSSettings } from './_components/workos-settings';
 
 import { getActiveOrganizationId, listUserOrganizations } from '@/lib/organization-memberships';
 import { getSession } from '@/lib/session';
@@ -43,7 +45,15 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
 
   return (
     <DashboardPageLayout fillViewport={false} title="Settings">
-      <WorkOSSettings organization={organization} teamAuthToken={teamAuthToken} />
+      <SettingsTabs
+        hasOrganization={Boolean(organization)}
+        initialTab="general"
+        generalContent={<ThemeSettings />}
+        accountContent={<WorkOSSettings />}
+        organizationContent={
+          <WorkOSOrganizationSettings organization={organization} teamAuthToken={teamAuthToken} />
+        }
+      />
     </DashboardPageLayout>
   );
 }

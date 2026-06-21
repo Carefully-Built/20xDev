@@ -2,7 +2,9 @@
 
 import {
   EntityAssociatedEmptyTab,
+  EntityAssociatedTabPanel,
   EntityDetailShell,
+  ENTITY_DETAIL_TABS,
   type EntityDetailTabOption,
 } from '@carefully-built/resource-kit';
 import { EmptyStateCard } from '@carefully-built/ui';
@@ -22,14 +24,36 @@ import type { Id } from '@convex/_generated/dataModel';
 import type { api } from '@convex/_generated/api';
 import type { FunctionArgs } from 'convex/server';
 
-type ContactDetailTab = 'overview' | 'notes' | 'documents' | 'activity';
+type ContactDetailTab = 'overview' | 'notes' | 'documents' | 'agenda';
 type ContactData = FunctionArgs<typeof api.functions.contacts.mutations.update>['data'];
+
+const detailTabValues = {
+  overview: 'overview',
+  notes: ENTITY_DETAIL_TABS[3] as 'notes',
+  documents: ENTITY_DETAIL_TABS[4] as 'documents',
+  agenda: ENTITY_DETAIL_TABS[6] as 'agenda',
+} as const satisfies Record<ContactDetailTab, ContactDetailTab>;
 
 const tabs: readonly EntityDetailTabOption<ContactDetailTab>[] = [
   { icon: <LayoutDashboard className="size-3.5" />, label: 'Overview', value: 'overview' },
-  { count: 0, icon: <NotebookPen className="size-3.5" />, label: 'Notes', value: 'notes' },
-  { count: 0, icon: <FileText className="size-3.5" />, label: 'Documents', value: 'documents' },
-  { count: 0, icon: <CalendarDays className="size-3.5" />, label: 'Activity', value: 'activity' },
+  {
+    count: 0,
+    icon: <NotebookPen className="size-3.5" />,
+    label: 'Notes',
+    value: detailTabValues.notes,
+  },
+  {
+    count: 0,
+    icon: <FileText className="size-3.5" />,
+    label: 'Documents',
+    value: detailTabValues.documents,
+  },
+  {
+    count: 0,
+    icon: <CalendarDays className="size-3.5" />,
+    label: 'Activity',
+    value: detailTabValues.agenda,
+  },
 ];
 
 interface ContactDetailProps {
@@ -85,25 +109,31 @@ export function ContactDetail({ id }: ContactDetailProps): React.ReactElement {
       >
         {activeTab === 'overview' && contact ? <ContactOverview contact={contact} /> : null}
         {activeTab === 'notes' ? (
-          <EntityAssociatedEmptyTab
-            icon={NotebookPen}
-            title="No notes connected"
-            subtitle="Notes associated with this contact will appear here."
-          />
+          <EntityAssociatedTabPanel icon={NotebookPen} name="Notes">
+            <EntityAssociatedEmptyTab
+              icon={NotebookPen}
+              title="No notes connected"
+              subtitle="Notes associated with this contact will appear here."
+            />
+          </EntityAssociatedTabPanel>
         ) : null}
         {activeTab === 'documents' ? (
-          <EntityAssociatedEmptyTab
-            icon={FileText}
-            title="No documents connected"
-            subtitle="Documents associated with this contact will appear here."
-          />
+          <EntityAssociatedTabPanel icon={FileText} name="Documents">
+            <EntityAssociatedEmptyTab
+              icon={FileText}
+              title="No documents connected"
+              subtitle="Documents associated with this contact will appear here."
+            />
+          </EntityAssociatedTabPanel>
         ) : null}
-        {activeTab === 'activity' ? (
-          <EntityAssociatedEmptyTab
-            icon={CalendarDays}
-            title="No activity connected"
-            subtitle="Activity associated with this contact will appear here."
-          />
+        {activeTab === 'agenda' ? (
+          <EntityAssociatedTabPanel icon={CalendarDays} name="Activity">
+            <EntityAssociatedEmptyTab
+              icon={CalendarDays}
+              title="No activity connected"
+              subtitle="Activity associated with this contact will appear here."
+            />
+          </EntityAssociatedTabPanel>
         ) : null}
       </EntityDetailShell>
       <ContactFormSheet

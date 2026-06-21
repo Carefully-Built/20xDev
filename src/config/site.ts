@@ -5,6 +5,69 @@
  * Change these values to customize the site.
  */
 
+import type { NavItem } from '@/types';
+
+interface SiteLink {
+  readonly title: string;
+  readonly href: string;
+}
+
+interface FooterColumn {
+  readonly title: string;
+  readonly links: readonly SiteLink[];
+}
+
+function link(title: string, href: string): SiteLink {
+  return { title, href };
+}
+
+function featureLinks(titles: readonly string[]): readonly SiteLink[] {
+  return titles.map((title) => link(title, '/#features'));
+}
+
+const mainNav = [
+  link('Pricing', '/pricing'),
+  link('Blog', '/blog'),
+  link('About', '/about'),
+  link('Contact', '/contact'),
+] as const;
+
+const footerColumns: readonly FooterColumn[] = [
+  {
+    title: 'Product',
+    links: [link('Dashboard', '/dashboard'), link('Blog', '/blog')],
+  },
+  {
+    title: 'Platform',
+    links: featureLinks(['Authentication', 'Organizations', 'Real-time Data']),
+  },
+  {
+    title: 'Industries',
+    links: featureLinks(['B2B SaaS', 'Internal Tools', 'AI Products']),
+  },
+  {
+    title: 'Customers',
+    links: featureLinks(['Startups', 'Product Teams', 'Agencies']),
+  },
+  {
+    title: 'Company',
+    links: [
+      link('About', '/about'),
+      link('Contact', '/contact'),
+      link('GitHub', 'https://github.com/20xdev/20xdev'),
+      link('X / Twitter', 'https://twitter.com/20xdev'),
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      link('Privacy Policy', '/privacy'),
+      link('Terms', '/terms'),
+      link('Support', '/contact'),
+    ],
+  },
+];
+
 export const siteConfig = {
   // Brand
   name: '20xdev',
@@ -32,67 +95,10 @@ export const siteConfig = {
 
   // Navigation
   nav: {
-    main: [
-      { title: 'Pricing', href: '/pricing' },
-      { title: 'Blog', href: '/blog' },
-      { title: 'About', href: '/about' },
-      { title: 'Contact', href: '/contact' },
-    ],
+    main: mainNav,
     footer: {
-      columns: [
-        {
-          title: 'Product',
-          links: [
-            { title: 'Dashboard', href: '/dashboard' },
-            { title: 'Blog', href: '/blog' },
-          ],
-        },
-        {
-          title: 'Platform',
-          links: [
-            { title: 'Authentication', href: '/#features' },
-            { title: 'Organizations', href: '/#features' },
-            { title: 'Real-time Data', href: '/#features' },
-          ],
-        },
-        {
-          title: 'Industries',
-          links: [
-            { title: 'B2B SaaS', href: '/#features' },
-            { title: 'Internal Tools', href: '/#features' },
-            { title: 'AI Products', href: '/#features' },
-          ],
-        },
-        {
-          title: 'Customers',
-          links: [
-            { title: 'Startups', href: '/#features' },
-            { title: 'Product Teams', href: '/#features' },
-            { title: 'Agencies', href: '/#features' },
-          ],
-        },
-        {
-          title: 'Company',
-          links: [
-            { title: 'About', href: '/about' },
-            { title: 'Contact', href: '/contact' },
-            { title: 'GitHub', href: 'https://github.com/20xdev/20xdev' },
-            { title: 'X / Twitter', href: 'https://twitter.com/20xdev' },
-          ],
-        },
-        {
-          title: 'Resources',
-          links: [
-            { title: 'Privacy Policy', href: '/privacy' },
-            { title: 'Terms', href: '/terms' },
-            { title: 'Support', href: '/contact' },
-          ],
-        },
-      ],
-      bottomLinks: [
-        { title: 'Privacy Policy', href: '/privacy' },
-        { title: 'Security', href: '/contact' },
-      ],
+      columns: footerColumns,
+      bottomLinks: [link('Privacy Policy', '/privacy'), link('Security', '/contact')],
     },
   },
 };
@@ -100,5 +106,4 @@ export const siteConfig = {
 export type SiteConfig = typeof siteConfig;
 
 // Export nav items for components that need them directly
-import type { NavItem } from '@/types';
-export const landingNav: NavItem[] = siteConfig.nav.main;
+export const landingNav: NavItem[] = [...siteConfig.nav.main];

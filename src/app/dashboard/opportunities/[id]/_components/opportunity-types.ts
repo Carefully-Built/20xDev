@@ -1,6 +1,6 @@
 import type { KanbanItem, KanbanStatus } from '@carefully-built/kanban';
 
-export type OpportunityDetailTab = 'overview' | 'notes' | 'documents' | 'activity';
+export type OpportunityDetailTab = 'overview' | 'notes' | 'documents' | 'agenda';
 
 export interface OpportunityFormValues {
   readonly assignedUserName: string;

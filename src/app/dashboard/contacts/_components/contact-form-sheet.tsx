@@ -205,6 +205,7 @@ export function ContactFormSheet({
               label="Address"
               value={methods.watch('address') ?? ''}
               placeholder="Search an address"
+              componentCountry="it"
               onValueChange={(value) => methods.setValue('address', value, { shouldDirty: true })}
               onPlaceSelect={(place) => {
                 methods.setValue('address', place.address, { shouldDirty: true });

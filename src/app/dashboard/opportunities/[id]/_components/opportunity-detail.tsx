@@ -2,10 +2,13 @@
 
 import {
   EntityAssociatedEmptyTab,
+  EntityAssociatedTabPanel,
   EntityDetailShell,
+  ENTITY_DETAIL_TABS,
   type EntityDetailTabOption,
 } from '@carefully-built/resource-kit';
 import { Card, CardContent } from '@carefully-built/ui';
+import { RichTextRenderer, hasRichTextContent } from '@carefully-built/rich-text';
 import { CalendarDays, FileText, LayoutDashboard, NotebookPen } from 'lucide-react';
 import { useState } from 'react';
 
@@ -15,11 +18,33 @@ import { OpportunityOverviewCard } from './opportunity-overview-card';
 import type { OpportunityDetailTab } from './opportunity-types';
 import { useOpportunityDetail } from './use-opportunity-detail';
 
+const detailTabValues = {
+  overview: 'overview',
+  notes: ENTITY_DETAIL_TABS[3] as 'notes',
+  documents: ENTITY_DETAIL_TABS[4] as 'documents',
+  agenda: ENTITY_DETAIL_TABS[6] as 'agenda',
+} as const satisfies Record<OpportunityDetailTab, OpportunityDetailTab>;
+
 const tabs: readonly EntityDetailTabOption<OpportunityDetailTab>[] = [
   { icon: <LayoutDashboard className="size-3.5" />, label: 'Overview', value: 'overview' },
-  { count: 0, icon: <NotebookPen className="size-3.5" />, label: 'Notes', value: 'notes' },
-  { count: 0, icon: <FileText className="size-3.5" />, label: 'Documents', value: 'documents' },
-  { count: 0, icon: <CalendarDays className="size-3.5" />, label: 'Activity', value: 'activity' },
+  {
+    count: 0,
+    icon: <NotebookPen className="size-3.5" />,
+    label: 'Notes',
+    value: detailTabValues.notes,
+  },
+  {
+    count: 0,
+    icon: <FileText className="size-3.5" />,
+    label: 'Documents',
+    value: detailTabValues.documents,
+  },
+  {
+    count: 0,
+    icon: <CalendarDays className="size-3.5" />,
+    label: 'Activity',
+    value: detailTabValues.agenda,
+  },
 ];
 
 interface OpportunityDetailProps {
@@ -40,7 +65,7 @@ export function OpportunityDetail({ id }: OpportunityDetailProps): React.ReactEl
         title="Opportunity not found"
       >
         <Card>
-          <CardContent className="p-4 text-sm text-muted-foreground">
+          <CardContent className="text-muted-foreground p-4 text-sm">
             This opportunity does not exist.
           </CardContent>
         </Card>
@@ -65,32 +90,25 @@ export function OpportunityDetail({ id }: OpportunityDetailProps): React.ReactEl
           />
         }
       >
-        {activeTab === 'overview' ? (
-          <OpportunityOverviewCard
-            opportunity={opportunity}
-            onEdit={() => setIsEditSheetOpen(true)}
-          />
-        ) : null}
-        {activeTab === 'notes' ? (
-          <EntityAssociatedEmptyTab
-            icon={NotebookPen}
-            title="No notes connected"
-            subtitle="Notes associated with this opportunity will appear here."
-          />
-        ) : null}
+        {activeTab === 'overview' ? <OpportunityOverviewCard /> : null}
+        {activeTab === 'notes' ? <OpportunityNotes notes={opportunity.notes} /> : null}
         {activeTab === 'documents' ? (
-          <EntityAssociatedEmptyTab
-            icon={FileText}
-            title="No documents connected"
-            subtitle="Documents associated with this opportunity will appear here."
-          />
+          <EntityAssociatedTabPanel icon={FileText} name="Documents">
+            <EntityAssociatedEmptyTab
+              icon={FileText}
+              title="No documents connected"
+              subtitle="Documents associated with this opportunity will appear here."
+            />
+          </EntityAssociatedTabPanel>
         ) : null}
-        {activeTab === 'activity' ? (
-          <EntityAssociatedEmptyTab
-            icon={CalendarDays}
-            title="No activity connected"
-            subtitle="Activity associated with this opportunity will appear here."
-          />
+        {activeTab === 'agenda' ? (
+          <EntityAssociatedTabPanel icon={CalendarDays} name="Activity">
+            <EntityAssociatedEmptyTab
+              icon={CalendarDays}
+              title="No activity connected"
+              subtitle="Activity associated with this opportunity will appear here."
+            />
+          </EntityAssociatedTabPanel>
         ) : null}
       </EntityDetailShell>
       <OpportunityEditSheet
@@ -100,5 +118,29 @@ export function OpportunityDetail({ id }: OpportunityDetailProps): React.ReactEl
         onSave={saveOpportunity}
       />
     </>
+  );
+}
+
+function OpportunityNotes({ notes }: { readonly notes?: string | null }): React.ReactElement {
+  if (!hasRichTextContent(notes)) {
+    return (
+      <EntityAssociatedTabPanel icon={NotebookPen} name="Notes">
+        <EntityAssociatedEmptyTab
+          icon={NotebookPen}
+          title="No notes connected"
+          subtitle="Notes associated with this opportunity will appear here."
+        />
+      </EntityAssociatedTabPanel>
+    );
+  }
+
+  return (
+    <EntityAssociatedTabPanel icon={NotebookPen} name="Notes">
+      <Card>
+        <CardContent className="p-4">
+          <RichTextRenderer value={notes} />
+        </CardContent>
+      </Card>
+    </EntityAssociatedTabPanel>
   );
 }
