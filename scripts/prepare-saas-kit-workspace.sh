@@ -12,6 +12,6 @@ fi
 
 (
   cd "$SAAS_KIT_DIR"
-  bun install --frozen-lockfile
+  bun install --frozen-lockfile --linker=hoisted
   bun run build
 )

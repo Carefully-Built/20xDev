@@ -1,4 +1,4 @@
 {
-  "installCommand": "bash scripts/prepare-saas-kit-workspace.sh && bun install --frozen-lockfile",
+  "installCommand": "bash scripts/prepare-saas-kit-workspace.sh && bun install --frozen-lockfile --linker=hoisted",
   "buildCommand": "bun run build"
 }
