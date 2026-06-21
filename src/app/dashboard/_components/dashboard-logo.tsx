@@ -12,7 +12,7 @@ export function DashboardLogo(): React.ReactElement {
         alt={siteConfig.name}
         height={28}
         width={128}
-        className="shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ height: 28, width: 128 }}
         priority
       />

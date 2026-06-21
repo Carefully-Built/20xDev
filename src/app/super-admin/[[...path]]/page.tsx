@@ -1,4 +1,4 @@
-import { createSuperAdminPage } from '@carefully-built/superadmin/next';
+import { createSuperAdminPage } from '@carefully-built/saas-kit/next';
 import { api } from '@convex/_generated/api';
 
 import { convexServer } from '@/lib/convex-server';

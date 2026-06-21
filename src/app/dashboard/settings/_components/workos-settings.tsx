@@ -1,9 +1,12 @@
 'use client';
 
 import { UserProfile, UserSecurity, UsersManagement, WorkOsWidgets } from '@workos-inc/widgets';
-import { Card, CardContent, CardHeader, CardTitle } from '@carefully-built/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@carefully-built/ui';
+import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
+
+import { signOutAction } from '@/app/(auth)/actions';
 
 interface OrganizationInfo {
   readonly id: string;
@@ -58,6 +61,20 @@ export function WorkOSSettings(): React.ReactElement {
           </CardHeader>
           <CardContent className="workos-widget-container">
             <UserSecurity authToken={fetchWidgetToken} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Session</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form action={signOutAction}>
+              <Button type="submit" variant="destructive">
+                <LogOut className="size-4" />
+                Log out
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardWidget } from '@carefully-built/widgets';
+import { DashboardWidget } from '@carefully-built/saas-kit/widgets';
 import { CircleDollarSign, UserRound } from 'lucide-react';
 
 import type { Doc } from '@convex/_generated/dataModel';

@@ -1,11 +1,11 @@
 'use client';
 
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { SharedActivityCalendarWidget } from '@carefully-built/agenda';
-import { BarDistributionWidget, DonutChartWidget } from '@carefully-built/charts';
-import { NotificationCenterButton } from '@carefully-built/notifications';
-import { SmartTable, type Column } from '@carefully-built/ui';
-import { DashboardWidget } from '@carefully-built/widgets';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { SharedActivityCalendarWidget, type ActivityListItem } from '@carefully-built/saas-kit/agenda';
+import { BarDistributionWidget, DonutChartWidget } from '@carefully-built/saas-kit/charts';
+import { NotificationCenterButton } from '@carefully-built/saas-kit/notifications';
+import { SmartTable, type Column } from '@carefully-built/saas-kit';
+import { DashboardWidget } from '@carefully-built/saas-kit/widgets';
 import {
   Activity,
   CircleDollarSign,
@@ -15,18 +15,11 @@ import {
   UsersRound,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import type { ComponentProps } from 'react';
 
-import { documents } from '../files/_data';
-import { opportunities } from '../opportunities/_data';
-import {
-  dashboardActivities,
-  chartColors,
-  notificationTabs,
-  notificationTypeMeta,
-  stageChartData,
-  weeklyActivityData,
-} from '../_data/dashboard-overview-data';
+import { notificationTabs, notificationTypeMeta } from './notification-display';
 
+import { useFilesByOrganization } from '@/hooks/use-files';
 import { useContactSummary, useContactsByOrganization } from '@/hooks/use-contacts';
 import {
   useMarkAllNotificationsSeen,
@@ -51,20 +44,20 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
   style: 'currency',
 });
+const chartColors = ['#0ea5e9', '#14b8a6', '#22c55e', '#f59e0b'] as const;
+const emptyActivityData: ActivityListItem[] = [];
+const emptyChartData: ComponentProps<typeof DonutChartWidget>['data'] = [];
 
 export function OverviewPage(): React.ReactElement {
   const router = useRouter();
   const { organizationId } = useOrganization();
   const contacts = useContactsByOrganization(organizationId, 5);
   const contactSummary = useContactSummary(organizationId);
+  const files = useFilesByOrganization(organizationId);
   const notifications = useNotificationsByOrganization(organizationId);
   const markNotificationSeen = useMarkNotificationSeen(organizationId);
   const markAllNotificationsSeen = useMarkAllNotificationsSeen(organizationId);
   const contactCount = contactSummary?.total ?? 0;
-  const pipelineValue = opportunities.reduce(
-    (total, opportunity) => total + (opportunity.value ?? 0),
-    0,
-  );
   const unreadCount = notifications?.filter((notification) => !notification.seenAt).length ?? 0;
 
   return (
@@ -103,25 +96,25 @@ export function OverviewPage(): React.ReactElement {
     >
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <DashboardWidget icon={UsersRound} title="Contacts" value={contactCount} />
-        <DashboardWidget icon={KanbanSquare} title="Opportunities" value={opportunities.length} />
+        <DashboardWidget icon={KanbanSquare} title="Opportunities" value={0} />
         <DashboardWidget
           icon={CircleDollarSign}
           title="Pipeline"
-          value={currencyFormatter.format(pipelineValue)}
+          value={currencyFormatter.format(0)}
         />
-        <DashboardWidget icon={FileText} title="Files" value={documents.length} />
+        <DashboardWidget icon={FileText} title="Files" value={files?.length ?? 0} />
       </div>
 
       <div className="grid gap-3 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
         <DonutChartWidget
           colors={chartColors}
-          data={stageChartData}
+          data={emptyChartData}
           icon={TrendingUp}
           title="Pipeline stages"
         />
         <BarDistributionWidget
           colors={chartColors}
-          data={weeklyActivityData}
+          data={emptyChartData}
           icon={Activity}
           title="Weekly activity"
         />
@@ -137,7 +130,7 @@ export function OverviewPage(): React.ReactElement {
             noDataMessage="No contacts yet"
           />
         </DashboardWidget>
-        <SharedActivityCalendarWidget activities={dashboardActivities} />
+        <SharedActivityCalendarWidget activities={emptyActivityData} />
       </div>
     </DashboardPageLayout>
   );

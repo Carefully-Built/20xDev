@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import type { WidgetScopes } from '@carefully-built/workos/server';
+import type { WidgetScopes } from '@carefully-built/saas-kit/server';
 
 interface WidgetTokenResponse {
   token: string;

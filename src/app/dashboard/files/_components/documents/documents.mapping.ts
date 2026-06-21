@@ -1,5 +1,5 @@
-import type { AssociationPickerOption } from '@carefully-built/association-picker';
-import type { DocumentCardItem } from '@carefully-built/files';
+import type { AssociationPickerOption } from '@carefully-built/saas-kit/association-picker';
+import type { DocumentCardItem } from '@carefully-built/saas-kit/files';
 
 import type { Id } from '@convex/_generated/dataModel';
 

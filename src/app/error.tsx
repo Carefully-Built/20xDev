@@ -1,6 +1,6 @@
 'use client';
 
-import { SaasErrorPage } from '@carefully-built/ui';
+import { SaasErrorPage } from '@carefully-built/saas-kit';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };

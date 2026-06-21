@@ -1,4 +1,4 @@
-import { getActiveOrgRecord, type ConvexCrudCtx } from '@carefully-built/convex-crud';
+import { getActiveOrgRecord, type ConvexCrudCtx } from '@carefully-built/saas-kit/convex-crud';
 
 import type { Doc } from '../../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../../_generated/server';

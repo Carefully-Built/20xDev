@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthEmailLoginPage } from '@carefully-built/auth-pages/pages';
+import { AuthEmailLoginPage } from '@carefully-built/saas-kit/auth-pages/pages';
 
 import { signIn } from '../../actions';
 

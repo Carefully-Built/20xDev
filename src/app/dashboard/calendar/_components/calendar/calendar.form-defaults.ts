@@ -1,4 +1,4 @@
-import type { AgendaActivityFormValues, EditableActivity } from '@carefully-built/agenda';
+import type { AgendaActivityFormValues, EditableActivity } from '@carefully-built/saas-kit/agenda';
 
 import { defaultActivityType } from './calendar.constants';
 import type { CalendarAgendaState } from './calendar.types';

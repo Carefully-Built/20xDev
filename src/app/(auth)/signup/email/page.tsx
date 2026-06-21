@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthSignupPage } from '@carefully-built/auth-pages/pages';
+import { AuthSignupPage } from '@carefully-built/saas-kit/auth-pages/pages';
 
 import { signUp } from '../../actions';
 

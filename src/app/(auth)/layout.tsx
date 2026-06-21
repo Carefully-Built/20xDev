@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthPagesConfigProvider } from '@carefully-built/auth-pages/config';
+import { AuthPagesConfigProvider } from '@carefully-built/saas-kit/auth-pages/config';
 
 import { authPagesConfig } from './auth-page-config';
 

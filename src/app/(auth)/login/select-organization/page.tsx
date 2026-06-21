@@ -1,4 +1,4 @@
-import { OrganizationSelectionPage } from '@carefully-built/auth-pages/organizations';
+import { OrganizationSelectionPage } from '@carefully-built/saas-kit/auth-pages/organizations';
 import { redirect } from 'next/navigation';
 
 import { getPendingOrganizationSelection } from '@/lib/session';

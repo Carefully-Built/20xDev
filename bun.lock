@@ -6,36 +6,7 @@
       "name": "blueprint",
       "dependencies": {
         "@base-ui/react": "^1.1.0",
-        "@carefully-built/agenda": "workspace:*",
-        "@carefully-built/app-shell": "workspace:*",
-        "@carefully-built/association-picker": "workspace:*",
-        "@carefully-built/auth-pages": "workspace:*",
-        "@carefully-built/automations": "workspace:*",
-        "@carefully-built/charts": "workspace:*",
-        "@carefully-built/convex-crud": "workspace:*",
-        "@carefully-built/convex-multitenant": "workspace:*",
-        "@carefully-built/convex-platform": "workspace:*",
-        "@carefully-built/convex-workos": "workspace:*",
-        "@carefully-built/crud": "workspace:*",
-        "@carefully-built/custom-fields": "workspace:*",
-        "@carefully-built/files": "workspace:*",
-        "@carefully-built/forms": "workspace:*",
-        "@carefully-built/import-export": "workspace:*",
-        "@carefully-built/kanban": "workspace:*",
-        "@carefully-built/legal-ui": "workspace:*",
-        "@carefully-built/maps-ui": "workspace:*",
-        "@carefully-built/notes": "workspace:*",
-        "@carefully-built/notifications": "workspace:*",
-        "@carefully-built/resource-kit": "workspace:*",
-        "@carefully-built/rich-text": "workspace:*",
-        "@carefully-built/search": "workspace:*",
-        "@carefully-built/settings-ui": "workspace:*",
-        "@carefully-built/superadmin": "workspace:*",
-        "@carefully-built/theme-ui": "workspace:*",
-        "@carefully-built/ui": "workspace:*",
-        "@carefully-built/user-picker": "workspace:*",
-        "@carefully-built/widgets": "workspace:*",
-        "@carefully-built/workos": "workspace:*",
+        "@carefully-built/saas-kit": "workspace:*",
         "@convex-dev/workos-authkit": "^0.1.6",
         "@dnd-kit/core": "^6.3.1",
         "@dnd-kit/modifiers": "^9.0.0",
@@ -299,6 +270,16 @@
         "@carefully-built/ui",
         "@carefully-built/widgets",
       ],
+    },
+    "../carefully-built-saas-kit/packages/cli": {
+      "name": "@carefully-built/cli",
+      "version": "0.1.4",
+      "bin": {
+        "carefully-built": "dist/index.mjs",
+      },
+      "devDependencies": {
+        "@types/bun": "^1.3.5",
+      },
     },
     "../carefully-built-saas-kit/packages/convex-crud": {
       "name": "@carefully-built/convex-crud",
@@ -639,6 +620,79 @@
         "@carefully-built/forms",
         "@carefully-built/ui",
       ],
+    },
+    "../carefully-built-saas-kit/packages/saas-kit": {
+      "name": "@carefully-built/saas-kit",
+      "version": "0.1.0",
+      "dependencies": {
+        "@carefully-built/agenda": "0.1.5",
+        "@carefully-built/app-shell": "0.1.2",
+        "@carefully-built/association-picker": "0.1.1",
+        "@carefully-built/auth-pages": "0.1.7",
+        "@carefully-built/automations": "0.1.1",
+        "@carefully-built/charts": "0.1.1",
+        "@carefully-built/convex-crud": "0.1.8",
+        "@carefully-built/convex-multitenant": "0.1.2",
+        "@carefully-built/convex-platform": "0.1.7",
+        "@carefully-built/convex-workos": "0.1.0",
+        "@carefully-built/crud": "0.1.2",
+        "@carefully-built/custom-fields": "0.1.2",
+        "@carefully-built/files": "0.1.4",
+        "@carefully-built/forms": "0.1.8",
+        "@carefully-built/import-export": "0.1.2",
+        "@carefully-built/kanban": "0.1.0",
+        "@carefully-built/legal-ui": "0.1.1",
+        "@carefully-built/maps-ui": "0.1.3",
+        "@carefully-built/notes": "0.1.2",
+        "@carefully-built/notifications": "0.1.0",
+        "@carefully-built/resource-kit": "0.1.2",
+        "@carefully-built/rich-text": "0.1.0",
+        "@carefully-built/search": "0.1.1",
+        "@carefully-built/settings-ui": "0.1.4",
+        "@carefully-built/superadmin": "0.1.8",
+        "@carefully-built/theme-ui": "0.1.0",
+        "@carefully-built/ui": "0.1.15",
+        "@carefully-built/user-picker": "0.1.1",
+        "@carefully-built/widgets": "0.1.0",
+        "@carefully-built/workos": "0.1.2",
+      },
+      "peerDependencies": {
+        "@fullcalendar/core": "^6.1.0",
+        "@fullcalendar/daygrid": "^6.1.0",
+        "@fullcalendar/interaction": "^6.1.0",
+        "@fullcalendar/react": "^6.1.0",
+        "@fullcalendar/timegrid": "^6.1.0",
+        "@hookform/resolvers": ">=5.0.0",
+        "@radix-ui/react-slot": "^1.0.0",
+        "@tiptap/extension-link": ">=3.0.0",
+        "@tiptap/extension-table": ">=3.0.0",
+        "@tiptap/extension-table-cell": ">=3.0.0",
+        "@tiptap/extension-table-header": ">=3.0.0",
+        "@tiptap/extension-table-row": ">=3.0.0",
+        "@tiptap/react": ">=3.0.0",
+        "@tiptap/starter-kit": ">=3.0.0",
+        "@xyflow/react": "^12.10.2",
+        "class-variance-authority": ">=0.7.0",
+        "clsx": ">=2.0.0",
+        "convex": ">=1.0.0",
+        "date-fns": ">=4.0.0",
+        "lucide-react": ">=0.400.0 || >=1.0.0",
+        "next": ">=15.0.0 || >=16.0.0",
+        "nuqs": ">=2.0.0",
+        "papaparse": "^5.0.0",
+        "radix-ui": ">=1.0.0",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-country-flag": ">=3.0.0",
+        "react-day-picker": ">=9.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0",
+        "react-hook-form": ">=7.0.0",
+        "react-phone-number-input": ">=3.0.0",
+        "recharts": ">=2.0.0",
+        "sonner": ">=1.0.0 || >=2.0.0",
+        "tailwind-merge": ">=2.0.0 || >=3.0.0",
+        "vaul": ">=1.0.0",
+        "zod": ">=4.0.0",
+      },
     },
     "../carefully-built-saas-kit/packages/search": {
       "name": "@carefully-built/search",
@@ -1084,6 +1138,8 @@
 
     "@carefully-built/charts": ["@carefully-built/charts@workspace:../carefully-built-saas-kit/packages/charts"],
 
+    "@carefully-built/cli": ["@carefully-built/cli@workspace:../carefully-built-saas-kit/packages/cli"],
+
     "@carefully-built/convex-crud": ["@carefully-built/convex-crud@workspace:../carefully-built-saas-kit/packages/convex-crud"],
 
     "@carefully-built/convex-multitenant": ["@carefully-built/convex-multitenant@workspace:../carefully-built-saas-kit/packages/convex-multitenant"],
@@ -1115,6 +1171,8 @@
     "@carefully-built/resource-kit": ["@carefully-built/resource-kit@workspace:../carefully-built-saas-kit/packages/resource-kit"],
 
     "@carefully-built/rich-text": ["@carefully-built/rich-text@workspace:../carefully-built-saas-kit/packages/rich-text"],
+
+    "@carefully-built/saas-kit": ["@carefully-built/saas-kit@workspace:../carefully-built-saas-kit/packages/saas-kit"],
 
     "@carefully-built/search": ["@carefully-built/search@workspace:../carefully-built-saas-kit/packages/search"],
 
@@ -2072,6 +2130,8 @@
 
     "@types/body-parser": ["@types/body-parser@1.19.6", "", { "dependencies": { "@types/connect": "*", "@types/node": "*" } }, ""],
 
+    "@types/bun": ["@types/bun@1.3.14", "", { "dependencies": { "bun-types": "1.3.14" } }, "sha512-h1hFqFVcvAvD9j9K7ZW7vd82aSA+rTdznZa+5bwvCwqSB1jmmfLcbIWhOLx1/+boy/xmjgCs/OMUL8hRJSmnPw=="],
+
     "@types/chai": ["@types/chai@5.2.3", "", { "dependencies": { "@types/deep-eql": "*", "assertion-error": "^2.0.1" } }, ""],
 
     "@types/connect": ["@types/connect@3.4.38", "", { "dependencies": { "@types/node": "*" } }, ""],
@@ -2437,6 +2497,8 @@
     "buffer-crc32": ["buffer-crc32@1.0.0", "", {}, "sha512-Db1SbgBS/fg/392AblrMJk97KggmvYhr4pB5ZIMTWtaivCPMWLkmb7m21cJvpvgK+J3nsU2CmmixNBZx4vFj/w=="],
 
     "buffer-from": ["buffer-from@1.1.2", "", {}, "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="],
+
+    "bun-types": ["bun-types@1.3.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-4N0ig0fEomHt5R0KCFWjovxow98rIoRwKolrYdCcknNwMekCXRnWEUvgu5soYV8QXtVsrUD8B95MBOZGPvr6KQ=="],
 
     "bundle-name": ["bundle-name@4.1.0", "", { "dependencies": { "run-applescript": "^7.0.0" } }, ""],
 
@@ -4546,6 +4608,8 @@
 
     "boxen/wrap-ansi": ["wrap-ansi@9.0.2", "", { "dependencies": { "ansi-styles": "^6.2.1", "string-width": "^7.0.0", "strip-ansi": "^7.1.0" } }, "sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww=="],
 
+    "bun-types/@types/node": ["@types/node@24.13.2", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-fRa09kZTgu8o71KFcDjUFuc7F+dEbZYZmkI0mg5YBTRs0yMKjYHsq/c0urDKeDb+D5qVgXOdFcuu+DZPKOITwA=="],
+
     "chokidar/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "cliui/strip-ansi": ["strip-ansi@6.0.1", "", { "dependencies": { "ansi-regex": "^5.0.1" } }, "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A=="],
@@ -4971,6 +5035,8 @@
     "boxen/string-width/emoji-regex": ["emoji-regex@10.6.0", "", {}, ""],
 
     "boxen/wrap-ansi/ansi-styles": ["ansi-styles@6.2.3", "", {}, "sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg=="],
+
+    "bun-types/@types/node/undici-types": ["undici-types@7.18.2", "", {}, "sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w=="],
 
     "cliui/strip-ansi/ansi-regex": ["ansi-regex@5.0.1", "", {}, "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="],
 

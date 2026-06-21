@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthLoginPage } from '@carefully-built/auth-pages/pages';
+import { AuthLoginPage } from '@carefully-built/saas-kit/auth-pages/pages';
 
 import { getGoogleAuthUrl } from '../actions';
 

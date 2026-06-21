@@ -1,4 +1,4 @@
-import type { NavigationItem } from '@carefully-built/app-shell';
+import type { NavigationItem } from '@carefully-built/saas-kit/app-shell';
 import {
   Bell,
   CalendarDays,

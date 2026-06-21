@@ -48,6 +48,19 @@ const removeJamIframeBeforeHydration = `
 })();
 `;
 
+const applyThemeBeforeHydration = `
+(() => {
+  const storageKey = 'theme';
+  const root = document.documentElement;
+  const storedTheme = localStorage.getItem(storageKey);
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const shouldUseDark = storedTheme === 'dark' || ((!storedTheme || storedTheme === 'system') && systemDark);
+
+  root.classList.toggle('dark', shouldUseDark);
+  root.style.colorScheme = shouldUseDark ? 'dark' : 'light';
+})();
+`;
+
 const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
   <html
     lang="en"
@@ -55,6 +68,9 @@ const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
     suppressHydrationWarning
   >
     <head>
+      <Script id="apply-theme-before-hydration" strategy="beforeInteractive">
+        {applyThemeBeforeHydration}
+      </Script>
       <Script id="remove-jam-iframe-before-hydration" strategy="beforeInteractive">
         {removeJamIframeBeforeHydration}
       </Script>

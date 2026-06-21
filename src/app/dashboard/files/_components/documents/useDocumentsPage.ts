@@ -1,6 +1,6 @@
-import type { AssociationPickerOption } from '@carefully-built/association-picker';
-import type { DocumentCardItem } from '@carefully-built/files';
-import { showDestructiveActionToast } from '@carefully-built/resource-kit';
+import type { AssociationPickerOption } from '@carefully-built/saas-kit/association-picker';
+import type { DocumentCardItem } from '@carefully-built/saas-kit/files';
+import { showDestructiveActionToast } from '@carefully-built/saas-kit/resource-kit';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

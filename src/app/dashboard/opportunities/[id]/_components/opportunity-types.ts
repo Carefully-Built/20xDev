@@ -1,4 +1,4 @@
-import type { KanbanItem, KanbanStatus } from '@carefully-built/kanban';
+import type { KanbanItem, KanbanStatus } from '@carefully-built/saas-kit/kanban';
 
 export type OpportunityDetailTab = 'overview' | 'notes' | 'documents' | 'agenda';
 

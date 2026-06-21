@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 
-import type { DocumentCardItem } from '@carefully-built/files';
+import type { DocumentCardItem } from '@carefully-built/saas-kit/files';
 
 import type { Id } from '../../convex/_generated/dataModel';
 import { getFileUrl, mapFileToDocument, resolveFileAssociations } from '../../src/app/dashboard/files/_components/documents/documents.mapping';

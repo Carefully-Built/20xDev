@@ -24,5 +24,5 @@ export const workos = new Proxy({} as WorkOS, {
 // WorkOS configuration - lazy getters
 export const WORKOS_CLIENT_ID = process.env.WORKOS_CLIENT_ID ?? '';
 export const WORKOS_REDIRECT_URI =
-  process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI ?? process.env.WORKOS_REDIRECT_URI ?? '';
+  process.env.WORKOS_REDIRECT_URI ?? process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI ?? '';
 export const WORKOS_COOKIE_PASSWORD = process.env.WORKOS_COOKIE_PASSWORD ?? '';

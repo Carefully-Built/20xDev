@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  Button,
-  Chip,
-  FieldDetailRow,
-} from '@carefully-built/ui';
+import { Button, Chip, FieldDetailRow } from '@carefully-built/saas-kit';
 import { Building2, CircleDollarSign, NotebookText, Pencil, UserRound } from 'lucide-react';
 
 import type { EditableOpportunity } from './opportunity-types';

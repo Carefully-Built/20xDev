@@ -4,8 +4,8 @@ import { Pipes, WorkOsWidgets } from '@workos-inc/widgets';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import { SettingsSectionCard } from '@carefully-built/settings-ui';
-import { SettingsPipesWidgetPanel, SettingsSwitchRow } from '@carefully-built/settings-ui/client';
+import { SettingsSectionCard } from '@carefully-built/saas-kit/settings-ui';
+import { SettingsPipesWidgetPanel, SettingsSwitchRow } from '@carefully-built/saas-kit/settings/client';
 
 import { useCurrentUserByOrganization, useUpdateIntegrationPreferences } from '@/hooks/use-users';
 import {

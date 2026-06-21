@@ -1,7 +1,7 @@
 import {
   createWorkOSWidgetTokenResponse as createWorkOSWidgetTokenResponseFromKit,
   getWorkOSWidgetToken as getWorkOSWidgetTokenFromKit,
-} from '@carefully-built/workos/server';
+} from '@carefully-built/saas-kit/server';
 
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';

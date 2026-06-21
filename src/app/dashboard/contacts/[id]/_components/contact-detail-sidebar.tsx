@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, Button, Chip, FieldDetailRow } from '@carefully-built/ui';
+import { Avatar, AvatarFallback, Button, Chip, FieldDetailRow } from '@carefully-built/saas-kit';
 import {
   Building2,
   CircleDollarSign,

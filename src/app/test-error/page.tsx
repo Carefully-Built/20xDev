@@ -1,6 +1,6 @@
 'use client';
 
-import { captureApiError, captureError } from '@carefully-built/resource-kit';
+import { captureApiError, captureError } from '@carefully-built/saas-kit/resource-kit';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';

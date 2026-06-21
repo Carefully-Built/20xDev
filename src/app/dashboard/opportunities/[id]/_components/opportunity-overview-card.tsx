@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardWidget } from '@carefully-built/widgets';
+import { DashboardWidget } from '@carefully-built/saas-kit/widgets';
 import { BarChart3 } from 'lucide-react';
 
 export function OpportunityOverviewCard(): React.ReactElement {

@@ -1,8 +1,8 @@
 'use client';
 
-import { CrudResourceSheet } from '@carefully-built/crud';
-import { CustomForm, SchemaForm, type SchemaFormField } from '@carefully-built/forms';
-import { RichTextEditor } from '@carefully-built/rich-text';
+import { CrudResourceSheet } from '@carefully-built/saas-kit/crud';
+import { CustomForm, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
+import { RichTextEditor } from '@carefully-built/saas-kit/rich-text';
 import { useId } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';

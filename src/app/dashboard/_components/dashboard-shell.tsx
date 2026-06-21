@@ -1,8 +1,8 @@
 'use client';
 
-import { AppNavigationShell, SidebarInset, SidebarProvider } from '@carefully-built/app-shell';
-import { TooltipProvider } from '@carefully-built/ui';
-import type { WorkOSOrganization } from '@carefully-built/workos';
+import { AppNavigationShell, SidebarInset, SidebarProvider } from '@carefully-built/saas-kit/app-shell';
+import { TooltipProvider } from '@carefully-built/saas-kit';
+import type { WorkOSOrganization } from '@carefully-built/saas-kit/workos';
 import { usePathname } from 'next/navigation';
 
 import type { ReactNode } from 'react';

@@ -1,15 +1,12 @@
 'use client';
 
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { NotificationList } from '@carefully-built/notifications';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { NotificationList } from '@carefully-built/saas-kit/notifications';
 import { useRouter } from 'next/navigation';
 
-import { notificationTypeMeta } from '../_data/dashboard-overview-data';
+import { notificationTypeMeta } from '../_components/notification-display';
 
-import {
-  useMarkNotificationSeen,
-  useNotificationsByOrganization,
-} from '@/hooks/use-notifications';
+import { useMarkNotificationSeen, useNotificationsByOrganization } from '@/hooks/use-notifications';
 import { useOrganization } from '@/providers';
 
 export default function NotificationsPage(): React.ReactElement {

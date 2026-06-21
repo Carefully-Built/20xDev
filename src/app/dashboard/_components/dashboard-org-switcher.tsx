@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  CreateOrganization,
-  SidebarOrgSwitcherBase,
-  type WorkOSOrganization,
-} from '@carefully-built/workos';
+import { CreateOrganization, SidebarOrgSwitcherBase, type WorkOSOrganization } from '@carefully-built/saas-kit/workos';
 
 import { fetchOrganizations, switchOrganization } from '@/lib/organization-api-client';
 import { useOrganization } from '@/providers';

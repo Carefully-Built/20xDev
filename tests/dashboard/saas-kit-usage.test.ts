@@ -38,7 +38,7 @@ describe('dashboard SaaS kit composition', () => {
     const settingsPage = readSource('src/app/dashboard/settings/page.tsx');
 
     expect(settingsPage).toContain('SettingsTabs');
-    expect(settingsPage).toContain('@carefully-built/settings-ui/client');
+    expect(settingsPage).toContain('@carefully-built/saas-kit/settings/client');
   });
 
   test('opportunity edit sheet uses the CRUD resource sheet and form primitives', () => {

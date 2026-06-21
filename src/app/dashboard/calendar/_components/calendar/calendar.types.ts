@@ -1,11 +1,4 @@
-import type {
-  ActivityCalendarScope,
-  ActivityCalendarSourceFilter,
-  ActivityForm,
-  ActivityListItem,
-  AgendaActivityFormValues,
-  EditableActivity,
-} from '@carefully-built/agenda';
+import type { ActivityCalendarScope, ActivityCalendarSourceFilter, ActivityForm, ActivityListItem, AgendaActivityFormValues, EditableActivity } from '@carefully-built/saas-kit/agenda';
 
 import type { Id } from '@convex/_generated/dataModel';
 import type { GoogleCalendarPreferences } from '@/lib/integrations/google/google-calendar';

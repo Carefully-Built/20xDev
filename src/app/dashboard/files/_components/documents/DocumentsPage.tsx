@@ -1,9 +1,9 @@
 'use client';
 
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { AssociationPicker } from '@carefully-built/association-picker';
-import { DocumentCard, DocumentCardGrid, FileUploadSheet } from '@carefully-built/files';
-import { Button, Label } from '@carefully-built/ui';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { AssociationPicker } from '@carefully-built/saas-kit/association-picker';
+import { DocumentCard, DocumentCardGrid, FileUploadSheet } from '@carefully-built/saas-kit/files';
+import { Button, Label } from '@carefully-built/saas-kit';
 import { Plus } from 'lucide-react';
 
 import type { Id } from '@convex/_generated/dataModel';

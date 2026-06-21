@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthUpdatePasswordPage } from '@carefully-built/auth-pages/pages';
+import { AuthUpdatePasswordPage } from '@carefully-built/saas-kit/auth-pages/pages';
 
 import { resetPassword } from '../actions';
 

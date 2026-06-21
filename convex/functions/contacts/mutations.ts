@@ -1,5 +1,6 @@
 import { v } from 'convex/values';
-import { createTimestampFields, updateTimestampFields } from '@carefully-built/convex-crud';
+import { createTimestampFields } from '@carefully-built/saas-kit/convex-crud';
+import { updateTimestampFields } from '@carefully-built/saas-kit/convex-crud';
 
 import { mutation } from '../../_generated/server';
 import { createContactValidator, updateContactValidator } from '../../tables/contacts';

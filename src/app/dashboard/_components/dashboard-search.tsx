@@ -3,7 +3,7 @@
 import {
   CommandPalette,
   type CommandPaletteTypeOption,
-} from '@carefully-built/search/command-palette';
+} from '@carefully-built/saas-kit/search/command-palette';
 import {
   Bell,
   Files,
@@ -16,11 +16,10 @@ import {
 import { useRouter } from 'next/navigation';
 
 import { useContactsByOrganization } from '@/hooks/use-contacts';
+import { useFilesByOrganization } from '@/hooks/use-files';
 import { useNotificationsByOrganization } from '@/hooks/use-notifications';
 import { useOrganization } from '@/providers';
 
-import { documents } from '../files/_data';
-import { opportunities } from '../opportunities/_data';
 import { bottomNavItems, navItems } from './dashboard-navigation';
 
 type SearchType = 'all' | 'page' | 'contact' | 'opportunity' | 'file' | 'note' | 'notification';
@@ -79,26 +78,13 @@ function getStaticSearchItems(): SearchItem[] {
       meta: 'Page',
       type: 'page' as const,
     })),
-    ...opportunities.map((opportunity) => ({
-      href: `/dashboard/opportunities/${opportunity._id}`,
-      id: opportunity._id,
-      label: opportunity.title,
-      meta: opportunity.assignedUserName ?? 'Opportunity',
-      type: 'opportunity' as const,
-    })),
-    ...documents.map((document) => ({
-      href: '/dashboard/files',
-      id: String(document._id),
-      label: document.title,
-      meta: document.sourceType === 'external_link' ? 'Public link' : 'Document',
-      type: 'file' as const,
-    })),
   ];
 }
 
 function useDashboardSearchItems(): SearchItem[] {
   const { organizationId } = useOrganization();
   const contacts = useContactsByOrganization(organizationId, 20);
+  const files = useFilesByOrganization(organizationId);
   const notifications = useNotificationsByOrganization(organizationId);
 
   return [
@@ -109,6 +95,13 @@ function useDashboardSearchItems(): SearchItem[] {
       label: contact.name,
       meta: contact.company,
       type: 'contact' as const,
+    })),
+    ...(files ?? []).map((file) => ({
+      href: '/dashboard/files',
+      id: String(file._id),
+      label: file.name,
+      meta: 'File',
+      type: 'file' as const,
     })),
     ...(notifications ?? []).map((notification) => ({
       href: notification.href ?? '/dashboard/notifications',

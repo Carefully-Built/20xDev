@@ -1,4 +1,4 @@
-import { createWorkOSWidgetTokenResponse, type WidgetScopes } from '@carefully-built/workos/server';
+import { createWorkOSWidgetTokenResponse, type WidgetScopes } from '@carefully-built/saas-kit/server';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';

@@ -1,4 +1,4 @@
 {
-  "installCommand": "git clone --depth=1 https://github.com/AlessandroDodi/carefully-built-saas-kit.git ../carefully-built-saas-kit && (cd ../carefully-built-saas-kit && bun install --frozen-lockfile --linker=hoisted && bun run build:vercel) && bun install --frozen-lockfile --linker=hoisted",
+  "installCommand": "bash scripts/vercel-install.sh",
   "buildCommand": "bun run build"
 }

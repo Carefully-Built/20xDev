@@ -1,14 +1,8 @@
 'use client';
 
-import {
-  EntityAssociatedEmptyTab,
-  EntityAssociatedTabPanel,
-  EntityDetailShell,
-  ENTITY_DETAIL_TABS,
-  type EntityDetailTabOption,
-} from '@carefully-built/resource-kit';
-import { Card, CardContent } from '@carefully-built/ui';
-import { RichTextRenderer, hasRichTextContent } from '@carefully-built/rich-text';
+import { EntityAssociatedEmptyTab, EntityAssociatedTabPanel, EntityDetailShell, ENTITY_DETAIL_TABS, type EntityDetailTabOption } from '@carefully-built/saas-kit/resource-kit';
+import { Card, CardContent } from '@carefully-built/saas-kit';
+import { RichTextRenderer, hasRichTextContent } from '@carefully-built/saas-kit/rich-text';
 import { CalendarDays, FileText, LayoutDashboard, NotebookPen } from 'lucide-react';
 import { useState } from 'react';
 

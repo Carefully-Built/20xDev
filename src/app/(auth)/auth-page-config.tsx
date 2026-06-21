@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { AuthPagesConfig } from '@carefully-built/auth-pages/config';
+import type { AuthPagesConfig } from '@carefully-built/saas-kit/auth-pages/config';
 
 import { siteConfig } from '@/config/site';
 

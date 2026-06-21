@@ -2,7 +2,7 @@ import { sealData, unsealData } from 'iron-session';
 import { decodeJwt } from 'jose';
 import { cookies } from 'next/headers';
 
-import { WORKOS_CLIENT_ID, WORKOS_COOKIE_PASSWORD, workos } from './workos';
+import { WORKOS_CLIENT_ID, WORKOS_COOKIE_PASSWORD, WORKOS_REDIRECT_URI, workos } from './workos';
 
 import type { User } from '@workos-inc/node';
 
@@ -57,7 +57,7 @@ function hasWorkOSEnv(): boolean {
     process.env.WORKOS_API_KEY &&
     process.env.WORKOS_CLIENT_ID &&
     process.env.WORKOS_COOKIE_PASSWORD &&
-    process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI,
+    WORKOS_REDIRECT_URI,
   );
 }
 
@@ -201,5 +201,11 @@ export async function getPendingOrganizationSelection(): Promise<PendingOrganiza
 
 export async function clearPendingOrganizationSelection(): Promise<void> {
   const cookieStore = await cookies();
+  cookieStore.delete(PENDING_ORG_SELECTION_COOKIE_NAME);
+}
+
+export async function deleteSession(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE_NAME);
   cookieStore.delete(PENDING_ORG_SELECTION_COOKIE_NAME);
 }

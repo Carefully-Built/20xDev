@@ -1,8 +1,8 @@
 'use client';
 
-import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/app-shell';
-import { buildKanbanColumns, KanbanBoard, type KanbanItem } from '@carefully-built/kanban';
-import { TableToolbar } from '@carefully-built/ui';
+import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/saas-kit/app-shell';
+import { buildKanbanColumns, KanbanBoard, type KanbanItem } from '@carefully-built/saas-kit/kanban';
+import { TableToolbar } from '@carefully-built/saas-kit';
 import { Plus, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';

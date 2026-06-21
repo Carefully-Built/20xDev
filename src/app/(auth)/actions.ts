@@ -1,8 +1,9 @@
 'use server';
 
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
-import { createSession } from '@/lib/session';
+import { createSession, deleteSession } from '@/lib/session';
 import { WORKOS_CLIENT_ID, WORKOS_REDIRECT_URI, workos } from '@/lib/workos';
+import { redirect } from 'next/navigation';
 
 export async function getGoogleAuthUrl(): Promise<string> {
   return await Promise.resolve(workos.userManagement.getAuthorizationUrl({
@@ -103,4 +104,9 @@ export async function resetPassword(
       error: error instanceof Error ? error.message : 'Failed to reset password',
     };
   }
+}
+
+export async function signOutAction(): Promise<void> {
+  await deleteSession();
+  redirect('/login');
 }

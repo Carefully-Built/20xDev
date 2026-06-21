@@ -17,21 +17,21 @@ describe('SaaS kit plumbing cleanup', () => {
       false,
     );
 
-    expect(readSource('src/app/test-error/page.tsx')).toContain('@carefully-built/resource-kit');
+    expect(readSource('src/app/test-error/page.tsx')).toContain('@carefully-built/saas-kit');
     expect(readSource('src/app/dashboard/contacts/_components/contacts-page-client.tsx')).toContain(
-      '@carefully-built/resource-kit',
+      '@carefully-built/saas-kit',
     );
     expect(
       readSource('src/app/dashboard/files/_components/documents/useDocumentsPage.ts'),
-    ).toContain('@carefully-built/resource-kit');
+    ).toContain('@carefully-built/saas-kit');
   });
 
   test('uses WorkOS server token helpers for widget token routes', () => {
     expect(readSource('src/app/api/auth/token/route.ts')).toContain(
-      '@carefully-built/workos/server',
+      '@carefully-built/saas-kit/server',
     );
     expect(readSource('src/app/api/widgets/token/route.ts')).toContain(
-      '@carefully-built/workos/server',
+      '@carefully-built/saas-kit/server',
     );
   });
 

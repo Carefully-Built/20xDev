@@ -51,6 +51,12 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
       label: 'General',
       value: 'general',
     },
+    {
+      content: <WorkOSSettings />,
+      icon: <User className="size-3.5" />,
+      label: 'Account',
+      value: 'account',
+    },
     ...(organization
       ? [
           {
@@ -71,12 +77,6 @@ export default async function SettingsPage(): Promise<React.ReactElement> {
       icon: <Link2 className="size-3.5" />,
       label: 'Integrations',
       value: 'integrations',
-    },
-    {
-      content: <WorkOSSettings />,
-      icon: <User className="size-3.5" />,
-      label: 'Account',
-      value: 'account',
     },
   ];
 

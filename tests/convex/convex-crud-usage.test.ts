@@ -18,7 +18,7 @@ describe('Convex CRUD helpers', () => {
     ]) {
       const source = readSource(path);
 
-      expect(source).toContain('@carefully-built/convex-crud');
+      expect(source).toContain('@carefully-built/saas-kit');
       expect(source).toContain('getActiveOrgRecord');
     }
   });

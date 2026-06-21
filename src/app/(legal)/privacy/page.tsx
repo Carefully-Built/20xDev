@@ -1,4 +1,4 @@
-import { LegalDocument, privacyPolicyText } from '@carefully-built/legal-ui';
+import { LegalDocument, privacyPolicyText } from '@carefully-built/saas-kit/legal-ui';
 import Image from 'next/image';
 
 import type { Metadata } from 'next';

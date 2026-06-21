@@ -1,6 +1,6 @@
-import type { AgendaActivityMutationPayload } from '@carefully-built/agenda';
+import type { AgendaActivityMutationPayload } from '@carefully-built/saas-kit/agenda';
 
-import type { AssociationPickerOption } from '@carefully-built/association-picker';
+import type { AssociationPickerOption } from '@carefully-built/saas-kit/association-picker';
 import type { Id } from '@convex/_generated/dataModel';
 
 import { activityTypes, defaultActivityType, type CalendarActivityType } from './calendar.constants';

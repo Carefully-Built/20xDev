@@ -1,5 +1,5 @@
-import { OverviewPage } from './_components/overview-page';
+import { DashboardOverviewStable } from './_components/dashboard-overview-stable';
 
 export default function DashboardPage(): React.ReactElement {
-  return <OverviewPage />;
+  return <DashboardOverviewStable />;
 }

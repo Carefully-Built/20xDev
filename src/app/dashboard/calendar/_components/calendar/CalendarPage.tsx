@@ -1,8 +1,8 @@
 'use client';
 
-import { ActivityCalendarView, ActivityForm, type EditableActivity } from '@carefully-built/agenda';
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { ResponsiveSheet } from '@carefully-built/ui';
+import { ActivityCalendarView, ActivityForm, type EditableActivity } from '@carefully-built/saas-kit/agenda';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { ResponsiveSheet } from '@carefully-built/saas-kit';
 
 import { useCalendarPage } from './useCalendarPage';
 

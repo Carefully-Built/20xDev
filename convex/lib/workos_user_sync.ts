@@ -1,8 +1,4 @@
-import {
-  deleteWorkosUserRecords,
-  patchWorkosUserRecords,
-  upsertWorkosUserRecord,
-} from '@carefully-built/convex-workos';
+import { deleteWorkosUserRecords, patchWorkosUserRecords, upsertWorkosUserRecord } from '@carefully-built/saas-kit/convex-workos';
 
 import type { Id, Doc } from '../_generated/dataModel';
 import type { MutationCtx } from '../_generated/server';

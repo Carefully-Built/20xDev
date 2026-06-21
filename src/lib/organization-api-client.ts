@@ -1,4 +1,4 @@
-import type { OrganizationsResponse, WorkOSOrganization } from '@carefully-built/workos';
+import type { OrganizationsResponse, WorkOSOrganization } from '@carefully-built/saas-kit/workos';
 
 interface JsonPostOptions {
   readonly body: Record<string, unknown>;

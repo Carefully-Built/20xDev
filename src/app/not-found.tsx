@@ -1,4 +1,4 @@
-import { SaasNotFoundPage } from '@carefully-built/ui';
+import { SaasNotFoundPage } from '@carefully-built/saas-kit';
 
 const NotFoundPage = (): React.ReactElement => <SaasNotFoundPage />;
 

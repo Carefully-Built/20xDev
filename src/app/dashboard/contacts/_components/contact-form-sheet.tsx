@@ -1,19 +1,9 @@
 'use client';
 
-import {
-  buildCustomFieldValuePayload,
-  mapCustomFieldValuesToFormValues,
-} from '@carefully-built/custom-fields';
-import { CrudResourceSheet } from '@carefully-built/crud';
-import {
-  CustomCompactCurrencyField,
-  CustomForm,
-  CustomSelectField,
-  CustomUserPickerField,
-  SchemaForm,
-  type SchemaFormField,
-} from '@carefully-built/forms';
-import { GooglePlacesAddressInput } from '@carefully-built/maps-ui';
+import { buildCustomFieldValuePayload, mapCustomFieldValuesToFormValues } from '@carefully-built/saas-kit/custom-fields';
+import { CrudResourceSheet } from '@carefully-built/saas-kit/crud';
+import { CustomCompactCurrencyField, CustomForm, CustomSelectField, CustomUserPickerField, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
+import { GooglePlacesAddressInput } from '@carefully-built/saas-kit/maps-ui';
 import { Building2, Mail, MapPinned, Phone, Tag, UserRound } from 'lucide-react';
 import { useId } from 'react';
 import { z } from 'zod';

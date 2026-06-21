@@ -1,10 +1,10 @@
 'use client';
 
-import { AssociationPicker, type AssociationPickerOption } from '@carefully-built/association-picker';
-import { buildAssociationValue, getAssociationTypeLabel } from '@carefully-built/convex-platform';
-import { NotesCrudPage, type NoteCrudValues, type NoteListItem } from '@carefully-built/notes';
-import { RichTextEditor } from '@carefully-built/rich-text';
-import { Label } from '@carefully-built/ui';
+import { Label } from '@carefully-built/saas-kit';
+import { AssociationPicker, type AssociationPickerOption } from '@carefully-built/saas-kit/association-picker';
+import { buildAssociationValue, getAssociationTypeLabel } from '@carefully-built/saas-kit/convex-platform';
+import { NotesCrudPage, type NoteCrudValues, type NoteListItem } from '@carefully-built/saas-kit/notes';
+import { RichTextEditor } from '@carefully-built/saas-kit/rich-text';
 import { toast } from 'sonner';
 
 import type { Id } from '@convex/_generated/dataModel';

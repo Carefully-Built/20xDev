@@ -1,7 +1,7 @@
 import type { Doc } from '../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../_generated/server';
 import type { UserIdentity } from 'convex/server';
-import { requireUserInOrganization } from '@carefully-built/convex-multitenant';
+import { requireUserInOrganization } from '@carefully-built/saas-kit/convex-multitenant';
 
 type OrganizationCtx = MutationCtx | QueryCtx;
 
