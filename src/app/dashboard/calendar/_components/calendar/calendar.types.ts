@@ -1,5 +1,6 @@
 import type {
   ActivityCalendarScope,
+  ActivityCalendarSourceFilter,
   ActivityForm,
   ActivityListItem,
   AgendaActivityFormValues,
@@ -7,12 +8,17 @@ import type {
 } from '@carefully-built/agenda';
 
 import type { Id } from '@convex/_generated/dataModel';
+import type { GoogleCalendarPreferences } from '@/lib/integrations/google/google-calendar';
 
 export interface CalendarAgendaState {
   readonly filteredActivities: EditableActivity[];
   readonly anchorDate: Date;
   readonly currentUserId: string | null;
   readonly calendarScope: ActivityCalendarScope;
+  readonly filters: {
+    readonly calendarSource: ActivityCalendarSourceFilter;
+  };
+  readonly googleCalendarPreferences: GoogleCalendarPreferences;
   readonly isSheetOpen: boolean;
   readonly editingActivity: EditableActivity | null;
   readonly participantOptions: React.ComponentProps<typeof ActivityForm>['participantOptions'];
@@ -56,6 +62,7 @@ export interface StoredActivityData {
   readonly dueAt?: number;
   readonly startAt?: number;
   readonly endAt?: number;
+  readonly googleCalendarEventId?: string;
   readonly description?: string;
   readonly status?: 'todo' | 'scheduled' | 'done' | 'cancelled';
 }

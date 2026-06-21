@@ -103,7 +103,5 @@ export const siteConfig = {
   },
 };
 
-export type SiteConfig = typeof siteConfig;
-
 // Export nav items for components that need them directly
 export const landingNav: NavItem[] = [...siteConfig.nav.main];

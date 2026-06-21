@@ -19,6 +19,16 @@ export const usersTable = defineTable({
   // Organization
   organizationId: v.optional(v.string()), // WorkOS organization ID
   role: v.union(v.literal('admin'), v.literal('member'), v.literal('viewer')),
+  integrationPreferences: v.optional(
+    v.object({
+      googleCalendar: v.optional(
+        v.object({
+          showExistingEvents: v.boolean(),
+          syncDashboardEvents: v.boolean(),
+        }),
+      ),
+    }),
+  ),
 
   // Timestamps
   createdAt: v.number(),
@@ -39,6 +49,15 @@ export const userRoleValidator = v.union(
   v.literal('viewer')
 );
 
+export const integrationPreferencesValidator = v.object({
+  googleCalendar: v.optional(
+    v.object({
+      showExistingEvents: v.boolean(),
+      syncDashboardEvents: v.boolean(),
+    }),
+  ),
+});
+
 export const createUserValidator = v.object({
   workosId: v.string(),
   email: v.string(),
@@ -48,6 +67,7 @@ export const createUserValidator = v.object({
   imageUrl: v.optional(v.string()),
   organizationId: v.optional(v.string()),
   role: userRoleValidator,
+  integrationPreferences: v.optional(integrationPreferencesValidator),
 });
 
 export const updateUserValidator = v.object({
@@ -57,4 +77,5 @@ export const updateUserValidator = v.object({
   imageUrl: v.optional(v.string()),
   organizationId: v.optional(v.string()),
   role: v.optional(userRoleValidator),
+  integrationPreferences: v.optional(integrationPreferencesValidator),
 });

@@ -8,7 +8,6 @@ import type { ReactNode } from 'react';
 export { OrganizationProvider, useOrganization } from './organization-provider';
 export { UserProvider, useUser } from './user-provider';
 export { ConvexClientProvider } from './convex-provider';
-export type { UserData } from './user-provider';
 
 interface ProvidersProps {
   readonly children: ReactNode;

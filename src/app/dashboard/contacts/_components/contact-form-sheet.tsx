@@ -1,6 +1,9 @@
 'use client';
 
-import { buildCustomFieldValuePayload, mapCustomFieldValuesToFormValues } from '@carefully-built/custom-fields';
+import {
+  buildCustomFieldValuePayload,
+  mapCustomFieldValuesToFormValues,
+} from '@carefully-built/custom-fields';
 import { CrudResourceSheet } from '@carefully-built/crud';
 import {
   CustomCompactCurrencyField,
@@ -47,7 +50,7 @@ const formSchema = z.object({
 
 type ContactFormValues = z.infer<typeof formSchema>;
 
-export interface ContactFormRecord {
+interface ContactFormRecord {
   readonly address?: string;
   readonly company: string;
   readonly customFields?: readonly ContactCustomField[];
@@ -130,7 +133,9 @@ function toContactData(values: ContactFormValues): ContactData {
     status: values.status,
     ...(optionalText(values.address) ? { address: optionalText(values.address) } : {}),
     ...(optionalText(values.email) ? { email: optionalText(values.email) } : {}),
-    ...(optionalText(values.googlePlaceId) ? { googlePlaceId: optionalText(values.googlePlaceId) } : {}),
+    ...(optionalText(values.googlePlaceId)
+      ? { googlePlaceId: optionalText(values.googlePlaceId) }
+      : {}),
     ...(optionalText(values.notes) ? { notes: optionalText(values.notes) } : {}),
     ...(optionalText(values.owner) ? { owner: optionalText(values.owner) } : {}),
     ...(optionalText(values.phone) ? { phone: optionalText(values.phone) } : {}),

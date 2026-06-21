@@ -22,10 +22,10 @@ export function CalendarPage(): React.ReactElement {
       <ActivityCalendarView
         activities={agenda.filteredActivities}
         anchorDate={agenda.anchorDate}
-        calendarSourceFilter="dashboard"
+        calendarSourceFilter={agenda.filters.calendarSource}
         currentUserId={agenda.currentUserId ?? ''}
         scope={agenda.calendarScope}
-        showGoogleCalendarEvents={false}
+        showGoogleCalendarEvents={agenda.googleCalendarPreferences.showExistingEvents}
         onAnchorDateChange={agenda.setAnchorDate}
         onDateClick={agenda.openCreateSheetForDate}
         onEdit={(activity) => {

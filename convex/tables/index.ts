@@ -4,7 +4,13 @@
 // ============================================================
 
 // Users
-export { usersTable, userRoleValidator, createUserValidator, updateUserValidator } from './users';
+export {
+  createUserValidator,
+  integrationPreferencesValidator,
+  updateUserValidator,
+  userRoleValidator,
+  usersTable,
+} from './users';
 
 export {
   activitiesTable,

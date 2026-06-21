@@ -1,9 +1,9 @@
 'use client';
 
+import { captureApiError, captureError } from '@carefully-built/resource-kit';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { captureError, captureApiError } from '@/lib/error-handler';
 
 export default function TestErrorPage(): React.ReactElement {
   const [lastError, setLastError] = useState<{ userMessage: string; errorId: string } | null>(null);
@@ -36,10 +36,8 @@ export default function TestErrorPage(): React.ReactElement {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
-      <h1 className="text-3xl font-bold">PostHog Error Test</h1>
-      <p className="text-muted-foreground">
-        Use these buttons to test the error tracking system
-      </p>
+      <h1 className="text-3xl font-bold">Error Handler Test</h1>
+      <p className="text-muted-foreground">Use these buttons to test the error tracking system</p>
 
       <div className="flex flex-wrap gap-4">
         <Button onClick={triggerClientError} variant="outline">
@@ -59,26 +57,13 @@ export default function TestErrorPage(): React.ReactElement {
           <p className="font-medium">{lastError.userMessage}</p>
           <p className="text-muted-foreground mt-2 text-xs">Error ID: {lastError.errorId}</p>
           <p className="mt-4 text-xs text-green-600">
-            ✅ Error logged to PostHog (check dashboard)
+            Error captured with a safe user-facing message.
           </p>
         </div>
       )}
 
       <div className="text-muted-foreground max-w-md text-center text-sm">
-        <p>
-          Errors are sent to PostHog, but users only see a generic message.
-        </p>
-        <p className="mt-2">
-          Dashboard:{' '}
-          <a
-            href="https://us.posthog.com"
-            className="text-primary underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            us.posthog.com
-          </a>
-        </p>
+        <p>Errors are captured centrally, but users only see a generic message.</p>
       </div>
     </div>
   );

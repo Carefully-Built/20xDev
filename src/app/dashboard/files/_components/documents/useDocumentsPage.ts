@@ -1,14 +1,19 @@
 import type { AssociationPickerOption } from '@carefully-built/association-picker';
 import type { DocumentCardItem } from '@carefully-built/files';
+import { showDestructiveActionToast } from '@carefully-built/resource-kit';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import type { Id } from '@convex/_generated/dataModel';
 
 import { useContactsByOrganization } from '@/hooks/use-contacts';
-import { useDeleteFile, useFilesByOrganization, useGenerateUploadUrl, useSaveFile } from '@/hooks/use-files';
+import {
+  useDeleteFile,
+  useFilesByOrganization,
+  useGenerateUploadUrl,
+  useSaveFile,
+} from '@/hooks/use-files';
 import { useCurrentUserByOrganization } from '@/hooks/use-users';
-import { showDestructiveActionToast } from '@/lib/ui/destructive-action-toast';
 import { useOrganization } from '@/providers';
 
 import { getFileUrl, mapFileToDocument, resolveFileAssociations } from './documents.mapping';
@@ -65,6 +70,7 @@ export function useDocumentsPage(): UseDocumentsPageResult {
 
   function deleteDocument(id: Id<'files'>): void {
     showDestructiveActionToast({
+      confirmLabel: 'Delete',
       message: 'Delete this file?',
       onConfirm: async () => {
         await deleteFile({ id });

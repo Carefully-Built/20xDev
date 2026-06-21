@@ -7,7 +7,7 @@ const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
 export const convexServer = convexUrl ? new ConvexHttpClient(convexUrl) : null;
 
-export interface SyncUserParams {
+interface SyncUserParams {
   id: string;
   email: string;
   firstName?: string | null;
@@ -21,7 +21,7 @@ function getUserName(user: SyncUserParams): string | undefined {
 
 async function syncConvexUser(
   user: SyncUserParams,
-  organizationId?: string
+  organizationId?: string,
 ): Promise<Id<'users'> | null> {
   if (!convexServer) {
     console.warn('Convex not configured - skipping user sync');
@@ -42,22 +42,11 @@ async function syncConvexUser(
 
 export async function syncWorkOSUserToConvex(
   user: SyncUserParams,
-  organizationId?: string
+  organizationId?: string,
 ): Promise<Id<'users'> | null> {
   const syncedUser = await syncConvexUser(user);
   if (!organizationId) {
     return syncedUser;
   }
   return syncConvexUser(user, organizationId);
-}
-
-export async function syncUserToConvex(user: SyncUserParams): Promise<Id<'users'> | null> {
-  return syncWorkOSUserToConvex(user);
-}
-
-export async function syncUserOrganizationToConvex(
-  user: SyncUserParams,
-  organizationId?: string
-): Promise<Id<'users'> | null> {
-  return syncWorkOSUserToConvex(user, organizationId);
 }

@@ -1,11 +1,7 @@
 'use client';
 
 import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/app-shell';
-import {
-  CrudTableView,
-  useCrudTableState,
-  type CrudFilterDefinition,
-} from '@carefully-built/crud';
+import { CrudTableView, useCrudTableState, type CrudFilterDefinition } from '@carefully-built/crud';
 import {
   buildContactImportMutationPayload,
   buildCsvExport,
@@ -13,6 +9,7 @@ import {
   useContactImportState,
   type ContactImportPreviewRow,
 } from '@carefully-built/import-export';
+import { showDestructiveActionToast } from '@carefully-built/resource-kit';
 import { Chip, EmptyStateCard, type Column } from '@carefully-built/ui';
 import { Download, FileUp, Plus, SearchX, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -28,7 +25,6 @@ import {
   useUpdateContact,
 } from '@/hooks/use-contacts';
 import { useUsersByOrganization } from '@/hooks/use-users';
-import { showDestructiveActionToast } from '@/lib/ui/destructive-action-toast';
 import { useOrganization } from '@/providers';
 
 import type { Doc, Id } from '@convex/_generated/dataModel';
@@ -116,9 +112,7 @@ export function ContactsPageClient(): React.ReactElement {
         label: 'Owner',
         icon: UserRound,
         options: [
-          ...new Set(
-            tableData.flatMap((contact) => (contact.owner ? [contact.owner] : [])),
-          ),
+          ...new Set(tableData.flatMap((contact) => (contact.owner ? [contact.owner] : []))),
         ].map((owner) => ({ label: owner, value: owner })),
       },
     }),
@@ -138,7 +132,7 @@ export function ContactsPageClient(): React.ReactElement {
       email: contact.email,
       phone: contact.phone,
     })),
-    onErrorMessage: (error) => error instanceof Error ? error.message : 'Could not parse file',
+    onErrorMessage: (error) => (error instanceof Error ? error.message : 'Could not parse file'),
   });
 
   const openCreateSheet = (): void => {
@@ -170,6 +164,7 @@ export function ContactsPageClient(): React.ReactElement {
 
   const requestDelete = (contact: Contact): void => {
     showDestructiveActionToast({
+      confirmLabel: 'Delete',
       message: `Delete "${contact.name}"?`,
       onConfirm: async () => {
         try {

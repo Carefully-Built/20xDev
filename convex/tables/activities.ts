@@ -36,6 +36,7 @@ export const activitiesTable = defineTable({
   dueAt: v.optional(v.number()),
   startAt: v.optional(v.number()),
   endAt: v.optional(v.number()),
+  googleCalendarEventId: v.optional(v.string()),
   description: v.optional(v.string()),
   status: activityStatusValidator,
   organizationId: v.string(),
@@ -60,6 +61,7 @@ export const activityMutationDataValidator = v.object({
   dueAt: v.optional(v.number()),
   startAt: v.optional(v.number()),
   endAt: v.optional(v.number()),
+  googleCalendarEventId: v.optional(v.string()),
   description: v.optional(v.string()),
   status: v.optional(activityStatusValidator),
 });

@@ -2,7 +2,11 @@ import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
 import { upsertUserRecord } from '../../lib/workos_user_sync';
-import { createUserValidator, updateUserValidator } from '../../tables/users';
+import {
+  createUserValidator,
+  integrationPreferencesValidator,
+  updateUserValidator,
+} from '../../tables/users';
 
 export const create = mutation({
   args: createUserValidator,
@@ -73,5 +77,27 @@ export const updateOrganizationContext = mutation({
       lastName: user.lastName,
       imageUrl: user.imageUrl,
     }, args.organizationId, user.role);
+  },
+});
+
+export const updateIntegrationPreferences = mutation({
+  args: {
+    id: v.id('users'),
+    organizationId: v.string(),
+    integrationPreferences: integrationPreferencesValidator,
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.id);
+
+    if (!user || user.organizationId !== args.organizationId) {
+      throw new Error('User not found for organization');
+    }
+
+    await ctx.db.patch(args.id, {
+      integrationPreferences: args.integrationPreferences,
+      updatedAt: Date.now(),
+    });
+
+    return await ctx.db.get(args.id);
   },
 });

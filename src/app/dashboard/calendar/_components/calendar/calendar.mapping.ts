@@ -8,6 +8,10 @@ import type { StoredActivityAssociation, StoredActivityData } from './calendar.t
 
 const storedAssociationEntityTypes = ['contact', 'opportunity', 'document', 'file'] as const;
 
+type ActivityMutationPayloadWithGoogleCalendar = Partial<AgendaActivityMutationPayload> & {
+  readonly googleCalendarEventId?: string;
+};
+
 function isStoredAssociationEntityType(entityType: string): entityType is StoredActivityAssociation['entityType'] {
   return storedAssociationEntityTypes.includes(
     entityType as StoredActivityAssociation['entityType'],
@@ -59,7 +63,7 @@ function stripUndefinedValues(data: StoredActivityData): StoredActivityData {
 }
 
 export function toStoredActivityPayload(
-  payload: Partial<AgendaActivityMutationPayload>,
+  payload: ActivityMutationPayloadWithGoogleCalendar,
   associationOptions: readonly AssociationPickerOption[],
   availableActivityTypes: readonly CalendarActivityType[] = activityTypes,
 ): StoredActivityData {
@@ -80,6 +84,7 @@ export function toStoredActivityPayload(
     dueAt: payload.dueAt,
     startAt: payload.startAt,
     endAt: payload.endAt,
+    googleCalendarEventId: payload.googleCalendarEventId,
     description: payload.description,
     status: payload.status,
   });

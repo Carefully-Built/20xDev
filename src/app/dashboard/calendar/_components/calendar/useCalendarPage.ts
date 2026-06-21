@@ -7,6 +7,7 @@ import type { Id } from '@convex/_generated/dataModel';
 
 import {
   useActivitiesByOrganization,
+  useAttachGoogleCalendarEvent,
   useActivityAssociationOptions,
   useCreateActivity,
   useDeleteActivity,
@@ -22,6 +23,7 @@ import {
   toStoredActivityPayload,
 } from './calendar.mapping';
 import type { CalendarAgendaState } from './calendar.types';
+import { resolveGoogleCalendarPreferences } from '@/lib/integrations/google/google-calendar';
 
 interface UseCalendarPageResult {
   readonly activityTypeOptions: ReturnType<typeof buildActivityTypeOptions>;
@@ -41,6 +43,10 @@ export function useCalendarPage(): UseCalendarPageResult {
   const createActivity = useCreateActivity(organizationId);
   const updateActivity = useUpdateActivity(organizationId);
   const deleteActivity = useDeleteActivity(organizationId);
+  const attachGoogleCalendarEvent = useAttachGoogleCalendarEvent(organizationId);
+  const googleCalendarPreferences = resolveGoogleCalendarPreferences(
+    currentUser?.integrationPreferences,
+  );
   const agenda = useAgendaPageState({
     activities,
     activityTypes,
@@ -48,7 +54,7 @@ export function useCalendarPage(): UseCalendarPageResult {
     currentUser,
     organizationId,
     associationOptions: resolvedAssociationOptions,
-    integrationPreferences: { showExistingEvents: false, syncDashboardEvents: false },
+    integrationPreferences: googleCalendarPreferences,
     icons: {
       activityType: CalendarDays,
       operator: UserRound,
@@ -63,6 +69,42 @@ export function useCalendarPage(): UseCalendarPageResult {
     },
     archiveActivity: async (id) => {
       await deleteActivity(id as Id<'activities'>);
+    },
+    syncCreatedActivity: async (payload) => {
+      const response = await fetch('/api/integrations/google-calendar/sync', {
+        body: JSON.stringify({
+          allDay: payload.allDay,
+          description: payload.description,
+          endAt: payload.endAt,
+          startAt: payload.startAt,
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          title: payload.title,
+        }),
+        cache: 'no-store',
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = (await response.json()) as { eventId?: string | null };
+      return data.eventId ?? null;
+    },
+    attachCalendarEvent: async (activityId, eventId) => {
+      await attachGoogleCalendarEvent({
+        googleCalendarEventId: eventId,
+        id: activityId as Id<'activities'>,
+      });
+    },
+    deleteCalendarEvent: async (eventId) => {
+      const response = await fetch('/api/integrations/google-calendar/sync', {
+        body: JSON.stringify({ eventId }),
+        cache: 'no-store',
+        method: 'DELETE',
+      });
+
+      return response.ok;
     },
     createActivityType: () => Promise.resolve(activityTypes[0]._id),
     updateActivityType: () => Promise.resolve(),

@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useCallback, useMemo } from 'react
 
 import type { ReactNode } from 'react';
 
-export interface UserData {
+interface UserData {
   id: string;
   email: string;
   name: string;

@@ -9,9 +9,9 @@ export const authPagesConfig = {
     <Image
       src={siteConfig.logo}
       alt={siteConfig.name}
-      width={180}
-      height={40}
-      className="h-10 w-auto object-contain"
+      width={112}
+      height={28}
+      className="h-7 w-auto object-contain"
     />
   ),
   visual: {

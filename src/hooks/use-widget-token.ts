@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import type { WidgetScopes } from '@/lib/workos-widgets';
+import type { WidgetScopes } from '@carefully-built/workos/server';
 
 interface WidgetTokenResponse {
   token: string;
@@ -18,16 +18,16 @@ interface UseWidgetTokenOptions {
 /**
  * Hook to get a widget token for WorkOS widgets.
  * Fetches the token from the API and caches it.
- * 
+ *
  * @example
  * ```tsx
  * const { token, loading, error } = useWidgetToken({
  *   scopes: ['widgets:organization-switcher:read']
  * });
- * 
+ *
  * if (loading) return <Skeleton />;
  * if (error) return <div>Error: {error}</div>;
- * 
+ *
  * return <OrgSwitcher authToken={token} />;
  * ```
  */

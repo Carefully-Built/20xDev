@@ -52,6 +52,7 @@ export const create = mutation({
       dueAt: args.data.dueAt,
       startAt: args.data.startAt,
       endAt: args.data.endAt,
+      googleCalendarEventId: args.data.googleCalendarEventId,
       description: args.data.description,
       status: args.data.status ?? 'todo',
       organizationId: args.organizationId,
@@ -89,5 +90,23 @@ export const remove = mutation({
     await requireOrganizationUser(ctx, args.organizationId);
     await getScopedActivity(ctx, args.id, args.organizationId);
     await ctx.db.delete(args.id);
+  },
+});
+
+export const attachGoogleCalendarEvent = mutation({
+  args: {
+    googleCalendarEventId: v.string(),
+    id: v.id('activities'),
+    organizationId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await requireOrganizationUser(ctx, args.organizationId);
+    await getScopedActivity(ctx, args.id, args.organizationId);
+    await ctx.db.patch(args.id, {
+      googleCalendarEventId: args.googleCalendarEventId,
+      ...updateTimestampFields(),
+    });
+
+    return ctx.db.get(args.id);
   },
 });

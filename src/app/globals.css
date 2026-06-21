@@ -403,6 +403,15 @@ html[data-landing-header-solid='true'] .landing-header {
   background-color: var(--muted) !important;
 }
 
+.google-calendar-pipes-widget
+  .woswidgets-card-list-item:has(.woswidgets-provider-icon:not([data-provider='google-calendar'])),
+.gmail-pipes-widget
+  .woswidgets-card-list-item:has(
+    .woswidgets-provider-icon:not([data-provider='gmail']):not([data-provider='google-mail'])
+  ) {
+  display: none !important;
+}
+
 /* Fix text wrapping */
 .workos-widget-container * {
   word-break: normal !important;

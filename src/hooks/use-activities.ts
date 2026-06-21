@@ -12,6 +12,9 @@ type AssociationOptionsResult =
   | undefined;
 type CreateActivityData = FunctionArgs<typeof api.functions.activities.mutations.create>['data'];
 type UpdateActivityData = FunctionArgs<typeof api.functions.activities.mutations.update>['data'];
+type AttachGoogleCalendarEventArgs = FunctionArgs<
+  typeof api.functions.activities.mutations.attachGoogleCalendarEvent
+>;
 
 function requireOrganizationId(organizationId: string | undefined | null): string {
   if (!organizationId) {
@@ -61,4 +64,14 @@ export function useDeleteActivity(
   const remove = useMutation(api.functions.activities.mutations.remove);
 
   return (id) => remove({ id, organizationId: requireOrganizationId(organizationId) });
+}
+
+export function useAttachGoogleCalendarEvent(
+  organizationId: string | undefined | null,
+): (
+  args: Omit<AttachGoogleCalendarEventArgs, 'organizationId'>,
+) => Promise<unknown> {
+  const attach = useMutation(api.functions.activities.mutations.attachGoogleCalendarEvent);
+
+  return (args) => attach({ ...args, organizationId: requireOrganizationId(organizationId) });
 }

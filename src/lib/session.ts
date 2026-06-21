@@ -16,7 +16,7 @@ interface AccessToken {
   feature_flags?: string[];
 }
 
-export interface SessionData {
+interface SessionData {
   accessToken: string;
   entitlements?: string[];
   featureFlags?: string[];
@@ -30,7 +30,7 @@ export interface SessionData {
   workosClientId: string;
 }
 
-export interface PendingOrganizationSelectionData {
+interface PendingOrganizationSelectionData {
   organizations: {
     id: string;
     name: string;
@@ -54,10 +54,10 @@ const PENDING_ORG_SELECTION_OPTIONS = {
 
 function hasWorkOSEnv(): boolean {
   return Boolean(
-    process.env.WORKOS_API_KEY
-    && process.env.WORKOS_CLIENT_ID
-    && process.env.WORKOS_COOKIE_PASSWORD
-    && process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI
+    process.env.WORKOS_API_KEY &&
+    process.env.WORKOS_CLIENT_ID &&
+    process.env.WORKOS_COOKIE_PASSWORD &&
+    process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI,
   );
 }
 
@@ -77,17 +77,20 @@ function attachAccessTokenClaims(session: SessionData): SessionData {
 }
 
 export async function createSession(
-  data: Omit<SessionData, 'workosClientId'> & Partial<Pick<SessionData, 'workosClientId'>>
+  data: Omit<SessionData, 'workosClientId'> & Partial<Pick<SessionData, 'workosClientId'>>,
 ): Promise<void> {
   if (!hasWorkOSEnv()) {
     throw new Error('WorkOS env incomplete');
   }
 
   const cookieStore = await cookies();
-  const encryptedSession = await sealData({
-    ...data,
-    workosClientId: data.workosClientId ?? WORKOS_CLIENT_ID,
-  } satisfies SessionData, SESSION_OPTIONS);
+  const encryptedSession = await sealData(
+    {
+      ...data,
+      workosClientId: data.workosClientId ?? WORKOS_CLIENT_ID,
+    } satisfies SessionData,
+    SESSION_OPTIONS,
+  );
 
   cookieStore.set(SESSION_COOKIE_NAME, encryptedSession, {
     httpOnly: true,
@@ -154,13 +157,8 @@ export async function refreshSession(organizationId?: string): Promise<SessionDa
   });
 }
 
-export async function deleteSession(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(SESSION_COOKIE_NAME);
-}
-
 export async function createPendingOrganizationSelection(
-  data: PendingOrganizationSelectionData
+  data: PendingOrganizationSelectionData,
 ): Promise<void> {
   if (!hasWorkOSEnv()) {
     throw new Error('WorkOS env incomplete');
@@ -193,7 +191,7 @@ export async function getPendingOrganizationSelection(): Promise<PendingOrganiza
 
     return await unsealData<PendingOrganizationSelectionData>(
       encrypted.value,
-      PENDING_ORG_SELECTION_OPTIONS
+      PENDING_ORG_SELECTION_OPTIONS,
     );
   } catch (error) {
     console.error('Failed to resolve pending organization selection:', error);

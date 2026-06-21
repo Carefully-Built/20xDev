@@ -1,36 +1,32 @@
 import { workos } from './workos';
 
-export interface OrganizationMembership {
+interface OrganizationMembership {
   id: string;
   name: string;
   role: string;
 }
 
-export async function listUserOrganizations(
-  userId: string
-): Promise<OrganizationMembership[]> {
+export async function listUserOrganizations(userId: string): Promise<OrganizationMembership[]> {
   const memberships = await workos.userManagement.listOrganizationMemberships({
     userId,
   });
 
   return Promise.all(
     memberships.data.map(async (membership) => {
-      const organization = await workos.organizations.getOrganization(
-        membership.organizationId
-      );
+      const organization = await workos.organizations.getOrganization(membership.organizationId);
 
       return {
         id: organization.id,
         name: organization.name,
         role: membership.role.slug || 'member',
       };
-    })
+    }),
   );
 }
 
 export function getActiveOrganizationId(
   organizations: readonly OrganizationMembership[],
-  sessionOrganizationId?: string | null
+  sessionOrganizationId?: string | null,
 ): string | null {
   if (!organizations.length) {
     return null;
