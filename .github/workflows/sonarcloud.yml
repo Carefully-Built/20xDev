@@ -41,10 +41,11 @@ jobs:
         run: bun install --frozen-lockfile
         working-directory: 20xDev
 
-      - name: Run TypeScript check
-        run: bunx --bun tsc --noEmit --skipLibCheck
+      - name: Verify Next.js build
+        run: bun run build:next
         working-directory: 20xDev
-        continue-on-error: true
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master

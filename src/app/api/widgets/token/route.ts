@@ -11,7 +11,7 @@ interface TokenRequestBody {
   organizationId: string;
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     const session = await getSession();
     const body = (await request.json()) as TokenRequestBody;

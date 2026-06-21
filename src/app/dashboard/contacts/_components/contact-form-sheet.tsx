@@ -180,7 +180,7 @@ export function ContactFormSheet({
       onCancel={() => onOpenChange(false)}
       width={620}
     >
-      <CustomForm
+      <CustomForm<ContactFormValues>
         key={`${open}-${contact?.name ?? 'new'}-${contact?.company ?? ''}`}
         id={formId}
         schema={formSchema}

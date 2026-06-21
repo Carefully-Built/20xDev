@@ -3,8 +3,6 @@ import {
   getWorkOSWidgetToken as getWorkOSWidgetTokenFromKit,
 } from '@carefully-built/workos/server';
 
-import type { NextResponse } from 'next/server';
-
 import { getSession } from '@/lib/session';
 import { workos } from '@/lib/workos';
 
@@ -32,7 +30,7 @@ type WorkOSWidgetTokenResult =
       readonly token: string;
     }
   | {
-      readonly response: NextResponse;
+      readonly response: Response;
     };
 
 export async function getWorkOSWidgetToken({
@@ -51,7 +49,7 @@ export async function getWorkOSWidgetToken({
 
 export async function createWorkOSWidgetTokenResponse(
   options: WorkOSWidgetTokenOptions,
-): Promise<NextResponse> {
+): Promise<Response> {
   return await createWorkOSWidgetTokenResponseFromKit({
     getSession,
     getToken: (args) => workos.widgets.getToken(args),
