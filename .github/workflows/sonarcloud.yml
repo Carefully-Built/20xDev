@@ -12,25 +12,44 @@ jobs:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 20xDev
         uses: actions/checkout@v4
         with:
+          path: 20xDev
           fetch-depth: 0 # Shallow clones disabled for better analysis
+
+      - name: Checkout SaaS kit workspace packages
+        uses: actions/checkout@v4
+        with:
+          repository: AlessandroDodi/carefully-built-saas-kit
+          path: carefully-built-saas-kit
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - name: Install dependencies
+      - name: Install SaaS kit dependencies
         run: bun install --frozen-lockfile
+        working-directory: carefully-built-saas-kit
+
+      - name: Build SaaS kit workspace packages
+        run: bun run build
+        working-directory: carefully-built-saas-kit
+
+      - name: Install 20xDev dependencies
+        run: bun install --frozen-lockfile
+        working-directory: 20xDev
 
       - name: Run TypeScript check
         run: bunx --bun tsc --noEmit --skipLibCheck
+        working-directory: 20xDev
         continue-on-error: true
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: 20xDev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
