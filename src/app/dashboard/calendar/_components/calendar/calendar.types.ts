@@ -1,4 +1,12 @@
-import type { ActivityCalendarScope, ActivityCalendarSourceFilter, ActivityForm, ActivityListItem, AgendaActivityFormValues, EditableActivity } from '@carefully-built/saas-kit/agenda';
+import type {
+  ActivityCalendarScope,
+  ActivityFilters,
+  ActivityForm,
+  ActivityListItem,
+  AgendaActivityFormValues,
+  AgendaFilterConfig,
+  EditableActivity,
+} from '@carefully-built/saas-kit/agenda';
 
 import type { Id } from '@convex/_generated/dataModel';
 import type { GoogleCalendarPreferences } from '@/lib/integrations/google/google-calendar';
@@ -8,9 +16,14 @@ export interface CalendarAgendaState {
   readonly anchorDate: Date;
   readonly currentUserId: string | null;
   readonly calendarScope: ActivityCalendarScope;
-  readonly filters: {
-    readonly calendarSource: ActivityCalendarSourceFilter;
-  };
+  readonly search: string;
+  readonly filters: ActivityFilters;
+  readonly activityTypeFilterConfig: AgendaFilterConfig;
+  readonly operatorFilterConfig: AgendaFilterConfig;
+  readonly associationFilterOptions: readonly {
+    readonly value: string;
+    readonly label: string;
+  }[];
   readonly googleCalendarPreferences: GoogleCalendarPreferences;
   readonly isSheetOpen: boolean;
   readonly editingActivity: EditableActivity | null;
@@ -22,6 +35,10 @@ export interface CalendarAgendaState {
     readonly endTime: string;
   };
   readonly setAnchorDate: (date: Date) => void;
+  readonly setSearch: (value: string) => void;
+  readonly setFilter: (key: keyof ActivityFilters, value: string) => void;
+  readonly clearFilters: () => void;
+  readonly getDraftFilterResultCount: (draftValues: Record<string, string>) => number | undefined;
   readonly openCreateSheetForDate: (start: Date, end?: Date | null, allDay?: boolean) => void;
   readonly openEditSheet: (activity: EditableActivity) => void;
   readonly moveActivity: (

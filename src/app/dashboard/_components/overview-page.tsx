@@ -4,7 +4,7 @@ import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
 import { SharedActivityCalendarWidget, type ActivityListItem } from '@carefully-built/saas-kit/agenda';
 import { BarDistributionWidget, DonutChartWidget } from '@carefully-built/saas-kit/charts';
 import { NotificationCenterButton } from '@carefully-built/saas-kit/notifications';
-import { SmartTable, type Column } from '@carefully-built/saas-kit';
+import { EmptyStateCard, SmartTable, type Column } from '@carefully-built/saas-kit';
 import { DashboardWidget } from '@carefully-built/saas-kit/widgets';
 import {
   Activity,
@@ -128,6 +128,15 @@ export function OverviewPage(): React.ReactElement {
             isLoading={Boolean(organizationId) && contacts === undefined}
             getRowKey={(contact) => contact._id}
             noDataMessage="No contacts yet"
+            noDataContent={
+              <EmptyStateCard
+                icon={<UsersRound className="size-7" />}
+                title="No contacts yet"
+                subtitle="Add contacts to see the newest lead status here."
+                actionLabel="Open contacts"
+                actionHref="/dashboard/contacts"
+              />
+            }
           />
         </DashboardWidget>
         <SharedActivityCalendarWidget activities={emptyActivityData} />

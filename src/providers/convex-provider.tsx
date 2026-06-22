@@ -11,19 +11,6 @@ interface ConvexClientProviderProps {
   readonly children: ReactNode;
 }
 
-function AuthenticatedConvexProvider({
-  children,
-  client,
-}: ConvexClientProviderProps & {
-  readonly client: ConvexReactClient;
-}): React.ReactElement {
-  return (
-    <ConvexProviderWithAuth client={client} useAuth={useWorkosConvexAuth}>
-      {children}
-    </ConvexProviderWithAuth>
-  );
-}
-
 export function ConvexClientProvider({
   children,
 }: ConvexClientProviderProps): React.ReactElement {
@@ -37,8 +24,8 @@ export function ConvexClientProvider({
   }
 
   return (
-    <AuthenticatedConvexProvider client={client}>
+    <ConvexProviderWithAuth client={client} useAuth={useWorkosConvexAuth}>
       {children}
-    </AuthenticatedConvexProvider>
+    </ConvexProviderWithAuth>
   );
 }

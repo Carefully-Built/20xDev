@@ -6,6 +6,9 @@ import { RichTextRenderer, hasRichTextContent } from '@carefully-built/saas-kit/
 import { CalendarDays, FileText, LayoutDashboard, NotebookPen } from 'lucide-react';
 import { useState } from 'react';
 
+import { useUsersByOrganization } from '@/hooks/use-users';
+import { useOrganization } from '@/providers';
+
 import { OpportunityEditSheet } from './opportunity-edit-sheet';
 import { OpportunityFieldsCard } from './opportunity-fields-card';
 import { OpportunityOverviewCard } from './opportunity-overview-card';
@@ -46,6 +49,8 @@ interface OpportunityDetailProps {
 }
 
 export function OpportunityDetail({ id }: OpportunityDetailProps): React.ReactElement {
+  const { organizationId } = useOrganization();
+  const users = useUsersByOrganization(organizationId);
   const [activeTab, setActiveTab] = useState<OpportunityDetailTab>('overview');
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const { formValues, opportunity, saveOpportunity, stage } = useOpportunityDetail(id);
@@ -110,6 +115,7 @@ export function OpportunityDetail({ id }: OpportunityDetailProps): React.ReactEl
         open={isEditSheetOpen}
         onOpenChange={setIsEditSheetOpen}
         onSave={saveOpportunity}
+        users={users ?? []}
       />
     </>
   );

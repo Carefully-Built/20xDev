@@ -5,7 +5,11 @@ import { buildKanbanColumns, KanbanBoard, type KanbanItem } from '@carefully-bui
 import { TableToolbar } from '@carefully-built/saas-kit';
 import { Plus, UserRound, Workflow } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { parseAsString, useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
+
+import { useUsersByOrganization } from '@/hooks/use-users';
+import { useOrganization } from '@/providers';
 
 import { opportunities as initialOpportunities, pipeline } from '../_data';
 import { OpportunityEditSheet } from '../[id]/_components/opportunity-edit-sheet';
@@ -22,13 +26,24 @@ const emptyOpportunityValues: OpportunityFormValues = {
 
 export function OpportunitiesBoard(): React.ReactElement {
   const router = useRouter();
+  const { organizationId } = useOrganization();
+  const users = useUsersByOrganization(organizationId);
   const [items, setItems] = useState<KanbanItem[]>(() => [...initialOpportunities]);
   const [draggedItem, setDraggedItem] = useState<KanbanItem | null>(null);
   const [dropStageKey, setDropStageKey] = useState<string | null>(null);
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  const [selectedStage, setSelectedStage] = useState('all');
-  const [selectedOwner, setSelectedOwner] = useState('all');
+  const [search, setSearch] = useQueryState(
+    'search',
+    parseAsString.withDefault('').withOptions({ clearOnDefault: true }),
+  );
+  const [selectedStage, setSelectedStage] = useQueryState(
+    'stage',
+    parseAsString.withDefault('all').withOptions({ clearOnDefault: true }),
+  );
+  const [selectedOwner, setSelectedOwner] = useQueryState(
+    'owner',
+    parseAsString.withDefault('all').withOptions({ clearOnDefault: true }),
+  );
   const ownerOptions = useMemo(
     () =>
       [
@@ -100,7 +115,13 @@ export function OpportunitiesBoard(): React.ReactElement {
       }
     >
       <TableToolbar
-        search={{ value: search, onChange: setSearch, placeholder: 'Search opportunities...' }}
+        search={{
+          value: search,
+          onChange: (value) => {
+            void setSearch(value);
+          },
+          placeholder: 'Search opportunities...',
+        }}
         filters={[
           {
             config: {
@@ -113,7 +134,9 @@ export function OpportunitiesBoard(): React.ReactElement {
               })),
             },
             value: selectedStage,
-            onChange: setSelectedStage,
+            onChange: (value) => {
+              void setSelectedStage(value);
+            },
           },
           {
             config: {
@@ -123,13 +146,15 @@ export function OpportunitiesBoard(): React.ReactElement {
               options: ownerOptions,
             },
             value: selectedOwner,
-            onChange: setSelectedOwner,
+            onChange: (value) => {
+              void setSelectedOwner(value);
+            },
           },
         ]}
         onClearAll={() => {
-          setSearch('');
-          setSelectedStage('all');
-          setSelectedOwner('all');
+          void setSearch('');
+          void setSelectedStage('all');
+          void setSelectedOwner('all');
         }}
         getDraftResultCount={(draftValues) =>
           items.filter((item) => {
@@ -178,10 +203,10 @@ export function OpportunitiesBoard(): React.ReactElement {
         initialValues={emptyOpportunityValues}
         open={isCreateSheetOpen}
         title="Add opportunity"
-        description="Create a new opportunity on the board."
         confirmLabel="Add"
         onOpenChange={setIsCreateSheetOpen}
         onSave={createOpportunity}
+        users={users ?? []}
       />
     </DashboardPageLayout>
   );

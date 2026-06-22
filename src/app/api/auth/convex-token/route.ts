@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import type { NextRequest } from 'next/server';
+import { refreshSession } from '@/lib/session';
 
-import { getSession, refreshSession } from '@/lib/session';
-
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
-    const forceRefresh = request.nextUrl.searchParams.get('refresh') === '1';
-    const session = forceRefresh ? await refreshSession() : await getSession();
+    const session = await refreshSession();
 
     if (!session?.accessToken) {
       return NextResponse.json({ token: null }, { status: 401 });

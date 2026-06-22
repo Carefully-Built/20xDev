@@ -97,7 +97,10 @@ function useDashboardSearchItems(): SearchItem[] {
       type: 'contact' as const,
     })),
     ...(files ?? []).map((file) => ({
-      href: '/dashboard/files',
+      href: `/dashboard/files?${new URLSearchParams({
+        fileId: String(file._id),
+        q: file.name,
+      }).toString()}`,
       id: String(file._id),
       label: file.name,
       meta: 'File',

@@ -1,14 +1,18 @@
 'use client';
 
-import { CrudResourceSheet } from '@carefully-built/saas-kit/crud';
-import { CustomForm, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
+import { ResponsiveSheet } from '@carefully-built/saas-kit';
+import { CustomForm, CustomUserPickerField, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
 import { RichTextEditor } from '@carefully-built/saas-kit/rich-text';
 import { useId } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
+import type { Doc } from '@convex/_generated/dataModel';
+
 import { pipeline } from '../../_data';
 import type { OpportunityFormValues } from './opportunity-types';
+
+type User = Doc<'users'>;
 
 const statusOptions = [
   { label: 'Open', value: 'open' },
@@ -40,7 +44,6 @@ const fields: readonly SchemaFormField<OpportunityFormValues>[] = [
     type: 'select',
     options: statusOptions,
   },
-  { name: 'assignedUserName', label: 'Owner' },
 ];
 
 async function improveRichTextDocument(serializedDocument: string): Promise<string> {
@@ -64,36 +67,52 @@ async function improveRichTextDocument(serializedDocument: string): Promise<stri
 
 interface OpportunityEditSheetProps {
   readonly confirmLabel?: string;
-  readonly description?: string;
   readonly initialValues: OpportunityFormValues | null;
   readonly onOpenChange: (open: boolean) => void;
   readonly onSave: (values: OpportunityFormValues) => void;
   readonly open: boolean;
   readonly title?: string;
+  readonly users: readonly User[];
+}
+
+function userOptions(users: readonly User[]) {
+  return users.map((user) => ({
+    value: user.name ?? user.email,
+    label: user.name ?? user.email,
+    email: user.email,
+    imageUrl: user.imageUrl,
+  }));
 }
 
 export function OpportunityEditSheet({
   confirmLabel = 'Save',
-  description = 'Update the fields shown on this detail page.',
   initialValues,
   onOpenChange,
   onSave,
   open,
   title = 'Edit opportunity',
+  users,
 }: OpportunityEditSheetProps): React.ReactElement | null {
   const formId = useId();
 
   if (!initialValues) return null;
 
+  function submitForm(): void {
+    const form = document.getElementById(formId);
+
+    if (form instanceof HTMLFormElement) {
+      form.requestSubmit();
+    }
+  }
+
   return (
-    <CrudResourceSheet
-      formId={formId}
+    <ResponsiveSheet
       open={open}
       onOpenChange={onOpenChange}
       title={title}
-      description={description}
       confirmLabel={confirmLabel}
       onCancel={() => onOpenChange(false)}
+      onConfirm={submitForm}
       width={560}
     >
       <CustomForm
@@ -101,7 +120,7 @@ export function OpportunityEditSheet({
         id={formId}
         schema={formSchema}
         defaultValues={initialValues}
-        className="space-y-4 px-4 pb-4"
+        className="space-y-4 pb-4"
         onSubmit={(values) => {
           onSave(values);
           onOpenChange(false);
@@ -110,6 +129,13 @@ export function OpportunityEditSheet({
         {(methods) => (
           <>
             <SchemaForm fields={fields} />
+            <CustomUserPickerField<OpportunityFormValues>
+              name="assignedUserName"
+              label="Owner"
+              mode="single"
+              options={userOptions(users)}
+              placeholder="Assign an owner"
+            />
             <RichTextEditor
               label="Notes"
               value={methods.watch('notes')}
@@ -125,6 +151,6 @@ export function OpportunityEditSheet({
           </>
         )}
       </CustomForm>
-    </CrudResourceSheet>
+    </ResponsiveSheet>
   );
 }

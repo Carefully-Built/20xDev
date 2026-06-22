@@ -2,7 +2,7 @@
 
 import { SharedActivityCalendarWidget, type ActivityListItem } from '@carefully-built/agenda';
 import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { SmartTable, type Column } from '@carefully-built/ui';
+import { EmptyStateCard, SmartTable, type Column } from '@carefully-built/ui';
 import { DashboardWidget } from '@carefully-built/widgets';
 import {
   Activity,
@@ -240,6 +240,15 @@ export function DashboardOverviewStable(): React.ReactElement {
             isLoading={false}
             getRowKey={(lead) => lead.id}
             noDataMessage="No contacts yet"
+            noDataContent={
+              <EmptyStateCard
+                icon={<UsersRound className="size-7" />}
+                title="No contacts yet"
+                subtitle="Add contacts to see the newest lead status here."
+                actionLabel="Open contacts"
+                actionHref="/dashboard/contacts"
+              />
+            }
           />
         </DashboardWidget>
         <SharedActivityCalendarWidget activities={dashboardActivities} />

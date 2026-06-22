@@ -3,8 +3,8 @@
 import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
 import { AssociationPicker } from '@carefully-built/saas-kit/association-picker';
 import { DocumentCard, DocumentCardGrid, FileUploadSheet } from '@carefully-built/saas-kit/files';
-import { Button, Label } from '@carefully-built/saas-kit';
-import { Plus } from 'lucide-react';
+import { Button, EmptyStateCard, Label, TableToolbar } from '@carefully-built/saas-kit';
+import { Files, Plus, SearchX } from 'lucide-react';
 
 import type { Id } from '@convex/_generated/dataModel';
 
@@ -13,12 +13,22 @@ import { useDocumentsPage } from './useDocumentsPage';
 export function DocumentsPage(): React.ReactElement {
   const {
     associationOptions,
+    associationFilterOptions,
+    clearFilters,
     copyDocumentLink,
     deleteDocument,
     documents,
+    getDraftFilterResultCount,
+    hasFilters,
+    hasSearch,
+    isLoading,
     isUploadOpen,
     openDocument,
+    search,
+    selectedAssociation,
     selectedAssociations,
+    setSearch,
+    setSelectedAssociation,
     setIsUploadOpen,
     setSelectedAssociations,
     uploadSelectedFile,
@@ -40,17 +50,60 @@ export function DocumentsPage(): React.ReactElement {
         </Button>
       }
     >
-      <DocumentCardGrid>
-        {documents.map((document) => (
-          <DocumentCard<Id<'files'>>
-            key={document._id}
-            document={document}
-            onCopyLink={copyDocumentLink}
-            onDelete={deleteDocument}
-            onEdit={openDocument}
+      <div className="space-y-4">
+        <TableToolbar
+          search={{
+            value: search,
+            onChange: setSearch,
+            placeholder: 'Search files...',
+          }}
+          filters={[
+            {
+              config: {
+                key: 'association',
+                label: 'Contact',
+                options: associationFilterOptions,
+              },
+              onChange: setSelectedAssociation,
+              value: selectedAssociation,
+            },
+          ]}
+          getDraftResultCount={getDraftFilterResultCount}
+          onClearAll={clearFilters}
+        />
+        {isLoading ? null : documents.length > 0 ? (
+          <DocumentCardGrid>
+            {documents.map((document) => (
+              <DocumentCard<Id<'files'>>
+                key={document._id}
+                document={document}
+                onCopyLink={copyDocumentLink}
+                onDelete={deleteDocument}
+                onEdit={openDocument}
+              />
+            ))}
+          </DocumentCardGrid>
+        ) : (
+          <EmptyStateCard
+            icon={
+              hasSearch || hasFilters ? (
+                <SearchX className="size-7" />
+              ) : (
+                <Files className="size-7" />
+              )
+            }
+            title={hasSearch || hasFilters ? 'No files found' : 'No files yet'}
+            subtitle={
+              hasSearch || hasFilters
+                ? 'Try changing your search or filters.'
+                : 'Add your first file to keep workspace documents together.'
+            }
+            actionLabel={hasSearch || hasFilters ? undefined : 'Add file'}
+            actionIcon={hasSearch || hasFilters ? undefined : <Plus className="size-4" />}
+            onAction={hasSearch || hasFilters ? undefined : () => setIsUploadOpen(true)}
           />
-        ))}
-      </DocumentCardGrid>
+        )}
+      </div>
       <FileUploadSheet
         associationField={
           <div className="space-y-2">

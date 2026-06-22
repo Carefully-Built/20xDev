@@ -136,6 +136,55 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .pac-container {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    margin-top: 0.375rem !important;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--popover) !important;
+    color: var(--popover-foreground);
+    box-shadow: 0 12px 28px rgb(0 0 0 / 0.12) !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .pac-item {
+    cursor: pointer;
+    border-top: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+    background: transparent !important;
+    padding: 0.625rem 0.875rem;
+    color: var(--popover-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.35;
+  }
+
+  .pac-item:first-child {
+    border-top: 0;
+  }
+
+  .pac-item:hover,
+  .pac-item-selected {
+    background: color-mix(in oklab, var(--primary) 10%, var(--popover)) !important;
+  }
+
+  .pac-item-query {
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .pac-matched {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .pac-icon {
+    margin-top: 0.125rem;
+  }
+
   /* Fix button cursor */
   button,
   [role="button"] {

@@ -1,7 +1,15 @@
 import { describe, expect, test } from 'bun:test';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 import { activityTypes } from '../../src/app/dashboard/calendar/_components/calendar/calendar.constants';
 import { resolveActivityAssociations, toStoredActivityPayload } from '../../src/app/dashboard/calendar/_components/calendar/calendar.mapping';
+
+const projectRoot = process.cwd();
+
+function readSource(path: string): string {
+  return readFileSync(join(projectRoot, path), 'utf8');
+}
 
 describe('calendar mapping', () => {
   test('maps agenda payloads into stored activity data', () => {
@@ -90,5 +98,19 @@ describe('calendar mapping', () => {
         value: 'contact:contact_123',
       },
     ]);
+  });
+
+  test('keeps the calendar view switcher with toolbar controls and reserves the page action for adding events', () => {
+    const source = readSource('src/app/dashboard/calendar/_components/calendar/CalendarPage.tsx');
+    const layoutStart = source.indexOf('<DashboardPageLayout');
+    const toolbarStart = source.indexOf('<TableToolbar');
+
+    expect(source).toContain("label: 'Add event'");
+    expect(source).toContain('<ResponsivePageActions');
+    expect(layoutStart).toBeGreaterThan(-1);
+    expect(toolbarStart).toBeGreaterThan(layoutStart);
+    expect(source.slice(layoutStart, toolbarStart)).not.toContain('ActivityViewModeToggle');
+    expect(source.slice(toolbarStart)).toContain('ActivityViewModeToggle');
+    expect(source).toContain('sm:hidden');
   });
 });

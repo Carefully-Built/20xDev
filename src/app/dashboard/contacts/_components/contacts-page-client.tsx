@@ -4,7 +4,7 @@ import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/saa
 import { CrudTableView } from '@carefully-built/saas-kit/crud';
 import { ContactsImportSheet } from '@carefully-built/saas-kit/import-export';
 import { EmptyStateCard } from '@carefully-built/saas-kit';
-import { Download, FileUp, Plus, SearchX } from 'lucide-react';
+import { Download, FileUp, Plus, SearchX, UsersRound } from 'lucide-react';
 
 import { ContactFormSheet } from './contact-form-sheet';
 import { useContactsPage } from './useContactsPage';
@@ -53,6 +53,16 @@ export function ContactsPageClient(): React.ReactElement {
         }}
         isLoading={contactsPage.isLoading}
         noDataMessage="No contacts yet"
+        initialEmptyContent={
+          <EmptyStateCard
+            icon={<UsersRound className="size-7" />}
+            title="No contacts yet"
+            subtitle="Add your first contact to start building the workspace history."
+            actionLabel="Add contact"
+            actionIcon={<Plus className="size-4" />}
+            onAction={contactsPage.openCreateSheet}
+          />
+        }
         noResultsContent={
           <EmptyStateCard
             icon={<SearchX className="size-7" />}

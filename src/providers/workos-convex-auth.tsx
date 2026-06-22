@@ -32,6 +32,7 @@ export function useWorkosConvexAuth(): {
 } {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const tokenRef = useRef<string | null>(null);
   const tokenRequestRef = useRef<Promise<string | null> | null>(null);
 
   const loadToken = useCallback(
@@ -45,6 +46,7 @@ export function useWorkosConvexAuth(): {
       }
 
       const tokenRequest = fetchConvexToken(forceRefreshToken).then((nextToken) => {
+        tokenRef.current = nextToken;
         setToken(nextToken);
         return nextToken;
       });
@@ -77,13 +79,13 @@ export function useWorkosConvexAuth(): {
         return loadToken(true);
       }
 
-      if (!token) {
+      if (!tokenRef.current) {
         return loadToken();
       }
 
-      return token;
+      return tokenRef.current;
     },
-    [loadToken, token],
+    [loadToken],
   );
 
   return useMemo(

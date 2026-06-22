@@ -1,9 +1,9 @@
 'use client';
 
 import { buildCustomFieldValuePayload, mapCustomFieldValuesToFormValues } from '@carefully-built/saas-kit/custom-fields';
-import { CrudResourceSheet } from '@carefully-built/saas-kit/crud';
 import { CustomCompactCurrencyField, CustomForm, CustomSelectField, CustomUserPickerField, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
 import { GooglePlacesAddressInput } from '@carefully-built/saas-kit/maps-ui';
+import { ResponsiveSheet } from '@carefully-built/saas-kit';
 import { Building2, Mail, MapPinned, Phone, Tag, UserRound } from 'lucide-react';
 import { useId } from 'react';
 import { z } from 'zod';
@@ -69,9 +69,9 @@ interface ContactFormSheetProps {
 const fields: readonly SchemaFormField<ContactFormValues>[] = [
   { name: 'name', label: 'Name', labelIcon: UserRound },
   { name: 'company', label: 'Company', labelIcon: Building2 },
-  { name: 'role', label: 'Role', className: 'sm:col-span-1' },
-  { name: 'email', label: 'Email', labelIcon: Mail, type: 'email', className: 'sm:col-span-1' },
-  { name: 'phone', label: 'Phone', labelIcon: Phone, type: 'tel', className: 'sm:col-span-1' },
+  { name: 'role', label: 'Role' },
+  { name: 'email', label: 'Email', labelIcon: Mail, type: 'email' },
+  { name: 'phone', label: 'Phone', labelIcon: Phone, type: 'tel' },
   {
     name: 'status',
     label: 'Status',
@@ -83,10 +83,11 @@ const fields: readonly SchemaFormField<ContactFormValues>[] = [
       { label: 'Proposal', value: 'proposal' },
       { label: 'Customer', value: 'customer' },
     ],
-    className: 'sm:col-span-1',
   },
-  { name: 'notes', label: 'Notes', type: 'textarea', className: 'sm:col-span-2' },
+  { name: 'notes', label: 'Notes', type: 'textarea' },
 ];
+
+const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 
 function optionalText(value: string | undefined): string | undefined {
   const trimmedValue = value?.trim();
@@ -157,50 +158,57 @@ export function ContactFormSheet({
   const formId = useId();
   const defaultValues = toFormValues(contact);
 
+  function submitForm(): void {
+    const form = document.getElementById(formId);
+
+    if (form instanceof HTMLFormElement) {
+      form.requestSubmit();
+    }
+  }
+
   return (
-    <CrudResourceSheet
-      formId={formId}
+    <ResponsiveSheet
       open={open}
       onOpenChange={onOpenChange}
       title={contact ? 'Edit contact' : 'Add contact'}
-      description={contact ? 'Update this contact.' : 'Create a new contact.'}
       confirmLabel={contact ? 'Save' : 'Add'}
       confirmDisabled={loading}
       confirmLoading={loading}
       onCancel={() => onOpenChange(false)}
-      width={620}
+      onConfirm={submitForm}
+      outsideInteractionGuard={{ selectors: ['.pac-container'] }}
+      width={560}
     >
       <CustomForm<ContactFormValues>
         key={`${open}-${contact?.name ?? 'new'}-${contact?.company ?? ''}`}
         id={formId}
         schema={formSchema}
         defaultValues={defaultValues}
-        className="space-y-4 px-4 pb-4"
+        className="space-y-4 pb-4"
         onSubmit={(values) => onSubmit(toContactData(values))}
       >
         {(methods) => (
           <>
-            <SchemaForm fields={fields} className="grid gap-4 sm:grid-cols-2" />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <CustomUserPickerField<ContactFormValues>
-                name="owner"
-                label="Owner"
-                mode="single"
-                options={userOptions(users)}
-                placeholder="Assign an owner"
-              />
-              <CustomCompactCurrencyField<ContactFormValues>
-                name="value"
-                label="Value"
-                placeholder="12k"
-              />
-            </div>
+            <SchemaForm fields={fields} />
+            <CustomUserPickerField<ContactFormValues>
+              name="owner"
+              label="Owner"
+              mode="single"
+              options={userOptions(users)}
+              placeholder="Assign an owner"
+            />
+            <CustomCompactCurrencyField<ContactFormValues>
+              name="value"
+              label="Value"
+              placeholder="12k"
+            />
             <GooglePlacesAddressInput
               id={`${formId}-address`}
               label="Address"
               value={methods.watch('address') ?? ''}
               placeholder="Search an address"
               componentCountry="it"
+              apiKey={googleMapsApiKey}
               onValueChange={(value) => methods.setValue('address', value, { shouldDirty: true })}
               onPlaceSelect={(place) => {
                 methods.setValue('address', place.address, { shouldDirty: true });
@@ -223,6 +231,6 @@ export function ContactFormSheet({
           </>
         )}
       </CustomForm>
-    </CrudResourceSheet>
+    </ResponsiveSheet>
   );
 }
