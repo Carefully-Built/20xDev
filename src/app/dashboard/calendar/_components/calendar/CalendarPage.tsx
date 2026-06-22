@@ -4,16 +4,28 @@ import {
   ActivityCalendarView,
   ActivityForm,
   ActivityListView,
-  ActivityViewModeToggle,
-  type ActivityViewMode,
+  type ActivityCalendarScope,
 } from '@carefully-built/saas-kit/agenda';
 import { DashboardPageLayout, ResponsivePageActions } from '@carefully-built/saas-kit/app-shell';
 import { ResponsiveSheet, TableToolbar } from '@carefully-built/saas-kit';
-import { CalendarDays, CircleCheck, Link2, Plus } from 'lucide-react';
+import {
+  Calendar1,
+  CalendarDays,
+  CalendarRange,
+  CircleCheck,
+  Columns3,
+  Link2,
+  List,
+  Plus,
+} from 'lucide-react';
 import { parseAsString, useQueryState } from 'nuqs';
 import { useEffect, useState } from 'react';
 
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import { useCalendarPage } from './useCalendarPage';
+
+type ActivityViewMode = ActivityCalendarScope | 'list';
 
 const activityStatusOptions = [
   { value: 'todo', label: 'To do' },
@@ -29,6 +41,17 @@ const calendarSourceOptions = [
   { value: 'google-only', label: 'Google only' },
 ] as const;
 
+const activityViewModeOptions = [
+  { value: 'list', label: 'List', icon: List },
+  { value: 'day', label: 'Day', icon: Calendar1 },
+  { value: 'week', label: 'Week', icon: Columns3 },
+  { value: 'month', label: 'Month', icon: CalendarRange },
+] as const satisfies readonly {
+  value: ActivityViewMode;
+  label: string;
+  icon: typeof List;
+}[];
+
 function submitSheetForm(): void {
   const form = document.getElementById('activity-form');
   if (form instanceof HTMLFormElement) {
@@ -42,11 +65,47 @@ function normalizeViewMode(value: string): ActivityViewMode {
     : 'week';
 }
 
+interface ActivityViewModeToggleProps {
+  readonly value: ActivityViewMode;
+  readonly onChange: (value: ActivityViewMode) => void;
+}
+
+function ActivityViewModeToggle({
+  value,
+  onChange,
+}: ActivityViewModeToggleProps): React.ReactElement {
+  return (
+    <ToggleGroup
+      type="single"
+      value={value}
+      variant="outline"
+      size="sm"
+      aria-label="Calendar view"
+      onValueChange={(nextValue) => {
+        if (nextValue) {
+          onChange(nextValue as ActivityViewMode);
+        }
+      }}
+    >
+      {activityViewModeOptions.map(({ value: optionValue, label, icon: Icon }) => (
+        <ToggleGroupItem key={optionValue} value={optionValue} aria-label={label} title={label}>
+          <Icon className="size-4" />
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
+  );
+}
+
 export function CalendarPage(): React.ReactElement {
   const { activityTypeOptions, agenda, associationOptions, editingActivity, formDefaultValues } =
     useCalendarPage();
-  const [viewModeQuery, setViewModeQuery] = useQueryState('view', parseAsString.withDefault('week'));
-  const [viewMode, setViewMode] = useState<ActivityViewMode>(() => normalizeViewMode(viewModeQuery));
+  const [viewModeQuery, setViewModeQuery] = useQueryState(
+    'view',
+    parseAsString.withDefault('week'),
+  );
+  const [viewMode, setViewMode] = useState<ActivityViewMode>(() =>
+    normalizeViewMode(viewModeQuery),
+  );
   const showListView = viewMode === 'list';
 
   useEffect(() => {
