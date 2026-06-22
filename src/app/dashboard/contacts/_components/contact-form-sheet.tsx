@@ -1,11 +1,24 @@
 'use client';
 
-import { buildCustomFieldValuePayload, mapCustomFieldValuesToFormValues } from '@carefully-built/saas-kit/custom-fields';
-import { CustomCompactCurrencyField, CustomForm, CustomSelectField, CustomUserPickerField, SchemaForm, type SchemaFormField } from '@carefully-built/saas-kit/forms';
-import { GooglePlacesAddressInput } from '@carefully-built/saas-kit/maps-ui';
+import {
+  buildCustomFieldValuePayload,
+  mapCustomFieldValuesToFormValues,
+} from '@carefully-built/saas-kit/custom-fields';
+import {
+  CustomCompactCurrencyField,
+  CustomForm,
+  CustomSelectField,
+  CustomUserPickerField,
+  FormFieldLabel,
+  SchemaForm,
+  type SchemaFormField,
+} from '@carefully-built/saas-kit/forms';
+import { loadGoogleMapsPlacesApi } from '@carefully-built/saas-kit/maps-ui';
 import { ResponsiveSheet } from '@carefully-built/saas-kit';
+import { Input } from '@carefully-built/saas-kit/ui';
 import { Building2, Mail, MapPinned, Phone, Tag, UserRound } from 'lucide-react';
-import { useId } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import type { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 
 import type { api } from '@convex/_generated/api';
@@ -16,6 +29,62 @@ type ContactData = FunctionArgs<typeof api.functions.contacts.mutations.create>[
 type ContactStatus = ContactData['status'];
 type ContactCustomField = NonNullable<ContactData['customFields']>[number];
 type User = Doc<'users'>;
+
+interface ContactAddressPrediction {
+  readonly description: string;
+  readonly placeId: string;
+  readonly mainText: string;
+  readonly secondaryText: string;
+}
+
+interface GooglePlaceDetailsResult {
+  readonly formatted_address?: string;
+  readonly geometry?: {
+    readonly location?: {
+      readonly lat: () => number;
+      readonly lng: () => number;
+    };
+  };
+  readonly place_id?: string;
+}
+
+interface GoogleAutocompleteService {
+  getPlacePredictions: (
+    request: {
+      input: string;
+      componentRestrictions?: { country: string };
+      types?: readonly string[];
+    },
+    callback: (
+      predictions:
+        | readonly {
+            description: string;
+            place_id: string;
+            structured_formatting?: {
+              main_text?: string;
+              secondary_text?: string;
+            };
+          }[]
+        | null,
+      status: string,
+    ) => void,
+  ) => void;
+}
+
+interface GooglePlacesService {
+  getDetails: (
+    request: { placeId: string; fields: readonly string[] },
+    callback: (place: GooglePlaceDetailsResult | null, status: string) => void,
+  ) => void;
+}
+
+interface GooglePlacesNamespace {
+  readonly AutocompleteService?: new () => GoogleAutocompleteService;
+  readonly PlacesService?: new (container: HTMLDivElement) => GooglePlacesService;
+  readonly PlacesServiceStatus?: {
+    readonly OK: string;
+  };
+}
 
 const customFieldDefinitions = [
   { _id: 'lead_source', fieldType: 'single_select', label: 'Lead source' },
@@ -147,6 +216,195 @@ function userOptions(users: readonly User[]) {
   }));
 }
 
+function ContactAddressField({
+  formId,
+  methods,
+}: {
+  readonly formId: string;
+  readonly methods: UseFormReturn<ContactFormValues>;
+}): React.ReactElement {
+  const placesServiceRef = useRef<GooglePlacesService | null>(null);
+  const autocompleteServiceRef = useRef<GoogleAutocompleteService | null>(null);
+  const selectedAddressRef = useRef('');
+  const [predictions, setPredictions] = useState<readonly ContactAddressPrediction[]>([]);
+  const [open, setOpen] = useState(false);
+  const addressValue = methods.watch('address') ?? '';
+
+  useEffect(() => {
+    if (!googleMapsApiKey) {
+      return undefined;
+    }
+
+    let cancelled = false;
+
+    void loadGoogleMapsPlacesApi(googleMapsApiKey)
+      .then(() => {
+        if (cancelled) {
+          return;
+        }
+
+        const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
+        const AutocompleteService = places?.AutocompleteService;
+        const PlacesService = places?.PlacesService;
+
+        if (!AutocompleteService || !PlacesService) {
+          return;
+        }
+
+        autocompleteServiceRef.current = new AutocompleteService();
+        placesServiceRef.current = new PlacesService(document.createElement('div'));
+      })
+      .catch(() => {
+        // Keep the field usable when Google Places is unavailable.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const query = addressValue.trim();
+
+    if (!query || query === selectedAddressRef.current || !autocompleteServiceRef.current) {
+      setPredictions([]);
+      setOpen(false);
+      return undefined;
+    }
+
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      autocompleteServiceRef.current?.getPlacePredictions(
+        {
+          input: query,
+          componentRestrictions: { country: 'it' },
+          types: ['address'],
+        },
+        (results, status) => {
+          if (cancelled) {
+            return;
+          }
+
+          const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
+
+          if (status !== places?.PlacesServiceStatus?.OK || !results?.length) {
+            setPredictions([]);
+            setOpen(false);
+            return;
+          }
+
+          setPredictions(
+            results.map((prediction) => ({
+              description: prediction.description,
+              placeId: prediction.place_id,
+              mainText: prediction.structured_formatting?.main_text ?? prediction.description,
+              secondaryText: prediction.structured_formatting?.secondary_text ?? '',
+            })),
+          );
+          setOpen(true);
+        },
+      );
+    }, 200);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [addressValue]);
+
+  const handleAddressChange = useCallback(
+    (value: string) => {
+      selectedAddressRef.current = '';
+      methods.setValue('address', value, { shouldDirty: true });
+      methods.setValue('googlePlaceId', '', { shouldDirty: true });
+      methods.setValue('latitude', undefined, { shouldDirty: true });
+      methods.setValue('longitude', undefined, { shouldDirty: true });
+    },
+    [methods],
+  );
+
+  const handlePlaceSelect = useCallback(
+    (prediction: ContactAddressPrediction) => {
+      const applySelection = (place: GooglePlaceDetailsResult | null): void => {
+        const location = place?.geometry?.location;
+        const selectedAddress = place?.formatted_address ?? prediction.description;
+
+        selectedAddressRef.current = selectedAddress;
+        methods.setValue('address', selectedAddress, { shouldDirty: true });
+        methods.setValue('googlePlaceId', place?.place_id ?? prediction.placeId, {
+          shouldDirty: true,
+        });
+        methods.setValue('latitude', location?.lat(), { shouldDirty: true });
+        methods.setValue('longitude', location?.lng(), { shouldDirty: true });
+        setOpen(false);
+        setPredictions([]);
+      };
+
+      if (!placesServiceRef.current) {
+        applySelection(null);
+        return;
+      }
+
+      placesServiceRef.current.getDetails(
+        {
+          placeId: prediction.placeId,
+          fields: ['formatted_address', 'geometry', 'place_id'],
+        },
+        (place, status) => {
+          const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
+
+          if (status !== places?.PlacesServiceStatus?.OK) {
+            applySelection(null);
+            return;
+          }
+
+          applySelection(place);
+        },
+      );
+    },
+    [methods],
+  );
+
+  return (
+    <div className="space-y-2">
+      <FormFieldLabel htmlFor={`${formId}-address`} label="Address" icon={MapPinned} />
+      <div className="relative">
+        <MapPinned className="text-primary/70 pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+        <Input
+          id={`${formId}-address`}
+          value={addressValue}
+          placeholder="Search an address"
+          className="pl-9"
+          autoComplete="off"
+          onBlur={() => {
+            window.setTimeout(() => setOpen(false), 150);
+          }}
+          onChange={(event) => handleAddressChange(event.target.value)}
+          onFocus={() => setOpen(predictions.length > 0)}
+        />
+        {open && predictions.length > 0 ? (
+          <div className="border-border bg-popover text-popover-foreground absolute top-full left-0 z-[60] mt-1.5 max-h-72 w-full overflow-y-auto rounded-[16px] border">
+            {predictions.map((prediction) => (
+              <button
+                key={prediction.placeId}
+                type="button"
+                className="border-border/80 hover:bg-primary/8 flex w-full cursor-pointer flex-col border-t bg-transparent px-3.5 py-2.5 text-left text-sm first:border-t-0"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => handlePlaceSelect(prediction)}
+              >
+                <span className="text-foreground font-medium">{prediction.mainText}</span>
+                {prediction.secondaryText ? (
+                  <span className="text-muted-foreground text-xs">{prediction.secondaryText}</span>
+                ) : null}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function ContactFormSheet({
   contact,
   loading,
@@ -176,7 +434,6 @@ export function ContactFormSheet({
       confirmLoading={loading}
       onCancel={() => onOpenChange(false)}
       onConfirm={submitForm}
-      outsideInteractionGuard={{ selectors: ['.pac-container'] }}
       width={560}
     >
       <CustomForm<ContactFormValues>
@@ -202,21 +459,7 @@ export function ContactFormSheet({
               label="Value"
               placeholder="12k"
             />
-            <GooglePlacesAddressInput
-              id={`${formId}-address`}
-              label="Address"
-              value={methods.watch('address') ?? ''}
-              placeholder="Search an address"
-              componentCountry="it"
-              apiKey={googleMapsApiKey}
-              onValueChange={(value) => methods.setValue('address', value, { shouldDirty: true })}
-              onPlaceSelect={(place) => {
-                methods.setValue('address', place.address, { shouldDirty: true });
-                methods.setValue('googlePlaceId', place.googlePlaceId, { shouldDirty: true });
-                methods.setValue('latitude', place.latitude, { shouldDirty: true });
-                methods.setValue('longitude', place.longitude, { shouldDirty: true });
-              }}
-            />
+            <ContactAddressField formId={formId} methods={methods} />
             <CustomSelectField<ContactFormValues>
               name="lead_source"
               label="Lead source"

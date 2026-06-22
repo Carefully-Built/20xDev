@@ -79,18 +79,35 @@ describe('dashboard SaaS kit composition', () => {
     expect(notificationList).not.toContain('flex min-h-52 flex-col');
   });
 
-  test('Google Places address popup can be clicked inside contact sheet', () => {
+  test('Google Places address popup renders inside contact sheet', () => {
     const contactSheet = readSource(
       'src/app/dashboard/contacts/_components/contact-form-sheet.tsx',
     );
     const globals = readSource('src/app/globals.css');
     const crudResourceSheet = readKitSource('crud/src/crud-resource-sheet.tsx');
 
-    expect(contactSheet).toContain("outsideInteractionGuard={{ selectors: ['.pac-container'] }}");
+    expect(contactSheet).toContain('loadGoogleMapsPlacesApi');
+    expect(contactSheet).toContain('ContactAddressPrediction');
+    expect(contactSheet).toContain('getPlacePredictions');
+    expect(contactSheet).toContain('getDetails');
     expect(crudResourceSheet).toContain('outsideInteractionGuard?: SheetOutsideInteractionGuard');
     expect(crudResourceSheet).toContain('outsideInteractionGuard={outsideInteractionGuard}');
     expect(globals).toContain('.pac-container');
     expect(globals).toContain('pointer-events: auto');
     expect(globals).toContain('.pac-item-selected');
+  });
+
+  test('Google Places address input keeps autocomplete stable while typing', () => {
+    const contactSheet = readSource(
+      'src/app/dashboard/contacts/_components/contact-form-sheet.tsx',
+    );
+    const globals = readSource('src/app/globals.css');
+
+    expect(contactSheet).toContain('useCallback');
+    expect(contactSheet).toContain('function ContactAddressField');
+    expect(contactSheet).toContain('handleAddressChange');
+    expect(contactSheet).toContain('handlePlaceSelect');
+    expect(contactSheet).toContain('rounded-[16px]');
+    expect(globals).toContain('box-shadow: none !important');
   });
 });
