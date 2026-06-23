@@ -25,6 +25,11 @@ function featureLinks(titles: readonly string[]): readonly SiteLink[] {
   return titles.map((title) => link(title, '/#features'));
 }
 
+// Social URLs are env-overridable so a fork rebrands without editing source.
+// Defaults preserve the current 20xdev values when the env vars are unset.
+const socialGithub = process.env.NEXT_PUBLIC_BRAND_GITHUB ?? 'https://github.com/20xdev/20xdev';
+const socialTwitter = process.env.NEXT_PUBLIC_BRAND_TWITTER ?? 'https://twitter.com/20xdev';
+
 const mainNav = [
   link('Pricing', '/pricing'),
   link('Blog', '/blog'),
@@ -54,8 +59,8 @@ const footerColumns: readonly FooterColumn[] = [
     links: [
       link('About', '/about'),
       link('Contact', '/contact'),
-      link('GitHub', 'https://github.com/20xdev/20xdev'),
-      link('X / Twitter', 'https://twitter.com/20xdev'),
+      link('GitHub', socialGithub),
+      link('X / Twitter', socialTwitter),
     ],
   },
   {
@@ -69,26 +74,38 @@ const footerColumns: readonly FooterColumn[] = [
 ];
 
 export const siteConfig = {
-  // Brand
-  name: '20xdev',
-  logo: '/images/black_logo.png',
+  // Brand — env-overridable (NEXT_PUBLIC_BRAND_*) so a fork white-labels with
+  // config only. Each default preserves the current 20xdev value when unset.
+  name: process.env.NEXT_PUBLIC_BRAND_NAME ?? '20xdev',
+  logo: process.env.NEXT_PUBLIC_BRAND_LOGO ?? '/images/black_logo.png',
+  ogImage: process.env.NEXT_PUBLIC_BRAND_OG_IMAGE ?? '/images/banner.png',
   description:
+    process.env.NEXT_PUBLIC_BRAND_DESCRIPTION ??
     'Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.',
 
   // URLs
   url: process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
 
   // Legal
-  companyName: '20xdev',
+  companyName: process.env.NEXT_PUBLIC_BRAND_COMPANY ?? '20xdev',
 
   // Social
   social: {
-    twitter: 'https://twitter.com/20xdev',
-    github: 'https://github.com/20xdev/20xdev',
+    twitter: socialTwitter,
+    github: socialGithub,
   },
 
   // Contact
-  email: 'hello@20xdev.com',
+  email: process.env.NEXT_PUBLIC_BRAND_EMAIL ?? 'hello@20xdev.com',
+
+  // Attribution — "Built with 20xDev" credit, isolated from product brand.
+  // Off by default (20xdev's own site is unchanged); a fork opts in with
+  // NEXT_PUBLIC_BRAND_ATTRIBUTION=1 to keep the kit credit in its footer.
+  attribution: {
+    enabled: process.env.NEXT_PUBLIC_BRAND_ATTRIBUTION === '1',
+    label: 'Built with 20xDev',
+    href: 'https://github.com/Carefully-Built/20xDev',
+  },
 
   // Copyright
   copyrightYear: new Date().getFullYear(),
