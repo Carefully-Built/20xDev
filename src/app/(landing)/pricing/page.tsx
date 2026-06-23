@@ -5,20 +5,14 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import { Button } from '@/components/ui/button';
+import { pricingConfig, featuredPlan } from '@/config/pricing';
 import { siteConfig } from '@/config/site';
 
 const heroLandscape = '/images/website/background.avif';
 
-const inclusions = [
-  'Full source code for the starter',
-  'Auth, organizations, dashboard, files, and billing foundations',
-  'Built-in stack for shipping B2B SaaS faster',
-  'One-time payment, no subscription',
-] as const;
-
 export const metadata: Metadata = {
   title: `Pricing - ${siteConfig.name}`,
-  description: `Temporary pricing for ${siteConfig.name}: lifetime deal access for 79€.`,
+  description: `Temporary pricing for ${siteConfig.name}: lifetime deal access for ${featuredPlan.priceLabel}.`,
 };
 
 export default function PricingPage(): React.ReactElement {
@@ -30,12 +24,12 @@ export default function PricingPage(): React.ReactElement {
         <div className="mx-auto flex max-w-5xl flex-col gap-12 lg:gap-16">
           <header className="mx-auto max-w-[44rem] text-center">
             <div className="inline-flex items-center rounded-full border border-[#d9cebf] bg-[rgba(255,255,255,0.72)] px-4 py-1.5 text-[0.82rem] font-medium tracking-[0.01em] text-[#5f5751] shadow-[0_10px_30px_rgba(45,32,50,0.06)] backdrop-blur-sm">
-              Temporary pricing
+              {pricingConfig.badge}
             </div>
             <h1 className="mt-6 text-[clamp(3rem,7vw,4.7rem)] leading-[0.94] font-normal tracking-[-0.07em] text-[#222221]">
               One lifetime deal.
               <br />
-              79€ and you are in.
+              {featuredPlan.priceLabel} and you are in.
             </h1>
             <p className="mx-auto mt-5 max-w-[36rem] text-[1.05rem] leading-7 tracking-[-0.03em] text-[#5f5751]/90 sm:text-[1.16rem]">
               For now, {siteConfig.name} is available as a simple one-time purchase. No tiers, no
@@ -48,14 +42,14 @@ export default function PricingPage(): React.ReactElement {
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-4 border-b border-[#e2d9ce] pb-7">
                   <p className="text-[0.82rem] font-medium tracking-[0.08em] text-[#7c7068] uppercase">
-                    Lifetime access
+                    {featuredPlan.label}
                   </p>
                   <div className="flex flex-wrap items-end gap-3">
                     <div className="text-[clamp(3.8rem,9vw,5.6rem)] leading-none font-normal tracking-[-0.08em] text-[#1e1916]">
-                      79€
+                      {featuredPlan.priceLabel}
                     </div>
                     <p className="pb-2 text-[1rem] leading-7 tracking-[-0.02em] text-[#6b615a]">
-                      one-time payment
+                      {featuredPlan.period}
                     </p>
                   </div>
                   <p className="max-w-[34rem] text-[1rem] leading-7 tracking-[-0.025em] text-[#5f5751]/90">
@@ -66,7 +60,7 @@ export default function PricingPage(): React.ReactElement {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {inclusions.map((item) => (
+                  {featuredPlan.inclusions.map((item) => (
                     <div
                       key={item}
                       className="flex items-start gap-3 rounded-[1.4rem] border border-[#e7dfd5] bg-[rgba(247,241,231,0.7)] px-4 py-4"
@@ -103,18 +97,22 @@ export default function PricingPage(): React.ReactElement {
                     asChild
                     className="h-12 w-full rounded-full bg-white px-6 text-[0.98rem] font-medium tracking-[-0.02em] text-[#1a1411] shadow-none hover:bg-white/92 hover:text-[#1a1411] [a]:hover:bg-white/92 [a]:hover:text-[#1a1411]"
                   >
-                    <Link href="/contact">
-                      Get the 79€ deal
+                    <Link href={featuredPlan.primaryCta.href}>
+                      {featuredPlan.primaryCta.label}
                       <ArrowRight className="size-4" />
                     </Link>
                   </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="h-12 w-full rounded-full border-white/14 bg-white/6 px-6 text-[0.98rem] font-medium tracking-[-0.02em] text-white hover:bg-white/10 hover:text-white"
-                  >
-                    <Link href="/login">Open the product</Link>
-                  </Button>
+                  {featuredPlan.secondaryCta ? (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="h-12 w-full rounded-full border-white/14 bg-white/6 px-6 text-[0.98rem] font-medium tracking-[-0.02em] text-white hover:bg-white/10 hover:text-white"
+                    >
+                      <Link href={featuredPlan.secondaryCta.href}>
+                        {featuredPlan.secondaryCta.label}
+                      </Link>
+                    </Button>
+                  ) : null}
                 </div>
               </div>
             </aside>
