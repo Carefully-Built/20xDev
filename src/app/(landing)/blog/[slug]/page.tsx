@@ -10,6 +10,7 @@ import { JsonLd } from '../_components/json-ld';
 import type { Post } from '@/types/blog';
 import type { Metadata } from 'next';
 
+import { siteConfig } from '@/config/site';
 import { client } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
 import { getPostBySlugQuery, getPostSlugsQuery } from '@/sanity/lib/queries';
@@ -19,6 +20,7 @@ interface PostPageProps {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  if (!siteConfig.features.blog) return [];
   try {
     const slugs = await client.fetch<string[]>(getPostSlugsQuery);
     return slugs.map((slug) => ({ slug }));
@@ -60,6 +62,8 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 }
 
 export default async function PostPage({ params }: PostPageProps): Promise<React.ReactElement> {
+  if (!siteConfig.features.blog) notFound();
+
   const { slug } = await params;
 
   const post = await client.fetch<Post | null>(

@@ -1,6 +1,6 @@
 import { T } from 'gt-next';
 import { FileText } from 'lucide-react';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { BlogGrid } from './_components/blog-grid';
 import { BlogHeader } from './_components/blog-header';
@@ -53,6 +53,8 @@ async function getBlogPageData(offset: number): Promise<{
 export default async function BlogPage({
   searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {
+  if (!siteConfig.features.blog) notFound();
+
   const params = await searchParams;
   const parsedPage = Number(params.page);
   const currentPage = Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;

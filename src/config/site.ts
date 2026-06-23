@@ -30,17 +30,25 @@ function featureLinks(titles: readonly string[]): readonly SiteLink[] {
 const socialGithub = process.env.NEXT_PUBLIC_BRAND_GITHUB ?? 'https://github.com/20xdev/20xdev';
 const socialTwitter = process.env.NEXT_PUBLIC_BRAND_TWITTER ?? 'https://twitter.com/20xdev';
 
-const mainNav = [
+// Feature flags — let a fork hide marketing surfaces cleanly. Default ON so
+// 20xdev's own site is unchanged; a fork sets NEXT_PUBLIC_FEATURE_*=0 to disable.
+// When a surface is off, its nav/footer entries are dropped here so there are no
+// dangling links, and the route itself 404s (see the route guards).
+const featureMarketingSite = process.env.NEXT_PUBLIC_FEATURE_MARKETING_SITE !== '0';
+const featureBlog = process.env.NEXT_PUBLIC_FEATURE_BLOG !== '0';
+const featureStudio = process.env.NEXT_PUBLIC_FEATURE_STUDIO !== '0';
+
+const mainNav: readonly SiteLink[] = [
   link('Pricing', '/pricing'),
-  link('Blog', '/blog'),
+  ...(featureBlog ? [link('Blog', '/blog')] : []),
   link('About', '/about'),
   link('Contact', '/contact'),
-] as const;
+];
 
 const footerColumns: readonly FooterColumn[] = [
   {
     title: 'Product',
-    links: [link('Dashboard', '/dashboard'), link('Blog', '/blog')],
+    links: [link('Dashboard', '/dashboard'), ...(featureBlog ? [link('Blog', '/blog')] : [])],
   },
   {
     title: 'Platform',
@@ -105,6 +113,13 @@ export const siteConfig = {
     enabled: process.env.NEXT_PUBLIC_BRAND_ATTRIBUTION === '1',
     label: 'Built with 20xDev',
     href: 'https://github.com/Carefully-Built/20xDev',
+  },
+
+  // Feature flags — read by route guards to 404 disabled marketing surfaces.
+  features: {
+    marketingSite: featureMarketingSite,
+    blog: featureBlog,
+    studio: featureStudio,
   },
 
   // Copyright

@@ -41,10 +41,29 @@ The "Built with 20xDev" badge is a discrete component
 `NEXT_PUBLIC_BRAND_ATTRIBUTION=1`; the badge renders once in the footer and is the
 only place the upstream name appears.
 
+## 4. Hide marketing surfaces (feature flags)
+
+`siteConfig.features` lets a fork drop surfaces it doesn't ship, cleanly — the
+nav/footer entry disappears (no dangling links) and the route itself 404s. All
+default **on**, so 20xdev's own site is unchanged.
+
+| Env var | Effect | Default |
+|---|---|---|
+| `NEXT_PUBLIC_FEATURE_BLOG` | `=0` removes Blog nav + 404s `/blog` (and skips Sanity at build) | on |
+| `NEXT_PUBLIC_FEATURE_STUDIO` | `=0` 404s `/studio` | on |
+| `NEXT_PUBLIC_FEATURE_MARKETING_SITE` | flag for a fork that overrides `/` with its own landing | on |
+
+## 5. Pricing as config
+
+The pricing offer lives in `src/config/pricing.ts` (`pricingConfig` / `featuredPlan`):
+price, period, inclusions, and CTAs. The pricing page renders from it, so changing
+the offer (or scripting it) is a config edit, not a JSX edit. The shape is a
+`plans[]` array so it also supports multiple recurring tiers later.
+
 ## What this does NOT cover yet (follow-ups)
 
 - Landing marketing copy (`(landing)/about`, `features-section`, `contact`) still
   carries inline brand text — a future PR could route it through a `landingContent`
   config so the copy is one file.
-- Optional `features.marketingBlog` / `features.studio` flags to hide the blog and
-  Sanity studio route groups cleanly (instead of deleting them).
+- Graceful degradation for optional integrations (Maps, Cal.com, Resend, OpenAI,
+  PostHog) when their env is unset, so a minimal fork runs on auth + Convex only.

@@ -9,6 +9,7 @@ import { CategoryFilter } from '../../_components/category-filter';
 import type { Category, PostListItem } from '@/types/blog';
 import type { Metadata } from 'next';
 
+import { siteConfig } from '@/config/site';
 import { client } from '@/sanity/lib/client';
 import {
   getCategoriesQuery,
@@ -21,6 +22,7 @@ interface CategoryPageProps {
 }
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  if (!siteConfig.features.blog) return [];
   try {
     const slugs = await client.fetch<string[]>(getCategorySlugsQuery);
     return slugs.map((slug) => ({ slug }));
@@ -53,6 +55,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({
   params,
 }: CategoryPageProps): Promise<React.ReactElement> {
+  if (!siteConfig.features.blog) notFound();
+
   const { slug } = await params;
 
   const [posts, categories] = await Promise.all([
