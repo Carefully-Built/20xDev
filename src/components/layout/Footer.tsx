@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { GithubIcon, TwitterIcon } from '@/components/icons/social-icons';
 import { Copyright } from '@/components/shared/copyright';
+import { PoweredBy } from '@/components/shared/powered-by';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { landingNav, siteConfig } from '@/config/site';
@@ -156,6 +157,7 @@ function LandingFooter({
                 {link.title}
               </FooterLink>
             ))}
+            <PoweredBy className="ml-auto text-white/60" />
           </div>
         </div>
       </div>
@@ -221,7 +223,10 @@ function DefaultFooter({ socialLinks }: { readonly socialLinks: readonly SocialL
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
-          <Copyright className="text-muted-foreground text-sm" />
+          <div className="flex items-center gap-4">
+            <Copyright className="text-muted-foreground text-sm" />
+            <PoweredBy className="text-muted-foreground" />
+          </div>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             {socialLinks.map((link) => (
