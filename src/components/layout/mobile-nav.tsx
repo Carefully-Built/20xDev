@@ -82,7 +82,9 @@ export function MobileNav({
                 setOpen(false);
               }}
             >
-              <Link href="/dashboard">{isLoggedIn ? 'Dashboard' : 'Sign In'}</Link>
+              <Link href={isLoggedIn ? '/dashboard' : '/login'}>
+                {isLoggedIn ? 'Dashboard' : 'Sign In'}
+              </Link>
             </Button>
           </div>
         </nav>

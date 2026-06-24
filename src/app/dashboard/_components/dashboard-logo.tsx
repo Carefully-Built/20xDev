@@ -1,15 +1,12 @@
 'use client';
 
-import Image from 'next/image';
-
+import { BrandLogo } from '@/components/shared/brand-logo';
 import { siteConfig } from '@/config/site';
 
 export function DashboardLogo(): React.ReactElement {
   return (
     <>
-      <Image
-        src={siteConfig.logo}
-        alt={siteConfig.name}
+      <BrandLogo
         height={28}
         width={128}
         className="shrink-0 dark:brightness-0 dark:invert"

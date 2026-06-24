@@ -1,9 +1,8 @@
 'use client';
 
 import { LegalDocument, privacyPolicyText, termsAndConditionsText } from '@carefully-built/saas-kit/legal-ui';
-import Image from 'next/image';
 
-import { siteConfig } from '@/config/site';
+import { BrandLogo } from '@/components/shared/brand-logo';
 
 type LegalDocumentType = 'privacy' | 'terms';
 
@@ -23,15 +22,7 @@ const legalDocuments = {
 } satisfies Record<LegalDocumentType, { title: string; content: string }>;
 
 function Logo(): React.ReactElement {
-  return (
-    <Image
-      src={siteConfig.logo}
-      alt={siteConfig.name}
-      width={162}
-      height={36}
-      className="h-8 w-auto object-contain sm:h-9"
-    />
-  );
+  return <BrandLogo width={162} height={36} className="h-8 w-auto object-contain sm:h-9" />;
 }
 
 export function LegalDocumentClient({ type }: LegalDocumentClientProps): React.ReactElement {
