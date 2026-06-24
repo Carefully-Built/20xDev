@@ -87,6 +87,10 @@ export const siteConfig = {
   name: process.env.NEXT_PUBLIC_BRAND_NAME ?? '20xdev',
   logo: process.env.NEXT_PUBLIC_BRAND_LOGO ?? '/images/black_logo.png',
   ogImage: process.env.NEXT_PUBLIC_BRAND_OG_IMAGE ?? '/images/banner.png',
+  // The right-side preview image on the auth (login/signup) pages. Defaults to
+  // 20xdev's banner; a fork overrides it with NEXT_PUBLIC_BRAND_AUTH_PREVIEW so
+  // it doesn't show 20xdev's product screenshot.
+  authPreviewImage: process.env.NEXT_PUBLIC_BRAND_AUTH_PREVIEW ?? '/images/banner.png',
   description:
     process.env.NEXT_PUBLIC_BRAND_DESCRIPTION ??
     'Production-ready foundation for B2B SaaS. Ship faster with pre-built auth, payments, and real-time data.',

@@ -9,7 +9,7 @@ export const authPagesConfig = {
   ),
   visual: {
     backgroundSrc: '/images/website/background.png',
-    foregroundSrc: '/images/banner.png',
+    foregroundSrc: siteConfig.authPreviewImage,
     alt: `${siteConfig.name} platform preview`,
   },
   legal: {

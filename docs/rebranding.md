@@ -14,6 +14,7 @@ All are optional and live under `NEXT_PUBLIC_BRAND_*` (see `.env.example`):
 | `NEXT_PUBLIC_BRAND_DESCRIPTION` | `siteConfig.description` (SEO, footer) | 20xdev tagline |
 | `NEXT_PUBLIC_BRAND_LOGO` | `siteConfig.logo` — image path, or `wordmark` for a text fallback | `/images/black_logo.png` |
 | `NEXT_PUBLIC_BRAND_OG_IMAGE` | `siteConfig.ogImage` | `/images/banner.png` |
+| `NEXT_PUBLIC_BRAND_AUTH_PREVIEW` | `siteConfig.authPreviewImage` — login/signup preview image | `/images/banner.png` |
 | `NEXT_PUBLIC_BRAND_EMAIL` | `siteConfig.email` | `hello@20xdev.com` |
 | `NEXT_PUBLIC_BRAND_GITHUB` | `siteConfig.social.github` + footer | 20xdev GitHub |
 | `NEXT_PUBLIC_BRAND_TWITTER` | `siteConfig.social.twitter` + footer | 20xdev X |
@@ -89,6 +90,29 @@ page. 20xdev's default plan is `79€`, so the rendered copy is unchanged.
 A fork can start the dashboard sidebar collapsed by setting
 `NEXT_PUBLIC_SIDEBAR_DEFAULT_COLLAPSED=1`. Unset (default) leaves it expanded,
 exactly as 20xdev ships. The toggle inside the sidebar still works either way.
+
+## 7. Internationalization (locale default + switcher)
+
+The app uses [gt-next](https://generaltranslation.com) (General Translation). The
+supported locales and default live in `gt.config.json` (`en`, `it`; default `en`).
+
+- **Browser-locale default.** `src/middleware.ts` runs
+  `createNextMiddleware({ localeRouting: false })`. With routing disabled it
+  detects the locale from the request `Accept-Language` header (when no locale
+  cookie is set) and exposes it to the server render **without** adding any
+  `/<locale>` URL prefix or redirect — so existing routes/links are untouched.
+  The root layout reads it via `getLocale()` and sets `<html lang>`. Resolution
+  priority is **cookie → `Accept-Language` → default (`en`)**, so a first-time
+  Italian-browser visitor sees Italian content, matching the embedded WorkOS
+  widget (which already localizes to the browser).
+- **Language switcher.** `src/components/shared/language-switcher.tsx` wraps
+  gt-next's `<LocaleSelector>` (lists the `gt.config.json` locales) and is placed
+  in the footer. Selecting a language writes the `generaltranslation.locale`
+  cookie and re-renders; the cookie then overrides `Accept-Language`.
+- **A fork adds a language** by adding its locale to `gt.config.json` `locales`
+  (and providing translations via the GT project) — the switcher and detection
+  pick it up automatically. A single-locale fork: `<LocaleSelector>` renders
+  nothing, and detection always resolves to the one locale.
 
 ## What this does NOT cover yet (follow-ups)
 

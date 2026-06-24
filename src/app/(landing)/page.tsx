@@ -13,7 +13,10 @@ import { Button } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} - Ship B2B SaaS in Hours`,
+  // Use an absolute title so the root template (`%s | <name>`) does not append
+  // the brand name a second time — the home title already led with the brand,
+  // producing a doubled "<name> … | <name>" tab. Home is just the brand name.
+  title: { absolute: siteConfig.name },
   description: siteConfig.description,
 };
 

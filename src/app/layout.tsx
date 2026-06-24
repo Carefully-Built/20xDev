@@ -1,6 +1,7 @@
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { GTProvider } from 'gt-next';
+import { getLocale } from 'gt-next/server';
 import Script from 'next/script';
 import { Toaster } from 'sonner';
 
@@ -61,9 +62,15 @@ const applyThemeBeforeHydration = `
 })();
 `;
 
-const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
+const RootLayout = async ({ children }: RootLayoutProps): Promise<React.ReactElement> => {
+  // Resolve the request locale (cookie → Accept-Language → default 'en', via the
+  // gt-next middleware) so <html lang> and the GTProvider match the user's
+  // browser language. Defaults to 'en' when nothing is detected → unchanged.
+  const locale = await getLocale();
+
+  return (
   <html
-    lang="en"
+    lang={locale}
     className={`${GeistSans.variable} ${GeistMono.variable}`}
     suppressHydrationWarning
   >
@@ -84,6 +91,7 @@ const RootLayout = ({ children }: RootLayoutProps): React.ReactElement => (
       </GTProvider>
     </body>
   </html>
-);
+  );
+};
 
 export default RootLayout;
