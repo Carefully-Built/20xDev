@@ -9,6 +9,7 @@ import { parseAsString, useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 
 import { useUsersByOrganization } from '@/hooks/use-users';
+import { buildItalianAllOptionLabel, tableToolbarLabels } from '@/lib/toolkit-labels';
 import { useOrganization } from '@/providers';
 
 import { opportunities as initialOpportunities, pipeline } from '../_data';
@@ -115,6 +116,7 @@ export function OpportunitiesBoard(): React.ReactElement {
       }
     >
       <TableToolbar
+        labels={tableToolbarLabels}
         search={{
           value: search,
           onChange: (value) => {
@@ -133,6 +135,7 @@ export function OpportunitiesBoard(): React.ReactElement {
                 value: stage.key,
               })),
             },
+            allOptionLabel: buildItalianAllOptionLabel('Stage'),
             value: selectedStage,
             onChange: (value) => {
               void setSelectedStage(value);
@@ -145,6 +148,7 @@ export function OpportunitiesBoard(): React.ReactElement {
               icon: UserRound,
               options: ownerOptions,
             },
+            allOptionLabel: buildItalianAllOptionLabel('Owner'),
             value: selectedOwner,
             onChange: (value) => {
               void setSelectedOwner(value);

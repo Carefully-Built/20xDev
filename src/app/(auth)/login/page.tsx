@@ -15,9 +15,9 @@ const providers = [
 export default function LoginPage(): React.ReactElement {
   return (
     <AuthLoginPage
-      title="Log in"
+      title="Accedi"
       providers={providers}
-      emailLabel="Continue with email"
+      emailLabel="Continua con email"
     />
   );
 }

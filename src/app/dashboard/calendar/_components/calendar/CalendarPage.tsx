@@ -22,6 +22,13 @@ import { parseAsString, useQueryState } from 'nuqs';
 import { useEffect, useState } from 'react';
 
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { buildItalianAllOptionLabel, tableToolbarLabels } from '@/lib/toolkit-labels';
 
 import { useCalendarPage } from './useCalendarPage';
 
@@ -42,13 +49,14 @@ const calendarSourceOptions = [
 ] as const;
 
 const activityViewModeOptions = [
-  { value: 'list', label: 'List', icon: List },
-  { value: 'day', label: 'Day', icon: Calendar1 },
-  { value: 'week', label: 'Week', icon: Columns3 },
-  { value: 'month', label: 'Month', icon: CalendarRange },
+  { value: 'list', label: 'List', tooltip: 'Show activities as a list', icon: List },
+  { value: 'day', label: 'Day', tooltip: 'Show one day', icon: Calendar1 },
+  { value: 'week', label: 'Week', tooltip: 'Show the week', icon: Columns3 },
+  { value: 'month', label: 'Month', tooltip: 'Show the month', icon: CalendarRange },
 ] as const satisfies readonly {
   value: ActivityViewMode;
   label: string;
+  tooltip: string;
   icon: typeof List;
 }[];
 
@@ -75,24 +83,31 @@ function ActivityViewModeToggle({
   onChange,
 }: ActivityViewModeToggleProps): React.ReactElement {
   return (
-    <ToggleGroup
-      type="single"
-      value={value}
-      variant="outline"
-      size="sm"
-      aria-label="Calendar view"
-      onValueChange={(nextValue) => {
-        if (nextValue) {
-          onChange(nextValue as ActivityViewMode);
-        }
-      }}
-    >
-      {activityViewModeOptions.map(({ value: optionValue, label, icon: Icon }) => (
-        <ToggleGroupItem key={optionValue} value={optionValue} aria-label={label} title={label}>
-          <Icon className="size-4" />
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+    <TooltipProvider>
+      <ToggleGroup
+        type="single"
+        value={value}
+        variant="outline"
+        size="sm"
+        aria-label="Calendar view"
+        onValueChange={(nextValue) => {
+          if (nextValue) {
+            onChange(nextValue as ActivityViewMode);
+          }
+        }}
+      >
+        {activityViewModeOptions.map(({ value: optionValue, label, tooltip, icon: Icon }) => (
+          <Tooltip key={optionValue}>
+            <TooltipTrigger asChild>
+              <ToggleGroupItem value={optionValue} aria-label={label}>
+                <Icon className="size-4" />
+              </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>{tooltip}</TooltipContent>
+          </Tooltip>
+        ))}
+      </ToggleGroup>
+    </TooltipProvider>
   );
 }
 
@@ -142,6 +157,7 @@ export function CalendarPage(): React.ReactElement {
       }
     >
       <TableToolbar
+        labels={tableToolbarLabels}
         search={{
           value: agenda.search,
           onChange: agenda.setSearch,
@@ -150,6 +166,7 @@ export function CalendarPage(): React.ReactElement {
         filters={[
           {
             config: agenda.activityTypeFilterConfig,
+            allOptionLabel: buildItalianAllOptionLabel(agenda.activityTypeFilterConfig.label),
             value: agenda.filters.activityType,
             onChange: (value) => {
               agenda.setFilter('activityType', value);
@@ -157,6 +174,7 @@ export function CalendarPage(): React.ReactElement {
           },
           {
             config: agenda.operatorFilterConfig,
+            allOptionLabel: buildItalianAllOptionLabel(agenda.operatorFilterConfig.label),
             value: agenda.filters.operator,
             onChange: (value) => {
               agenda.setFilter('operator', value);
@@ -172,6 +190,7 @@ export function CalendarPage(): React.ReactElement {
                 label: option.label,
               })),
             },
+            allOptionLabel: buildItalianAllOptionLabel('Association'),
             value: agenda.filters.association,
             onChange: (value) => {
               agenda.setFilter('association', value);
@@ -184,6 +203,7 @@ export function CalendarPage(): React.ReactElement {
               icon: CircleCheck,
               options: activityStatusOptions,
             },
+            allOptionLabel: buildItalianAllOptionLabel('Status'),
             value: agenda.filters.status,
             onChange: (value) => {
               agenda.setFilter('status', value);
@@ -196,6 +216,7 @@ export function CalendarPage(): React.ReactElement {
               icon: CalendarDays,
               options: calendarSourceOptions,
             },
+            allOptionLabel: buildItalianAllOptionLabel('Calendar'),
             value: agenda.filters.calendarSource,
             onChange: (value) => {
               agenda.setFilter('calendarSource', value);

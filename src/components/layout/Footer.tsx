@@ -11,8 +11,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { landingNav, siteConfig } from '@/config/site';
 
-const landingFooterBackground =
-  'https://www.figma.com/api/mcp/asset/3ecc440c-5c0b-43cd-bc5c-59fe1ac6ae84';
+const landingFooterBackground = '/images/footer.png';
 
 const socialLinks = [
   { label: 'GitHub', href: siteConfig.social.github, icon: GithubIcon },

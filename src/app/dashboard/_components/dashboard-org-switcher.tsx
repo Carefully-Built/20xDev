@@ -3,6 +3,7 @@
 import { CreateOrganization, SidebarOrgSwitcherBase, type WorkOSOrganization } from '@carefully-built/saas-kit/workos';
 
 import { fetchOrganizations, switchOrganization } from '@/lib/organization-api-client';
+import { createOrganizationLabels } from '@/lib/toolkit-labels';
 import { useOrganization } from '@/providers';
 
 interface DashboardOrgSwitcherProps {
@@ -20,7 +21,11 @@ function renderCreateOrganization({
   readonly children: React.ReactNode;
   readonly onCreated: (organizationId: string) => void;
 }): React.ReactElement {
-  return <CreateOrganization onCreated={onCreated}>{children}</CreateOrganization>;
+  return (
+    <CreateOrganization labels={createOrganizationLabels} onCreated={onCreated}>
+      {children}
+    </CreateOrganization>
+  );
 }
 
 export function DashboardOrgSwitcher({

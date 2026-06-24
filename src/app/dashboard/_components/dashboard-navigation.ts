@@ -1,16 +1,20 @@
-import type { NavigationItem } from '@carefully-built/saas-kit/app-shell';
+import type { NavigationGroup, NavigationItem } from '@carefully-built/saas-kit/app-shell';
 import {
   Bell,
   CalendarDays,
   Files,
   KanbanSquare,
   LayoutDashboard,
+  Megaphone,
+  Newspaper,
+  Rocket,
+  Send,
   Settings,
   StickyNote,
   UsersRound,
 } from 'lucide-react';
 
-export const navItems: readonly NavigationItem[] = [
+const channelNavItems: readonly NavigationItem[] = [
   {
     activeMatch: 'exact',
     href: '/dashboard',
@@ -60,6 +64,55 @@ export const navItems: readonly NavigationItem[] = [
     icon: Bell,
     key: 'notifications',
     label: 'Notifications',
+  },
+];
+
+const addonNavItems: readonly NavigationItem[] = [
+  {
+    activeMatch: 'prefix',
+    href: '/dashboard/editorial-boosting',
+    icon: Rocket,
+    key: 'editorial-boosting',
+    label: 'Editorial Boosting',
+  },
+  {
+    activeMatch: 'prefix',
+    href: '/dashboard/directory-submission',
+    icon: Send,
+    key: 'directory-submission',
+    label: 'Directory Submission',
+  },
+  {
+    activeMatch: 'prefix',
+    href: '/dashboard/guest-blog-posting',
+    icon: Newspaper,
+    key: 'guest-blog-posting',
+    label: 'Guest Blog Posting',
+  },
+  {
+    activeMatch: 'prefix',
+    href: '/dashboard/rno30-lift',
+    icon: Megaphone,
+    key: 'rno30-lift',
+    label: 'RNO30 Lift',
+  },
+];
+
+export const navItems: readonly NavigationItem[] = [...channelNavItems, ...addonNavItems];
+
+export const navGroups: readonly NavigationGroup[] = [
+  {
+    defaultOpen: true,
+    items: channelNavItems,
+    key: 'channel',
+    label: 'Channel',
+  },
+  {
+    collapsible: true,
+    defaultOpen: false,
+    items: addonNavItems,
+    key: 'addons',
+    label: 'Add-ons',
   },
 ];
 

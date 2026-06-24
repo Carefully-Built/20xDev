@@ -21,6 +21,7 @@ import { notificationTabs, notificationTypeMeta } from './notification-display';
 
 import { useFilesByOrganization } from '@/hooks/use-files';
 import { useContactSummary, useContactsByOrganization } from '@/hooks/use-contacts';
+import { smartTableActionLabels } from '@/lib/toolkit-labels';
 import {
   useMarkAllNotificationsSeen,
   useMarkNotificationSeen,
@@ -127,6 +128,7 @@ export function OverviewPage(): React.ReactElement {
             data={contacts ? [...contacts] : []}
             isLoading={Boolean(organizationId) && contacts === undefined}
             getRowKey={(contact) => contact._id}
+            actionLabels={smartTableActionLabels}
             noDataMessage="No contacts yet"
             noDataContent={
               <EmptyStateCard
