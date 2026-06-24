@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 import type { Metadata } from 'next';
 
@@ -13,6 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage(): React.ReactElement {
+  // Marketing surface — a fork that brings its own site hides it (404).
+  if (!siteConfig.features.marketingSite) {
+    notFound();
+  }
+
   return (
     <section className="relative overflow-hidden border-b border-black/6">
       <AboutBackground />

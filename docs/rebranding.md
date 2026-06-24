@@ -12,7 +12,7 @@ All are optional and live under `NEXT_PUBLIC_BRAND_*` (see `.env.example`):
 | `NEXT_PUBLIC_BRAND_NAME` | `siteConfig.name` (header, footer, titles) | `20xdev` |
 | `NEXT_PUBLIC_BRAND_COMPANY` | `siteConfig.companyName` (legal/copyright) | `20xdev` |
 | `NEXT_PUBLIC_BRAND_DESCRIPTION` | `siteConfig.description` (SEO, footer) | 20xdev tagline |
-| `NEXT_PUBLIC_BRAND_LOGO` | `siteConfig.logo` | `/images/black_logo.png` |
+| `NEXT_PUBLIC_BRAND_LOGO` | `siteConfig.logo` — image path, or `wordmark` for a text fallback | `/images/black_logo.png` |
 | `NEXT_PUBLIC_BRAND_OG_IMAGE` | `siteConfig.ogImage` | `/images/banner.png` |
 | `NEXT_PUBLIC_BRAND_EMAIL` | `siteConfig.email` | `hello@20xdev.com` |
 | `NEXT_PUBLIC_BRAND_GITHUB` | `siteConfig.social.github` + footer | 20xdev GitHub |
@@ -33,6 +33,13 @@ NEXT_PUBLIC_BRAND_LOGO=/brand/logo.png
 NEXT_PUBLIC_BRAND_OG_IMAGE=/brand/og.png
 ```
 
+**No logo image? Use the text wordmark.** Set `NEXT_PUBLIC_BRAND_LOGO=wordmark`
+and every logo slot (site header, auth pages, dashboard sidebar, legal pages)
+renders `siteConfig.name` as styled text instead of an image. This is the
+recommended starting point for a fork that has only set `NEXT_PUBLIC_BRAND_NAME`,
+since it guarantees 20xdev's logo image never appears. (`BrandLogo` —
+`src/components/shared/brand-logo.tsx` — is the shared component behind all slots.)
+
 ## 3. Keep (or drop) the kit credit
 
 The "Built with 20xDev" badge is a discrete component
@@ -51,7 +58,20 @@ default **on**, so 20xdev's own site is unchanged.
 |---|---|---|
 | `NEXT_PUBLIC_FEATURE_BLOG` | `=0` removes Blog nav + 404s `/blog` (and skips Sanity at build) | on |
 | `NEXT_PUBLIC_FEATURE_STUDIO` | `=0` 404s `/studio` | on |
-| `NEXT_PUBLIC_FEATURE_MARKETING_SITE` | flag for a fork that overrides `/` with its own landing | on |
+| `NEXT_PUBLIC_FEATURE_MARKETING_SITE` | `=0` drops 20xdev's marketing — see below | on |
+
+When `NEXT_PUBLIC_FEATURE_MARKETING_SITE=0` (a fork that brings its own landing):
+
+- **`/about`** 404s.
+- **`/` (home)** drops the 20xdev marketing sections (hero, proof, showcase,
+  features, tech-stack, FAQ) and renders a minimal branded hero instead — a
+  centered `siteConfig.name` + `siteConfig.description` + a primary CTA to
+  `/pricing`. The route is never blank.
+- **Landing footer CTA card** (the "Built for 20x companies" / "Get the …€ deal"
+  card) is removed, so no 20xdev marketing copy leaks into a fork's footer.
+
+The footer columns/links and legal/dashboard surfaces are unaffected. Default
+(flag on) leaves 20xdev's own site byte-for-byte unchanged.
 
 ## 5. Pricing as config
 
@@ -59,6 +79,16 @@ The pricing offer lives in `src/config/pricing.ts` (`pricingConfig` / `featuredP
 price, period, inclusions, and CTAs. The pricing page renders from it, so changing
 the offer (or scripting it) is a config edit, not a JSX edit. The shape is a
 `plans[]` array so it also supports multiple recurring tiers later.
+
+The **landing footer CTA card** (when shown) also reads `featuredPlan` for its
+price label and button text, so the footer offer can never drift from the pricing
+page. 20xdev's default plan is `79€`, so the rendered copy is unchanged.
+
+## 6. Dashboard sidebar default state
+
+A fork can start the dashboard sidebar collapsed by setting
+`NEXT_PUBLIC_SIDEBAR_DEFAULT_COLLAPSED=1`. Unset (default) leaves it expanded,
+exactly as 20xdev ships. The toggle inside the sidebar still works either way.
 
 ## What this does NOT cover yet (follow-ups)
 

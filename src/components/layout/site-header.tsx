@@ -1,11 +1,11 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { AuthButton } from './auth-button';
 import { MainNav } from './main-nav';
 import { MobileNav } from './mobile-nav';
 
-import { landingNav, siteConfig } from '@/config/site';
+import { BrandLogo } from '@/components/shared/brand-logo';
+import { landingNav } from '@/config/site';
 import { cn } from '@/lib/utils';
 
 interface SiteHeaderProps {
@@ -26,9 +26,7 @@ export function SiteHeader({ variant = 'default' }: SiteHeaderProps): React.Reac
         <div className="flex items-center gap-4">
           <MobileNav items={landingNav} variant={variant} />
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Image
-              src={siteConfig.logo}
-              alt={siteConfig.name}
+            <BrandLogo
               width={variant === 'landing' ? 132 : 128}
               height={32}
               className={cn(

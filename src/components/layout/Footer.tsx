@@ -9,6 +9,7 @@ import { Copyright } from '@/components/shared/copyright';
 import { PoweredBy } from '@/components/shared/powered-by';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
+import { featuredPlan } from '@/config/pricing';
 import { landingNav, siteConfig } from '@/config/site';
 
 const landingFooterBackground =
@@ -83,11 +84,13 @@ const defaultLandingFooterCta: LandingFooterCta = {
   buttonHref: '/pricing',
 };
 
+// Price-bearing copy derives from the pricing config so the footer CTA can never
+// drift from the pricing page. 20xdev's default plan is `79€`, so the rendered
+// text is identical to before; a fork that re-prices gets the new label for free.
 const contactLandingFooterCta: LandingFooterCta = {
   title: 'Start with 20x leverage',
-  description:
-    'See the temporary 79€ deal and get access to the full starter built for small AI-native teams.',
-  buttonLabel: 'Get the 79€ deal',
+  description: `See the temporary ${featuredPlan.priceLabel} deal and get access to the full starter built for small AI-native teams.`,
+  buttonLabel: featuredPlan.primaryCta.label,
   buttonHref: '/pricing',
 };
 
@@ -252,6 +255,14 @@ function resolveLandingFooterCta(
   pathname: string | null,
   cta: LandingFooterCtaOption,
 ): LandingFooterCta | null {
+  // A fork that hides 20xdev marketing gets no CTA card — this kills the
+  // hardcoded "Built for 20x companies" / "Get the …€ deal" card. Checked before
+  // anything else so it can't be bypassed by an explicit cta prop. Default
+  // (marketingSite on) is unchanged.
+  if (!siteConfig.features.marketingSite) {
+    return null;
+  }
+
   if (cta !== 'auto') {
     return cta;
   }

@@ -1,18 +1,11 @@
-import Image from 'next/image';
-
 import type { AuthPagesConfig } from '@carefully-built/saas-kit/auth-pages/config';
 
+import { BrandLogo } from '@/components/shared/brand-logo';
 import { siteConfig } from '@/config/site';
 
 export const authPagesConfig = {
   logo: (
-    <Image
-      src={siteConfig.logo}
-      alt={siteConfig.name}
-      width={112}
-      height={28}
-      className="h-7 w-auto object-contain"
-    />
+    <BrandLogo width={112} height={28} className="h-7 w-auto object-contain" />
   ),
   visual: {
     backgroundSrc: '/images/website/background.png',
