@@ -13,8 +13,7 @@ import { Button } from '@/components/ui/button';
 import { featuredPlan } from '@/config/pricing';
 import { landingNav, siteConfig } from '@/config/site';
 
-const landingFooterBackground =
-  'https://www.figma.com/api/mcp/asset/3ecc440c-5c0b-43cd-bc5c-59fe1ac6ae84';
+const landingFooterBackground = '/images/footer.png';
 
 const socialLinks = [
   { label: 'GitHub', href: siteConfig.social.github, icon: GithubIcon },
@@ -117,7 +116,7 @@ function LandingFooter({
         <img
           src={landingFooterBackground}
           alt=""
-          className="absolute inset-x-0 top-0 h-[132%] w-full max-w-none object-cover object-top opacity-95"
+          className="absolute inset-x-0 bottom-0 h-auto w-full max-w-none object-contain object-bottom opacity-95"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#46838c]/58 via-[#46838c]/18 to-transparent" />
       </div>

@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, type ReactNode } from 'react';
 
 import { DashboardLogo } from './dashboard-logo';
-import { bottomNavItems, navItems } from './dashboard-navigation';
+import { bottomNavItems, navGroups, navItems } from './dashboard-navigation';
 import { DashboardSearch } from './dashboard-search';
 import { DashboardOrgSwitcher } from './dashboard-org-switcher';
 
@@ -61,6 +61,7 @@ export function DashboardShell({
           logo={<DashboardLogo />}
           logoHref="/dashboard"
           navItems={navItems}
+          navGroups={navGroups}
           bottomNavItems={bottomNavItems}
           mobileNavigation={{
             bottom: ['overview', 'contacts', 'pipeline', 'files'],

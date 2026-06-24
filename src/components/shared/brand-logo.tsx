@@ -31,7 +31,12 @@ export function BrandLogo({
 }: BrandLogoProps): React.ReactElement {
   if (siteConfig.logo === 'wordmark') {
     return (
-      <span className={cn('font-semibold whitespace-nowrap', className)}>{siteConfig.name}</span>
+      <span
+        className={cn('font-semibold whitespace-nowrap', className)}
+        style={{ width, height, ...style }}
+      >
+        {siteConfig.name}
+      </span>
     );
   }
 

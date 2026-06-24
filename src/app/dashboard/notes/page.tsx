@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import type { Id } from '@convex/_generated/dataModel';
 
 import { useContactsByOrganization } from '@/hooks/use-contacts';
+import { associationPickerLabels, notesCrudLabels } from '@/lib/toolkit-labels';
 import {
   useCreateNote,
   useDeleteNote,
@@ -111,6 +112,7 @@ function renderNoteAssociationField({
         options={[...associationOptions]}
         placeholder="Assign a contact"
         searchPlaceholder="Search contacts..."
+        labels={associationPickerLabels}
         value={[...value]}
       />
     </div>
@@ -198,6 +200,7 @@ export default function NotesPage(): React.ReactElement {
       onUpdate={update}
       associationField={(props) => renderNoteAssociationField({ ...props, associationOptions })}
       bodyField={renderNoteBodyField}
+      labels={notesCrudLabels}
     />
   );
 }

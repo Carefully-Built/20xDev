@@ -113,4 +113,16 @@ describe('calendar mapping', () => {
     expect(source.slice(toolbarStart)).toContain('ActivityViewModeToggle');
     expect(source).toContain('sm:hidden');
   });
+
+  test('calendar view switcher uses design-system tooltips for each mode', () => {
+    const source = readSource('src/app/dashboard/calendar/_components/calendar/CalendarPage.tsx');
+
+    expect(source).toContain('TooltipProvider');
+    expect(source).toContain('TooltipTrigger asChild');
+    expect(source).toContain('TooltipContent');
+    expect(source).toContain("tooltip: 'Show activities as a list'");
+    expect(source).toContain("tooltip: 'Show one day'");
+    expect(source).toContain("tooltip: 'Show the week'");
+    expect(source).toContain("tooltip: 'Show the month'");
+  });
 });

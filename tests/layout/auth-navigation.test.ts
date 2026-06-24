@@ -10,18 +10,17 @@ function readSource(path: string): string {
 }
 
 describe('auth navigation CTAs', () => {
-  test('desktop auth button sends visitors through the protected dashboard route', () => {
+  test('desktop auth button sends logged-out visitors to login and users to dashboard', () => {
     const source = readSource('src/components/layout/auth-button.tsx');
 
-    expect(source).toContain("<Link href=\"/dashboard\">");
-    expect(source).not.toContain("href={isLoggedIn ? '/dashboard' : '/login'}");
+    expect(source).toContain("href={isLoggedIn ? '/dashboard' : '/login'}");
+    expect(source).toContain('isLoggedIn ? <T>Dashboard</T> : <T>Sign In</T>');
   });
 
-  test('mobile menu auth CTA sends visitors through the protected dashboard route', () => {
+  test('mobile menu auth CTA sends logged-out visitors to login and users to dashboard', () => {
     const source = readSource('src/components/layout/mobile-nav.tsx');
 
-    expect(source).toContain('<Link href="/dashboard">');
+    expect(source).toContain("href={isLoggedIn ? '/dashboard' : '/login'}");
     expect(source).toContain("isLoggedIn ? 'Dashboard' : 'Sign In'");
-    expect(source).not.toContain('<Link href="/login">');
   });
 });

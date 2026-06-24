@@ -34,7 +34,7 @@ if (isProduction && hasDeployKey) {
 // Always build Next.js
 console.log('🔨 Building Next.js...');
 try {
-  execSync('bunx --bun next build', { stdio: 'inherit' });
+  execSync('npx next build --webpack', { stdio: 'inherit' });
   console.log('✅ Next.js build completed successfully');
 } catch (error) {
   console.error('❌ Next.js build failed');

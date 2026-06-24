@@ -8,6 +8,14 @@ import { Files, Plus, SearchX } from 'lucide-react';
 
 import type { Id } from '@convex/_generated/dataModel';
 
+import {
+  associationPickerLabels,
+  buildItalianAllOptionLabel,
+  documentCardLabels,
+  fileUploadSheetLabels,
+  tableToolbarLabels,
+} from '@/lib/toolkit-labels';
+
 import { useDocumentsPage } from './useDocumentsPage';
 
 export function DocumentsPage(): React.ReactElement {
@@ -52,6 +60,7 @@ export function DocumentsPage(): React.ReactElement {
     >
       <div className="space-y-4">
         <TableToolbar
+          labels={tableToolbarLabels}
           search={{
             value: search,
             onChange: setSearch,
@@ -64,6 +73,7 @@ export function DocumentsPage(): React.ReactElement {
                 label: 'Contact',
                 options: associationFilterOptions,
               },
+              allOptionLabel: buildItalianAllOptionLabel('Contact'),
               onChange: setSelectedAssociation,
               value: selectedAssociation,
             },
@@ -80,6 +90,7 @@ export function DocumentsPage(): React.ReactElement {
                 onCopyLink={copyDocumentLink}
                 onDelete={deleteDocument}
                 onEdit={openDocument}
+                labels={documentCardLabels}
               />
             ))}
           </DocumentCardGrid>
@@ -115,6 +126,7 @@ export function DocumentsPage(): React.ReactElement {
               options={associationOptions}
               placeholder="Assign a contact"
               searchPlaceholder="Search contacts..."
+              labels={associationPickerLabels}
               value={[...selectedAssociations]}
             />
           </div>
@@ -122,6 +134,7 @@ export function DocumentsPage(): React.ReactElement {
         onOpenChange={setIsUploadOpen}
         onUpload={uploadSelectedFile}
         open={isUploadOpen}
+        {...fileUploadSheetLabels}
       />
     </DashboardPageLayout>
   );

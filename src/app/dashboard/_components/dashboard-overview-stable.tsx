@@ -25,6 +25,8 @@ import {
   YAxis,
 } from 'recharts';
 
+import { smartTableActionLabels } from '@/lib/toolkit-labels';
+
 interface LeadRow {
   readonly id: string;
   readonly name: string;
@@ -239,6 +241,7 @@ export function DashboardOverviewStable(): React.ReactElement {
             data={leadRows}
             isLoading={false}
             getRowKey={(lead) => lead.id}
+            actionLabels={smartTableActionLabels}
             noDataMessage="No contacts yet"
             noDataContent={
               <EmptyStateCard

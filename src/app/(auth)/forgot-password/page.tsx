@@ -8,8 +8,8 @@ export default function ForgotPasswordPage(): React.ReactElement {
   return (
     <AuthForgotPasswordPage
       sendPasswordResetEmail={sendPasswordResetEmail}
-      subtitle="Enter your email to receive a password reset link"
-      title="Forgot password"
+      subtitle="Inserisci la tua email per ricevere il link di reset della password"
+      title="Password dimenticata"
     />
   );
 }

@@ -8,8 +8,8 @@ export default function UpdatePasswordPage(): React.ReactElement {
   return (
     <AuthUpdatePasswordPage
       resetPassword={resetPassword}
-      subtitle="Enter your new password"
-      title="Update password"
+      subtitle="Inserisci la nuova password"
+      title="Aggiorna password"
     />
   );
 }
