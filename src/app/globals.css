@@ -188,6 +188,10 @@
     cursor: pointer;
   }
 
+  html[data-dashboard='true'] [data-slot="button"] {
+    border-radius: var(--radius-lg) !important;
+  }
+
   /* Smooth theme transitions */
   *,
   *::before,

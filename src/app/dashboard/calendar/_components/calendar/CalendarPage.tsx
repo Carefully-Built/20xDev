@@ -28,7 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { buildItalianAllOptionLabel, tableToolbarLabels } from '@/lib/toolkit-labels';
+import { buildAllOptionLabel, tableToolbarLabels } from '@/lib/toolkit-labels';
 
 import { useCalendarPage } from './useCalendarPage';
 
@@ -166,7 +166,7 @@ export function CalendarPage(): React.ReactElement {
         filters={[
           {
             config: agenda.activityTypeFilterConfig,
-            allOptionLabel: buildItalianAllOptionLabel(agenda.activityTypeFilterConfig.label),
+            allOptionLabel: buildAllOptionLabel(agenda.activityTypeFilterConfig.label),
             value: agenda.filters.activityType,
             onChange: (value) => {
               agenda.setFilter('activityType', value);
@@ -174,7 +174,7 @@ export function CalendarPage(): React.ReactElement {
           },
           {
             config: agenda.operatorFilterConfig,
-            allOptionLabel: buildItalianAllOptionLabel(agenda.operatorFilterConfig.label),
+            allOptionLabel: buildAllOptionLabel(agenda.operatorFilterConfig.label),
             value: agenda.filters.operator,
             onChange: (value) => {
               agenda.setFilter('operator', value);
@@ -190,7 +190,7 @@ export function CalendarPage(): React.ReactElement {
                 label: option.label,
               })),
             },
-            allOptionLabel: buildItalianAllOptionLabel('Association'),
+            allOptionLabel: buildAllOptionLabel('Association'),
             value: agenda.filters.association,
             onChange: (value) => {
               agenda.setFilter('association', value);
@@ -203,7 +203,7 @@ export function CalendarPage(): React.ReactElement {
               icon: CircleCheck,
               options: activityStatusOptions,
             },
-            allOptionLabel: buildItalianAllOptionLabel('Status'),
+            allOptionLabel: buildAllOptionLabel('Status'),
             value: agenda.filters.status,
             onChange: (value) => {
               agenda.setFilter('status', value);
@@ -216,7 +216,7 @@ export function CalendarPage(): React.ReactElement {
               icon: CalendarDays,
               options: calendarSourceOptions,
             },
-            allOptionLabel: buildItalianAllOptionLabel('Calendar'),
+            allOptionLabel: buildAllOptionLabel('Calendar'),
             value: agenda.filters.calendarSource,
             onChange: (value) => {
               agenda.setFilter('calendarSource', value);

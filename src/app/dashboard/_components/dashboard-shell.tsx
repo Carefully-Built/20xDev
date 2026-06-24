@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, type ReactNode } from 'react';
 
 import { DashboardLogo } from './dashboard-logo';
-import { bottomNavItems, navGroups, navItems } from './dashboard-navigation';
+import { bottomNavItems, navItems } from './dashboard-navigation';
 import { DashboardSearch } from './dashboard-search';
 import { DashboardOrgSwitcher } from './dashboard-org-switcher';
 
@@ -37,6 +37,19 @@ function SidebarDefaultCollapse(): null {
   return null;
 }
 
+function DashboardDocumentMode(): null {
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.dashboard = 'true';
+
+    return () => {
+      delete root.dataset.dashboard;
+    };
+  }, []);
+
+  return null;
+}
+
 interface DashboardShellProps {
   readonly canAccessSuperAdmin?: boolean;
   readonly children: ReactNode;
@@ -55,13 +68,13 @@ export function DashboardShell({
   return (
     <TooltipProvider>
       <SidebarProvider>
+        <DashboardDocumentMode />
         <SidebarDefaultCollapse />
         <AppNavigationShell
           currentPath={pathname}
           logo={<DashboardLogo />}
           logoHref="/dashboard"
           navItems={navItems}
-          navGroups={navGroups}
           bottomNavItems={bottomNavItems}
           mobileNavigation={{
             bottom: ['overview', 'contacts', 'pipeline', 'files'],

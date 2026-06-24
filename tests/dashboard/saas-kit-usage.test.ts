@@ -14,6 +14,43 @@ function readKitSource(path: string): string {
 }
 
 describe('dashboard SaaS kit composition', () => {
+  test('dashboard navigation excludes project-specific add-ons and grouped channels', () => {
+    const navigation = readSource('src/app/dashboard/_components/dashboard-navigation.ts');
+    const shell = readSource('src/app/dashboard/_components/dashboard-shell.tsx');
+
+    expect(navigation).not.toContain('Editorial Boosting');
+    expect(navigation).not.toContain('Directory Submission');
+    expect(navigation).not.toContain('Guest Blog Posting');
+    expect(navigation).not.toContain('RNO30 Lift');
+    expect(navigation).not.toContain('Add-ons');
+    expect(navigation).not.toContain('Channel');
+    expect(navigation).not.toContain('navGroups');
+    expect(shell).not.toContain('navGroups={navGroups}');
+  });
+
+  test('dashboard toolkit labels stay in English', () => {
+    const source = readSource('src/lib/toolkit-labels.ts');
+
+    expect(source).toContain("filtersButtonLabel: 'Filters'");
+    expect(source).toContain("filtersTitle: 'Filters'");
+    expect(source).toContain('buildAllOptionLabel');
+    expect(source).toContain('All:');
+    expect(source).not.toContain('Filtri');
+    expect(source).not.toContain('Tutti');
+    expect(source).not.toContain('Aggiungi');
+    expect(source).not.toContain('Elimina');
+  });
+
+  test('dashboard kit buttons use the same radius family as search inputs', () => {
+    const shell = readSource('src/app/dashboard/_components/dashboard-shell.tsx');
+    const globals = readSource('src/app/globals.css');
+
+    expect(shell).toContain('dataset.dashboard');
+    expect(globals).toContain('html[data-dashboard=');
+    expect(globals).toContain('[data-slot=\"button\"]');
+    expect(globals).toContain('border-radius: var(--radius-lg) !important');
+  });
+
   test('entity detail pages use the generic associated tab panel', () => {
     const contactDetail = readSource(
       'src/app/dashboard/contacts/[id]/_components/contact-detail.tsx',
@@ -45,14 +82,14 @@ describe('dashboard SaaS kit composition', () => {
     expect(settingsPage).toContain('@carefully-built/settings-ui/client');
   });
 
-  test('opportunity edit sheet uses the CRUD resource sheet and form primitives', () => {
+  test('opportunity edit sheet uses the responsive sheet and form primitives', () => {
     const source = readSource(
       'src/app/dashboard/opportunities/[id]/_components/opportunity-edit-sheet.tsx',
     );
 
-    expect(source).toContain('CrudResourceSheet');
+    expect(source).toContain('ResponsiveSheet');
     expect(source).toContain('CustomForm');
-    expect(source).not.toContain('ResponsiveSheet');
+    expect(source).toContain('SchemaForm');
   });
 
   test('contact empty tables render SaaS kit empty state cards', () => {

@@ -10,7 +10,7 @@ import type { Id } from '@convex/_generated/dataModel';
 
 import {
   associationPickerLabels,
-  buildItalianAllOptionLabel,
+  buildAllOptionLabel,
   documentCardLabels,
   fileUploadSheetLabels,
   tableToolbarLabels,
@@ -73,7 +73,7 @@ export function DocumentsPage(): React.ReactElement {
                 label: 'Contact',
                 options: associationFilterOptions,
               },
-              allOptionLabel: buildItalianAllOptionLabel('Contact'),
+              allOptionLabel: buildAllOptionLabel('Contact'),
               onChange: setSelectedAssociation,
               value: selectedAssociation,
             },
