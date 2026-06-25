@@ -28,4 +28,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withGTConfig(nextConfig);
+// gt-next's withGTConfig force-enables Next's experimental `rootParams` on
+// versions where it's experimental (Next 16.x). Disable it: not needed without a
+// [locale] segment, and the experimental static-gen path is a build hazard.
+const gtConfig = withGTConfig(nextConfig);
+gtConfig.experimental = { ...(gtConfig.experimental ?? {}), rootParams: false };
+
+export default gtConfig;
