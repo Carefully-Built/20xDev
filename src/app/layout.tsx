@@ -15,6 +15,10 @@ import { Providers } from '@/providers';
 
 import './globals.css';
 
+// Render dynamically: the app reads request locale (gt-next getLocale) and is
+// auth-gated; static prerendering adds no value and is a build hazard.
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
