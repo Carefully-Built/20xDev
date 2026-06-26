@@ -15,16 +15,16 @@ export default async function SelectOrganizationPage(): Promise<React.ReactEleme
   return (
     <OrganizationSelectionPage
       organizations={pending.organizations}
-      title="Scegli organizzazione"
-      description="Il tuo account ha accesso a piu organizzazioni."
-      searchPlaceholder="Cerca organizzazione..."
-      emptyTitle="Nessuna organizzazione trovata"
-      emptyDescription="Prova a cercare con un nome diverso."
-      itemDescription="Continua con questa organizzazione"
-      noOrganizationsTitle="Nessuna organizzazione disponibile"
-      noOrganizationsDescription="Non ci sono organizzazioni collegate a questo account."
-      dashboardLabel="Vai alla dashboard"
-      loginLabel="Torna al login"
+      title="Choose organization"
+      description="Your account has access to multiple organizations."
+      searchPlaceholder="Search organizations..."
+      emptyTitle="No organizations found"
+      emptyDescription="Try searching for a different name."
+      itemDescription="Continue with this organization"
+      noOrganizationsTitle="No organizations available"
+      noOrganizationsDescription="There are no organizations connected to this account."
+      dashboardLabel="Go to dashboard"
+      loginLabel="Back to login"
     />
   );
 }

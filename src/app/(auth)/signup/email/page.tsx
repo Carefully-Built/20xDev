@@ -8,9 +8,9 @@ export default function SignUpWithEmailPage(): React.ReactElement {
   return (
     <AuthSignupPage
       signUp={signUp}
-      title="Registrati con email"
-      loginPromptText="Hai gia un account?"
-      loginLinkText="Accedi"
+      title="Sign up with email"
+      loginPromptText="Already have an account?"
+      loginLinkText="Sign in"
     />
   );
 }
