@@ -1,5 +1,5 @@
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { SettingsTabs } from '@carefully-built/settings-ui/client';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { SettingsTabs } from '@carefully-built/saas-kit/settings/client';
 import { Building2, Link2, Settings2, User } from 'lucide-react';
 import { redirect } from 'next/navigation';
 

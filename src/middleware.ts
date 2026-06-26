@@ -9,8 +9,8 @@ import { createNextMiddleware } from 'gt-next/middleware';
  * adding any `/<locale>` URL prefix or redirecting. This keeps every existing
  * route/link unchanged while making page content default to the user's browser
  * language (so it matches the embedded WorkOS widget, which already localizes to
- * the browser). The language switcher (`<LocaleSelector>`) writes the cookie,
- * which then takes priority over `Accept-Language`.
+ * the browser). If a `generaltranslation.locale` cookie is already present, it
+ * takes priority over `Accept-Language`.
  *
  * Resolution priority (gt-next): cookie → Accept-Language → defaultLocale (en).
  */

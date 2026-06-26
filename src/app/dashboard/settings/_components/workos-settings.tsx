@@ -1,8 +1,8 @@
 'use client';
 
-import { uploadOrganizationLogo } from '@carefully-built/workos';
+import { uploadOrganizationLogo } from '@carefully-built/saas-kit/workos';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@carefully-built/saas-kit';
 import { OrganizationProfileSettings } from '@carefully-built/workos/organization-profile-settings';
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@carefully-built/ui';
 import { UserProfile, UserSecurity, UsersManagement, WorkOsWidgets } from '@workos-inc/widgets';
 import { useMutation, useQuery } from 'convex/react';
 import { LogOut } from 'lucide-react';

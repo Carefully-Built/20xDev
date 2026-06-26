@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@carefully-built/agenda/styles.css';
+@import '@carefully-built/saas-kit/agenda/styles.css';
 
 @source '../**/*.{ts,tsx}';
 @source '../../node_modules/@carefully-built/*/dist/**/*.{js,mjs}';

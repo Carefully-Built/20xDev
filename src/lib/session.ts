@@ -33,6 +33,7 @@ interface SessionData {
 interface PendingOrganizationSelectionData {
   organizations: {
     id: string;
+    logoUrl?: string | null;
     name: string;
   }[];
   pendingAuthenticationToken: string;

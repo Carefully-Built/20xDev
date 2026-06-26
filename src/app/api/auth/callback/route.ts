@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
 
+import {
+  normalizeOrganizationSelectionOptions,
+  type OrganizationSelectionOption,
+} from '@/lib/auth-organization-selection';
 import { syncAuthenticatedUser } from '@/lib/convex-user-sync';
 import {
   clearPendingOrganizationSelection,
@@ -29,9 +33,17 @@ interface OrganizationSelectionErrorData {
   message?: string;
   organizations?: {
     id?: string;
+    imageUrl?: string | null;
+    image_url?: string | null;
+    logoUrl?: string | null;
+    logo_url?: string | null;
     name?: string;
     organization?: {
       id?: string;
+      imageUrl?: string | null;
+      image_url?: string | null;
+      logoUrl?: string | null;
+      logo_url?: string | null;
       name?: string;
     };
     organizationId?: string;
@@ -39,17 +51,33 @@ interface OrganizationSelectionErrorData {
   }[];
   organizationSelections?: {
     id?: string;
+    imageUrl?: string | null;
+    image_url?: string | null;
+    logoUrl?: string | null;
+    logo_url?: string | null;
     name?: string;
     organization?: {
       id?: string;
+      imageUrl?: string | null;
+      image_url?: string | null;
+      logoUrl?: string | null;
+      logo_url?: string | null;
       name?: string;
     };
   }[];
   organization_selections?: {
     id?: string;
+    imageUrl?: string | null;
+    image_url?: string | null;
+    logoUrl?: string | null;
+    logo_url?: string | null;
     name?: string;
     organization?: {
       id?: string;
+      imageUrl?: string | null;
+      image_url?: string | null;
+      logoUrl?: string | null;
+      logo_url?: string | null;
       name?: string;
     };
   }[];
@@ -57,44 +85,8 @@ interface OrganizationSelectionErrorData {
   pendingAuthenticationToken?: string;
 }
 
-interface OrganizationOption {
-  id: string;
-  name: string;
-}
-
-function normalizeOrganizations(rawOrganizations: unknown): OrganizationOption[] {
-  if (!Array.isArray(rawOrganizations)) {
-    return [];
-  }
-
-  return rawOrganizations
-    .map((raw) => {
-      if (!raw || typeof raw !== 'object') {
-        return null;
-      }
-
-      const item = raw as {
-        id?: string;
-        name?: string;
-        organization?: { id?: string; name?: string };
-        organizationId?: string;
-        organizationName?: string;
-      };
-
-      const id = item.id ?? item.organizationId ?? item.organization?.id;
-      const name = item.name ?? item.organizationName ?? item.organization?.name;
-
-      if (!id || !name) {
-        return null;
-      }
-
-      return { id, name };
-    })
-    .filter((organization): organization is OrganizationOption => organization !== null);
-}
-
 function extractOrganizationSelectionError(error: unknown): {
-  organizations: OrganizationOption[];
+  organizations: OrganizationSelectionOption[];
   pendingAuthenticationToken: string;
 } | null {
   if (!(error instanceof Error)) {
@@ -124,9 +116,9 @@ function extractOrganizationSelectionError(error: unknown): {
 
   return {
     organizations: [
-      ...normalizeOrganizations(rawData.organizations),
-      ...normalizeOrganizations(rawData.organizationSelections),
-      ...normalizeOrganizations(rawData.organization_selections),
+      ...normalizeOrganizationSelectionOptions(rawData.organizations),
+      ...normalizeOrganizationSelectionOptions(rawData.organizationSelections),
+      ...normalizeOrganizationSelectionOptions(rawData.organization_selections),
     ],
     pendingAuthenticationToken,
   };

@@ -4,6 +4,7 @@ import { GTProvider } from 'gt-next';
 import { getLocale } from 'gt-next/server';
 import Script from 'next/script';
 import { Toaster } from 'sonner';
+import { AppTopLoader } from '@carefully-built/saas-kit/app-shell';
 
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
@@ -85,6 +86,7 @@ const RootLayout = async ({ children }: RootLayoutProps): Promise<React.ReactEle
     <body className="bg-background min-h-screen font-sans antialiased">
       <GTProvider>
         <Providers>
+          <AppTopLoader />
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster position="bottom-right" richColors />
         </Providers>

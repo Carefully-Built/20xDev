@@ -1,9 +1,9 @@
 'use client';
 
-import { SharedActivityCalendarWidget, type ActivityListItem } from '@carefully-built/agenda';
-import { DashboardPageLayout } from '@carefully-built/app-shell';
-import { EmptyStateCard, SmartTable, type Column } from '@carefully-built/ui';
-import { DashboardWidget } from '@carefully-built/widgets';
+import { SharedActivityCalendarWidget, type ActivityListItem } from '@carefully-built/saas-kit/agenda';
+import { DashboardPageLayout } from '@carefully-built/saas-kit/app-shell';
+import { EmptyStateCard, SmartTable, type Column } from '@carefully-built/saas-kit';
+import { DashboardWidget } from '@carefully-built/saas-kit/widgets';
 import {
   Activity,
   CircleDollarSign,
