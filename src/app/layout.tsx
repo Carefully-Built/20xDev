@@ -1,10 +1,10 @@
+import { AppTopLoader } from '@carefully-built/saas-kit/app-shell';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { GTProvider } from 'gt-next';
 import { getLocale } from 'gt-next/server';
 import Script from 'next/script';
 import { Toaster } from 'sonner';
-import { AppTopLoader } from '@carefully-built/saas-kit/app-shell';
 
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
