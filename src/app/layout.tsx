@@ -1,10 +1,10 @@
+import { AppTopLoader } from '@carefully-built/saas-kit/app-shell';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { GTProvider } from 'gt-next';
 import { getLocale } from 'gt-next/server';
 import Script from 'next/script';
 import { Toaster } from 'sonner';
-import { AppTopLoader } from '@carefully-built/saas-kit/app-shell';
 
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
@@ -14,6 +14,10 @@ import { siteConfig } from '@/config/site';
 import { Providers } from '@/providers';
 
 import './globals.css';
+
+// Render dynamically: the app reads request locale (gt-next getLocale) and is
+// auth-gated; static prerendering adds no value and is a build hazard.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {

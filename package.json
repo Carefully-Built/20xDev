@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npx convex deploy; fi && next build --webpack",
+    "build": "next build --webpack",
     "build:next": "next build --webpack",
     "start": "next start",
     "lint": "bunx --bun eslint .",

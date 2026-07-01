@@ -1,4 +1,4 @@
 {
   "installCommand": "bash scripts/vercel-install.sh",
-  "buildCommand": "bun run build"
+  "buildCommand": "if [ \"$VERCEL_ENV\" = \"production\" ] && [ -n \"$CONVEX_DEPLOY_KEY\" ]; then npx convex deploy --cmd 'bun run build'; else bun run build; fi"
 }
