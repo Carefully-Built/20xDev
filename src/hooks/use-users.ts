@@ -1,8 +1,7 @@
 import { api } from '@convex/_generated/api';
 import { useMutation, useQuery } from 'convex/react';
 
-import type { FunctionReturnType } from 'convex/server';
-import type { FunctionArgs } from 'convex/server';
+import type { FunctionArgs, FunctionReturnType } from 'convex/server';
 
 type CurrentUserResult =
   | FunctionReturnType<typeof api.functions.users.queries.getCurrentByOrganization>

@@ -54,9 +54,14 @@ interface UseDocumentsPageResult {
 }
 
 function copyDocumentLink(url: string): void {
-  void navigator.clipboard.writeText(url).then(() => {
-    toast.success('Link copied');
-  });
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      toast.success('Link copied');
+    })
+    .catch(() => {
+      /* ignore */
+    });
 }
 
 function openDocument(document: DocumentCardItem<Id<'files'>>): void {
@@ -117,7 +122,9 @@ export function useDocumentsPage(): UseDocumentsPageResult {
 
   function clearFilters(): void {
     urlFilters.clear();
-    void setSelectedFileId(null);
+    setSelectedFileId(null).catch(() => {
+      /* ignore */
+    });
   }
 
   function getDraftFilterResultCount(draftValues: Record<string, string>): number | undefined {
@@ -182,11 +189,15 @@ export function useDocumentsPage(): UseDocumentsPageResult {
     selectedAssociation,
     selectedAssociations,
     setSearch: (value) => {
-      void setSelectedFileId(null);
+      setSelectedFileId(null).catch(() => {
+        /* ignore */
+      });
       urlFilters.setValue('search', value);
     },
     setSelectedAssociation: (value) => {
-      void setSelectedFileId(null);
+      setSelectedFileId(null).catch(() => {
+        /* ignore */
+      });
       urlFilters.setValue('association', value);
     },
     setIsUploadOpen,

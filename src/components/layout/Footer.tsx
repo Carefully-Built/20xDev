@@ -286,12 +286,12 @@ function FooterLink({
   children,
   subtle = true,
   className,
-}: {
+}: Readonly<{
   href: string;
   children: React.ReactNode;
   subtle?: boolean;
   className?: string;
-}): React.ReactElement {
+}>): React.ReactElement {
   const isExternal = href.startsWith('http') || href.startsWith('mailto:');
 
   return (

@@ -2,14 +2,13 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@carefully-built/saas-kit/agenda/styles.css';
+/* WorkOS Widgets styles */
+@import '@radix-ui/themes/styles.css';
+@import '@workos-inc/widgets/styles.css';
 
 @source '../**/*.{ts,tsx}';
 @source '../../node_modules/@carefully-built/*/dist/**/*.{js,mjs}';
 @source '../../../carefully-built-saas-kit/packages/**/*.{ts,tsx,mjs}';
-
-/* WorkOS Widgets styles */
-@import '@radix-ui/themes/styles.css';
-@import '@workos-inc/widgets/styles.css';
 
 @custom-variant dark (&:is(.dark *));
 

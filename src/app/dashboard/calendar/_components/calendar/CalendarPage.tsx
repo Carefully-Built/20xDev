@@ -134,7 +134,9 @@ export function CalendarPage(): React.ReactElement {
 
   function handleViewModeChange(nextViewMode: ActivityViewMode): void {
     setViewMode(nextViewMode);
-    void setViewModeQuery(nextViewMode === 'week' ? null : nextViewMode);
+    setViewModeQuery(nextViewMode === 'week' ? null : nextViewMode).catch(() => {
+      /* ignore */
+    });
 
     if (nextViewMode !== 'list') {
       agenda.setCalendarScope(nextViewMode);
