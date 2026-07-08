@@ -31,9 +31,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const organizations = await listUserOrganizations(session.user.id);
-    const targetOrganization = organizations.find((organization) => organization.id === organizationId);
+    const hasOrganizationAccess = organizations.some(
+      (organization) => organization.id === organizationId,
+    );
 
-    if (!targetOrganization) {
+    if (!hasOrganizationAccess) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

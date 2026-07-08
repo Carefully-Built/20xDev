@@ -120,7 +120,9 @@ export function OpportunitiesBoard(): React.ReactElement {
         search={{
           value: search,
           onChange: (value) => {
-            void setSearch(value);
+            setSearch(value).catch(() => {
+              /* ignore */
+            });
           },
           placeholder: 'Search opportunities...',
         }}
@@ -138,7 +140,9 @@ export function OpportunitiesBoard(): React.ReactElement {
             allOptionLabel: buildAllOptionLabel('Stage'),
             value: selectedStage,
             onChange: (value) => {
-              void setSelectedStage(value);
+              setSelectedStage(value).catch(() => {
+                /* ignore */
+              });
             },
           },
           {
@@ -151,14 +155,22 @@ export function OpportunitiesBoard(): React.ReactElement {
             allOptionLabel: buildAllOptionLabel('Owner'),
             value: selectedOwner,
             onChange: (value) => {
-              void setSelectedOwner(value);
+              setSelectedOwner(value).catch(() => {
+                /* ignore */
+              });
             },
           },
         ]}
         onClearAll={() => {
-          void setSearch('');
-          void setSelectedStage('all');
-          void setSelectedOwner('all');
+          setSearch('').catch(() => {
+            /* ignore */
+          });
+          setSelectedStage('all').catch(() => {
+            /* ignore */
+          });
+          setSelectedOwner('all').catch(() => {
+            /* ignore */
+          });
         }}
         getDraftResultCount={(draftValues) =>
           items.filter((item) => {

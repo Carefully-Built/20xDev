@@ -86,10 +86,14 @@ export function ContactsPageClient(): React.ReactElement {
         onOverwriteExistingChange={contactsPage.importState.setOverwriteExisting}
         onDownloadTemplate={contactsPage.importState.downloadCsvTemplate}
         onFileSelected={(file) => {
-          void contactsPage.importState.parseImportFile(file);
+          contactsPage.importState.parseImportFile(file).catch(() => {
+            /* ignore */
+          });
         }}
         onConfirmImport={() => {
-          void contactsPage.confirmImport();
+          contactsPage.confirmImport().catch(() => {
+            /* ignore */
+          });
         }}
         previewSummary={contactsPage.importState.importPreviewSummary}
         fileName={contactsPage.importState.selectedImportFileName}

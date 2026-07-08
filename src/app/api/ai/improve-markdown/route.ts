@@ -51,7 +51,8 @@ function parseImprovedDocument(value: string): Record<string, unknown> | null {
   const cleanedValue = value
     .trim()
     .replace(/^```(?:json)?\s*/i, '')
-    .replace(/\s*```$/i, '');
+    .replace(/```\s*$/i, '')
+    .trim();
 
   try {
     const parsed = JSON.parse(cleanedValue) as unknown;

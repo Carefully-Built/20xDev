@@ -33,19 +33,19 @@ async function fetchPipesAuthToken(): Promise<string> {
 }
 
 function getWidgetsApiHostname(): string | undefined {
-  if (typeof window === 'undefined') {
+  if (typeof globalThis.window === 'undefined') {
     return undefined;
   }
 
-  return window.location.host;
+  return globalThis.location.host;
 }
 
 function getWidgetsApiUsesHttps(): boolean | undefined {
-  if (typeof window === 'undefined') {
+  if (typeof globalThis.window === 'undefined') {
     return undefined;
   }
 
-  return window.location.protocol === 'https:';
+  return globalThis.location.protocol === 'https:';
 }
 
 export function IntegrationsSettings(): React.ReactElement {
@@ -109,7 +109,7 @@ export function IntegrationsSettings(): React.ReactElement {
         await updateIntegrationPreferences({
           id: currentUser._id,
           integrationPreferences: {
-            ...(currentUser.integrationPreferences ?? {}),
+            ...currentUser.integrationPreferences,
             googleCalendar: {
               ...preferences,
               [key]: checked,
@@ -179,7 +179,9 @@ export function IntegrationsSettings(): React.ReactElement {
                 id="google-calendar-show-existing"
                 label="Show existing Google Calendar events"
                 onCheckedChange={(checked) => {
-                  void handlePreferenceChange('showExistingEvents', checked);
+                  handlePreferenceChange('showExistingEvents', checked).catch(() => {
+                    /* ignore */
+                  });
                 }}
               />
               <SettingsSwitchRow
@@ -189,7 +191,9 @@ export function IntegrationsSettings(): React.ReactElement {
                 id="google-calendar-sync-dashboard-events"
                 label="Sync new dashboard events to Google Calendar"
                 onCheckedChange={(checked) => {
-                  void handlePreferenceChange('syncDashboardEvents', checked);
+                  handlePreferenceChange('syncDashboardEvents', checked).catch(() => {
+                    /* ignore */
+                  });
                 }}
               />
             </div>

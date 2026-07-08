@@ -24,7 +24,7 @@ export function PageLayout({
   showFooter = true,
   variant = 'default',
   footerCta = 'auto',
-}: PageLayoutProps): React.ReactElement {
+}: Readonly<PageLayoutProps>): React.ReactElement {
   return (
     <div className="relative flex min-h-screen flex-col">
       <SiteHeader variant={variant} />

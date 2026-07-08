@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve = config.resolve ?? {};
     config.resolve.alias = {
-      ...(config.resolve.alias ?? {}),
+      ...config.resolve.alias,
       'lucide-react$': require.resolve('lucide-react'),
       'react$': require.resolve('react'),
       'react-dom$': require.resolve('react-dom'),
@@ -47,6 +47,6 @@ const nextConfig: NextConfig = {
 // versions where it's experimental (Next 16.x). Disable it: not needed without a
 // [locale] segment, and the experimental static-gen path is a build hazard.
 const gtConfig = withGTConfig(nextConfig);
-gtConfig.experimental = { ...(gtConfig.experimental ?? {}), rootParams: false };
+gtConfig.experimental = { ...gtConfig.experimental, rootParams: false };
 
 export default gtConfig;

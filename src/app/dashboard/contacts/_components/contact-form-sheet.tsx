@@ -48,6 +48,15 @@ interface GooglePlaceDetailsResult {
   readonly place_id?: string;
 }
 
+interface GooglePlacePrediction {
+  readonly description: string;
+  readonly place_id: string;
+  readonly structured_formatting?: {
+    readonly main_text?: string;
+    readonly secondary_text?: string;
+  };
+}
+
 interface GoogleAutocompleteService {
   getPlacePredictions: (
     request: {
@@ -55,19 +64,7 @@ interface GoogleAutocompleteService {
       componentRestrictions?: { country: string };
       types?: readonly string[];
     },
-    callback: (
-      predictions:
-        | readonly {
-            description: string;
-            place_id: string;
-            structured_formatting?: {
-              main_text?: string;
-              secondary_text?: string;
-            };
-          }[]
-        | null,
-      status: string,
-    ) => void,
+    callback: (predictions: readonly GooglePlacePrediction[] | null, status: string) => void,
   ) => void;
 }
 
@@ -84,6 +81,17 @@ interface GooglePlacesNamespace {
   readonly PlacesServiceStatus?: {
     readonly OK: string;
   };
+}
+
+function toAddressPredictions(
+  results: readonly GooglePlacePrediction[],
+): ContactAddressPrediction[] {
+  return results.map((prediction) => ({
+    description: prediction.description,
+    placeId: prediction.place_id,
+    mainText: prediction.structured_formatting?.main_text ?? prediction.description,
+    secondaryText: prediction.structured_formatting?.secondary_text ?? '',
+  }));
 }
 
 const customFieldDefinitions = [
@@ -237,13 +245,13 @@ function ContactAddressField({
 
     let cancelled = false;
 
-    void loadGoogleMapsPlacesApi(googleMapsApiKey)
+    loadGoogleMapsPlacesApi(googleMapsApiKey)
       .then(() => {
         if (cancelled) {
           return;
         }
 
-        const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
+        const places = globalThis.window.google?.maps?.places as GooglePlacesNamespace | undefined;
         const AutocompleteService = places?.AutocompleteService;
         const PlacesService = places?.PlacesService;
 
@@ -273,42 +281,39 @@ function ContactAddressField({
     }
 
     let cancelled = false;
-    const timer = window.setTimeout(() => {
+    const handlePredictions = (
+      results: readonly GooglePlacePrediction[] | null,
+      status: string,
+    ): void => {
+      if (cancelled) {
+        return;
+      }
+
+      const places = globalThis.window.google?.maps?.places as GooglePlacesNamespace | undefined;
+
+      if (status !== places?.PlacesServiceStatus?.OK || !results?.length) {
+        setPredictions([]);
+        setOpen(false);
+        return;
+      }
+
+      setPredictions(toAddressPredictions(results));
+      setOpen(true);
+    };
+    const timer = globalThis.setTimeout(() => {
       autocompleteServiceRef.current?.getPlacePredictions(
         {
           input: query,
           componentRestrictions: { country: 'it' },
           types: ['address'],
         },
-        (results, status) => {
-          if (cancelled) {
-            return;
-          }
-
-          const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
-
-          if (status !== places?.PlacesServiceStatus?.OK || !results?.length) {
-            setPredictions([]);
-            setOpen(false);
-            return;
-          }
-
-          setPredictions(
-            results.map((prediction) => ({
-              description: prediction.description,
-              placeId: prediction.place_id,
-              mainText: prediction.structured_formatting?.main_text ?? prediction.description,
-              secondaryText: prediction.structured_formatting?.secondary_text ?? '',
-            })),
-          );
-          setOpen(true);
-        },
+        handlePredictions,
       );
     }, 200);
 
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
+      globalThis.clearTimeout(timer);
     };
   }, [addressValue]);
 
@@ -351,7 +356,7 @@ function ContactAddressField({
           fields: ['formatted_address', 'geometry', 'place_id'],
         },
         (place, status) => {
-          const places = window.google?.maps?.places as GooglePlacesNamespace | undefined;
+          const places = globalThis.window.google?.maps?.places as GooglePlacesNamespace | undefined;
 
           if (status !== places?.PlacesServiceStatus?.OK) {
             applySelection(null);
@@ -377,7 +382,7 @@ function ContactAddressField({
           className="pl-9"
           autoComplete="off"
           onBlur={() => {
-            window.setTimeout(() => setOpen(false), 150);
+            globalThis.setTimeout(() => setOpen(false), 150);
           }}
           onChange={(event) => handleAddressChange(event.target.value)}
           onFocus={() => setOpen(predictions.length > 0)}

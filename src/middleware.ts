@@ -18,5 +18,5 @@ export default createNextMiddleware({ localeRouting: false });
 
 export const config = {
   // Match all paths except API routes, Next.js internals, and static files.
-  matcher: ['/((?!api|static|.*\\..*|_next).*)'],
+  matcher: [String.raw`/((?!api|static|.*\..*|_next).*)`],
 };

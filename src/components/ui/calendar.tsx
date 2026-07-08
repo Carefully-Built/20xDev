@@ -33,10 +33,10 @@ function CalendarRoot({
 function CalendarChevron({
   className,
   orientation,
-}: {
+}: Readonly<{
   className?: string
   orientation?: "left" | "right" | "up" | "down"
-}) {
+}>) {
   if (orientation === "left") {
     return (
       <HugeiconsIcon icon={ArrowLeftIcon} strokeWidth={2} className={cn("size-4", className)} />

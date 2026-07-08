@@ -18,6 +18,26 @@ import {
 
 import { useDocumentsPage } from './useDocumentsPage';
 
+function DocumentsEmptyState({
+  hasQuery,
+  onAddFile,
+}: Readonly<{ hasQuery: boolean; onAddFile: () => void }>): React.ReactElement {
+  return (
+    <EmptyStateCard
+      icon={hasQuery ? <SearchX className="size-7" /> : <Files className="size-7" />}
+      title={hasQuery ? 'No files found' : 'No files yet'}
+      subtitle={
+        hasQuery
+          ? 'Try changing your search or filters.'
+          : 'Add your first file to keep workspace documents together.'
+      }
+      actionLabel={hasQuery ? undefined : 'Add file'}
+      actionIcon={hasQuery ? undefined : <Plus className="size-4" />}
+      onAction={hasQuery ? undefined : onAddFile}
+    />
+  );
+}
+
 export function DocumentsPage(): React.ReactElement {
   const {
     associationOptions,
@@ -41,6 +61,29 @@ export function DocumentsPage(): React.ReactElement {
     setSelectedAssociations,
     uploadSelectedFile,
   } = useDocumentsPage();
+
+  const hasQuery = hasSearch || hasFilters;
+
+  let documentsContent: React.ReactNode = null;
+  if (!isLoading) {
+    documentsContent =
+      documents.length > 0 ? (
+        <DocumentCardGrid>
+          {documents.map((document) => (
+            <DocumentCard<Id<'files'>>
+              key={document._id}
+              document={document}
+              onCopyLink={copyDocumentLink}
+              onDelete={deleteDocument}
+              onEdit={openDocument}
+              labels={documentCardLabels}
+            />
+          ))}
+        </DocumentCardGrid>
+      ) : (
+        <DocumentsEmptyState hasQuery={hasQuery} onAddFile={() => setIsUploadOpen(true)} />
+      );
+  }
 
   return (
     <DashboardPageLayout
@@ -81,39 +124,7 @@ export function DocumentsPage(): React.ReactElement {
           getDraftResultCount={getDraftFilterResultCount}
           onClearAll={clearFilters}
         />
-        {isLoading ? null : documents.length > 0 ? (
-          <DocumentCardGrid>
-            {documents.map((document) => (
-              <DocumentCard<Id<'files'>>
-                key={document._id}
-                document={document}
-                onCopyLink={copyDocumentLink}
-                onDelete={deleteDocument}
-                onEdit={openDocument}
-                labels={documentCardLabels}
-              />
-            ))}
-          </DocumentCardGrid>
-        ) : (
-          <EmptyStateCard
-            icon={
-              hasSearch || hasFilters ? (
-                <SearchX className="size-7" />
-              ) : (
-                <Files className="size-7" />
-              )
-            }
-            title={hasSearch || hasFilters ? 'No files found' : 'No files yet'}
-            subtitle={
-              hasSearch || hasFilters
-                ? 'Try changing your search or filters.'
-                : 'Add your first file to keep workspace documents together.'
-            }
-            actionLabel={hasSearch || hasFilters ? undefined : 'Add file'}
-            actionIcon={hasSearch || hasFilters ? undefined : <Plus className="size-4" />}
-            onAction={hasSearch || hasFilters ? undefined : () => setIsUploadOpen(true)}
-          />
-        )}
+        {documentsContent}
       </div>
       <FileUploadSheet
         associationField={
