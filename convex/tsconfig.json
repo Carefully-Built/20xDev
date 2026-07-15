@@ -21,5 +21,8 @@
     "noEmit": true
   },
   "include": ["./**/*"],
-  "exclude": ["./_generated"]
+  /* Test files run under vitest (root tsconfig), not the Convex deploy typecheck.
+   * Excluding them here keeps `convex deploy`'s typecheck in parity with the
+   * project quality-gate, which already excludes convex/** and tests/**. */
+  "exclude": ["./_generated", "**/*.test.ts", "**/*.test.tsx"]
 }
