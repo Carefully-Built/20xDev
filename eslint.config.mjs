@@ -4,13 +4,14 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 
-// Shadcn generated files and Convex functions - these get relaxed rules
+// Shadcn generated files, Convex functions, and tests - these get relaxed rules
 const shadcnPatterns = [
   'src/components/ui/**',
   'src/app/**/_components/**',
   'src/app/dashboard/page.tsx',
   'src/hooks/use-mobile.ts',
   'convex/**',  // Convex functions use dynamic types
+  'tests/**',   // Test files use fake contexts / dynamic casts
 ];
 
 export default tseslint.config(
