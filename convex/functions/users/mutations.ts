@@ -1,11 +1,15 @@
 import { v } from 'convex/values';
 
 import { mutation } from '../../_generated/server';
+import { requireOrgAdmin, requireSameOrg } from '../../lib/auth';
 import { createUserValidator, updateUserValidator } from '../../tables/users';
 
 export const create = mutation({
   args: createUserValidator,
   handler: async (ctx, args) => {
+    const caller = await requireOrgAdmin(ctx);
+    requireSameOrg(caller, args.organizationId);
+
     const now = Date.now();
     return await ctx.db.insert('users', {
       ...args,
@@ -22,6 +26,19 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const { id, data } = args;
+    const caller = await requireOrgAdmin(ctx);
+
+    const target = await ctx.db.get(id);
+    if (!target) {
+      throw new Error('Not found: user does not exist');
+    }
+    requireSameOrg(caller, target.organizationId);
+
+    // Prevent moving a user out of the caller's organization.
+    if (data.organizationId !== undefined) {
+      requireSameOrg(caller, data.organizationId);
+    }
+
     await ctx.db.patch(id, {
       ...data,
       updatedAt: Date.now(),
@@ -33,6 +50,14 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id('users') },
   handler: async (ctx, args) => {
+    const caller = await requireOrgAdmin(ctx);
+
+    const target = await ctx.db.get(args.id);
+    if (!target) {
+      throw new Error('Not found: user does not exist');
+    }
+    requireSameOrg(caller, target.organizationId);
+
     await ctx.db.delete(args.id);
   },
 });
