@@ -91,7 +91,6 @@ Building a SaaS from scratch means making hundreds of decisions about tooling, a
 | [ESLint](https://eslint.org) | Code linting (Airbnb config) |
 | [Knip](https://knip.dev) | Find unused files & dependencies |
 | [CodeRabbit](https://coderabbit.ai) | AI-powered code review |
-| [SonarCloud](https://sonarcloud.io) | Code quality & security analysis |
 
 ## Getting Started
 
@@ -157,7 +156,7 @@ bun format       # Format with Prettier
 - [x] Payments & billing (Stripe)
 - [x] Dashboard with settings
 - [x] Code quality tools (ESLint, Prettier)
-- [x] CI/CD with code review (CodeRabbit, SonarCloud)
+- [x] CI/CD with code review (CodeRabbit)
 - [x] Blog & CMS (Sanity)
 - [x] Internationalization (General Translation)
 - [x] Contact form
