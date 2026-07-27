@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Carefully Built UI kit ships prebuilt JS; Tailwind skips node_modules by
+   default, so its utility classes must be scanned explicitly. */
+@source "../../node_modules/@carefully-built/ui/dist";
+
 /* WorkOS Widgets styles */
 @import '@radix-ui/themes/styles.css';
 @import '@workos-inc/widgets/styles.css';

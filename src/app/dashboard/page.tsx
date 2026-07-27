@@ -1,17 +1,22 @@
+import { EmptyStateCard } from '@carefully-built/ui';
 import { T } from 'gt-next';
+import { getGT } from 'gt-next/server';
 import { LayoutDashboard } from 'lucide-react';
 
-export default function DashboardPage(): React.ReactElement {
+export default async function DashboardPage(): Promise<React.ReactElement> {
+  // EmptyStateCard takes plain strings, so translate imperatively instead of <T>.
+  const t = await getGT();
+
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-semibold tracking-tight"><T>Dashboard</T></h1>
-      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
-        <LayoutDashboard className="size-12 text-muted-foreground" />
-        <h3 className="mt-4 text-lg font-semibold"><T>Your dashboard is empty</T></h3>
-        <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-          <T>Metrics and activity will appear here once you start adding data.</T>
-        </p>
-      </div>
+      <EmptyStateCard
+        icon={<LayoutDashboard className="size-6" />}
+        title={t('Set up your dashboard')}
+        subtitle={t(
+          'This is where your product’s metrics and activity will live. Add your own widgets once the data model is in place.'
+        )}
+      />
     </div>
   );
 }
