@@ -13,9 +13,6 @@ import type * as functions_files_index from "../functions/files/index.js";
 import type * as functions_files_mutations from "../functions/files/mutations.js";
 import type * as functions_files_queries from "../functions/files/queries.js";
 import type * as functions_index from "../functions/index.js";
-import type * as functions_items_index from "../functions/items/index.js";
-import type * as functions_items_mutations from "../functions/items/mutations.js";
-import type * as functions_items_queries from "../functions/items/queries.js";
 import type * as functions_organizations_index from "../functions/organizations/index.js";
 import type * as functions_organizations_mutations from "../functions/organizations/mutations.js";
 import type * as functions_organizations_queries from "../functions/organizations/queries.js";
@@ -25,7 +22,6 @@ import type * as functions_users_queries from "../functions/users/queries.js";
 import type * as http from "../http.js";
 import type * as tables_files from "../tables/files.js";
 import type * as tables_index from "../tables/index.js";
-import type * as tables_items from "../tables/items.js";
 import type * as tables_organizations from "../tables/organizations.js";
 import type * as tables_users from "../tables/users.js";
 
@@ -41,9 +37,6 @@ declare const fullApi: ApiFromModules<{
   "functions/files/mutations": typeof functions_files_mutations;
   "functions/files/queries": typeof functions_files_queries;
   "functions/index": typeof functions_index;
-  "functions/items/index": typeof functions_items_index;
-  "functions/items/mutations": typeof functions_items_mutations;
-  "functions/items/queries": typeof functions_items_queries;
   "functions/organizations/index": typeof functions_organizations_index;
   "functions/organizations/mutations": typeof functions_organizations_mutations;
   "functions/organizations/queries": typeof functions_organizations_queries;
@@ -53,7 +46,6 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "tables/files": typeof tables_files;
   "tables/index": typeof tables_index;
-  "tables/items": typeof tables_items;
   "tables/organizations": typeof tables_organizations;
   "tables/users": typeof tables_users;
 }>;

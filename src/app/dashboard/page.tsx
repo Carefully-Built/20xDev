@@ -1,8 +1,5 @@
 import { T } from 'gt-next';
 import { LayoutDashboard } from 'lucide-react';
-import Link from 'next/link';
-
-import { Button } from '@/components/ui/button';
 
 export default function DashboardPage(): React.ReactElement {
   return (
@@ -14,9 +11,6 @@ export default function DashboardPage(): React.ReactElement {
         <p className="mt-1 max-w-sm text-sm text-muted-foreground">
           <T>Metrics and activity will appear here once you start adding data.</T>
         </p>
-        <Button asChild className="mt-4">
-          <Link href="/dashboard/items"><T>Create your first item</T></Link>
-        </Button>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client"
 
 import { T } from "gt-next"
-import { LayoutDashboard, ListTodo, Files, Settings, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react"
+import { LayoutDashboard, Files, Settings, ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -56,7 +56,6 @@ interface NavItem {
 
 const navItems: readonly NavItem[] = [
   { key: "dashboard", label: <T>Dashboard</T>, href: "/dashboard", icon: LayoutDashboard },
-  { key: "items", label: <T>Items</T>, href: "/dashboard/items", icon: ListTodo },
   { key: "files", label: <T>Files</T>, href: "/dashboard/files", icon: Files },
 ] as const
 

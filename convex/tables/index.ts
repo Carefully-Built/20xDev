@@ -10,12 +10,3 @@ export {
   createUserValidator,
   updateUserValidator,
 } from './users';
-
-// Items
-export {
-  itemsTable,
-  itemStatusValidator,
-  itemPriorityValidator,
-  createItemValidator,
-  updateItemValidator,
-} from './items';
