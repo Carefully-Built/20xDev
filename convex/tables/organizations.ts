@@ -13,9 +13,10 @@ import { v } from 'convex/values';
 //                    org. Mutations cross-check it against
 //                    process.env.WORKOS_CLIENT_ID before writing, so a webhook
 //                    delivered to the wrong deployment can't pollute this one.
-//   appSlug        — the app's slug, also carried in env vars and url routing.
-//                    Useful for audit logging and for maintenance scripts that
-//                    scan organizations across Convex deployments.
+//   appSlug        — the app's slug. OPTIONAL extra labelling: set APP_SLUG or
+//                    NEXT_PUBLIC_PROJECT_SLUG to have it recorded and enforced
+//                    as well. Useful for audit logging and for maintenance
+//                    scripts that scan organizations across Convex deployments.
 // Both fields are OPTIONAL, so rows created before this guard landed keep
 // validating and no backfill is required.
 // ============================================================
